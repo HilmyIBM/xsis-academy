@@ -40,10 +40,16 @@ public class Day02 {
 
     public static void grab(int b, int j,String p){
         double diskon=0.4;
-        double jumlah_diskon=diskon*b;  
+        double jumlah_diskon=diskon*b;
+        int jumlah_ongkir=j*1000;  
         if(b < 30000){
             System.out.println("Belanja : " + b);
-            
+            System.out.println("Diskon : 0");
+            System.out.println("Ongkir : "+jumlah_ongkir);
+            System.out.println("Total Belanja : "+b+jumlah_ongkir);
+        }else{
+            System.out.println("Belanja : " + b);
+            System.out.println("Diskon : " + jumlah_diskon);
         }
     }
 }

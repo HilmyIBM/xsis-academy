@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class MyFirstJavaProgram{
     public static void main(String[] args) {
         System.out.println("Hello World\nCase Test"); 
@@ -21,6 +23,15 @@ public class MyFirstJavaProgram{
         }
 
         forloop();
+        ArrayList<String> cars = new ArrayList<String>();
+        cars.add("Volvo");
+        cars.add("bmw");
+        cars.add("Ford");
+        cars.add("Mazda");
+        System.out.println(cars);
+        cars.add(0,cars.get(cars.size()-1));
+        cars.remove(cars.size()-1);
+        System.out.println(cars);
     }
 
     public static void forloop(){
@@ -30,4 +41,5 @@ public class MyFirstJavaProgram{
             System.out.println(num);
         }
     }
+    
 }
