@@ -27,27 +27,5 @@ public class MyFirstJavaProgram {
          System.out.println("No-Match");
             break;
         }
-
-        forLoop();
-     }
-
-     public static void forLoop() {
-        /* for (int i=10, j=20; ;);
-         for (System.out.println("Hello");;);
-         for (int num=1;;num++) {
-           if (num == 10) break;
-           if (num%2 == 0) continue;
-           System.out.println(num);
-         } */
-         
-         int[] numList = {10, 20, 30, 40, 50};
-         for (int i=0; i < numList.length; i++) {
-            System.out.println(numList[i]);
-         }
-
-         int[] numList2 = {100, 200, 300, 400, 500};
-         for (int i : numList2) {
-            System.out.println(i);
-         }
      }
 }
