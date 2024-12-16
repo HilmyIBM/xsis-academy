@@ -1,6 +1,11 @@
 import java.util.Scanner;
 public class Day01 {
     public static void main(String[] args) {
+        String albert = "test";
+        if(albert == "test"){
+        System.out.println("sdsdsd");
+        System.out.println("asasasassas");
+        }
         Scanner sc = new Scanner(System.in);
         System.out.println("1. Fungsi Lingkaran");
         System.out.println("2. Fungsi Persegi");
