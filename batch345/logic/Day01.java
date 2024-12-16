@@ -7,61 +7,55 @@ public class Day01 {
   
   public static void MainMenu() {
     clearScreen();
-    try (Scanner choice = new Scanner(System.in)) {
-      System.out.println("Program Latihan:\n1. Luas dan Keliling Lingkaran\n2. Luas dan Keliling Persegi\n3. Mencari hasil modulus sama dengan 0\n4. Pemulung Rokok\n0. Hentikan Program");
-      System.out.print("Pilih program (1/2/3/4) : ");
-      String choiceString = choice.nextLine();
-      int userChoice = Integer.parseInt(choiceString);
-      switch (userChoice) {
-        case 1:
-          LuasKelilingLingkaran();
-          PauseConsole();
-          MainMenu();
-          break;
-        case 2:
-          LuasKelilingPersegi();
-          PauseConsole();
-          MainMenu();
-          break;
-        case 3:
-          MencariHasilModulus();
-          PauseConsole();
-          MainMenu();
-          break;
-        case 4:
-          PemulungRokok();
-          PauseConsole();
-          MainMenu();
-          break;
-        case 0:
-          System.out.println("Program dihentikan.");
-          PauseConsole();
-          break;
-        default:
-          System.out.println("Pilihan tidak valid!");
-          PauseConsole();
-          MainMenu();
-          break;
-      }
-    } catch (NumberFormatException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    Scanner choice = new Scanner(System.in);
+    System.out.println("Program Latihan:\n1. Luas dan Keliling Lingkaran\n2. Luas dan Keliling Persegi\n3. Mencari hasil modulus sama dengan 0\n4. Pemulung Rokok\n0. Hentikan Program");
+    System.out.print("Pilih program (1/2/3/4) : ");
+    String choiceString = choice.nextLine();
+    int userChoice = Integer.parseInt(choiceString);
+    switch (userChoice) {
+      case 1:
+        LuasKelilingLingkaran();
+        PauseConsole();
+        MainMenu();
+        break;
+      case 2:
+        LuasKelilingPersegi();
+        PauseConsole();
+        MainMenu();
+        break;
+      case 3:
+        MencariHasilModulus();
+        PauseConsole();
+        MainMenu();
+        break;
+      case 4:
+        PemulungRokok();
+        PauseConsole();
+        MainMenu();
+        break;
+      case 0:
+        System.out.println("Program dihentikan.");
+        PauseConsole();
+        break;
+      default:
+        System.out.println("Pilihan tidak valid!");
+        PauseConsole();
+        MainMenu();
+        break;
     }
+    choice.close();
   }
   public static void LuasKelilingLingkaran(){
     clearScreen();
     System.out.println("MENGHITUNG LUAS DAN KELILING LINGKARAN");
     System.out.print("Input nilai jari-jari (cm) : "); 
-    try (Scanner inputJariJari = new Scanner(System.in)) {
-      int jari_jari = Integer.parseInt(inputJariJari.nextLine());
-      double keliling_lingkaran = HitungKelilingLingkaran(jari_jari);
-      double luas_lingkaran = HitungLuasLingkaran(jari_jari);
-      System.out.println("Keliling Lingkaran : " + keliling_lingkaran + " cm");
-      System.out.println("Luas Lingkaran : " + luas_lingkaran + " cm2");
-    } catch (NumberFormatException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } 
+    Scanner inputJariJari = new Scanner(System.in);
+    int jari_jari = Integer.parseInt(inputJariJari.nextLine());
+    double keliling_lingkaran = HitungKelilingLingkaran(jari_jari);
+    double luas_lingkaran = HitungLuasLingkaran(jari_jari);
+    System.out.println("Keliling Lingkaran : " + keliling_lingkaran + " cm");
+    System.out.println("Luas Lingkaran : " + luas_lingkaran + " cm2");
+    inputJariJari.close();
   }
 
   public static double HitungLuasLingkaran(int r) {
@@ -76,17 +70,13 @@ public class Day01 {
     clearScreen();
     System.out.println("MENGHITUNG LUAS DAN KELILING PERSEGI");
     System.out.print("Input panjang sisi (cm) : ");
-    try (Scanner inputPanjangSisi = new Scanner(System.in)) {
-      int sisi_persegi = Integer.parseInt(inputPanjangSisi.nextLine());
-      int keliling_persegi = HitungKelilingPersegi(sisi_persegi);
-      int luas_persegi = HitungLuasPersegi(sisi_persegi);
-      System.out.println("Keliling Persegi : " + keliling_persegi + " cm");
-      System.out.println("Luas Persegi : " + luas_persegi + " cm2");
-    } catch (NumberFormatException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } 
-    
+    Scanner inputPanjangSisi = new Scanner(System.in);
+    int sisi_persegi = Integer.parseInt(inputPanjangSisi.nextLine());
+    int keliling_persegi = HitungKelilingPersegi(sisi_persegi);
+    int luas_persegi = HitungLuasPersegi(sisi_persegi);
+    System.out.println("Keliling Persegi : " + keliling_persegi + " cm");
+    System.out.println("Luas Persegi : " + luas_persegi + " cm2");
+    inputPanjangSisi.close();
   }
 
   public static int HitungLuasPersegi(int s) {
@@ -113,6 +103,8 @@ public class Day01 {
     } else {
       System.out.println("angka " + num + " % " + divider + " bukan 0 melainkan " + hasil_modulus);
     }
+    inputNum.close();
+    inputDivider.close();
   }
 
   public static void PemulungRokok() {
@@ -129,12 +121,13 @@ public class Day01 {
     System.out.println("Jumlah Batang Rokok Dirakit : " + jumlah_batang);
     System.out.println("Sisa Puntung yang Tidak Bisa Dirakit : " + sisa_puntung);
     System.out.println("Hasil Penjualan Batang : Rp. " + penghasilan + ",-");
+    inputJumlahPuntung.close();
   }
 
   public static void PauseConsole() {
     Scanner continueProgram = new Scanner(System.in);
     System.out.print("Tekan 'Enter' untuk melanjutkan...");
-    continueProgram.nextLine();
+    continueProgram.next();
   }
   public static void clearScreen() {  
     System.out.print("\033[H\033[2J");  

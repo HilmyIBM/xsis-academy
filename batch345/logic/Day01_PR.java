@@ -7,36 +7,33 @@ public class Day01_PR {
 
   public static void MainMenu() {
     clearScreen();
-    try (Scanner choice = new Scanner(System.in)) {
-      System.out.println("Program Latihan:\n1. Program Grade Nilai\n2. Program Ganjil Genap\n0. Hentikan Program");
-      System.out.print("Pilih program (1/2/3/4) : ");
-      String choiceString = choice.nextLine();
-      int userChoice = Integer.parseInt(choiceString);
-      switch (userChoice) {
-        case 1:
-          GradeNilai();
-          PauseConsole();
-          MainMenu();
-          break;
-        case 2:
-          GanjilGenap();
-          PauseConsole();
-          MainMenu();
-          break;
-        case 0:
-          System.out.println("Program dihentikan.");
-          PauseConsole();
-          break;
-        default:
-          System.out.println("Pilihan tidak valid!");
-          PauseConsole();
-          MainMenu();
-          break;
-      }
-    } catch (NumberFormatException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    Scanner choice = new Scanner(System.in);
+    System.out.println("Program Latihan:\n1. Program Grade Nilai\n2. Program Ganjil Genap\n0. Hentikan Program");
+    System.out.print("Pilih program (1/2/3/4) : ");
+    String choiceString = choice.nextLine();
+    int userChoice = Integer.parseInt(choiceString);
+    switch (userChoice) {
+      case 1:
+        GradeNilai();
+        PauseConsole();
+        MainMenu();
+        break;
+      case 2:
+        GanjilGenap();
+        PauseConsole();
+        MainMenu();
+        break;
+      case 0:
+        System.out.println("Program dihentikan.");
+        PauseConsole();
+        break;
+      default:
+        System.out.println("Pilihan tidak valid!");
+        PauseConsole();
+        MainMenu();
+        break;
     }
+    choice.close();
   }
 
   public static void GradeNilai() {
@@ -54,6 +51,7 @@ public class Day01_PR {
     } else {
       System.out.println("Nilai tidak valid");
     }
+    inputNilai.close();
   }
 
   public static void GanjilGenap() {
@@ -67,6 +65,7 @@ public class Day01_PR {
     } else {
       System.out.println("Angka " + nilai + " adalah ganjil.");
     }
+    inputNilai.close();
   }
 
   public static void PauseConsole() {
