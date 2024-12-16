@@ -4,7 +4,7 @@ public class Day01 {
   public static void main(String[] args) {
     MainMenu();
   }
-
+  
   public static void MainMenu() {
     clearScreen();
     try (Scanner choice = new Scanner(System.in)) {
@@ -98,6 +98,7 @@ public class Day01 {
 
   public static void MencariHasilModulus() {
     clearScreen();
+    System.out.println("MENCARI HASIL MODULUS");
     Scanner inputNum = new Scanner(System.in);
     Scanner inputDivider = new Scanner(System.in);
     System.out.print("Input nilai angka : ");
@@ -116,6 +117,7 @@ public class Day01 {
 
   public static void PemulungRokok() {
     clearScreen();
+    System.out.println("PEMULUNG ROKOK");
     System.out.print("Input jumlah puntung yang terkumpul : ");
     Scanner inputJumlahPuntung = new Scanner(System.in);
     int jumlah_puntung = Integer.parseInt(inputJumlahPuntung.nextLine());
