@@ -16,7 +16,7 @@ public class Day01 {
         System.out.println(hasilMod(angka1,  angka2));
 
         //Nomor 4
-        int jumlahPuntung = 150;
+        int jumlahPuntung = 150;    
         System.out.println(hitungRokok(jumlahPuntung));
 
     }
