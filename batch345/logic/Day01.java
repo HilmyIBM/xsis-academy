@@ -4,18 +4,21 @@ public class Day01 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
+        // No 1
         System.out.println("Lingkaran");
         System.out.print("Enter the radius: ");
         float radius = Float.parseFloat(input.nextLine());
         System.out.printf("Keliling lingkaran : %.2f \n", circumferenceCircle(radius));
         System.out.printf("Luas lingkaran : %.2f", circleWide(radius));
 
+        // No 2
         System.out.println("\n\nPersegi");
         System.out.print("Enter the side: ");
         int side = Integer.parseInt(input.nextLine());
         System.out.println("Luas persegi : " + squareWide(side));
         System.out.println("Keliling persegi : " + circumferenceSquare(side));
 
+        // No 3
         System.out.println("\nFinding Modulus");
         System.out.print("Input 1: ");
         int number1 = Integer.parseInt(input.nextLine());
@@ -23,6 +26,7 @@ public class Day01 {
         int number2 = Integer.parseInt(input.nextLine());
         System.out.println(modulus(number1, number2));
 
+        // No 4
         System.out.println("\nPuntung Rokok");
         int nPuntungRokok = 100;
         int rangkaianPembagiRokok = 8;
@@ -30,6 +34,7 @@ public class Day01 {
         System.out.printf("Pemasukan dari puntung rokok %d\n", (nPuntungRokok / rangkaianPembagiRokok) * 500);
         System.out.printf("Sisa Puntung Rokok: %d", nPuntungRokok % rangkaianPembagiRokok);
 
+        // No 5
         System.out.println("\n\nMencari Grade Nilai");
         System.out.print("Masukkan nilai grade dari 1-100: ");
         int grade = Integer.parseInt(input.nextLine());
@@ -41,8 +46,9 @@ public class Day01 {
             System.out.println("Grade C");
         }
 
+        // No 6
         System.out.println("\nMencari Ganjil Genap");
-        System.out.print("Masukkan grade nilai: ");
+        System.out.print("Masukkan nilai: ");
         int bilangan = Integer.parseInt(input.nextLine());
         switch (bilangan % 2) {
             case 0:
