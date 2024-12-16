@@ -3,7 +3,7 @@ public class Day01 {
         Lingkaran(28);
         persegi(5);
         modulus(10, 2);
-        rokok(100);
+        rokok(50);
     }
 
     public static void Lingkaran(float r){
@@ -30,7 +30,7 @@ public class Day01 {
     }
 
     public static void rokok(int n){
-        int rokok_100=100%8;
+        int rokok_100=100/8;
         int sisa=n%8;
         System.out.println("batang rokok jika 100 puntung rokok dikumpulkan hasilnya : "+rokok_100);
         System.out.println("Bagian N puntung rokok");

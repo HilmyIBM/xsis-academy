@@ -1,13 +1,13 @@
-// import java.util.Scanner;
+import java.util.Scanner;
 public class PrDay01 {
     public static void main(String[] args) {
-        // Scanner input= new Scanner(System.in);
-        // System.out.print("Masukkan Nilai: ");
-        // int grade=input.nextInt();
-        // System.out.print("Masukkan Angka: ");
-        // int n=input.nextInt();
-        nilai(90);
-        even(85);
+        Scanner input= new Scanner(System.in);
+        System.out.print("Masukkan Nilai: ");
+        int grade=input.nextInt();
+        System.out.print("Masukkan Angka: ");
+        int n=input.nextInt();
+        nilai(grade);
+        even(n);
     }
 
     public static void nilai(int n){
