@@ -6,8 +6,8 @@ public class PRDay01 {
         Scanner scan = new Scanner(System.in);
 
         // Intro 
-        System.out.println("PILIH PROGRAM");
-        System.out.println("=============");
+        System.out.println("     PILIH PROGRAM");
+        System.out.println("=========================");
         System.out.println("1. Menentukan Grade Nilai");
         System.out.println("2. Menentukan Ganjil Genap");
 
@@ -38,7 +38,7 @@ public class PRDay01 {
 
         // Intro 
         System.out.println("Program Menentukan Grade Nilai");
-        System.out.println("==========================================");
+        System.out.println("===============================");
 
         // Input
         System.out.print("Masukkan Nilai (0-100): ");
