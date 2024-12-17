@@ -219,5 +219,7 @@ public class _Day02 {
         // Output
         System.out.println("====================");
         System.out.println(nama + ", berdasarkan tahun lahir anda tergolong " + gen);
+
+        scan.close();
     }
 }
