@@ -19,7 +19,9 @@ public class MyFirstJavaProgram {
          * }
          */
 
-        forLoop();
+        // forLoop();
+        Human jack = new Human("Fito", "laki-laki");
+        System.out.println(jack.getName());
     }
 
     public static void forLoop() {
