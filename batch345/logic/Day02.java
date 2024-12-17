@@ -6,11 +6,13 @@ public class Day02 {
         System.out.print("Masukkan Nilai : ");
         int nilai = input.nextInt();
         grade(nilai);
-
+        
+        System.out.println("=========================");
         System.out.println("Masukkan Nilai Pulsa : ");
         int nilai_pulsa = input.nextInt();
         pulsa(nilai_pulsa);
-
+        
+        System.out.println("=========================");
         System.out.print("Masukkan total Belanja : ");
         int belanja = input.nextInt();
         System.out.print("Masukkan Jarak : ");
@@ -19,13 +21,32 @@ public class Day02 {
         String promo = input.next();
         grab(belanja, jarak, promo);
 
+        System.out.println("=========================");
         System.out.print("Masukkan Total Belanja : ");
         int belanja_sopi = input.nextInt();
         System.out.print("Masukkan Ongkir : ");
         int ongkir_sopi = input.nextInt();
+
+        if(belanja_sopi >= 30000){
+            System.out.println("Anda dapat menggunakan voucher 1");
+        }if(belanja_sopi >= 50000){
+            System.out.println("Anda Dapat Menggunakan voucher 2");
+        }if(belanja_sopi >= 100000){
+            System.out.println("Anda dapat menggunakan voucher 3");
+        }
         System.out.print("Masukkan Voucher : ");
         int voucher = input.nextInt();
         sopi(belanja_sopi, ongkir_sopi, voucher);
+
+        System.out.println("=========================");
+        int tahun;
+        String nama;
+        System.out.print("Masukkan tahun : ");
+        tahun=input.nextInt();
+        input.nextLine();
+        System.out.println("Masukkan Nama : ");
+        nama=input.next();
+        generasi(nama, tahun);
     }
 
     public static void grade(int n) {
@@ -53,13 +74,16 @@ public class Day02 {
     public static void grab(int b, int j, String p) {
         double diskon = 0.4;
         double jumlah_diskon = diskon * b;
+        if (jumlah_diskon >= 30000){
+            jumlah_diskon=30000;
+        }
         int jumlah_ongkir = j * 1000;
         if (b < 30000) {
             System.out.println("Belanja : " + b);
             System.out.println("Diskon : 0");
             System.out.println("Ongkir : " + jumlah_ongkir);
             System.out.println("Total Belanja : " + (b + jumlah_ongkir));
-        } else if (b >= 30000 && p.equals("JKTOVO")) {
+        } else if (b >= 30000 && p.equalsIgnoreCase("JKTOVO")) {
             System.out.println("Belanja : " + b);
             System.out.println("Diskon : " + jumlah_diskon);
             System.out.println("Ongkir : " + jumlah_ongkir);
@@ -118,6 +142,18 @@ public class Day02 {
                 System.out.println("Ongkir : " + ongkir);
                 System.out.println("Total Belanja : " + (belanja + ongkir));
                 break;
+        }
+    }
+
+    public static void generasi(String nama, int lahir){
+        if(lahir >= 1944 && lahir <= 1964){
+            System.out.println(nama + "," + "berdasarkan tahun lahir anda tergolong generasi Baby Boomer");
+        }else if(lahir >= 1965 && lahir <= 1979){
+            System.out.println(nama + "," + "berdasarkan tahun lahir anda tergolong generasi X");            
+        }else if(lahir >= 1980 && lahir <= 1994){
+            System.out.println(nama + "," + "berdasarkan tahun lahir anda tergolong generasi Y");
+        }else if(lahir >= 1995 && lahir <= 2015){
+            System.out.println(nama + "," + "berdasarkan tahun lahir anda tergolong generasi Z");
         }
     }
 }
