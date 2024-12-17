@@ -4,28 +4,35 @@ public class Day01 {
         float sisi = 5.0F;
         float angka = 10.0F;
         float pembagi = 4.0F;
-        Float puntung = 100.0F;
+        float puntung = 100.0F;
         float harga = 500.0F;
         float nilai = 85.0F;
 
+
+        //no 1
         System.out.println("Keliling lingkaran dengan jari-jari " + jari + ": " + kelilingLingkaran(jari));
 
         System.out.println("Luas lingkaran dengan jari-jari " + jari + ": " + luasLingkaran(jari));
 
+        //no 2
         System.out.println("Keliling Persegi dengan sisi " + sisi + ": " + kelilingPersegi(sisi));
 
         System.out.println("Luas Persegi dengan sisi " + sisi + ": " + luasPersegi(sisi));
 
+        //no 3
         System.out.println(perhitunganMod(angka, pembagi));
 
+        //no 4
         System.out.println(batangTerkumpul(puntung));
 
         System.out.println(keuntungan(puntung, harga));
 
         System.out.println(sisaPuntung(puntung));
         
+        //no 5
         System.out.println(grade(nilai));
 
+        //no 6
         System.out.println(ganjilgenap(angka));
 
     }
