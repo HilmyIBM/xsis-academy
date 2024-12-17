@@ -33,9 +33,4 @@ public class Day02 {
 
         scan.close();
     }
-
-    
-
-
-
 }

@@ -8,19 +8,58 @@ public class Day03 {
 
         // System.out.println(sum(100));
 
-        // Basic OOP
-        Human jack =  new Human("Jacky", "Male");
-        System.out.println("Human name: " + jack.getName());
+        // BASIC OOP
+        Day03 objectTest = new Day03(); //karena tidak menggunakan static
+        // objectTest.humanObject();
+        objectTest.mamaliaObject();
         
-        Human saitama = new Human("Saitama", "Male");
-        System.out.println("Human gender: " + saitama.getGender());
+
+    }
+
+    // OOP with Human Object
+    public void humanObject(){
+        // Example: Calling (GETTER)
+        Human human1 =  new Human("Jacky", "Male");
+        System.out.println("Human name: " + human1.getName());
+        
+        Human human2 = new Human("Saitama", "Male");
+        System.out.println("Human gender: " + human2.getGender());
 
         Human human3 = new Human("Luffy", "Male");
         System.out.println("Human name: " + human3.getName() + ", Human gender: " + human3.getGender());
 
         System.out.println("Total Human Population: " + Human.count);
-    }
+        // Example calling - END
 
+        // Example: Change the value (SETTER)
+        human3.setName("Bruce Wayne");
+        System.out.println("Human name: " + human3.getName() + ", Human gender: " + human3.getGender());
+    }
+    // Human Object - END
+
+    // OOP with Mamalia Object
+    public void mamaliaObject(){
+        Sapi sapiPutih = new Sapi();
+        sapiPutih.jumlahKaki = 4;
+        sapiPutih.bergerak();
+        sapiPutih.bersuara();
+
+        Paus pausBiru = new Paus();
+        pausBiru.jumlahKaki = 0;
+        pausBiru.bergerak();
+
+        Kelelawar kelelawarHitam = new Kelelawar();
+        kelelawarHitam.jumlahKaki = 2;
+        kelelawarHitam.bergerak();
+
+        Kuda kudaCokelat = new Kuda();
+        kudaCokelat.jumlahKaki = 4;
+        kudaCokelat.bergerak(); 
+        kudaCokelat.bersuara();
+    }
+    // Mamalia Object END
+
+    // Procedure: Exception Handling
     public static void divByZeroHandling(){
         try {
             Scanner input = new Scanner(System.in);
@@ -67,7 +106,9 @@ public class Day03 {
 
         return result;
     }
+    // Procedure: Exception Handling - END
 
+    // Function: Recurtion
     public static int sum(int k){
         System.out.print(k + ", ");
         if(k > 0){
@@ -76,4 +117,5 @@ public class Day03 {
             return 0;
         }
     }
+    // Function: Recurtion - END
 }

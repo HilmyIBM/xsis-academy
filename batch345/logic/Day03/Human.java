@@ -10,6 +10,18 @@ class Human {
         count++;
     }
 
+    Human(){
+        count++;
+    }
+
+    public void setName(String name) {
+        _name = name;
+    }
+
+    public void setGender(String gender) {
+        _gender = gender;
+    }
+
     public String getName() {
         return _name;
     }
