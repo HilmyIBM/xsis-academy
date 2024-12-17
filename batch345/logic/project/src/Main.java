@@ -3,7 +3,12 @@
 public class Main {
     public static void main(String[] args) {
 
-        System.out.println("Hello World");
+        Human jack = new Human();
+
+        jack.setName("Jackass");
+        jack.setAge("99999");
+
+        System.out.println(jack.getAge());
 
     }
 }
