@@ -34,7 +34,7 @@ public class Day03 {
             for(int k =2;k<n;k++){
                 System.out.println("*"+"       "+"*");
             }
-            for(int c=n;c>0;c--){
+            for(int c=5;c>0;c--){
                 System.out.print(c+" ");
             }
             System.out.println();
