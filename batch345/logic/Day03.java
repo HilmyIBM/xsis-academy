@@ -4,34 +4,42 @@ import java.util.Scanner;
 
 public class Day03 {
 
+    public static void inputNumVal(int n) {
+        if (n <= 0) {
+            System.out.println("Input harus bilangan positif.");
+            return;
+        }
+    }
+
     public static void pohonFaktor(int n) {
+        inputNumVal(n);
+
         int bagi = 2;
-        while (n != 0) {
+        while (n != 1) {
             if (n % bagi != 0) {
                 bagi++;
             } else {
                 int nOld = n;
                 n = n / bagi;
                 System.out.println(nOld + " / " + bagi + " = " + n);
-                if (n == 1) {
-                    break;
-                }
             }
         }
     }
 
     public static void polaKubus(int n) {
+        inputNumVal(n);
+
         for (int i = 1; i <= n; i++) {
             for (int j = 0; j < n; j++) {
                 if (i == 1) {
-                    System.out.print(j + 1 + " ");
+                    System.out.print(j + 1 + "\t");
                 } else if (i == n) {
-                    System.out.print(n - j + " ");
+                    System.out.print(n - j + "\t");
                 } else {
                     if (j == 0 || j == n - 1) {
-                        System.out.print("* ");
+                        System.out.print("*\t");
                     } else {
-                        System.out.print("  ");
+                        System.out.print("\t");
                     }
                 }
             }
@@ -41,6 +49,8 @@ public class Day03 {
     }
 
     public static void polaSqrBintang(int n) {
+        inputNumVal(n);
+
         ArrayList<String> lists = new ArrayList<>();
         for (int i = 1; i <= n; i++) {
             if (i % 2 != 0) {
@@ -53,6 +63,8 @@ public class Day03 {
     }
 
     public static void polaPlusMinus(int n) {
+        inputNumVal(n);
+
         ArrayList<String> lists = new ArrayList<>();
         for (int i = 1; i <= n; i++) {
             lists.add(Integer.toString(5 * i * (i % 2 != 0 ? -1 : 1)));
@@ -61,18 +73,49 @@ public class Day03 {
     }
 
     public static int fib2(int n) {
+        inputNumVal(n);
         if (n <= 1) {
             return n;
         }
         return fib2(n - 1) + fib2(n - 2);
     }
 
+    /*
+     * public static int fib2(int n) {
+     * if (n <= 1)
+     * return n;
+     * int a = 0, b = 1, c;
+     * for (int i = 2; i <= n; i++) {
+     * c = a + b;
+     * a = b;
+     * b = c;
+     * }
+     * return b;
+     * }
+     */
+
     public static int fib3(int n) {
+        inputNumVal(n);
         if (n <= 2) {
             return 1;
         }
         return fib3(n - 1) + fib3(n - 2) + fib3(n - 3);
     }
+
+    /*
+     * public static int fib3(int n) {
+     * if (n <= 2)
+     * return 1;
+     * int a = 1, b = 1, c = 1, d;
+     * for (int i = 3; i <= n; i++) {
+     * d = a + b + c;
+     * a = b;
+     * b = c;
+     * c = d;
+     * }
+     * return c;
+     * }
+     */
 
     public static void countSalary(int gol, int jamKerja) {
         int upahJam = 0;
@@ -103,11 +146,22 @@ public class Day03 {
     }
 
     public static BigInteger factorial(int x) {
+        if (x < 0) {
+            throw new IllegalArgumentException("Input tidak boleh negatif");
+        }
         BigInteger result = BigInteger.ONE;
-        for (int i = x; i >= 1; i--) {
+        for (int i = 2; i <= x; i++) {
             result = result.multiply(BigInteger.valueOf(i));
         }
         return result;
+    }
+
+    public static String formatFactorial(int x) {
+        String[] arrNum = new String[x];
+        for (int i = 0; i < x; i++) {
+            arrNum[i] = Integer.toString(x - i);
+        }
+        return String.join(" x ", arrNum);
     }
 
     public static boolean askContinue(Scanner sc) {
@@ -173,20 +227,26 @@ public class Day03 {
                 case 7:
                     System.out.print("\nMasukkan golongan: ");
                     int golongan = sc.nextInt();
-                    System.out.print("\nMasukkan jam kerja: ");
+                    System.out.print("Masukkan jam kerja: ");
                     int jamKerja = sc.nextInt();
+
+                    if (golongan <= 0 && jamKerja <= 0) {
+                        System.out.println("Input harus bilangan positif.");
+                        break;
+                    }
+
                     countSalary(golongan, jamKerja);
                     break;
                 case 8:
                     System.out.print("\nMasukkan angka: ");
                     int x = sc.nextInt();
 
-                    String[] arrNum = new String[x];
-                    for (int i = 0; i < x; i++) {
-                        arrNum[i] = Integer.toString(x - i);
+                    if (x < 0) {
+                        System.out.println("Faktorial tidak didefinisikan untuk bilangan negatif.");
+                        break;
                     }
                     BigInteger fact = factorial(x);
-                    System.out.println(x + "! = " + String.join(" x ", arrNum) + " = " + fact);
+                    System.out.println(x + "! = " + formatFactorial(x) + " = " + fact);
                     System.out.println("Ada " + fact + " cara");
                     break;
                 case 9:
@@ -201,5 +261,6 @@ public class Day03 {
                 continueMenu = askContinue(sc);
             }
         }
+        sc.close();
     }
 }
