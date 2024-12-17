@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -74,7 +75,8 @@ public class Day03 {
     }
 
     public static void countSalary(int gol, int jamKerja) {
-        int upahJam;
+        int upahJam = 0;
+        double upahMinggu = 0, upahLembur = 0;
         switch (gol) {
             case 1:
                 upahJam = 2000;
@@ -90,8 +92,22 @@ public class Day03 {
                 break;
         }
         if (jamKerja <= 40) {
-
+            upahMinggu = jamKerja * upahJam;
+        } else {
+            upahMinggu = (40 * upahJam);
+            upahLembur = ((jamKerja - 40) * (upahJam * 1.5));
         }
+        System.out.println("Upah    : " + (int) upahMinggu);
+        System.out.println("Lembur  : " + (int) upahLembur);
+        System.out.println("Total   : " + (int) (upahMinggu + upahLembur));
+    }
+
+    public static BigInteger factorial(int x) {
+        BigInteger result = BigInteger.ONE;
+        for (int i = x; i >= 1; i--) {
+            result = result.multiply(BigInteger.valueOf(i));
+        }
+        return result;
     }
 
     public static boolean askContinue(Scanner sc) {
@@ -111,6 +127,8 @@ public class Day03 {
             System.out.println("4. Pola plus minus");
             System.out.println("5. Fibonacci 2");
             System.out.println("6. Fibonacci 3");
+            System.out.println("7. Upah Mingguan");
+            System.out.println("8. Faktorial");
             System.out.println("9. Keluar");
             System.out.print("\nPilih menu: ");
             int choose_menu = sc.nextInt();
@@ -158,6 +176,18 @@ public class Day03 {
                     System.out.print("\nMasukkan jam kerja: ");
                     int jamKerja = sc.nextInt();
                     countSalary(golongan, jamKerja);
+                    break;
+                case 8:
+                    System.out.print("\nMasukkan angka: ");
+                    int x = sc.nextInt();
+
+                    String[] arrNum = new String[x];
+                    for (int i = 0; i < x; i++) {
+                        arrNum[i] = Integer.toString(x - i);
+                    }
+                    BigInteger fact = factorial(x);
+                    System.out.println(x + "! = " + String.join(" x ", arrNum) + " = " + fact);
+                    System.out.println("Ada " + fact + " cara");
                     break;
                 case 9:
                     System.out.println("Terima kasih!");
