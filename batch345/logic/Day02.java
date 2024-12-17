@@ -96,7 +96,7 @@ public class Day02 {
         System.out.print("Pilih menu : ");
         Scanner sc = new Scanner(System.in);
         int choose_menu = sc.nextInt();
-
+        sc.nextLine();
         switch (choose_menu) {
             case 1:
                 System.out.println("Nilai " + nilai + " = " + grade(nilai));
@@ -121,11 +121,10 @@ public class Day02 {
                 diskonSopi(belanja, ongkir, choose_voucher);
                 break;
             case 5:
-                System.out.print("Tahun berapa anda lahir? ");
-                int tahun_lahir = sc.nextInt();
-                sc.nextLine();
                 System.out.print("Masukkan nama anda: ");
                 String nama = sc.nextLine();
+                System.out.print("Tahun berapa anda lahir? ");
+                int tahun_lahir = sc.nextInt();
                 cekGenerasi(nama, tahun_lahir);
                 break;
         }
