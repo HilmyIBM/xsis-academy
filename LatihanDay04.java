@@ -222,4 +222,19 @@ public class LatihanDay04 {
 
     }
 
+    public static void no7(){
+        System.out.print("Masukkan input uang Andi: ");
+        Scanner scan = new Scanner(System.in);
+        int input = scan.nextInt();
+        int hargaBaju[] = {35, 40, 50, 20};
+        int hargaCelana[] = {40, 30, 45, 10};
+        int hargaTotal[] = {};
+        int totalMax = 0;
+
+        for (int i = 0; i < hargaBaju.length-1; i++){
+            hargaTotal[i] = hargaBaju[i] + hargaCelana [i];
+            
+        }
+    }
+
 }
