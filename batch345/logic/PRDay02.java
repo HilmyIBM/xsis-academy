@@ -39,6 +39,17 @@ public class PRDay02 {
                     double tinggi = input.nextDouble();
                     kurusGemuk(berat, tinggi);
                     break;
+                
+                case 3:
+                    System.out.print("\nMasukkan Nilai MTK: ");
+                    double mtk = input.nextDouble();
+                    System.out.print("\nMasukkan Nilai Fisika: ");
+                    double fisika = input.nextDouble();
+                    System.out.print("\nMasukkan Nilai Kimia: ");
+                    double kimia = input.nextDouble();
+                    hitungRatarata(mtk, fisika, kimia);
+                    break;
+                
                 default:
                     System.out.println("Nomor tidak ada!");
                     break;
@@ -78,8 +89,17 @@ public class PRDay02 {
         }else{
             badan = "Kurus\n";
         }
-
         System.out.println("\nNilai BMI Anda Adalah " + bmi);
         System.out.println("Anda Termasuk Berbadan " + badan);
     }
+
+    public static void hitungRatarata(double mtk, double fisika, double kimia){ 
+        double rata = (mtk + fisika + kimia)/3;
+        if (rata >= 50) {
+            System.out.println("Nilai Rata-Rata : " + rata + "\nSelamat\nKamu Berhasil\nKamu Hebat\n");
+        }else{
+            System.out.println("Nilai Rata-Rata : " + rata + "\nMaafl\nKamu Gagal\n");
+        }
+    }
+
 }
