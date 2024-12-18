@@ -23,10 +23,13 @@ public class Day03 {
         int k = input.nextInt();
         deret_min(k);
 
+        System.out.println();
+
         System.out.println("===============");
         System.out.print("Masukkan Angka : ");
         int l = input.nextInt();
         fibonacci2(l);
+        System.out.println();
 
         System.out.println("===============");
         System.out.print("Masukkan Angka : ");
@@ -48,7 +51,7 @@ public class Day03 {
     }
 
     public static void bintang(int n) {
-        for (int i = 1; i <= n; i++) {
+        for (int i = 1; i <= 1; i++) {
             for (int j = 1; j <= n; j++) {
                 System.out.print(j + " ");
             }

@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Day02 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        System.out.print("Masukkan Nilai : ");
+     /*    System.out.print("Masukkan Nilai : ");
         int nilai = input.nextInt();
         grade(nilai);
         
@@ -19,7 +19,7 @@ public class Day02 {
         int jarak = input.nextInt();
         System.out.print("Masukkan Promo : ");
         String promo = input.next();
-        grab(belanja, jarak, promo);
+        grab(belanja, jarak, promo); */
 
         System.out.println("=========================");
         System.out.print("Masukkan Total Belanja : ");
@@ -36,7 +36,7 @@ public class Day02 {
         }
         System.out.print("Masukkan Voucher : ");
         int voucher = input.nextInt();
-        sopi(belanja_sopi, ongkir_sopi, voucher);
+        sopi(belanja_sopi, ongkir_sopi, voucher); 
 
         System.out.println("=========================");
         int tahun;
@@ -137,6 +137,11 @@ public class Day02 {
                 if (belanja >= 100000) {
                     int diskon_belanja = belanja - 10000;
                     int diskon_ongkir = ongkir - 20000;
+                    if(ongkir < 20000){
+                        diskon_ongkir=0;
+                    }else{
+                        diskon_ongkir = ongkir - 20000;
+                    }
                     System.out.println("Belanja :" + belanja);
                     System.out.println("Ongkir :" + ongkir);
                     System.out.println("Diskon Belanja : 10000");
@@ -157,12 +162,14 @@ public class Day02 {
     public static void generasi(String nama, int lahir){
         if(lahir >= 1944 && lahir <= 1964){
             System.out.println(nama + "," + "berdasarkan tahun lahir anda tergolong generasi Baby Boomer");
-        }else if(lahir >= 1965 && lahir <= 1979){
+        }else if(lahir <= 1979){
             System.out.println(nama + "," + "berdasarkan tahun lahir anda tergolong generasi X");            
-        }else if(lahir >= 1980 && lahir <= 1994){
+        }else if(lahir <= 1994){
             System.out.println(nama + "," + "berdasarkan tahun lahir anda tergolong generasi Y");
-        }else if(lahir >= 1995 && lahir <= 2015){
+        }else if(lahir <= 2015){
             System.out.println(nama + "," + "berdasarkan tahun lahir anda tergolong generasi Z");
+        }else{
+            System.out.println("Generasi tidak terdeteksi");
         }
     }
 }

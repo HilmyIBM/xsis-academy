@@ -37,40 +37,41 @@ public class PrDay02 {
             double bulan_gaji=(gaji+tunjangan)-(pajak+bpjs);
             double total_gaji=((gaji+tunjangan)-(pajak+bpjs))*bulan;
             System.out.println("Karyawan atas nama " + nama + " slip gaji sebagai berikut : ");
-            System.out.println("Pajak : "+pajak);
-            System.out.println("BPJS : " + bpjs);
-            System.out.println("Gaji/bln : " + bulan_gaji);
-            System.out.println("Total Gaji / banyak bulan : "+ total_gaji);
+            System.out.println(String.format("Pajak:  %1$,.2f",pajak));
+            System.out.println(String.format("BPJS:  %1$,.2f",bpjs));
+            System.out.println(String.format("Gaji/bln:  %1$,.2f",bulan_gaji));
+            System.out.println(String.format("Total Gaji:  %1$,.2f",total_gaji));
         }else if(gaji + tunjangan > 5000000 && gaji + tunjangan <= 10000000){
             double pajak= (gaji+tunjangan)*0.1;
             double bpjs=0.03 * (gaji+tunjangan);
             double bulan_gaji=(gaji+tunjangan)-(pajak+bpjs);
             double total_gaji=((gaji+tunjangan)-(pajak+bpjs))*bulan;
             System.out.println("Karyawan atas nama " + nama + " slip gaji sebagai berikut : ");
-            System.out.println("Pajak : "+pajak);
-            System.out.println("BPJS : " + bpjs);
-            System.out.println("Gaji/bln : " + bulan_gaji);
-            System.out.println("Total Gaji / banyak bulan : "+ total_gaji);   
+            System.out.println(String.format("Pajak:  %1$,.2f",pajak));
+            System.out.println(String.format("BPJS:  %1$,.2f",bpjs));
+            System.out.println(String.format("Gaji/bln:  %1$,.2f",bulan_gaji));
+            System.out.println(String.format("Total Gaji:  %1$,.2f",total_gaji));
         }else{
             double pajak= (gaji+tunjangan)*0.15;
             double bpjs=0.03 * (gaji+tunjangan);
             double bulan_gaji=(gaji+tunjangan)-(pajak+bpjs);
             double total_gaji=((gaji+tunjangan)-(pajak+bpjs))*bulan;
             System.out.println("Karyawan atas nama " + nama + " slip gaji sebagai berikut : ");
-            System.out.println("Pajak : "+pajak);
-            System.out.println("BPJS : " + bpjs);
-            System.out.println("Gaji/bln : " + bulan_gaji);
-            System.out.println("Total Gaji / banyak bulan : "+ total_gaji);   
+            System.out.println(String.format("Pajak:  %1$,.2f",pajak));
+            System.out.println(String.format("BPJS:  %1$,.2f",bpjs));
+            System.out.println(String.format("Gaji/bln:  %1$,.2f",bulan_gaji));
+            System.out.println(String.format("Total Gaji:  %1$,.2f",total_gaji));  
         }
     }
 
     public static void BMI(double berat, double tinggi ){
         double tinggi_meter=tinggi/100;
-        double hasil=berat/tinggi_meter;
+        double tinggi_kuadrat=tinggi_meter*tinggi_meter;
+        double hasil=berat/tinggi_kuadrat;
         if(hasil < 18.5){
             System.out.println("Nilai BMI anda adalah : "+ hasil);
             System.out.println("Anda Termasuk Kurus");
-        }else if(hasil >= 18.5 && hasil < 25){
+        }else if(hasil < 25){
             System.out.println("Nilai BMI anda adalah : "+ hasil);
             System.out.println("Anda termasuk langsing");
         }else{
@@ -81,11 +82,10 @@ public class PrDay02 {
 
     public static void nilai(int mtk,int fisika, int kimia){
         int hasil=(mtk+fisika+kimia)/3;
+        System.out.println("Nilai Rata - Rata : " + hasil);
         if(hasil >= 50){
-            System.out.println("Nilai Rata - Rata : " + hasil);
             System.out.println("Selamat Kamu Berhasil Hebat");
         }else{
-            System.out.println("Nilai Rata - Rata : " + hasil);
             System.out.println("Maaf Kamu Gagal");
         }
     }
