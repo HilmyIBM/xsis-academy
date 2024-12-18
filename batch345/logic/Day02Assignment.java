@@ -64,11 +64,14 @@ public class Day02Assignment {
     int nominalBelanja = Integer.parseInt(input.nextLine());
     System.out.print("Jarak : ");
     int jarak = Integer.parseInt(input.nextLine());
-    System.out.print("Masukkan Kode Promo : ");
+    System.out.print("Masukkan Kode Promo (Jika ada): ");
     String kodePromo = input.nextLine();
     input.close();
     
     int discount = PromoCheck(kodePromo, nominalBelanja);
+    if (discount == 0 && !kodePromo.isEmpty()) {
+      System.out.println("Kode tidak valid! Tidak ada diskon");
+    }
     int ongkir = jarak <= 5 && jarak > 0 ? 5000 : 5000 + (jarak - 5) * 1000;
     System.out.println("========================");
     System.out.println("Belanja : " + nominalBelanja);

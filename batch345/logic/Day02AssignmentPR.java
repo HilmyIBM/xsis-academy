@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Day02AssignmentPR {
   public static void main(String[] args) {
-    SoalKedelapan();
+    SoalKetujuh();
   }
 
   public static void SoalKeenam(){
