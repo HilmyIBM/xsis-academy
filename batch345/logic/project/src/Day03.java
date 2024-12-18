@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Day03 {
 
@@ -55,18 +56,21 @@ public class Day03 {
     }
 
     static void fibb(int n, int initSize) {
-        ArrayList<Integer> seq = new ArrayList<>();
+        LinkedList<Integer> l = new LinkedList<>();
         int sum;
 
-        for (int i = 0; i < initSize; i++) seq.add(1);
-
-        seq.forEach(x -> System.out.printf("%d ", x));
+        for (int i = 0; i < initSize; i++) {
+            l.add(1);
+            System.out.printf("%d ", l.getLast());
+        }
 
         for (int i = 0; i < n-initSize; i++) {
-            sum = seq.stream()
+            sum = l.stream()
                     .reduce(0, Integer::sum);
-            seq.add(sum);
-            seq.remove(0);
+
+            l.add(sum);
+            l.removeFirst();
+
             System.out.printf("%d ", sum);
         }
     }
@@ -90,7 +94,7 @@ public class Day03 {
         System.out.println("\n\n=========== No. 5 ============");
 
         // No 5. -> initSize = 2;
-        fibb(7, 3);
+        fibb(7, 2);
 
         System.out.println("\n\n=========== No. 6 ============");
 

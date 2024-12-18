@@ -14,7 +14,9 @@ public class Day02 {
         if (pulsa >= 10_000 & pulsa < 25_000) return 80;
         if (pulsa >= 25_000 & pulsa < 50_000) return 200;
         if (pulsa >= 50_000 & pulsa < 100_000) return 400;
-        return 800;
+        if (pulsa >= 100_000) return 800;
+
+        return 0;
     }
 
     static void GrabFood() {
@@ -65,7 +67,7 @@ public class Day02 {
         ArrayList<ArrayList<Integer>> usableVouchers = new ArrayList<>();
 
         int minBelanja = 30_000;
-        int totalBelanja = 0, diskonOnkir = 0, potonganHarga = 0;
+        int totalBelanja, diskonOnkir = 0, potonganHarga = 0;
         int belanja, ongkir, voucer = 0;
 
         try (Scanner sc = new Scanner(System.in)) {
@@ -91,7 +93,7 @@ public class Day02 {
                 }
 
                 System.out.println();
-                System.out.print("Pilih Voucher:\t");
+                System.out.print("Pilih No Voucher:\t");
                 voucer = sc.nextInt();
 
                 if (voucer > usableVouchers.size()) throw new OperationNotSupportedException("Voucher yang dimasukan tidak ada");
@@ -116,11 +118,11 @@ public class Day02 {
     }
 
     static void Gen() {
-        Object[][] genss = {
-                {1944, 1964, "Generasi Boomer"},
-                {1965, 1979, "Generasi X"},
+        Object[][] gens = {
+                {1995, 2015, "Generasi Z"},
                 {1980, 1994, "Generasi Y (Milenials)"},
-                {1995, 2015, "Generasi Z"}
+                {1965, 1979, "Generasi X"},
+                {1944, 1964, "Generasi Boomer"},
         };
 
         String nama;
@@ -135,10 +137,11 @@ public class Day02 {
             age = sc.nextInt();
         }
 
-        for (Object[] g : genss) {
-            if (age >= (int) g[0] & age <= (int) g[1]) {
+        for (Object[] g : gens) {
+            if (age >= (int) g[0]) {
                 System.out.println(nama + ", Beradasarkan tahun lahir anda tergolong " + g[2]);
                 f = true;
+                break;
             }
         }
 
@@ -147,20 +150,20 @@ public class Day02 {
 
     public static void main(String[] args) throws OperationNotSupportedException {
         // No 1.
-        int nilai = 10;
-        System.out.println("Grade yang didapat dengan nilai " + nilai + " " + Grade(nilai));
-
-        // No 2.
-        int pulsa = 25_000;
-        System.out.println("Point Pulsa Yang didapat adalah " + PointPulsa(pulsa));
-
-        // No 3.
-        // Read Input
-        GrabFood();
-
-        // No 4.
-        // Read Input
-        SopiFreeOngkir();
+//        int nilai = 10;
+//        System.out.println("Grade yang didapat dengan nilai " + nilai + " " + Grade(nilai));
+//
+//        // No 2.
+//        int pulsa = 100_000;
+//        System.out.println("Point Pulsa Yang didapat adalah " + PointPulsa(pulsa));
+//
+//        // No 3.
+//        // Read Input
+//        GrabFood();
+//
+//        // No 4.
+//        // Read Input
+//        SopiFreeOngkir();
 
         // No 5.
         // Read Input

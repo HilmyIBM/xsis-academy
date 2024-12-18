@@ -1,3 +1,4 @@
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Day02PR {
@@ -24,7 +25,7 @@ public class Day02PR {
         int gapokTunjangan = gapok + tunjangan;
 
         if (gapokTunjangan <= 5_000_000) pajakPerc = 0.05F;
-        else if (gapokTunjangan > 5_000_000 & gapokTunjangan <= 10_000_000) pajakPerc = 0.1F;
+        else if (gapokTunjangan <= 10_000_000) pajakPerc = 0.1F;
         else pajakPerc = 0.15F;
 
         int totalPajak = (int) (pajakPerc * gapokTunjangan);
@@ -32,12 +33,14 @@ public class Day02PR {
         int gajiPerBulan = gapokTunjangan - (totalPajak + bpjs);
         int totalGaji = gajiPerBulan * banyakBulan;
 
+        Locale localFormat = Locale.forLanguageTag("ID");
+
         System.out.println("====================================");
         System.out.println("Karyawan atas nama " + nama + " slip gaji sebagai berikut: ");
-        System.out.println("Pajak: \t\t\t\t\t\tRp. " + totalPajak);
-        System.out.println("BPJS: \t\t\t\t\t\tRp. " + bpjs);
-        System.out.println("Gaji/Bln: \t\t\t\t\tRp. " + gajiPerBulan);
-        System.out.println("Total Gaji/Banyak Bulan: \tRp. " + totalGaji);
+        System.out.println("Pajak: \t\t\t\t\t\tRp. " + String.format("%,d", totalPajak));
+        System.out.println("BPJS: \t\t\t\t\t\tRp. " + String.format("%,d", bpjs));
+        System.out.println("Gaji/Bln: \t\t\t\t\tRp. " + String.format("%,d", gajiPerBulan));
+        System.out.println("Total Gaji/Banyak Bulan: \tRp. " + String.format("%,d", totalGaji));
     }
 
     static void BMICalculator() {
@@ -88,7 +91,7 @@ public class Day02PR {
     public static void main(String[] args) {
         // No. 1
         gajiPokok();
-
+        System.exit(0);
 
         // No. 2
         BMICalculator();
