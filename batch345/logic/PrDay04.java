@@ -6,6 +6,7 @@ public class PrDay04 {
     static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
+        System.out.println("Masukkan kalimat : ");
         String input_polindrom = input.nextLine();
         polindrom(input_polindrom);
 
