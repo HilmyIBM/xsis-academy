@@ -47,20 +47,25 @@ public class Day04_PR {
     }
 
     static void palindrom(String input) {
-        boolean yesOrNo = true;
+        boolean palindrom = false;
         String[] arrayOfString = input.split(" ");
         if (arrayOfString.length >= 2) {
             System.out.println("Please input the words, not sentences");
-            yesOrNo = false;
+            palindrom = false;
         }
-        if (input.length() > 2) {
-            if (input.charAt(2) == 'k' || input.charAt(3) == 'a') {
-                yesOrNo = false;
+       
+        // check using char.At
+        int left = 0;
+        int right = input.length()-1;
+
+        while (left != right){
+            if (input.charAt(left) == input.charAt(right)){
+                palindrom = true;
             }
-        } else {
-            System.out.println("Input is to short");
+            left++;
+            right--;
         }
-        System.out.println(yesOrNo);
+
     }
 
     static void belanjaLebaran(int uang, String hargaBaju, String hargaCelana) {
