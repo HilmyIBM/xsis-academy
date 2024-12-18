@@ -93,7 +93,7 @@ public class _Day02 {
         scan.nextLine();
 
         // Process Discount
-        if("JKTOVO".equals(kodePromo)){
+        if("JKTOVO".equals(kodePromo) && belanja>= 30000){
             disc = belanja * 40 / 100;
             if(disc > 30000){
                 disc = 30000;

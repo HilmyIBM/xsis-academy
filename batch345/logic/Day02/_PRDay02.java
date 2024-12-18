@@ -31,9 +31,9 @@ public class _PRDay02 {
         // Process
         if (gapok+tunjangan > 10000000){
             pajak = (gapok + tunjangan) * 15 / 100;
-        } else if (gapok+tunjangan > 5000000 && gapok+tunjangan < 10000000){
+        } else if (gapok+tunjangan > 5000000 && gapok+tunjangan <= 10000000){
             pajak = (gapok + tunjangan) * 10 / 100;
-        } else if (gapok+tunjangan < 5000000){
+        } else if (gapok+tunjangan <= 5000000){
             pajak = (gapok + tunjangan) * 5 / 100;
         }
 
@@ -44,10 +44,10 @@ public class _PRDay02 {
         // Output
         System.out.println("===================");
         System.out.println("Karyawan atas nama "+ nama +" slip gaji sebagai berikut:");
-        System.out.println("Pajak:\t\t" + pajak);
-        System.out.println("BPJS:\t\t" + bpjs);
-        System.out.println("Gaji Per Bulan:\t" + gajiPerbulan);
-        System.out.println("Total Gaji:\t" + totalGaji);
+        System.out.println(String.format("Pajak:\t\t\t%1$,d", pajak));
+        System.out.println(String.format("BPJS:\t\t\t%1$,d", bpjs));
+        System.out.println(String.format("Gaji Per Bulan:\t\t%1$,d", gajiPerbulan));
+        System.out.println(String.format("Total Gaji:\t\t%1$,d", totalGaji));
     
         scan.close();
     }

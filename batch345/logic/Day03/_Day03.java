@@ -5,8 +5,8 @@ public class _Day03 {
     public static void main(String[] args) {
         // pohonFaktor();
         // squareRow();
-        // kaliSembilan();
-        // deretLima();
+        // pangkat();
+        deretLima();
         // fibonanciDua();
         // fibonanciTiga();
     }
@@ -73,13 +73,13 @@ public class _Day03 {
         scan.close();
     }
 
-    public static void kaliSembilan(){
+    public static void pangkat(){
         Scanner scan = new Scanner(System.in);
-        int nilai, hasil = 3, i = 0;
+        int nilai;
 
         // Intro 
-        System.out.println("Program Kali Sembilan");
-        System.out.println("=====================");
+        System.out.println("Program Pangkat");
+        System.out.println("================");
 
         //Input
         System.out.print("Inputkan Nilai: ");
@@ -87,12 +87,11 @@ public class _Day03 {
 
         System.out.println("====================");
 
-        while(i < nilai){
-            if (i != 0){
-                hasil *= 9;
+        for (int i = 1; i <= nilai; i+=2){
+            System.out.print((int) Math.pow(3, i));
+            if(i+2<=nilai){
+                System.out.print(" * ");
             }
-            System.out.print(i == nilai - 1 ? hasil : hasil + " * ");
-            i++;
         }
 
         scan.close();
@@ -100,7 +99,7 @@ public class _Day03 {
 
     public static void deretLima(){
         Scanner scan = new Scanner(System.in);
-        int nilai, start = -5, hasil, i = 0;
+        int nilai;
 
         // Intro 
         System.out.println("Program Pohon Faktor");
@@ -112,15 +111,13 @@ public class _Day03 {
 
         System.out.println("====================");
 
-        while(i < nilai){
-            hasil = start * (i + 1);
-            if (i % 2 != 0){
+        for(int i = 1; i<=nilai; i++){
+            int hasil = 5 * i;
+            if(i % 2 != 0){
                 hasil *= -1;
-            } 
+            }
             System.out.print(hasil + " ");
-            i++;
         }
-
         scan.close();
     }
 
