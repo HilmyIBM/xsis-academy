@@ -125,9 +125,18 @@ public class Day02 {
     // ========================================================================================================
     public static void fungsiHitungPulsa(){ /*No. 2 */
         int pulsa = scanInt();
-        int poin = pulsa/10000;
-        System.out.println("Pulsa : " + pulsa);
-        System.out.println("Point : " + poin);
+        // int poin = pulsa/5000*40;
+        // System.out.println("Pulsa : " + pulsa);
+        // System.out.println("Point : " + poin);
+        if(pulsa <25000){
+            System.out.println("Point: 80");
+        }else if(pulsa <50000){
+            System.out.println("Point: 200");
+        }else if(pulsa < 100000){
+            System.out.println("Point: 400");
+        }else{
+            System.out.println("Point: 800");
+        }
     }
 
     
@@ -137,10 +146,11 @@ public class Day02 {
         int jarak = scanInt();
         System.out.print("Masukan total belanja anda : ");
         int belanja = scanInt();
-        System.out.print("Masukan nama TOotal harga order : ");
-        String Promo = scanStr();
+        System.out.print("Masukan Promo : ");
+        String promo = scanStr();
         int totalHarga = 0;
         int ongkir = 0;
+        int diskon = 0;
         if(jarak <= 5){
             ongkir = 5000;
             totalHarga = 5000;
@@ -148,18 +158,21 @@ public class Day02 {
             ongkir = jarak * 1000;
             totalHarga = jarak * 1000;
         }
-        if(Promo == "JKTOVO"){
+        if(promo.equals("JKTOVO")){
             if(belanja >= 30000){
-                totalHarga = (int)(belanja * 4 / 10);
+                promo = "40";
+                totalHarga += belanja - (int)(belanja * 4 / 10);
+                diskon = (belanja * 4 / 10);
             }else{
                 totalHarga += belanja;
+                diskon = 0;
             }
         }else{
             totalHarga += belanja;
             System.out.println("Kode Promo Salah");
         }
         System.out.println("Belanja : " + belanja);
-        System.out.println("Diskon : " + Promo + "%");
+        System.out.println("Diskon "+ promo + "%" + " : " + diskon);
         System.out.println("Ongkir : " + ongkir);
         System.out.println("Total Belanja : " + totalHarga);
     }
@@ -235,7 +248,7 @@ public class Day02 {
         }else if(tahunLahir >= 1995 && tahunLahir <= 2015){
             return"Generasi Z";
         }else{
-            return "ga ada generasi :D";
+            return "generasi lainnya :D";
         }
     }
 

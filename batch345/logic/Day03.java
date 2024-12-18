@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Day03 {
     private static Scanner sc = new Scanner(System.in);
-   public static int scanInt(){
+    public static int scanInt(){
     int temp;
     while (true) {
         try {
@@ -50,14 +50,14 @@ public class Day03 {
     public static void main(String[] args) {
         int menu = 0;
         while (true) {
-            System.out.println("1. Fungsi Grade Nilai");
-            System.out.println("2. Fungsi Poin Transaksi Pulsa");
-            System.out.println("3. Fungsi Hitung Total Harga");
-            System.out.println("4. Fungsi Harga Akhir Sopi");
-            System.out.println("5. Fungsi Cek Generasi");
-            System.out.println("6. Fungsi Net Gaji");
-            System.out.println("7. Fungsi BMI Calculator");
-            System.out.println("8. Fungsi Median");
+            System.out.println("1. Fungsi Pohon Faktor");
+            System.out.println("2. Fungsi Membuat Persegi");
+            System.out.println("3. Fungsi Power");
+            System.out.println("4. Fungsi Positif Negatif");
+            System.out.println("5. Fungsi Fibonaci 2");
+            System.out.println("6. Fungsi Fibonaci 3");
+            System.out.println("7. Fungsi Upah Golongan");
+            System.out.println("8. Fungsi Peluang");
             System.out.println("9. Exit");
             System.out.print("Input: ");
             menu = scanInt();
@@ -79,7 +79,7 @@ public class Day03 {
                      pause();
                     break;
                 case 5:
-                    fibonaci(2);
+                    fibonaci(5);
                     pause();
                     break;
                 case 6:
@@ -91,7 +91,7 @@ public class Day03 {
                     pause();
                     break;
                 case 8:
-                    // cekLulus();
+                    fungsiPeluang();
                     pause();
                     break;
                 case 9:
@@ -244,6 +244,18 @@ public class Day03 {
     }
     public static int hitungUpah(int jam, int golongan, int lembur){
         return jam*golongan + lembur*golongan*3/2;
+    }
+    //====================================================================================================
+    public static void fungsiPeluang(){
+        System.out.print("X = ");
+        int x = scanInt();
+        int result = 1;
+        System.out.print(x+"! = ");
+        for(int i = x;i>1;i--){
+            result *= i;
+            System.out.print(i+"x");
+        }
+        System.out.println("1 = " + result);
     }
 }
 
