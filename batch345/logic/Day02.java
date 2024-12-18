@@ -26,7 +26,10 @@ public class Day02 {
                     System.out.print("Masukkan promo: ");
                     String promo = sc.nextLine();
                     int hasil = diskonGrab(uang, jarak, promo);
-                    System.out.println(hasil);
+                    System.out.println("Belanja: " + uang);
+                    System.out.println("Diskon 40%: " + ((promo.equals("JKTOVO")) ? (int) (uang * (40.0 / 100.0)) : 0));
+                    System.out.println("Ongkir: " + jarak * 1000);
+                    System.out.println("Total Belanja: " + hasil);
                 } catch (Exception e) {
                     // TODO: handle exception
                     System.err.println("Error: " + e.getMessage());
@@ -65,7 +68,7 @@ public class Day02 {
                     String name = sc.nextLine();
                     System.out.print("Tahun berapa anda lahir? ");
                     int born = Integer.parseInt(sc.nextLine());
-                    generation(born,name);
+                    generation(born, name);
                 } catch (Exception e) {
                     // TODO: handle exception
                     System.err.println(e.getMessage());
