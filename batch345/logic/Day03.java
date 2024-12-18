@@ -1,6 +1,6 @@
 public class Day03 {
     public static void main(String[] args) {
-        pohonFaktor(12);
+        pohonFaktor(20);
         squarePrinting(5);
         kelipatanNumberPrinting(7);
         minusFifteenFactor(7);
@@ -32,19 +32,19 @@ public class Day03 {
     // 2. looping (square looping)
     static void squarePrinting(int number) {
         for (int i = 1; i <= number; i++) {
-            System.out.print(" " + i);
+            System.out.print(i + " ");
         }
         System.out.println();
         for (int i = 1; i <= number - 2; i++) {
-            System.out.print(" *");
+            System.out.print("*");
             for (int j = 1; j <= number - 2; j++) {
                 System.out.print("  ");
             }
-            System.out.println("*");
+            System.out.println(" *");
         }
 
         for (int i = number; i >= 1; i--) {
-            System.out.print(" " + i);
+            System.out.print(i + " ");
         }
         System.out.println();
     }

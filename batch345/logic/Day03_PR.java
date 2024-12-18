@@ -52,22 +52,16 @@ public class Day03_PR {
     static void gajiKaryawan(int golongan, int jamKerja) {
         int lembur = 0;
         int upah = 0;
-        if (jamKerja <= 40) {
-            lembur = 0;
-            for (int i = 1; i <= jamKerja; i++) {
-                upah += golongan;
-            }
-        } else {
-            for (int i = 1; i <= 40; i++) {
-                upah += golongan;
-            }
-            for (int i = 1; i <= jamKerja - 40; i++) {
-                lembur += golongan;
-            }
+
+        int jamNormal = Math.min(jamKerja, 40);
+        upah = jamNormal * golongan;
+
+        if (jamKerja > 40) {
+            lembur = (jamKerja - 40) * golongan;
             lembur *= 1.5;
         }
-        System.out.println("Upah " + upah);
-        System.out.println("Lembur " + lembur);
-        System.out.println("total " + (upah + lembur));
+        System.out.printf("Upah %,d\n", upah);
+        System.out.printf("Lembur %,d\n", lembur);
+        System.out.printf("total %,d\n", (upah + lembur));
     }
 }

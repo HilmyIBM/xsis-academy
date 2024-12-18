@@ -70,10 +70,10 @@ public class Day02_PR {
             bpjs = (3 * (tunjangan + gapok)) / 100;
             gajiPerBulan = (tunjangan + gapok) - (pajak + bpjs);
             System.out.printf("Karyawan atas nama %s slip gaji sebagai berikut :\n", nama);
-            System.out.println("Pajak: " + pajak);
-            System.out.println("Bpjs: " + bpjs);
-            System.out.println("Gaji/bln: " + gajiPerBulan);
-            System.out.println("Total gaji/banyak bulan: " + gajiPerBulan * bulan);
+            System.out.println(String.format("Pajak: Rp%,d",pajak));
+            System.out.println(String.format("Bpjs: Rp%,d", bpjs));
+            System.out.println(String.format("Gaji/bln: Rp%,d", gajiPerBulan));
+            System.out.println(String.format("Total gaji per bulan: Rp%,d", gajiPerBulan * bulan));
         } catch (ArithmeticException e) {
             throw new Exception(e.getMessage());
         }
@@ -96,13 +96,12 @@ public class Day02_PR {
     static void rateCalculator (int mat, int fisika, int kimia){
         int result;
         result = (mat + fisika + kimia) / 3;
+        System.out.println("Nilai Rata-Rata: " + result);
         if (result >= 50){
-            System.out.println("Nilai Rata-Rata: " + result);
             System.out.println("Selamat");
             System.out.println("Kamu Berhasil");
             System.out.println("Kamu Hebat");
         } else {
-            System.out.println("Nilai Rata-Rata: " + result);
             System.out.println("Maaf");
             System.out.println("Kamu Gagal");
         }
