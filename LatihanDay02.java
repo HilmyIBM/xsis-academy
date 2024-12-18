@@ -264,6 +264,8 @@ public class LatihanDay02 {
         double bmi = (double) (weight / (height * height / 10000.0));
         String msg = "";
 
+        scan.close();
+
         if (bmi > 18.5) {
             msg = "Anda terlalu kurus.";
         } else if (bmi < 25 && bmi >= 18.5) {

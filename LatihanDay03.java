@@ -104,6 +104,7 @@ public class LatihanDay03 {
         System.out.println("Input value for n:");
         Scanner scan = new Scanner(System.in);
         int nValue = scan.nextInt();
+        scan.close();
 
         for (int i = 1; i <= nValue; i++) {
 
@@ -146,6 +147,7 @@ public class LatihanDay03 {
         System.out.println("Fibonaci 2, Input number: ");
         Scanner scan = new Scanner(System.in);
         int num = scan.nextInt();
+        scan.close();
 
         int a = 1, b = 1;
 
@@ -173,6 +175,8 @@ public class LatihanDay03 {
         System.out.println("Fibonaci 3, Input number: ");
         Scanner scan = new Scanner(System.in);
         int num = scan.nextInt();
+
+        scan.close();
 
         int a = 1, b = 1, c = 1;
 
@@ -208,6 +212,8 @@ public class LatihanDay03 {
         int upah = 2000;
         System.out.print("Jam kerja: ");
         int jam = scan.nextInt();
+
+        scan.close();
 
 
 

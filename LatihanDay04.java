@@ -32,7 +32,7 @@ public class LatihanDay04 {
                 break;
 
             case 6:
-                // no6();
+                no6();
             default:
                 break;
 
@@ -41,7 +41,7 @@ public class LatihanDay04 {
                 break;
 
             case 0:
-                // no8();
+                // exit
                 break;
         }
         scan.close();
@@ -180,6 +180,45 @@ public class LatihanDay04 {
         System.out.println();
         System.out.println();
         menu();
+
+    }
+
+    public static void no6(){
+        System.out.print("Input word: ");
+
+        Scanner scan = new Scanner(System.in);
+
+        String input = scan.next();
+
+        int len = input.length();
+
+        int yesCount = 0;
+
+        boolean isPalindrome = false;
+
+        for (int i = 0; i < len-1; i++){
+            
+            if (input.charAt(i) == input.charAt(len-1-i)){
+                // System.out.println("Yes");
+                isPalindrome = true;
+                yesCount++;
+            } else {
+                // System.out.println("No");
+                isPalindrome = false;
+            }
+
+            // System.out.println(len);
+        }
+        if (isPalindrome == true && yesCount <= len-1 ){
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
+
+        System.out.println();
+        
+        menu();
+
 
     }
 
