@@ -47,25 +47,20 @@ public class Day04_PR {
     }
 
     static void palindrom(String input) {
-        boolean palindrom = false;
-        String[] arrayOfString = input.split(" ");
-        if (arrayOfString.length >= 2) {
-            System.out.println("Please input the words, not sentences");
-            palindrom = false;
-        }
-       
+        boolean palindrom = true;
         // check using char.At
         int left = 0;
         int right = input.length()-1;
 
-        while (left != right){
-            if (input.charAt(left) == input.charAt(right)){
-                palindrom = true;
+        while (left < right){
+            if (input.charAt(left) != input.charAt(right)){
+                palindrom = false;
+                break;
             }
             left++;
             right--;
         }
-
+        System.out.println(palindrom);
     }
 
     static void belanjaLebaran(int uang, String hargaBaju, String hargaCelana) {
@@ -89,7 +84,7 @@ public class Day04_PR {
 
         for (int i = 0; i < fixHargaBaju.length; i++) {
             totalHargaPasangan = fixHargaBaju[i] + fixHargaCelana[i];
-            if (uang >= totalHargaPasangan){
+            if (uang >= totalHargaPasangan && totalHargaPasangan >= lastAffordablePrice){
                 lastAffordablePrice = totalHargaPasangan;
             } 
         }
