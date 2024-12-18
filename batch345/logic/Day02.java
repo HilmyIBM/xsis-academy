@@ -68,6 +68,15 @@ public class Day02 {
         } else if (p >= 25000 && p < 50000) {
             System.out.println("Pulsa : " + p);
             System.out.println("Point : 200");
+        }else if(p>= 50000 && p < 100000){
+            System.out.println("Pulsa : "+p);
+            System.out.println("Point : "+ 400);
+        }else if(p>=100000){
+            System.out.println("Pulsa : "+p);
+            System.out.println("Point : "+ 800);
+        }else{
+            System.out.println("Pulsa : "+ p);
+            System.out.println("Point : 0");
         }
     }
 

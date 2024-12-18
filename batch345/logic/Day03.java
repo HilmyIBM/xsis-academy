@@ -3,17 +3,17 @@ import java.util.Scanner;
 public class Day03 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        System.out.print("Masukkan Inputan : ");
+        System.out.print("Masukkan Inputan Faktor : ");
         int n = input.nextInt();
         faktor(n);
 
         System.out.println("===============");
-        System.out.print("Masukkan Angka : ");
+        System.out.print("Masukkan deret pola : ");
         int i = input.nextInt();
         bintang(i);
 
         System.out.println("===============");
-        System.out.print("Masukkan Angka : ");
+        System.out.print("Masukkan deret angka : ");
         int j = input.nextInt();
         pangkat_bintang(j);
 
@@ -23,13 +23,11 @@ public class Day03 {
         int k = input.nextInt();
         deret_min(k);
 
-        System.out.println();
         System.out.println("===============");
         System.out.print("Masukkan Angka : ");
         int l = input.nextInt();
         fibonacci2(l);
 
-        System.out.println();
         System.out.println("===============");
         System.out.print("Masukkan Angka : ");
         int m = input.nextInt();
