@@ -4,7 +4,7 @@ public class LatihanDay02 {
     static int num;
 
     public static void main(String[] args) {
-        System.out.println("Enter exercise number:\n");
+        System.out.print("Enter exercise number:\n");
         Scanner scan = new Scanner(System.in);
         num = scan.nextInt();
         switch (num) {
@@ -130,7 +130,7 @@ public class LatihanDay02 {
         System.out.println("Diskon 40%: " + diskon);
         System.out.println("Ongkir: " + ongkir);
         System.out.println("Total Belanja: " + totalBelanja);
-        System.out.println(kodePromo);
+        //System.out.println(kodePromo);
     }
 
     public static void no4() {
@@ -178,6 +178,7 @@ public class LatihanDay02 {
 
         if (ongkir < potonganOngkir) {
             ongkirTerpotong = 0;
+            potonganOngkir = ongkir;
         } else {
             ongkirTerpotong = ongkir - potonganOngkir;
         }
