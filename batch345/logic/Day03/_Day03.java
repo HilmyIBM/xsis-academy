@@ -6,7 +6,7 @@ public class _Day03 {
         // pohonFaktor();
         // squareRow();
         // pangkat();
-        deretLima();
+        // deretLima();
         // fibonanciDua();
         // fibonanciTiga();
     }
