@@ -12,9 +12,9 @@ public class Day01 {
 
         forLoop();
 
-        whileLoop();
-        arrayAndDataStructure();*/
-        stringOperation();
+        whileLoop();*/
+        arrayAndDataStructure();
+        // stringOperation();
     }
 
     public static float kelilingLingkaran (float jari) {
@@ -69,20 +69,21 @@ public class Day01 {
     }
 
     public static void arrayAndDataStructure() {
-        /* int[] empId = new int[5];
+        // int[] empId = new int[5];
 
-        Object obj = empId; 
+        // Object obj = empId; 
 
-        int[] tempIds = (int[])obj;
-        int[] empId = {2, 4, 3, 5, 1, };
-        for(int i: empId)
-            System.out.println(i);
+        Integer[] empId = {2, 4, 3, 5, 1, };
         
+        //Ascending Sort Array
         Arrays.sort(empId);
-        for(int i: empId)
-            System.out.println(i);
 
-        System.out.println("Jumlah empId: " + empId.length);*/
+        //Reversed Sort
+        Collections.reverse(Arrays.asList(empId));
+
+        System.out.println(Arrays.asList(empId));
+
+        System.out.println("Jumlah empId: " + empId.length);
 
         /* ArrayList<String> cars = new ArrayList<String>();
         System.out.println(cars.size());
@@ -96,7 +97,7 @@ public class Day01 {
 
         for (int i = 0; i <cars.size(); i++) {
             System.out.println("Cars " + (i+1) + ": " + cars.get(i));
-        } */
+        }
 
         List<String> cars = new ArrayList<>();
         System.out.println("Jumlah cars: " + cars.size());
@@ -106,7 +107,7 @@ public class Day01 {
         cars.add("Ford");
         cars.add("Mazda");
 
-        /* System.out.println("Jumlah cars: " + cars.size());
+        System.out.println("Jumlah cars: " + cars.size());
 
         for (int i = 0; i <cars.size(); i++) {
             System.out.println("Cars " + (i+1) + ": " + cars.get(i));
@@ -115,14 +116,14 @@ public class Day01 {
         Collections.sort(cars);
         for (int i = 0; i <cars.size(); i++) {
             System.out.println("Cars " + (i+1) + ": " + cars.get(i));
-        } */
+        }
 
         System.out.println(cars);
 
         cars.add(1, cars.get(cars.size()-1));
         cars.remove(cars.size()-1);
         
-        System.out.println(cars);
+        System.out.println(cars); */
 
     }
 
