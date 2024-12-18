@@ -251,6 +251,7 @@ public class Day03 {
                     break;
                 default:
                     System.out.println("Pilihan tidak valid! Silakan coba lagi.");
+                    break;
             }
             if (choose_menu != 9) {
                 sc.nextLine();
