@@ -15,13 +15,13 @@ public class Day02 {
     }
 
     public static int pointPulsa(int pulsa) {
-        if (pulsa >= 10000 && pulsa < 25000) {
+        if (pulsa >= 10_000 && pulsa < 25_000) {
             return 80;
-        } else if (pulsa >= 25000 && pulsa < 50000) {
+        } else if (pulsa < 50_000) {
             return 200;
-        } else if (pulsa >= 50000 && pulsa < 100000) {
+        } else if (pulsa < 100_000) {
             return 400;
-        } else if (pulsa >= 100000) {
+        } else if (pulsa >= 100_000) {
             return 800;
         } else {
             return 0;
@@ -29,46 +29,58 @@ public class Day02 {
     }
 
     public static void diskonGrab(int belanja, int jarak, String kode_promo) {
-        if (kode_promo.equals("JKTOVO")) {
-            int diskon = (belanja >= 30000) ? belanja * 40 / 100 : 0;
-            int ongkir = (jarak > 5) ? 5000 + (jarak - 5) * 1000 : 5000;
+        int diskon = 0;
+        int ongkir = 5_000 + ((jarak > 5) ? (jarak - 5) * 1_000 : 0);
 
-            System.out.println("Belanja       : " + belanja);
-            System.out.println("Diskon 40%    : " + diskon);
-            System.out.println("Ongkir        : " + ongkir);
-            System.out.println("Total Belanja : " + (belanja - diskon + ongkir));
+        if (kode_promo.equals("JKTOVO")) {
+            diskon = (belanja >= 30_000) ? belanja * 40 / 100 : 0;
+
         } else {
             System.out.println("Kode promo gagal digunakan!");
         }
+
+        System.out.println("Belanja       : " + belanja);
+        System.out.println("Diskon 40%    : " + diskon);
+        System.out.println("Ongkir        : " + ongkir);
+        System.out.println("Total Belanja : " + (belanja - diskon + ongkir));
     }
 
     public static void diskonSopi(int belanja, int ongkir, int choose_voucher) {
         int diskonBelanja = 0, diskonOngkir = 0;
         switch (choose_voucher) {
+            case 0:
+                System.out.println("\nAnda tidak menggunakan Kode Voucher");
+                break;
             case 1:
                 if (belanja >= 30000) {
                     diskonBelanja = 5000;
                     diskonOngkir = 5000;
+                } else {
+                    System.out.println("Total belanja anda tidak memenuhi, voucher tidak dapat digunakan!");
                 }
                 break;
             case 2:
                 if (belanja >= 50000) {
                     diskonBelanja = 10000;
                     diskonOngkir = 10000;
+                } else {
+                    System.out.println("Total belanja anda tidak memenuhi, voucher tidak dapat digunakan!");
                 }
                 break;
             case 3:
                 if (belanja >= 100000) {
                     diskonBelanja = 10000;
                     diskonOngkir = 20000;
+                } else {
+                    System.out.println("Total belanja anda tidak memenuhi, voucher tidak dapat digunakan!");
                 }
                 break;
             default:
                 System.out.println("Voucher tidak dapat digunakan!");
-                return;
+                break;
         }
 
-        System.out.println("Belanja        : " + belanja);
+        System.out.println("\nBelanja        : " + belanja);
         System.out.println("Ongkos Kirim   : " + ongkir);
         System.out.println("Diskon Ongkir  : " + diskonOngkir);
         System.out.println("Diskon Belanja : " + diskonBelanja);
@@ -79,11 +91,11 @@ public class Day02 {
         String generasi = "";
         if (tahun_lahir >= 1944 && tahun_lahir <= 1964) {
             generasi = "Baby Boomer";
-        } else if (tahun_lahir >= 1965 && tahun_lahir <= 1979) {
+        } else if (tahun_lahir <= 1979) {
             generasi = "Generasi X";
-        } else if (tahun_lahir >= 1980 && tahun_lahir <= 1994) {
+        } else if (tahun_lahir <= 1994) {
             generasi = "Generasi Y";
-        } else if (tahun_lahir >= 1995 && tahun_lahir <= 2015) {
+        } else if (tahun_lahir <= 2015) {
             generasi = "Generasi Z";
         } else {
             generasi = "Tidak Diketahui";
@@ -110,10 +122,10 @@ public class Day02 {
         int gajiTotal = gajiBln * bulan;
 
         System.out.println("Karyawan atas nama " + nama + " slip gaji sebagai berikut:");
-        System.out.println("Pajak                       : Rp. " + (int) pajak);
-        System.out.println("Bpjs                        : Rp. " + (int) bpjs);
-        System.out.println("Gaji/bln                    : Rp. " + gajiBln);
-        System.out.println("Total gaji/banyak bulan     : Rp. " + gajiTotal);
+        System.out.println(String.format("Pajak\t\t\t\tRp. %1$,d", (int) pajak));
+        System.out.println(String.format("BPJS\t\t\t\tRp. %1$,d", (int) bpjs));
+        System.out.println(String.format("Gaji/bln\t\t\tRp. %1$,d", gajiBln));
+        System.out.println(String.format("Total gaji/banyak bulan\t\tRp. %1$,d", gajiTotal));
     }
 
     public static void cekBMI(int bb, int tb) {
@@ -134,9 +146,12 @@ public class Day02 {
         System.out.println("Nilai rata-rata : " + avg);
 
         if (avg < 50) {
-            System.out.println("Maaf, kamu gagal");
+            System.out.println("Maaf");
+            System.out.println("Kamu gagal");
         } else {
-            System.out.println("Selamat, kamu berhasil!");
+            System.out.println("Selamat");
+            System.out.println("Kamu Berhasil");
+            System.out.println("Kamu Hebat");
         }
     }
 
@@ -190,15 +205,15 @@ public class Day02 {
                     belanja = sc.nextInt();
                     System.out.print("Masukkan ongkir: ");
                     int ongkir = sc.nextInt();
-                    System.out.println("1. Voucher 30rb");
+                    System.out.println("\n1. Voucher 30rb");
                     System.out.println("2. Voucher 50rb");
                     System.out.println("3. Voucher 100rb");
-                    System.out.print("Pilih voucher: ");
+                    System.out.println("0. Tidak menggunakan Voucher");
+                    System.out.print("\nPilih voucher: ");
                     int choose_voucher = sc.nextInt();
                     diskonSopi(belanja, ongkir, choose_voucher);
                     break;
                 case 5:
-                    sc.nextLine(); // consume newline
                     System.out.print("Masukkan nama anda: ");
                     String nama = sc.nextLine();
                     System.out.print("Tahun berapa anda lahir? ");
@@ -206,7 +221,6 @@ public class Day02 {
                     cekGenerasi(nama, tahun_lahir);
                     break;
                 case 6:
-                    sc.nextLine(); // consume newline
                     System.out.print("Masukkan nama anda: ");
                     nama = sc.nextLine();
                     System.out.print("Masukkan tunjangan anda: ");

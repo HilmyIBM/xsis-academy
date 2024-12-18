@@ -54,7 +54,7 @@ public class Day03 {
         ArrayList<String> lists = new ArrayList<>();
         for (int i = 1; i <= n; i++) {
             if (i % 2 != 0) {
-                lists.add(Integer.toString((int) Math.pow(3, i)));
+                lists.add(String.valueOf((int) Math.pow(3, i)));
             } else {
                 lists.add("*");
             }
@@ -72,27 +72,25 @@ public class Day03 {
         System.out.println(String.join(" ", lists));
     }
 
-    public static int fib2(int n) {
-        inputNumVal(n);
-        if (n <= 1) {
-            return n;
-        }
-        return fib2(n - 1) + fib2(n - 2);
-    }
+    // public static int fib2(int n) {
+    //     // inputNumVal(n);
+    //     if (n <= 1) {
+    //         return n;
+    //     }
+    //     return fib2(n - 1) + fib2(n - 2);
+    // }
 
-    /*
-     * public static int fib2(int n) {
-     * if (n <= 1)
-     * return n;
-     * int a = 0, b = 1, c;
-     * for (int i = 2; i <= n; i++) {
-     * c = a + b;
-     * a = b;
-     * b = c;
-     * }
-     * return b;
-     * }
-     */
+    public static int fib2(int n) {
+        if (n <= 1)
+            return n;
+        int a = 0, b = 1, c;
+        for (int i = 2; i <= n; i++) {
+            c = a + b;
+            a = b;
+            b = c;
+        }
+        return b;
+    }
 
     public static int fib3(int n) {
         inputNumVal(n);
@@ -102,20 +100,18 @@ public class Day03 {
         return fib3(n - 1) + fib3(n - 2) + fib3(n - 3);
     }
 
-    /*
-     * public static int fib3(int n) {
-     * if (n <= 2)
-     * return 1;
-     * int a = 1, b = 1, c = 1, d;
-     * for (int i = 3; i <= n; i++) {
-     * d = a + b + c;
-     * a = b;
-     * b = c;
-     * c = d;
-     * }
-     * return c;
-     * }
-     */
+    // public static int fib3(int n) {
+    // if (n <= 2)
+    // return 1;
+    // int a = 1, b = 1, c = 1, d;
+    // for (int i = 3; i <= n; i++) {
+    // d = a + b + c;
+    // a = b;
+    // b = c;
+    // c = d;
+    // }
+    // return c;
+    // }
 
     public static void countSalary(int gol, int jamKerja) {
         int upahJam = 0;
@@ -146,9 +142,9 @@ public class Day03 {
     }
 
     public static BigInteger factorial(int x) {
-        if (x < 0) {
-            throw new IllegalArgumentException("Input tidak boleh negatif");
-        }
+        // if (x < 0) {
+        //     throw new IllegalArgumentException("Input tidak boleh negatif");
+        // }
         BigInteger result = BigInteger.ONE;
         for (int i = 2; i <= x; i++) {
             result = result.multiply(BigInteger.valueOf(i));
