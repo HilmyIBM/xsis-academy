@@ -73,11 +73,11 @@ public class Day03 {
     }
 
     // public static int fib2(int n) {
-    //     // inputNumVal(n);
-    //     if (n <= 1) {
-    //         return n;
-    //     }
-    //     return fib2(n - 1) + fib2(n - 2);
+    // // inputNumVal(n);
+    // if (n <= 1) {
+    // return n;
+    // }
+    // return fib2(n - 1) + fib2(n - 2);
     // }
 
     public static int fib2(int n) {
@@ -143,7 +143,7 @@ public class Day03 {
 
     public static BigInteger factorial(int x) {
         // if (x < 0) {
-        //     throw new IllegalArgumentException("Input tidak boleh negatif");
+        // throw new IllegalArgumentException("Input tidak boleh negatif");
         // }
         BigInteger result = BigInteger.ONE;
         for (int i = 2; i <= x; i++) {
