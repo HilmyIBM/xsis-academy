@@ -17,24 +17,24 @@ public class LatihanDay03 {
                 break;
 
             case 3:
-                // no3();
+                no3();
                 break;
 
             case 4:
-                // no4();
+                no4();
                 break;
 
             case 5:
-                // no5();
+                no5();
                 break;
 
             case 6:
-                // no6();
+                no6();
             default:
                 break;
 
             case 7:
-                // no7();
+                no7();
                 break;
 
             case 8:
@@ -73,31 +73,144 @@ public class LatihanDay03 {
 
     public static void no2() {
         System.out.println("Input n: ");
-        String ans = "";
         Scanner scan = new Scanner(System.in);
         int n = scan.nextInt();
         System.out.println();
         scan.close();
 
+        // top row
         for (int i = 1; i <= n; i++) {
             System.out.print(i + " ");
         }
-        System.out.println();  // Move to the next line
-        
-        // Print the middle rows: *     *
+        System.out.println();
+
+        // middle rows
         for (int i = 1; i <= n - 2; i++) {
             System.out.print("* ");
             for (int j = 1; j <= n - 2; j++) {
-                System.out.print("  ");  // Print spaces
+                System.out.print("  ");
             }
             System.out.println("*");
         }
 
-        // Print the last row: n n-1 n-2 ... 1
+        // bottom row
         for (int i = n; i >= 1; i--) {
             System.out.print(i + " ");
         }
         System.out.println();
     }
 
+    public static void no3() {
+        System.out.println("Input value for n:");
+        Scanner scan = new Scanner(System.in);
+        int nValue = scan.nextInt();
+
+        for (int i = 1; i <= nValue; i++) {
+
+            int power = (int) Math.pow(3, 2 * i - 1);
+
+            System.out.print(power);
+
+            if (i < nValue) {
+                System.out.print(" * ");
+            }
+        }
+        System.out.println();
+
+    }
+
+    public static void no4() {
+        System.out.println("input value for n: ");
+        Scanner scan = new Scanner(System.in);
+        int nValue = scan.nextInt();
+        scan.close();
+        String ans = "";
+
+        int initValue = -5;
+
+        for (int i = 1; i < nValue + 1; i++) {
+            if (i % 2 == 0) {
+                ans = ans + i * initValue * -1 + " ";
+            } else if (i == nValue + 1) {
+                ans = ans + initValue * i;
+
+            } else {
+                ans = ans + initValue * i + " ";
+            }
+        }
+        System.out.println(ans);
+
+    }
+
+    public static void no5(){
+        System.out.println("Fibonaci 2, Input number: ");
+        Scanner scan = new Scanner(System.in);
+        int num = scan.nextInt();
+
+        int a = 1, b = 1;
+
+        
+        System.out.print(a);
+        
+       if (num > 1) {
+            System.out.print(" " + b); 
+        }
+
+
+        for (int i = 3; i <= num; i++) {
+            int next = a + b;   
+            System.out.print(" " + next); 
+            a = b;   
+            b = next; 
+        }
+
+        System.out.println();
+    
+    }
+
+
+    public static void no6(){
+        System.out.println("Fibonaci 3, Input number: ");
+        Scanner scan = new Scanner(System.in);
+        int num = scan.nextInt();
+
+        int a = 1, b = 1, c = 1;
+
+                
+        if (num >= 1) {
+            System.out.print(a); // First Fibonacci 3 number
+        }
+        if (num >= 2) {
+            System.out.print(" " + b); // Second Fibonacci 3 number
+        }
+        if (num >= 3) {
+            System.out.print(" " + c); // Third Fibonacci 3 number
+        }
+
+
+
+        for (int i = 4; i <= num; i++) {
+            int next = a + b + c;   
+            System.out.print(" " + next); 
+            a = b;   
+            b = c; 
+            c = next;
+        }
+
+        System.out.println();
+    
+    }
+
+    public static void no7(){
+        System.out.print("Golongan: ");
+        Scanner scan = new Scanner(System.in);
+        int golongan = scan.nextInt();
+        int upah = 2000;
+        System.out.print("Jam kerja: ");
+        int jam = scan.nextInt();
+
+
+
+        
+    }
 }
