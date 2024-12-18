@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.Scanner;
 
 public class Day03PR {
@@ -30,15 +31,10 @@ public class Day03PR {
 
     static void factor(int n) {
         int res = 1;
-        StringBuilder resStr = new StringBuilder();
 
-        System.out.printf("%d! = ", n);
-        for (int i = n; i > 0 ; i--) {
-            res *= i;
-            resStr.append(i).append(" x ");
-        }
+        for (int i = n; i > 0 ; i--) res *= i;
 
-        System.out.println(resStr.substring(0, resStr.length()-2) + "= " + res);
+        System.out.println("Ada " + res + " Cara");
     }
 
     public static void main(String[] args) {

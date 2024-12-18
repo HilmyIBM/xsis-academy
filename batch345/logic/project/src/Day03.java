@@ -41,7 +41,7 @@ public class Day03 {
             if (i % 2 == 0) {
                 System.out.print(res);
                 res *= 9;
-            } else System.out.print( " * ");
+            } else System.out.print(" * ");
         }
     }
 
@@ -69,6 +69,7 @@ public class Day03 {
                     .reduce(0, Integer::sum);
 
             l.add(sum);
+//            l.forEach();
             l.removeFirst();
 
             System.out.printf("%d ", sum);
@@ -76,29 +77,29 @@ public class Day03 {
     }
 
     public static void main(String[] args) {
-        System.out.println("\n=========== No. 1 ============");
-        pohonFaktor(12);
+//        System.out.println("\n=========== No. 1 ============");
+//        pohonFaktor(12);
+//
+//        System.out.println("\n=========== No. 2 ============");
+//
+//        printStyle(5);
+//
+//        System.out.println("\n\n=========== No. 3 ============");
+//
+//        no3(7);
+//
+//        System.out.println("\n\n=========== No. 4 ============");
+//
+//        no4(7);
 
-        System.out.println("\n=========== No. 2 ============");
-
-        printStyle(5);
-
-        System.out.println("\n\n=========== No. 3 ============");
-
-        no3(7);
-
-        System.out.println("\n\n=========== No. 4 ============");
-
-        no4(7);
-
-        System.out.println("\n\n=========== No. 5 ============");
-
-        // No 5. -> initSize = 2;
+//        System.out.println("\n\n=========== No. 5 ============");
+//
+//        // No 5. -> initSize = 2;
         fibb(7, 2);
-
-        System.out.println("\n\n=========== No. 6 ============");
-
-        // No 6. -> initSize = 3;
-        fibb(7, 3);
+//
+//        System.out.println("\n\n=========== No. 6 ============");
+//
+//        // No 6. -> initSize = 3;
+//        fibb(7, 3);
     }
 }
