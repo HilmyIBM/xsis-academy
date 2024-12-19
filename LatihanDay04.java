@@ -37,7 +37,7 @@ public class LatihanDay04 {
                 break;
 
             case 7:
-                // no7();
+                no7();
                 break;
 
             case 0:
@@ -209,15 +209,16 @@ public class LatihanDay04 {
 
             // System.out.println(len);
         }
-        if (isPalindrome == true && yesCount <= len-1 ){
+        if (isPalindrome == true && yesCount == len-1 ){
             System.out.println("Yes");
         } else {
             System.out.println("No");
-        }
+        }  
+        System.out.println(yesCount);
 
         System.out.println();
         
-        menu();
+        //menu();
 
 
     }
@@ -228,13 +229,22 @@ public class LatihanDay04 {
         int input = scan.nextInt();
         int hargaBaju[] = {35, 40, 50, 20};
         int hargaCelana[] = {40, 30, 45, 10};
-        int hargaTotal[] = {};
         int totalMax = 0;
 
         for (int i = 0; i < hargaBaju.length-1; i++){
-            hargaTotal[i] = hargaBaju[i] + hargaCelana [i];
+            int hargaTotal = hargaBaju[i] + hargaCelana [i];
+
+            if (hargaTotal <= input){
+                if (totalMax < hargaTotal) {
+                    totalMax = hargaTotal;
+                }
+                
+
+            }
+
             
         }
+        System.out.println(totalMax);
     }
 
 }
