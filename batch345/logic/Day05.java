@@ -179,6 +179,36 @@ public class Day05 {
         System.out.println(count + " Video Game");
     }
 
+    public static void trianglePattern(int n) {
+        for (int i = 1; i <= n; i++) {
+            String row = "";
+            for (int j = 0; j < n - i; j++) {
+                row += " ";
+            }
+            for (int k = 0; k < i; k++) {
+                row += "*";
+            }
+            System.out.println(row);
+        }
+    }
+
+    public static int incorrectSignals(String signal) {
+        String sos = "SOS";
+        int incorrectCount = 0;
+
+        for (int i = 0; i < signal.length(); i += 3) {
+            String part = signal.substring(i, (i + 3 < signal.length() ? i + 3 : signal.length()));
+
+            for (int j = 0; j < part.length(); j++) {
+                if (part.charAt(j) != sos.charAt(j)) {
+                    incorrectCount++;
+                }
+            }
+        }
+        return incorrectCount;
+
+    }
+
     public static boolean askContinue(Scanner sc) {
         System.out.print("\nKembali ke menu utama? (y/n): ");
         String response = sc.nextLine().toLowerCase();
@@ -198,7 +228,9 @@ public class Day05 {
             System.out.println("6. Bubble sort");
             System.out.println("7. Deret Bilangan Prima");
             System.out.println("8. Hitung jumlah video game");
-            System.out.println("9. Keluar");
+            System.out.println("9. Cetak bintang berpola segitiga");
+            System.out.println("10. Hitung Kesalahan Sinyal SOS");
+            System.out.println("0. Keluar");
             System.out.print("\nPilih menu: ");
             int choose_menu = sc.nextInt();
             sc.nextLine();
@@ -304,11 +336,18 @@ public class Day05 {
                     break;
 
                 case 9:
+                    System.out.print("\nMasukkan angka : ");
+                    n = sc.nextInt();
+                    sc.nextLine();
 
+                    trianglePattern(n);
                     break;
 
                 case 10:
+                    System.out.print("\nMasukkan sinyal : ");
+                    String sinyalString = sc.nextLine();
 
+                    System.out.println("Total sinyal yang salah adalah sebanyak " + incorrectSignals(sinyalString));
                     break;
                 case 0:
                     System.out.println("Terima kasih!");
