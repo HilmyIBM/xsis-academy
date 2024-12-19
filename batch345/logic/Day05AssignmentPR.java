@@ -8,22 +8,40 @@ public class Day05AssignmentPR {
     
   }
 
-  public static void SoalPertama() {
+  public static void soalPertama() {
     System.out.print("Input >> ");
     String[] s = input.nextLine().trim().split(",");
-    ArrayList<Integer> numArrayList = ConvertToInt(s);
-    Integer[] numArray = new Integer[numArrayList.size()-1];
-
-    
+    int[] nums = convertToInt(s);
+    bubbleSorting(nums);
     
   }
 
-  public static SortCheck()
-  public static ArrayList<Integer> ConvertToInt(String[] str){
-    ArrayList<Integer> intNum = new ArrayList<Integer>();
-    for (int i = 0; i < str.length; i++){
-      intNum.add(Integer.parseInt(str[i]));
+  public static int[] convertToInt(String[] str){
+    int[] intArray = new int[str.length];
+    for(int i = 0; i < str.length; i++) {
+      intArray[i] = Integer.parseInt(str[i]);
     }
-    return intNum;
+    return intArray;
+  }
+
+  public static void bubbleSorting(int[] nums){
+    int n = nums.length; 
+
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n-1-i; j++){
+        if(nums[j] > nums[j+1]){
+          int temp = nums[j];
+          nums[j] = nums[j+1];
+          nums[j+1] = temp;
+        }
+      }
+    }
+  }
+
+  public static void printArray(int[] array){
+    for(int i : array) {
+      System.out.print(i + " ");
+    }
+    System.out.println();
   }
 }
