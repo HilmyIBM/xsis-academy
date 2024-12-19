@@ -54,15 +54,14 @@ public class Day04 {
    public static void main(String[] args) {
     int menu = 0;
     while (true) {
-        System.out.println("1. Fungsi Pohon Faktor");
-        System.out.println("2. Fungsi Membuat Persegi");
-        System.out.println("3. Fungsi Power");
-        System.out.println("4. Fungsi Positif Negatif");
-        System.out.println("5. Fungsi Fibonaci 2");
-        System.out.println("6. Fungsi Fibonaci 3");
-        System.out.println("7. Fungsi Upah Golongan");
-        System.out.println("8. Fungsi Peluang");
-        System.out.println("9. Exit");
+        System.out.println("1. Fungsi Split String");
+        System.out.println("2. Fungsi Capital dan Max char");
+        System.out.println("3. Regex 1");
+        System.out.println("4. Regex 2");
+        System.out.println("5. Regex 3");
+        System.out.println("6. Palindrome");
+        System.out.println("7. Shopping");
+        System.out.println("8. Exit");
         System.out.print("Input: ");
         menu = scanInt();
         switch (menu) {
@@ -95,12 +94,8 @@ public class Day04 {
                 pause();
                 break;
             case 8:
-                // fungsiPeluang();
-                pause();
-                break;
-            case 9:
-                System.exit(0);
-                break;
+            System.exit(0);
+            break;
             default:
                 System.out.println("Inputan Salah");
                 break;
