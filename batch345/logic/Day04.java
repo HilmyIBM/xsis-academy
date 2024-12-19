@@ -87,11 +87,11 @@ public class Day04 {
                 pause();
                 break;
             case 6:
-                // fibonaci(3);
+                palindrome();
                 pause();
                 break;  
             case 7:
-                // fungsiGajiMingguan();
+                shopping();
                 pause();
                 break;
             case 8:
@@ -194,6 +194,38 @@ public class Day04 {
     }
     System.out.println();
    }
-
-   
+   public static void palindrome(){
+    System.out.print("Input : ");
+    String str = scanStr();
+    String r = "";
+    char ch;
+    for(int i = 0; i<str.length();i++){
+        ch = str.charAt(i);
+        r = ch + r;
+    }
+    if(r.equals(str)){
+        System.out.println("yes");
+    }else{
+        System.out.println("no");
+    }
+   }
+   public static void  shopping(){
+    System.out.print("Uang andi: ");
+    int uang = scanInt();
+    System.out.print("Harga Baju: ");
+    String hargaBaju = scanStr();
+    System.out.print("Harga Celana: ");
+    String hargaCelana = scanStr();
+    String[] bajuSplit = hargaBaju.split(",");
+    String[] celanaSplit = hargaCelana.split(",");
+    int max = 0;
+    int temp = 0;
+    for(int i = 0;i< bajuSplit.length;i++){
+        temp = Integer.parseInt(bajuSplit[i]) + Integer.parseInt(celanaSplit[i]);
+        if (temp <= uang && temp >= max) {
+            max = temp;
+        }
+    }
+    System.out.println(max);
+   }
 }
