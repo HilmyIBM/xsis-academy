@@ -113,9 +113,14 @@ public class Day04Assignment {
   public static String LeaveThreeLetters(String s) {
     char[] string = s.toCharArray();
     for (int i = 0; i < string.length; i++){
-      if(!(i == string.length-1 || i == string.length-2 || i == string.length-3)){
-        string[i] = ' ';
+      if (string.length > 2) {
+        if(!(i == string.length-1 || i == string.length-2 || i == string.length-3)){
+          string[i] = ' ';
+        }
+      } else {
+        string[i] = string[i];
       }
+      
     }
 
     return String.valueOf(string).trim();
