@@ -5,23 +5,30 @@ public class DAY06 {
 
     public static void main(String[] args) {
         System.out.println("Masukkan langkah : ");
+        int jumlah_langkah = input.nextInt();
+        input.nextLine();
+        System.out.println("Masukkan pola :");
         String langkah = input.nextLine();
-        lembah(langkah);
+        lembah(jumlah_langkah, langkah);
     }
 
-    public static void lembah(String n) {
-        int jumlah = n.length();
+    public static void lembah(int l, String n) {
+        int Jumlah = n.length();
         int gunung = 0;
         int lembah = 0;
 
-        for (char langkah : n.toCharArray()) {
-            if (langkah == 'U') {
+        for (int i = 0; i < l; i++) {
+            if (n.charAt(i) == 'U') {
                 gunung++;
-            } else if (langkah == 'D') {
-                lembah++;
+                if (gunung == 0) {
+                    lembah++;
+                }
+            } else {
+                gunung--;
             }
         }
-        System.out.println("Jumlah karakter : " + jumlah);
-        System.out.println("Jumlah lembah : " + (lembah - gunung));
+
+        System.out.println("Jumlah karakter : " + Jumlah);
+        System.out.println("Jumlah lembah : " + lembah);
     }
 }
