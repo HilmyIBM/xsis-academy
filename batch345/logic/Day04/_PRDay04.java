@@ -23,7 +23,7 @@ public class _PRDay04 {
             // System.out.println(reversed);
         }
 
-        if(word.equals(reversed)){
+        if(word.equalsIgnoreCase(reversed)){
             System.out.println("Yes");
         }else{
             System.out.println("No");
@@ -51,12 +51,12 @@ public class _PRDay04 {
 
         ArrayList<Integer> shirt = new ArrayList<>();
         for (String price : splitShirt) {
-            shirt.add(Integer.parseInt(price.trim()));
+            shirt.add(Integer.parseInt(price));
         }
 
         ArrayList<Integer> pants = new ArrayList<>();
         for (String price : splitPants) {
-            pants.add(Integer.parseInt(price.trim()));
+            pants.add(Integer.parseInt(price));
         }
         
         int maxSpend = 0;

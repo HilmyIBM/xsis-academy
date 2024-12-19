@@ -3,43 +3,100 @@ package Day05;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class _Day05 {
     public static void main(String[] args) {
         // convertTimeFormat();
+        // diagonalDifference();
+        // theCost();
         // candle();
+        changePosition();
     }
 
     public static void convertTimeFormat(){
-        Scanner input = new Scanner(System.in);
+        Scanner s = new Scanner(System.in);
 
         System.out.print("Masukkan WAKTU (ex: 07:05:45PM): ");
-        String timeInput = input.nextLine();
+        String timeInput = s.nextLine();
 
         String timeConvert = LocalTime.parse(timeInput, DateTimeFormatter.ofPattern("hh:mm:ssa")).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
         System.out.println(timeConvert);
 
-        input.close();
+        s.close();
     }
 
     public static void theCost(){
+        Scanner s = new Scanner(System.in);
 
+        System.out.print("Enter Total Menu: ");
+        int totalMenu = s.nextInt();
+        s.nextLine();
+        // System.out.print("Enter Price: ");
+        // String listPrice = s.nextLine();
+        // String[] splitPrice = listPrice.split(",");
+        // for (String price : splitPrice) {
+        //     menuPrice.add(Integer.parseInt(price));
+        // }
+
+        ArrayList<Integer> menuPrice = new ArrayList<>();
+        for(int i = 0; i<totalMenu; i++){
+            if (i == 0){
+                System.out.println("Enter Price: ");
+            }
+            System.out.print("Index " + i + ": ");
+            int listPrice = s.nextInt();
+            menuPrice.add(listPrice);
+        }
+        System.out.print("Index of Alergic: ");
+        int indexOfAlergic = s.nextInt();
+        System.out.print("Money: ");
+        int money = s.nextInt();
+
+        int totalPrice = 0;
+        for(int i=0; menuPrice.size() > i; i++){
+            totalPrice += menuPrice.get(i);
+        }
+
+        if (indexOfAlergic !=0 && indexOfAlergic <= menuPrice.size()){
+            totalPrice = totalPrice - menuPrice.get(indexOfAlergic);
+        }
+
+        System.out.println("Yang harus dibayar: " + (totalPrice / 2));
+        System.out.println("Sisa uang: " + (money - (totalPrice / 2)));
+        
+
+        s.close();
     }
 
-    public static void differencial(){
+    public static void diagonalDifference(){
+        int [][] matrix = {
+            {11, 2, 4},
+            {4, 5, 6},
+            {10, 8, -12}
+        };
 
+        int d1 = 0;
+        int d2 = 0;
+
+        for(int i = 0; i<matrix.length; i++){
+            d1 += matrix[i][i];
+            d2 += matrix[i][matrix.length-i-1];
+        }
+
+        int difference = Math.abs(d1-d2);
+
+        System.out.println("Output = " +difference);
     }
 
     public static void candle(){
 
         try {
-            Scanner input = new Scanner(System.in);
+            Scanner s = new Scanner(System.in);
 
             System.out.print("Masukan tinggi lilin: ");
-            String heightOfCandle = input.nextLine();
+            String heightOfCandle = s.nextLine();
 
             String[] splitHeight = heightOfCandle.split(" ");
             ArrayList<Integer> candle = new ArrayList<>();
@@ -62,7 +119,7 @@ public class _Day05 {
             System.out.println("Lilin yang dapat ditiup adalah " + count + " dengan tinggi " + max);
 
 
-            input.close();
+            s.close();
         } catch (Exception e) {
             // HANDLE EXCEPTION
             System.out.println("Input process FAILED: " + e.getMessage());
@@ -72,6 +129,44 @@ public class _Day05 {
     }
 
     public static void changePosition(){
+        Scanner s = new Scanner(System.in);
 
+        ArrayList<Integer> arr = new ArrayList<>();
+        arr.add(5);
+        arr.add(6);
+        arr.add(7);
+        arr.add(0);
+        arr.add(1);
+
+        System.out.print("Enter rot: ");
+        int rot = s.nextInt();
+
+        for(Integer i : arr){
+            if (arr.indexOf(i) != arr.size() - 1) {
+                System.out.print(i + ", ");
+            } else {
+                System.out.print(i);
+            }
+        }
+
+        int temp = 0;
+
+        for (int i = 0; i < rot; i++){
+            temp = arr.get(0);
+            arr.remove(0);
+            arr.add(temp);
+        }
+
+        System.out.println();
+
+        for(Integer i : arr){
+            if (arr.indexOf(i) != arr.size() - 1) {
+                System.out.print(i + ", ");
+            } else {
+                System.out.print(i);
+            }
+        }
+
+        s.close();
     }
 }
