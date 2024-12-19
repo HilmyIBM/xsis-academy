@@ -1,19 +1,19 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Day05AssignmentPR {
 
   private static Scanner input = new Scanner(System.in);
   public static void main(String[] args) {
-    
+    soalPertama();
   }
 
   public static void soalPertama() {
     System.out.print("Input >> ");
-    String[] s = input.nextLine().trim().split(",");
+    String[] s = input.nextLine().split(",");
     int[] nums = convertToInt(s);
-    bubbleSorting(nums);
-    
+    int[] sortedNums = bubbleSorting(nums);
+    System.out.print("Output >> ");
+    printArray(sortedNums);
   }
 
   public static int[] convertToInt(String[] str){
@@ -24,7 +24,7 @@ public class Day05AssignmentPR {
     return intArray;
   }
 
-  public static void bubbleSorting(int[] nums){
+  public static int[] bubbleSorting(int[] nums){
     int n = nums.length; 
 
     for (int i = 0; i < n; i++) {
@@ -36,11 +36,12 @@ public class Day05AssignmentPR {
         }
       }
     }
+    return nums;
   }
 
   public static void printArray(int[] array){
     for(int i : array) {
-      System.out.print(i + " ");
+      System.out.print(i + ",");
     }
     System.out.println();
   }
