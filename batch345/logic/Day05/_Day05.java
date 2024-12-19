@@ -142,11 +142,7 @@ public class _Day05 {
         int rot = s.nextInt();
 
         for(Integer i : arr){
-            if (arr.indexOf(i) != arr.size() - 1) {
-                System.out.print(i + ", ");
-            } else {
-                System.out.print(i);
-            }
+            System.out.print(arr.indexOf(i) != arr.size() - 1 ? i + ", " : i);
         }
 
         int temp = 0;
@@ -155,16 +151,12 @@ public class _Day05 {
             temp = arr.get(0);
             arr.remove(0);
             arr.add(temp);
-        }
 
-        System.out.println();
-
-        for(Integer i : arr){
-            if (arr.indexOf(i) != arr.size() - 1) {
-                System.out.print(i + ", ");
-            } else {
-                System.out.print(i);
+            System.out.print("\nLangkah ke " + (i + 1) + " = ");
+            for(Integer j : arr){
+                System.out.print(arr.indexOf(j) != arr.size() - 1 ? j + ", " : j);
             }
+
         }
 
         s.close();

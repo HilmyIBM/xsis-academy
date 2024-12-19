@@ -6,39 +6,43 @@ public class _PRDay05 {
     public static void main(String[] args) {
         // bubbleSort();
         // prima();
-        gameOnline();
+        // gameOnline();
+        // starCase();
+        sOs();
     }
 
     public static void bubbleSort(){
+        Scanner s = new Scanner(System.in);
+
+        System.out.print("Masukan jumlah langkah: ");
+        int step = s.nextInt();
+        
         int[] arr = {2, 5, 4, 1, 3};
         int temp = 0;
 
-        for (int i : arr){
-            System.out.print(i + ", ");
+        for (int i=0; i < arr.length; i++) {
+            System.out.print(i == arr.length - 1 ? arr[i] : arr[i] + ",");
         }
 
-        for (int i = 0; i < arr.length; i++){
+        System.out.println();
+
+        for (int i = 0; i < step; i++){
             for(int j = 1; j < (arr.length-i); j++){
                 if(arr[j-1] > arr[j]){
                     temp = arr[j - 1];
                     arr[j - 1] = arr[j];
                     arr[j] = temp;
-                    System.out.println();
-                    for (int k : arr){
-                        System.out.print(k + ", ");
-                    }
                 }
             }
+            System.out.print("Langkah " + (i + 1) + ": ");
+            for (int k=0; k < arr.length; k++) {
+                System.out.print(k == arr.length - 1 ? arr[k] : arr[k] + ",");
+            }
+            System.out.println();
         }
 
-        System.out.println();
-
-        for (int i : arr){
-            System.out.print(i + ", ");
-        }
-
+        s.close();
     }
-
 
     public static void prima(){
         Scanner s = new Scanner(System.in);
@@ -47,7 +51,7 @@ public class _PRDay05 {
         int angka = s.nextInt();
 
         int count = 0;
-        for(int i = 2; i <= angka; i++){
+        for(int i = 2; i < angka; i++){
             boolean isPrime = true;
             for(int j = 2; j < i; j++){
                 if (i % j == 0) {
@@ -55,11 +59,9 @@ public class _PRDay05 {
                     // System.out.println(i);
                 }
             }
-            if (isPrime) {
+            if (isPrime && count <= 100) {
+                System.out.print( i == 2 ? i : ", " + i);
                 count++;
-                if(count <= 100){
-                    System.out.print(i + ", ");
-                }
             }
         }
 
@@ -81,18 +83,62 @@ public class _PRDay05 {
 
         int total = 0;
         int count = 0;
-        for (int i = 0; p > i; i++){
-            if (i != 0){
-                p -= d;
-            }
-            System.out.print(p + "+");
-            count++;
+
+        while(total + p <= s){
             total += p;
-            System.out.print(total + " ");
+            count++;
+            if (p>m) {
+                p -= d;
+                if (p < m) {
+                    p = m;
+                }
+                // System.out.print(p);
+            }
         }
+
+        System.out.println(count + " video game, total spend: " + total);
+
 
         // System.out.print(total);
 
         in.close();
+    }
+
+    public static void  starCase(){
+        Scanner s = new Scanner(System.in);
+        int start = 1;
+
+        System.out.print("Input: ");
+        int star = s.nextInt();
+
+        int space = star;
+
+        while(start <= star){
+            System.out.println(" ".repeat(space--) + "*".repeat(start));
+            start++;
+        }
+
+        s.close();
+    }
+
+    public static void sOs(){
+        Scanner s = new Scanner(System.in);
+
+        System.out.print("Input: ");
+        String sos = s.nextLine();
+
+        int count = 0;
+
+        for(int i = 0; i < sos.length(); i+=3){
+            String words = sos.substring(i, i+3).toUpperCase();
+            System.out.println(words);
+            if (!"SOS".equals(words)){
+                count++;
+            }
+        }
+
+        System.out.println(count);
+
+        s.close();
     }
 }
