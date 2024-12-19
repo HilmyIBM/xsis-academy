@@ -1,1 +1,3 @@
 test add file.
+
+sc.nextInt(); is not consuming line, so it will having some bug for the next input. so after using sc.nextInt or something else, please add sc.nextLine()

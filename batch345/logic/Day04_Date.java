@@ -12,11 +12,11 @@ public class Day04_Date {
     private static Scanner scanIn = new Scanner(System.in);
 
     public static void main(String[] args) {
-         // playWithDateTime();
+        playWithDateTime();
         // dateTimeDifference();
         // latihan01();
         // latihan02();
-        latihan03();
+        // latihan03();
     }
 
     static void playWithDateTime() {
@@ -54,7 +54,9 @@ public class Day04_Date {
     }
 
     public static void dateTimeDifference() {
+        // Indonesia Format
         LocalDate starDate = LocalDate.parse("01-12-2019", DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        // US Format
         LocalDate endDate = LocalDate.parse("12-31-2024", DateTimeFormatter.ofPattern("MM-dd-yyyy"));
 
         long dayCount = ChronoUnit.DAYS.between(starDate, endDate);
