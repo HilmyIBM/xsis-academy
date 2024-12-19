@@ -27,11 +27,11 @@ public class Day05_PR {
                 findPrimeNumber(number);
                 break;
             case 3:
-                System.out.print("harga awal:  ");
+                System.out.print("harga awal: ");
                 int harga = Integer.parseInt(sc.nextLine());
-                System.out.print("diskon:  ");
+                System.out.print("diskon: ");
                 int diskon = Integer.parseInt(sc.nextLine());
-                System.out.print("batas dollar :  ");
+                System.out.print("batas dollar : ");
                 int batasDolar = Integer.parseInt(sc.nextLine());
                 System.out.print("mendekati: ");
                 int biayaMendekati = Integer.parseInt(sc.nextLine());
@@ -107,17 +107,20 @@ public class Day05_PR {
     // Number 3 (Halloween Sale)
     static void halloweenSale(int hargaAwal, int diskonHarga, int limitDiskon, int uangKu) {
         int gamesBought = 0;
-        int currentPrice = hargaAwal;
-    
-        while (uangKu >= currentPrice) {
-            uangKu -= currentPrice;
+
+        while (uangKu >= hargaAwal) {
+            uangKu -= hargaAwal;
             gamesBought++;
-            currentPrice = Math.max(currentPrice - diskonHarga, limitDiskon);
+
+            // Reduce the price for the next game, ensuring it doesn't go below the limit.
+            hargaAwal -= diskonHarga;
+            if (hargaAwal < limitDiskon) {
+                hargaAwal = limitDiskon;
+            }
         }
-    
-        System.out.println(gamesBought + " video game");
+
+        System.out.println(gamesBought + " video games");
     }
-    
 
     // Number 4 (Print Triangle)
     static void printTriangle(int number) {
