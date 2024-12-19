@@ -3,7 +3,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Day04 {
     private static Scanner scanIn = new Scanner(System.in);
@@ -90,6 +92,7 @@ public class Day04 {
     }
 
     public static void latihan03() {
+        ArrayList<String> output = new ArrayList();
         System.out.print("Input: ");
         String input = scanIn.nextLine();
 
@@ -98,11 +101,13 @@ public class Day04 {
         for(int i=0;i<arrKata.length;i++){
             for(int j=0; j<arrKata[i].length(); j++){
                 if(j>0 && j!=arrKata[i].length()-1)
-                    System.out.print("*");
+                    // System.out.print("*");
+                    output.add("*");
                 else
-                    System.out.print(arrKata[i].charAt(j));
+                    output.add(Character.toString(arrKata[i].charAt(j)));
             }
-            System.out.print(" ");
+            output.add(" ");
         }
+        System.out.print(output.stream().collect(Collectors.joining(", ")).trim());
     }
 }

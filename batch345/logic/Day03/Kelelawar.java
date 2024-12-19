@@ -1,3 +1,4 @@
+package Day03;
 public class Kelelawar extends Mamalia {
     private boolean isBersayap = true;
 
