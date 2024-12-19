@@ -30,8 +30,8 @@ public class Day04 {
         int upper = 0;
 
         for (char k : kata.toCharArray()) {
-            if (Character.isUpperCase(k)) upper += 1;
-            if (k == 'u' | k == 'U') u += 1;
+            if (Character.isUpperCase(k)) upper++;
+            if (Character.toLowerCase(k) == 'u') u++;
         }
 
         System.out.println("Huruf u ada " + u);
@@ -51,7 +51,8 @@ public class Day04 {
         for (String k : arrKata) {
             StringBuilder tmp = new StringBuilder();
             for (int i = 0; i < k.length(); i++) {
-                if (((i > 0 | i < k.length()-1) & no == 3) | ((i == 0 | i == k.length()-1) & no == 4))
+                if (((i > 0 & i < k.length()-1) & no == 3) |
+                        ((i == 0 | i == k.length()-1) & no == 4))
                     tmp.append("*");
                 else tmp.append(k.charAt(i));
             }
@@ -72,7 +73,7 @@ public class Day04 {
         StringBuilder res = new StringBuilder();
 
         for (String k : arrKata) {
-            res.append(k.substring(k.length()-3)).append(" ");
+            res.append(k.substring(k.length() < 3 ? 0 : k.length()-3)).append(" ");
         }
 
         System.out.println(res.toString().trim());
@@ -80,6 +81,6 @@ public class Day04 {
     }
 
     public static void main(String[] args) {
-
+        no5();
     }
 }

@@ -12,11 +12,19 @@ public class Day04PR {
             kata = sc.nextLine().toLowerCase();
         }
 
-        String rev = new StringBuilder(kata)
-                .reverse()
-                .toString();
+        boolean isPalindrom = true;
 
-        System.out.println(kata.equals(rev));
+        for (int i = kata.length()-1, n = 0;
+             i > 0 & isPalindrom;
+             i--, n++) {
+
+            if (kata.charAt(i) != kata.charAt(n)) {
+                isPalindrom = false;
+            }
+
+        }
+
+        System.out.println(isPalindrom);
     }
 
     static void belanjaLebaran() {
@@ -48,11 +56,11 @@ public class Day04PR {
                 .filter(n -> n < uang)
                 .findFirst();
 
-        System.out.println(result.isPresent() ? result.get() : "Engga Jadi Beli Baju Lebaran");
+        System.out.println(result.orElse(0));
     }
 
     public static void main(String[] args) {
-
+        no_1();
     }
 
 }
