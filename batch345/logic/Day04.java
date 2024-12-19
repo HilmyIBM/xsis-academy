@@ -4,10 +4,9 @@ import java.util.Scanner;
 public class Day04 {
 
     public static void splitText(String text) {
-        String regex = "[\\s]";
-        String[] wordArr = text.split(regex);
+        String[] wordArr = text.split(" ");
         for (int i = 0; i < wordArr.length; i++) {
-            System.out.println("Kata " + i + " = " + wordArr[i]);
+            System.out.println("Kata " + (i + 1) + " = " + wordArr[i]);
         }
         System.out.println("Total kata adalah " + wordArr.length);
     }
@@ -54,7 +53,6 @@ public class Day04 {
 
     public static void convertToStarIn(String text) {
         String[] wordArr = text.split(" ");
-
         String hasil = "";
 
         for (String word : wordArr) {
