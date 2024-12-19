@@ -23,7 +23,7 @@ public class PrDay04 {
 
     public static void polindrom(String n) {
         String hasil = new StringBuilder(n).reverse().toString();
-        if (n.equals(hasil)) {
+        if (n.equalsIgnoreCase(hasil)) {
             System.out.println("Benar");
         } else {
             System.out.println("Salah");
@@ -34,7 +34,7 @@ public class PrDay04 {
         int[] harga_baju = Arrays.stream(baju.split(",")).mapToInt(Integer::parseInt).toArray();
         int[] harga_celana = Arrays.stream(celana.split(",")).mapToInt(Integer::parseInt).toArray();
         int[] total = new int[harga_baju.length];
-        Integer min = 0;
+        int min = 0;
         for (int i = 0; i < harga_baju.length; i++) {
             total[i] = harga_baju[i] + harga_celana[i];
             if (total[i] <= uang && total[i] > min) {

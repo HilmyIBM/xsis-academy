@@ -8,26 +8,26 @@ public class Day04 {
     static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
-        /*
-         * System.out.println("Masukkan kalimat : ");
-         * String kalimat = input.nextLine();
-         * kata(kalimat);
-         * 
-         * System.out.println("===============");
-         * System.out.println("Masukkan kalimat : ");
-         * String upper = input.nextLine();
-         * upper_lower(upper);
-         * 
-         * System.out.println("===============");
-         * System.out.println("Masukkan kalimat : ");
-         * String mid = input.nextLine();
-         * mid_bintang(mid);
-         * 
-         * System.out.println("===============");
-         * System.out.println("Masukkan kalimat : ");
-         * String awal = input.nextLine();
-         * awal_bintang(awal);
-         */
+        
+          System.out.println("Masukkan kalimat : ");
+          String kalimat = input.nextLine();
+          kata(kalimat);
+          
+          System.out.println("===============");
+          System.out.println("Masukkan kalimat : ");
+          String upper = input.nextLine();
+          upper_lower(upper);
+          
+          System.out.println("===============");
+          System.out.println("Masukkan kalimat : ");
+          String mid = input.nextLine();
+          mid_bintang(mid);
+          
+         System.out.println("===============");
+         System.out.println("Masukkan kalimat : ");
+         String awal = input.nextLine();
+         awal_bintang(awal);
+        
 
         System.out.println("===============");
         System.out.println("Masukkan kalimat : ");
@@ -46,9 +46,8 @@ public class Day04 {
     public static void upper_lower(String n) {
         int u = 0;
         int kapital = 0;
-        int j = n.length();
-        for (int i = 0; i < j; i++) {
-            if (n.charAt(i) == 'U' || n.charAt(i) == 'u') {
+        for (int i = 0; i < n.length(); i++) {
+            if (Character.toLowerCase(n.charAt(i))=='u') {
                 u++;
             }
             if (Character.isUpperCase(n.charAt(i))) {
