@@ -9,7 +9,13 @@ public class Day05PR {
     public static void main(String[] args) {
         
         //#2
-        primeNumbers();
+        // primeNumbers();
+
+        //#4
+        // stairCase();
+
+        //#4b
+        pyramid();
     }
 
     public static void bubbleSort() {
@@ -38,7 +44,21 @@ public class Day05PR {
     }
 
     public static void stairCase() {
+        System.out.print("Tinggi tangga: ");
+        int tinggi = scanIn.nextInt();
 
+        for (int i=1; i <= tinggi; i++){
+            System.out.println(" ".repeat(tinggi-i) + "#".repeat(i));
+        }
+    }
+
+    public static void pyramid() {
+        System.out.print("Tinggi Piramida: ");
+        int tinggi = scanIn.nextInt();
+
+        for (int i=1; i <= tinggi; i++){
+            System.out.println("-".repeat(tinggi-i) + "#".repeat(i) + "#".repeat(i-1));
+        }
     }
 
     public static void sos() {

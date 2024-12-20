@@ -1,8 +1,16 @@
 package Day03;
 public class Kelelawar extends Mamalia {
-    private boolean isBersayap = true;
+    private boolean bersayap;
 
-    void bergerak() {
+    public Kelelawar() {
+        bersayap = true;
+    }
+
+    public void bergerak() {
         System.out.println("Terbang");
+    }
+
+    public boolean isBersayap() {
+        return bersayap;
     }
 }
