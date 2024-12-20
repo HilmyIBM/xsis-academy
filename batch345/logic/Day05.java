@@ -7,24 +7,24 @@ public class Day05 {
     static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
-       /*  System.out.println("Masukkan Waktu : ");
+      /*   System.out.println("Masukkan Waktu : ");
         String n = input.nextLine();
-        konversi_waktu(n);  */
-/* 
+        konversi_waktu(n); 
+
         System.out.print("Masukkan Jumlah menu :");
         int menu=input.nextInt();
         System.out.print("Masukkan Menu Alergi :");
         int alergi=input.nextInt();
         System.out.print("Masukkan Uang : ");
         int uang=input.nextInt();
-        makanan(menu, alergi, uang);
- */
-       System.out.println("=======================");
+        makanan(menu, alergi, uang); */
+ 
+      /*  System.out.println("=======================");
         System.out.print("Masukkan Baris Matrix :");
         int baris=input.nextInt();
         System.out.print("Masukkan Kolom Matrix : ");
         int kolom=input.nextInt();
-        matrix(baris, kolom); 
+        matrix(baris, kolom);  */
 
         input.nextLine();
         System.out.println("====================");
@@ -100,7 +100,7 @@ public class Day05 {
                 diagonal_1+=isi_matrix[i][i];
                 diagonal_2+=isi_matrix[i][isi_matrix.length-1-i];
             }
-            System.out.println("Perbedaan Diagonal : "+ (diagonal_1-diagonal_2)*-1);
+            System.out.println("Perbedaan Diagonal : "+ (Math.abs(diagonal_1-diagonal_2)));
         }
 
     }

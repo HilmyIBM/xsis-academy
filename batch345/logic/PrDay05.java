@@ -25,16 +25,16 @@ public class PrDay05 {
          * System.out.print("Masukkan S : ");
          * int s_dolar=input.nextInt();
          * game(p_dolar, d_dolar, m_dolar, s_dolar);
-         * 
-         * System.out.println("");
-         * System.out.print("Masukkan Angka :");
-         * int bin=input.nextInt();
-         * tangga(bin);
-         */
-        System.out.println();
+         **/ 
+         System.out.println("");
+         System.out.print("Masukkan Angka :");
+         int bin=input.nextInt();
+         tangga(bin);
+         
+       /*  System.out.println();
         System.out.print("Masukkan Sinyal : ");
         String sinyal = input.next();
-        SOS(sinyal);
+        SOS(sinyal); */
 
     }
 
@@ -92,10 +92,10 @@ public class PrDay05 {
     public static void tangga(int n) {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (j < n - i - 1) {
+                if ( j <n-i-1) {
                     System.out.print(" ");
                 } else {
-                    System.out.print("*");
+                    System.out.print("#");
                 }
             }
             System.out.println(" ");
