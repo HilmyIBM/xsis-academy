@@ -103,7 +103,7 @@ public class Day05 {
                     pause();
                     break;
                 case 9:
-                    stair();;
+                    stair2();;
                     pause();
                     break;
                 case 10:
@@ -212,7 +212,7 @@ public class Day05 {
         for(int i = 0;i< parse.length; i++){
             lilin.add( Integer.parseInt(parse[i]));
         }
-        int temp = 0;
+        // int temp = 0;
         for(int i = 0; i<rot; i++){
             lilin.add(lilin.get(0));
             lilin.remove(0);
@@ -325,12 +325,32 @@ public class Day05 {
                 if(j<i){
                     System.out.print(" ");
                 }else{
-                    System.out.print("*");
+                    System.out.print("* ");
                 }
             }
             System.out.println();
         }
     }
+    public static void stair2(){
+        int ctr = 0;
+        System.out.print("input: ");
+        int p = scanInt();
+        int finalp = p + p-1;
+        for(int i = 0; i<p;i++){
+            int min = (finalp/2)-i;
+            int max = (finalp/2)+i;
+            for(int j =0;j<finalp;j++){
+                if(j>=min && j<=max){
+                    System.out.print("*");
+                }else{
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+    }
+    // 0 1 2 3 4 5 6
+    
     public static void sos(){
         int ctr = 0;
         System.out.print("input: ");

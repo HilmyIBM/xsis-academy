@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Day07 {
@@ -67,11 +69,11 @@ public class Day07 {
                     pause();
                     break;
                 case 2:
-                    // encrypt();
+                    guessNumber();
                     pause();
                     break;
                 case 3:
-                    // elementTinggi();
+                    ojolBensin();
                     pause();
                     break;
                 case 4:
@@ -127,10 +129,100 @@ public class Day07 {
         //2 2 4 4 5 8 -> 0 0 2 2 3 6 -> 0 0 0 0 1 4 -> 0 0 0 0 0 3 -> 0 0 0 0 0
     }
     public static void guessNumber(){
-        System.out.println("Point: ");
+        HashMap<Integer, String> map = new HashMap<Integer, String>();
+        map.put(-1, "You lose");
+        map.put(0, "Tie");
+        map.put(1, "You win");
+        System.out.print("Point: ");
         int poin = scanInt();
-        while (true) {
-            
+        int taruhan;
+        String repeat;
+        String upDown;
+        Random rand = new Random();
+        while (poin != 0) {
+            do{
+                System.out.print("Taruhan: ");
+                taruhan = scanInt();
+            }while(taruhan > poin);
+
+            System.out.print("Tebak(U/D) : ");
+            do{
+                upDown = scanStr();
+            }while (!upDown.equals("U") && !upDown.equals("D"));
+
+            int random = rand.nextInt(10);
+            System.out.println("Random: " + random);
+            int check = checkWinLose(random, upDown);
+            poin += taruhan * check;
+            System.out.println(check);
+            System.out.println(map.get(check));
+            System.out.println("Point saat ini: " + poin);
+            System.out.print("Main Lagi? (y/n) : ");
+            do{
+                repeat = scanStr();
+            }while (!repeat.equals("y") && !repeat.equals("n"));
+            if(repeat.equals("n") || poin == 0){
+                break;
+            }
+        }
+        System.out.println("Game Over!");
+    }
+
+    public static int checkWinLose(int random, String upDown){
+        if(random <5 && upDown.equals("D") || random >5 && upDown.equals("U")){
+            return 1;
+        }
+        else if(random == 5){
+            return 0;
+        }
+        return -1;
+    }
+
+    public static void ojolBensin(){
+        String customer;
+        float[] temp = new float[5];
+        for(int i = 0;i<4;i++){
+            if(i == 0){
+                System.out.print("1. Jarak dari toko ke customer 1 = ");
+            }else{
+                System.out.printf("%d. Jarak dari customer %d ke customer %d = ", i+1,i,i+1);
+            }
+            customer = scanStr().toUpperCase();
+            temp[i] = inputan(customer);
+        }
+        System.out.print("Customer yang dihitung: ");
+        int cust = scanInt();
+        float total = totalDistance(temp, cust);
+        int bensin = countbensin(cust, total);
+        System.out.println("Jarak Tempuh = " + total);
+        System.out.println("Bensin = " + bensin);
+    }
+    public static float totalDistance(float[] temp, int cust){
+        float total = 0;
+        for(int i = 0;i<cust;i++){
+            total += temp[i];
+        }
+        return total;
+    }
+    public static int countbensin(int cust, float total){
+        return (int)(((double)total)/2.5) + (total%2.5 == 0 ? 0 : 1);
+    }
+
+    public static float inputan(String customer){
+        if(!customer.contains("KM")){
+            String[] parts = customer.split("M");
+            return Float.parseFloat(parts[0])/1000;
+        }else{
+            String[] parts = customer.split("KM");
+            return Float.parseFloat(parts[0]);
         }
     }
+    public static void pukis(){
+        double terigu = 7.6667;
+        double gula = 12.6667;
+        double susu = 6.6667;
+        System.out.println("Masukan jumlah kue pukis yang dibutuhkan: ");
+        int n = scanInt();
+        System.out.printf("");
+    }    
 }

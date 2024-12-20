@@ -119,14 +119,17 @@ public class Day06 {
         int ctr = 0;
         for(int i = 0;i<leng; i++){
             temp1 = curr;
+            //temp1 = -1 curr = -1
             if(catatan.charAt(i) == 'U'){
                 curr++;
             }else{
                 curr--;
             }
-
-            if(curr == 0 && temp1 == -1){
+            //curr = 0 temp = -1
+            if(curr == 0 && temp1 == -1 ){
                 ctr++;
+            }else if(curr == 0 && temp1 == 1){
+
             }
         }
         System.out.println(ctr);
@@ -137,6 +140,7 @@ public class Day06 {
         String kalimat = scanStr();
         System.out.print("rotate: ");
         int rotate = scanInt();
+        rotate = rotate%26;
         String encrypted = "";
         Character ch;
         for(int i = 0;i<kalimat.length();i++){
@@ -155,17 +159,19 @@ public class Day06 {
     public static void elementTinggi(){
         System.out.print("input panjang: ");
         int[] panjang = new int[27];
-        for(int i = 0;i<25;i++){
+        for(int i = 0;i<26;i++){
             panjang[i] = sc.nextInt();
         }
         sc.nextLine();
         System.out.print("input text: ");
         String text = scanStr();
-        int res = 1;
+        int max = 0;
         for(int i = 0;i<text.length();i++){
-            res *= panjang[text.charAt(i)-'a'];
+            if(max < panjang[text.charAt(i)-'a']){
+                max = panjang[text.charAt(i)-'a'];
+            }
         }
-        System.out.println("Output: " + res);
+        System.out.println("Output: " + max*text.length());
     }
 
     public static void aiueo(){
@@ -178,18 +184,21 @@ public class Day06 {
         String vocal = "";
         String konsonan = "";
         Arrays.sort(charArray);
+
         for(int i = 0;i<text.length();i++){
             char ch = charArray[i];
+
             boolean found = arrlist.contains(ch);
             if(found){
                 vocal += ch;
-            }else if(ch != ' '){
+            }else if(ch != ' ' && Character.isLetter(ch)){
                 konsonan += ch;
             }
         }
         System.out.println("Vokal = " + vocal);
         System.out.println("Konsonan = " + konsonan);
     }
+
     //test case : abcdefghijklmnopqrstuvwxyz
     //test case : defghijklmnopqrstuvwxyz
 
