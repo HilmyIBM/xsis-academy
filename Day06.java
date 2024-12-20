@@ -9,19 +9,19 @@ public class Day06 {
     private static Scanner sc = new Scanner(System.in);
 
     public static int scanInt(){
-    int temp;
-    while (true) {
-        try {
-            temp = sc.nextInt();
-            sc.nextLine();
-            return temp;
-        } catch (Exception e) {
-            sc.nextLine();
-            // TODO: handle exception
+        int temp;
+        while (true) {
+            try {
+                temp = sc.nextInt();
+                sc.nextLine();
+                return temp;
+            } catch (Exception e) {
+                sc.nextLine();
+                // TODO: handle exception
+            }
         }
-    }
     
-    // return -1;
+        // return -1;
    }
    public static float scanFloat(){
     float temp;
