@@ -20,8 +20,11 @@ public class MyFirstJavaProgram {
          */
 
         // forLoop();
-        Human jack = new Human("Fito", "laki-laki");
-        System.out.println(jack.getName());
+        // Human jack = new Human("Fito", "laki-laki");
+        // System.out.println(jack.getName());
+        int character = 'A' - 'A';
+        // character = (char) (((character - 'A' + 3) % 26) + 'A');
+        System.out.println('a' - 'a');
     }
 
     public static void forLoop() {
