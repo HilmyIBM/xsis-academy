@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+
 public class Day04 {
     public static void main(String[] args) {
         pilihSoal();    
@@ -49,6 +50,12 @@ public class Day04 {
                     System.out.print("Masukkan Kata : ");
                     String kataPalindrome = input.nextLine();
                     cekPalindrome(kataPalindrome);
+                    break;
+                case 7:
+                    System.out.print("Uang Belanja : ");
+                    int harga = input.nextInt();
+                    input.nextLine();
+                    hargaTermahal(harga);
                     break;
                 default:
                     System.out.println("Nomor tidak ada!");
@@ -174,6 +181,39 @@ public class Day04 {
             System.out.println("Output : Yes\n");
         } else {
             System.out.println("Output : No\n");
+        }
+
+    }
+
+    //No 7 
+    // ------------------------------------------------------------
+    public static void hargaTermahal(int harga){
+        int[] hargaBaju = {35,40,50,20};
+        int[] hargaCelana = {40,30,45,10};
+        int[] urutanHarga = new int[16];
+        int k = 0;
+
+        for(int i = 0; i<hargaBaju.length ; i++){
+            for(int j = 0; j<hargaCelana.length; j++){
+                urutanHarga[k] = hargaBaju[i]+hargaCelana[j];
+                k++;
+            }
+        }
+        for (int i = 0; i < urutanHarga.length - 1; i++) {
+            for (int j = 0; j < urutanHarga.length - 1 - i; j++) {
+                if (urutanHarga[j] < urutanHarga[j + 1]) { 
+                    int temp = urutanHarga[j];
+                    urutanHarga[j] = urutanHarga[j + 1];
+                    urutanHarga[j + 1] = temp;
+                }
+            }
+        }
+        
+        for (int i : urutanHarga) {
+            if (harga > i) {
+                System.out.println("Output = " + i);
+                break;
+            }
         }
 
     }
