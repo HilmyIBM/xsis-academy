@@ -45,8 +45,12 @@ public class Day05 {
                 no7();
                 break;
 
-            case 0:
-                // exit
+            case 8:
+                no8();
+                break;
+
+            case 9:
+                no9();
                 break;
         }
         scan.close();
@@ -128,10 +132,28 @@ public class Day05 {
         int arr2[] = { 4, 5, 6 };
         int arr3[] = { 10, 8, -12 };
 
-        int diagonal1 = arr1[0] + arr2[1] + arr3[2];
-        int diagonal2 = arr1[2] + arr2[1] + arr3[0];
+        int arr[][] = {{1, 2, 3, 4}, {5, 6, 7, 8},{9, 10, 11, 12} ,{13, 14, 15, 16} };
 
-        System.out.println("Perbedaan diagonal: " + (diagonal1 - diagonal2));
+        int diagonal1 = 0;
+        int diagonal2 = 0;
+
+        for (int i = 0; i < arr.length; i++ ){
+            diagonal1 += arr[i][i];
+
+            diagonal2 += arr[i][arr.length-i-1];
+
+        }
+
+        System.out.println(diagonal1);
+        System.out.println(diagonal2);
+
+        if ((diagonal1 - diagonal2) < 0){
+            System.out.println("Perbedaan diagonal: " + (-(diagonal1 - diagonal2)));
+
+        } else {
+
+            System.out.println("Perbedaan diagonal: " + (diagonal1 - diagonal2));
+        }
     }
 
     public static void no4() {
@@ -143,15 +165,15 @@ public class Day05 {
         String inputArr[] = input.split("\\s+");
         Integer intInputArr[] = new Integer[inputArr.length];
 
-        // Convert input strings to integers
+        
         for (int i = 0; i < inputArr.length; i++) {
             intInputArr[i] = Integer.parseInt(inputArr[i].trim());
         }
 
-        // Find the maximum value in the input array
+        // max
         int maxValue = Arrays.stream(intInputArr).max(Integer::compare).orElse(Integer.MIN_VALUE);
 
-        // Count occurrences of the maximum value
+        // count of max value
         long countMaxValue = Arrays.stream(intInputArr).filter(value -> value == maxValue).count();
 
         // Output the count of the maximum value
@@ -197,7 +219,7 @@ public class Day05 {
 
         int input = scan.nextInt(); // Number of iterations (bubble sort passes)
 
-        String numSort = "2,5,4,1,3"; 
+        String numSort = "2,5,4,1,3";
 
         String numSortArr[] = numSort.split(",");
         Integer intNumSortArr[] = new Integer[numSortArr.length];
@@ -223,18 +245,92 @@ public class Day05 {
         }
     }
 
-    public static void no7(){
+    public static void no7() {
         System.out.print("Input: ");
         Scanner scan = new Scanner(System.in);
         int input = scan.nextInt();
-        int num = 2;
-        int divider = 2;
+        scan.close();
 
-        for (int i = 2; i < input; i++){
-            if (i%num == 0){
-                System.out.print(i + ", ");
-                num++;
+        for (int i = 2; i <= input; i++) {
+            boolean isPrime = true;
+
+            for (int num = 2; num <= Math.sqrt(i); num++) { // Check divisors from 2 to sqrt(i)
+                if (i % num == 0) {
+                    isPrime = false; // Not a prime number
+                    break; // Exit loop as soon as a divisor is found
+                }
+            }
+
+            if (isPrime) {
+                if (i == 2) {
+                    System.out.print(i); // Print the first prime number without a comma
+                } else {
+                    System.out.print(", " + i); // Print subsequent primes with a comma
+                }
             }
         }
+
+    }
+
+    public static void no8() {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.print("Input nilai p: ");
+        int p = scan.nextInt(); // harga jual game
+
+        System.out.print("Input nilai d: ");
+        int d = scan.nextInt(); // inkremen turun harga
+
+        System.out.print("Input nilai m: ");
+        int m = scan.nextInt(); // turun harga stop di angka ini atau palin dekat jika dibawahnya
+
+        System.out.print("Input nilai s: ");
+        int s = scan.nextInt(); // budget uang
+
+        scan.close();
+
+        int total = 0;
+        int count = 0;
+        int hargaTerendah = p;
+
+        while (total + hargaTerendah <= s) {
+            total = total + hargaTerendah;
+            count++;
+
+            System.out.println("Current count: " + count);
+            System.out.println("Current total: " + total);
+            System.out.println();
+
+            if ((hargaTerendah - d) >= m) {
+                hargaTerendah = hargaTerendah - d;
+
+            } else {
+                hargaTerendah = m;
+            }
+        }
+        System.out.println("Jumlah game yang dapat dibeli: " + count);
+
+    }
+
+    public static void no9() {
+        System.out.print("Input: ");
+        Scanner scan = new Scanner(System.in);
+        int input = scan.nextInt();
+        scan.close();
+
+        for (int i = 0; i < input; i++) {
+            for (int j = 0; j < input-i; j++){
+                System.out.print(" ");
+
+                for(int k = 0; k< input-j; k++){
+                    System.out.print("*");
+
+                }
+                
+            }
+            
+            System.out.println();
+        }
+
     }
 }
