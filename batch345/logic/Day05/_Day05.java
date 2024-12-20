@@ -8,10 +8,10 @@ import java.util.Scanner;
 public class _Day05 {
     public static void main(String[] args) {
         // convertTimeFormat();
-        // diagonalDifference();
         // theCost();
-        // candle();
-        changePosition();
+        // diagonalDifference();
+        candle();
+        // changePosition();
     }
 
     public static void convertTimeFormat(){
@@ -63,8 +63,13 @@ public class _Day05 {
             totalPrice = totalPrice - menuPrice.get(indexOfAlergic);
         }
 
+        int sisa = money - (totalPrice / 2);
         System.out.println("Yang harus dibayar: " + (totalPrice / 2));
-        System.out.println("Sisa uang: " + (money - (totalPrice / 2)));
+        if(sisa != 0){
+            System.out.println("Sisa uang: " + sisa);
+        }else{
+            System.out.println("Uang Pas");
+        }
         
 
         s.close();
@@ -101,7 +106,7 @@ public class _Day05 {
             String[] splitHeight = heightOfCandle.split(" ");
             ArrayList<Integer> candle = new ArrayList<>();
             for (String height : splitHeight) {
-                candle.add(Integer.parseInt(height.trim()));
+                candle.add(Integer.parseInt(height));
             }
 
             int count = 0;

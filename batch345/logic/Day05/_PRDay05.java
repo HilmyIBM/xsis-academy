@@ -7,8 +7,8 @@ public class _PRDay05 {
         // bubbleSort();
         // prima();
         // gameOnline();
-        // starCase();
-        sOs();
+        starCase();
+        // sOs();
     }
 
     public static void bubbleSort(){
@@ -114,8 +114,10 @@ public class _PRDay05 {
         int space = star;
 
         while(start <= star){
-            System.out.println(" ".repeat(space--) + "*".repeat(start));
+            // System.out.println(" ".repeat(space--) + "*".repeat(start));
+            System.out.println(" ".repeat(space-1)+"*".repeat(start-1) + "*" +"*".repeat(start-1) + " ".repeat(space-1));
             start++;
+            space--;
         }
 
         s.close();
@@ -137,7 +139,7 @@ public class _PRDay05 {
             }
         }
 
-        System.out.println(count);
+        System.out.println("Total Sinyal salah: "+ count);
 
         s.close();
     }
