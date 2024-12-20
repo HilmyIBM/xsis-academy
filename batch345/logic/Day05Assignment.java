@@ -2,12 +2,13 @@ import java.text.DecimalFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Day05Assignment {
   private static Scanner input = new Scanner(System.in);
   public static void main(String[] args) {
-    SoalKelima();
+    SoalKetiga();
   }
 
   public static void SoalPertama() {
@@ -32,6 +33,11 @@ public class Day05Assignment {
     System.out.print("Uang Elsa : ");
     elsaBalance = Integer.parseInt(input.nextLine().replace(".", "").trim()); 
     ArrayList<Integer> intPriceList = ConvertToInt(strPriceList);
+
+    if(strPriceList.length != numFood){
+      System.out.println("Jumlah harga tidak sesuai dengan jumlah menu yang dipesan!");
+      System.exit(0);
+    }
 
     alergiPrice = intPriceList.get(indexAlergi);
     overallPrice = 0;
@@ -68,10 +74,12 @@ public class Day05Assignment {
   }
   
   public static void SoalKetiga() {
-    System.out.println("Input Matrix >> ");
-    int[][] matrix = new int[3][3];
-    int[] matrixD1 = new int[3];
-    int[] matrixD2 = new int[3];
+    System.out.print("Input jumlah ukuran matrix >> ");
+    int dim = Integer.parseInt(input.nextLine());
+    System.out.println("Input matrix >> ");
+    int[][] matrix = new int[dim][dim];
+    int[] matrixD1 = new int[dim];
+    int[] matrixD2 = new int[dim];
 
     for (int i = 0; i < matrix.length; i++){
       for (int j = 0; j < matrix[0].length; j++){
@@ -124,32 +132,37 @@ public class Day05Assignment {
   }
 
   public static void SoalKelima() {
-    System.out.print("arr: ");
-    String[] arr = input.nextLine().trim().split(",");
-    System.out.print("rot: ");
+    
+    System.out.print("arr : ");
+    String[] s = input.nextLine().split(",");
+    int[] nums = convertToInt(s);
+    System.out.print("rot : ");
     int rot = Integer.parseInt(input.nextLine());
-
-
-    ArrayList<Integer> intArr = ConvertToInt(arr);
-    for(int i = 0; i < intArr.size();i++){
-      System.out.println(intArr.get(i));
-    }
-
-    ArrayList<ArrayList<Integer>> arrayCollection = new ArrayList<>(); 
-    ArrayList<Integer> arrayElement = new ArrayList<>(); 
-
-    for (int i = 0; i < rot; i++){
-      for (int j = 0; j < intArr.size() ; j++){
-        if (j==0) {
-          arrayElement.add(intArr.get(intArr.size()-1));
-        } else {
-          arrayElement.add(intArr.get(i-1));
-        }
-      }
-      System.out.println(arrayElement);
-      arrayCollection.add(arrayElement);
-    }
-
-    // TODO WIP
+    rotateArray(nums, rot);
+    
   }
+
+  public static void rotateArray(int[] num, int rot) {
+    int n = num.length;
+    for (int i = 0; i < rot; i++){
+      int firstNum = num[0];
+      for(int j = 0; j < n - 1; j++){
+        num[j] = num[j+1];
+      }
+      num[n-1] = firstNum;
+      System.out.print(i+1 + ": ");
+      System.out.println(Arrays.toString(num).replaceAll("[\\[\\],]", ""));
+    }
+
+  }
+
+  public static int[] convertToInt(String[] str){
+    int[] intArray = new int[str.length];
+    for(int i = 0; i < str.length; i++) {
+      intArray[i] = Integer.parseInt(str[i]);
+    }
+    return intArray;
+  }
+
+  
 }

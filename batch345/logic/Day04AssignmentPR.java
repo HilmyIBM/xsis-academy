@@ -67,5 +67,5 @@ public class Day04AssignmentPR {
       hargaInt.add(Integer.parseInt(hargaString[i]));
     }
     return hargaInt;
-  } 
+  }
 }
