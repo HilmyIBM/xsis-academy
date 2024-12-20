@@ -50,15 +50,17 @@ public class Day05 {
                     break;
 
                 case 3:
+                    System.out.print("masukkan jumlah n : ");
+                    int jumlahNArray = input.nextInt();
                     System.out.print("Input setiap nilai Array : " );
-                    int[][] array = new int[3][3];
-                    for (int i = 0; i < 3; i++) {
-                        for (int j = 0; j < 3; j++) {
+                    int[][] array = new int[jumlahNArray][jumlahNArray];
+                    for (int i = 0; i < jumlahNArray; i++) {
+                        for (int j = 0; j < jumlahNArray; j++) {
                                 System.out.print("Array[" + i + "][" + j + "]: ");
                                 array[i][j] = input.nextInt();
                         }
                     }
-                    tambahDiagonal(array);
+                    tambahDiagonal(array,jumlahNArray);
                     break;
                     case 4:
                         System.out.print("Banyak lilin yang akan di tiup : " );
@@ -139,28 +141,27 @@ public class Day05 {
             totalHarga += harga;
         }
 
-        int hargaMakananElsa = totalHarga - hargaMenu.get(alergiIndex);
-        int elsaHarusBayar = hargaMakananElsa - uangElsa;
+        int hargaMakananElsa = (totalHarga - hargaMenu.get(alergiIndex))/2;
+        int elsaHarusBayar = (hargaMakananElsa - uangElsa);
 
         // Output
         System.out.println("Elsa Harus Membayar : " + hargaMakananElsa);
 
         if (elsaHarusBayar > 0) {
-            System.out.println("Kurang: " + elsaHarusBayar);
+            System.out.println("Kurang: -" + elsaHarusBayar);
         } else if (elsaHarusBayar == 0) {
             System.out.println("Uang Pas");
         } else {
             System.out.println("Sisa uang Elsa: " + (-elsaHarusBayar));
         }
     }
-
     //No 3 ----------------------------------------------------------------
-    public static void tambahDiagonal(int[][] array){
+    public static void tambahDiagonal(int[][] array, int n){
         int diagonal1 = 0;
         int diagonal2 = 0;
-        int j = 2;
+        int j = n-1;
         System.out.println(array[1][1]);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < n; i++) {
             diagonal1 += array[i][i];
             diagonal2 += array[i][j];
             j--;
@@ -168,7 +169,6 @@ public class Day05 {
         int result = Math.abs(diagonal1-diagonal2);
         System.out.println("Perbedaan Diagonal = " + (result));
     }
-
     //No 4 ----------------------------------------------------------------
     public static void banyakLilinTiup(ArrayList<Integer> tinggiSemuaLilin){
         Collections.sort(tinggiSemuaLilin, Collections.reverseOrder());
@@ -192,7 +192,7 @@ public class Day05 {
             System.out.print(angka + " ");
         }
     }
-    // //No 6 ----------------------------------------------------------------
+    //No 6 ----------------------------------------------------------------
     public static void urutkanAngka(ArrayList<Integer> array) {
         for (int i = 0; i < array.size() - 1; i++) {
             for (int j = 0; j < array.size() - 1 - i; j++) {
@@ -207,7 +207,7 @@ public class Day05 {
             System.out.print(i + " ");
         }
     }
-    // //No 8 ----------------------------------------------------------------
+    //No 8 ----------------------------------------------------------------
     public static void halloweenSale(int p, int d, int m, int s){
         int jumlahGame = 0;
         while (s >= p) {
@@ -217,20 +217,24 @@ public class Day05 {
         }
         System.out.println("Jumlah Game : " + jumlahGame);
     }
-    // //No 9 ----------------------------------------------------------------
+    //No 9 ----------------------------------------------------------------
     public static void segitigaPagar(int input){
         for (int i = 1; i <= input; i++) {
             for (int j = input - i; j > 0; j--) {
                 System.out.print(" ");
-            }
-            for (int k = 1; k <= i; k++) {
+            }if (i != 1) {
+                for (int k = 0; k < 2*i-1; k++) {
+                    System.out.print("#");
+                }
+                    
+            }else{
                 System.out.print("#");
             }
             System.out.println();
         }
 
     }
-    // //No 10 ----------------------------------------------------------------
+    //No 10 ----------------------------------------------------------------
     public static void cekSOS(String input){
         // ArrayList<String> pilahSOS = new ArrayList<>();
         input = input.toUpperCase();
