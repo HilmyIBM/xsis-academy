@@ -1,4 +1,3 @@
-import java.security.KeyRep.Type;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -32,10 +31,10 @@ public class Day05_PR {
                 System.out.print("diskon: ");
                 int diskon = Integer.parseInt(sc.nextLine());
                 System.out.print("batas dollar : ");
-                int batasDolar = Integer.parseInt(sc.nextLine());
-                System.out.print("mendekati: ");
-                int biayaMendekati = Integer.parseInt(sc.nextLine());
-                halloweenSale(harga, diskon, batasDolar, biayaMendekati);
+                int batasDiskon = Integer.parseInt(sc.nextLine());
+                System.out.print("duit gw: ");
+                int myMoney = Integer.parseInt(sc.nextLine());
+                halloweenSale(harga, diskon, batasDiskon, myMoney);
                 break;
             case 4:
                 System.out.print("Masukkan angka untuk print segitiga: ");
@@ -60,6 +59,7 @@ public class Day05_PR {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < angka.length - 1; i++) {
             for (int j = 0; j < angka.length - i - 1; j++) {
+                // change > or < to order the ascending or descending
                 if (angka[j] > angka[j + 1]) {
                     temp = angka[j];
                     angka[j] = angka[j + 1];
@@ -133,9 +133,23 @@ public class Day05_PR {
             }
             System.out.println();
         }
+
+        // Alternative
+        // for (int row = 1; row <= number; row++) {
+        //     for (int col = 1; col <= number; col++) {
+        //         // Print spaces until the position where asterisks start
+        //         if (col <= number - row) {
+        //             System.out.print(" "); // Space character
+        //         } else {
+        //             System.out.print("* "); // Asterisk
+        //         }
+        //     }
+        //     System.out.println(); // New line after each row
+        // }
     }
 
     // Number 5 (Split every 3 characters for 'SOS')
+    // More update for challenge if it's not SOS after SOS, you must shift 1 character for checking if it's SOS or not
     static void invalidSOSCounter(String input) {
         String regex = "(?<=\\G.{3})";
         int invalidSOS = 0;
