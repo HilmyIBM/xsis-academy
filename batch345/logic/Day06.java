@@ -47,19 +47,14 @@ public class Day06 {
         System.out.println(encryptedText);
     }
 
-    public static void number03(String highString, String text) {
+    public static void highElement(String highString, String text) {
         int[] highs = Arrays.stream(highString.split(",")).mapToInt(Integer::parseInt).toArray();
-        int[] valueChar = new int[text.length()];
         int max = 0;
 
         for (int i = 0; i < text.length(); i++) {
             int indexChar = text.charAt(i) - 'a';
-            valueChar[i] = highs[indexChar];
-        }
-
-        for (int i = 0; i < valueChar.length; i++) {
-            if (valueChar[i] > max) {
-                max = valueChar[i];
+            if (highs[indexChar] > max) {
+                max = highs[indexChar];
             }
         }
 
@@ -76,7 +71,7 @@ public class Day06 {
             if (lowText.charAt(i) != ' ') {
                 if (isVowel(lowText.charAt(i))) {
                     vowel += lowText.charAt(i);
-                } else {
+                } else if (Character.isLetter(lowText.charAt(i))) {
                     consonant += lowText.charAt(i);
                 }
             }
@@ -87,10 +82,8 @@ public class Day06 {
     }
 
     public static boolean isVowel(char ch) {
-        // Make the list of vowels
-        String str = "aeiouAEIOU";
-        return (str.indexOf(ch) != -1) ? true
-                : false;
+        String str = "aeiou";
+        return str.contains(Character.toString(ch));
     }
 
     public static void checkPassword(String password) {
@@ -130,7 +123,7 @@ public class Day06 {
             System.out.println("Password Weak & Kurang Symbol.");
         }
 
-        if (hasDigit && hasLowerCase && hasUpperCase && hasSpecialChar) {
+        if (password.length() > 6 && hasDigit && hasLowerCase && hasUpperCase && hasSpecialChar) {
             System.out.println("Password Strong.");
         }
     }
@@ -217,7 +210,7 @@ public class Day06 {
                     String highString = sc.nextLine();
                     System.out.println("Masukkan text : ");
                     text = sc.nextLine();
-                    number03(highString, text);
+                    highElement(highString, text);
                     break;
                 case 4:
                     System.out.print("\nMasukkan teks : ");
@@ -251,7 +244,10 @@ public class Day06 {
 
                     magicPotion(k, obsString);
                     break;
-
+                case 9:
+                    System.out.println("Terima kasih!");
+                    continueMenu = false;
+                    break;
                 default:
                     break;
             }
