@@ -59,14 +59,20 @@ public class Day06 {
     public static void number03(String highString, String text) {
         int[] highs = Arrays.stream(highString.split(",")).mapToInt(Integer::parseInt).toArray();
         int[] valueChar = new int[text.length()];
-        System.out.println(highs);
+        int max = 0;
 
         for (int i = 0; i < text.length(); i++) {
             int indexChar = text.charAt(i) - 'a';
             valueChar[i] = highs[indexChar];
-            System.out.println(indexChar);
         }
-        System.out.println(valueChar);
+
+        for (int i = 0; i < valueChar.length; i++) {
+            if (valueChar[i] > max) {
+                max = valueChar[i];
+            }
+        }
+
+        System.out.println(max + " x " + text.length() + " = " + (max * text.length()));
     }
 
     public static boolean askContinue(Scanner sc) {

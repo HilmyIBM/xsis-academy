@@ -89,7 +89,7 @@ public class Day05 {
         System.out.println();
     }
 
-    public static void bubleSort(int[] arrNum) {
+    public static void bubbleSort(int[] arrNum) {
         int size = arrNum.length;
 
         for (int i = 0; i < size; i++) {
@@ -185,9 +185,11 @@ public class Day05 {
             for (int j = 0; j < n - i; j++) {
                 row += " ";
             }
-            for (int k = 0; k < i; k++) {
+            
+            for (int k = 0; k < (2 * i - 1); k++) {
                 row += "*";
             }
+
             System.out.println(row);
         }
     }
@@ -308,7 +310,7 @@ public class Day05 {
 
                     int[] numArr = parseInputToArray(numString);
 
-                    bubleSort(numArr);
+                    bubbleSort(numArr);
                     break;
 
                 case 7:
