@@ -114,19 +114,17 @@ public class Day02 {
         if (belanja >= 100000) {
             diskonOngkir = 20000;
             diskonBelanja = 10000;
-            totalBelanja = belanja + ongkos - diskonOngkir - diskonBelanja;
         }else if (belanja >= 50000) {
             diskonOngkir = 10000;
             diskonBelanja = 10000;
-            totalBelanja = belanja + ongkos - diskonOngkir - diskonBelanja;
         }else{
             diskonOngkir = 5000;
             diskonBelanja = 5000;
-            totalBelanja = belanja + ongkos - diskonOngkir - diskonBelanja;
         }
         if (ongkos < diskonOngkir) {
-            diskonOngkir = ongkos;      
+            diskonOngkir = ongkos;
         }
+        totalBelanja = belanja + ongkos - diskonOngkir - diskonBelanja;
         return "\nBelanja : \t\t\t" + belanja + "\nOngkos Kirim : \t\t\t" + ongkos + "\nDiskon Ongkir : \t\t" + diskonOngkir + "\nDiskon Belanja :\t\t"+ diskonBelanja +"\nTotal Belanja :\t\t\t" + totalBelanja;
     }
 
