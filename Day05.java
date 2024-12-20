@@ -1,4 +1,3 @@
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -52,6 +51,9 @@ public class Day05 {
             case 9:
                 no9();
                 break;
+            case 10:
+                no10();
+                break;
         }
         scan.close();
 
@@ -61,6 +63,7 @@ public class Day05 {
         System.out.print("Masukkan input waktu: ");
         Scanner scan = new Scanner(System.in);
         String input = scan.next();
+        scan.close();
 
         LocalTime timeInput = LocalTime.parse(input, DateTimeFormatter.ofPattern("hh:mm:ssa"));
         String result = timeInput.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
@@ -83,6 +86,8 @@ public class Day05 {
         System.out.println();
         System.out.print("Harga Menu: ");
         String hargaMenu = scan.next();
+
+        scan.close();
 
         String hargaMenuArr[] = hargaMenu.split(",");
         Integer intHargaArr[] = new Integer[hargaMenuArr.length];
@@ -128,26 +133,22 @@ public class Day05 {
     }
 
     public static void no3() {
-        int arr1[] = { 11, 2, 4 };
-        int arr2[] = { 4, 5, 6 };
-        int arr3[] = { 10, 8, -12 };
-
-        int arr[][] = {{1, 2, 3, 4}, {5, 6, 7, 8},{9, 10, 11, 12} ,{13, 14, 15, 16} };
+        int arr[][] = { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }, { 13, 14, 15, 16 } };
 
         int diagonal1 = 0;
         int diagonal2 = 0;
 
-        for (int i = 0; i < arr.length; i++ ){
+        for (int i = 0; i < arr.length; i++) {
             diagonal1 += arr[i][i];
 
-            diagonal2 += arr[i][arr.length-i-1];
+            diagonal2 += arr[i][arr.length - i - 1];
 
         }
 
         System.out.println(diagonal1);
         System.out.println(diagonal2);
 
-        if ((diagonal1 - diagonal2) < 0){
+        if ((diagonal1 - diagonal2) < 0) {
             System.out.println("Perbedaan diagonal: " + (-(diagonal1 - diagonal2)));
 
         } else {
@@ -162,10 +163,11 @@ public class Day05 {
         Scanner scan = new Scanner(System.in);
         String input = scan.nextLine();
 
+        scan.close();
+
         String inputArr[] = input.split("\\s+");
         Integer intInputArr[] = new Integer[inputArr.length];
 
-        
         for (int i = 0; i < inputArr.length; i++) {
             intInputArr[i] = Integer.parseInt(inputArr[i].trim());
         }
@@ -176,7 +178,6 @@ public class Day05 {
         // count of max value
         long countMaxValue = Arrays.stream(intInputArr).filter(value -> value == maxValue).count();
 
-        // Output the count of the maximum value
         System.out.println("Lilin tertinggi adalah " + maxValue + " dan terdapat " + countMaxValue + " batang.");
     }
 
@@ -218,6 +219,8 @@ public class Day05 {
         Scanner scan = new Scanner(System.in);
 
         int input = scan.nextInt(); // Number of iterations (bubble sort passes)
+
+        scan.close();
 
         String numSort = "2,5,4,1,3";
 
@@ -318,19 +321,45 @@ public class Day05 {
         int input = scan.nextInt();
         scan.close();
 
-        for (int i = 0; i < input; i++) {
-            for (int j = 0; j < input-i; j++){
+        for (int i = 1; i <= input; i++) { // Outer loop for rows, increasing number of stars
+            // Print spaces for left alignment
+            for (int j = 0; j < input - i; j++) {
                 System.out.print(" ");
-
-                for(int k = 0; k< input-j; k++){
-                    System.out.print("*");
-
-                }
-                
             }
-            
+
+            // Print stars
+            for (int k = 0; k < i; k++) {
+                System.out.print("*");
+            }
+
+            // Move to the next line after printing spaces and stars
             System.out.println();
         }
+    }
 
+    public static void no10() {
+        System.out.print("Input: ");
+
+        Scanner scan = new Scanner(System.in);
+
+        String input = scan.nextLine();
+        
+        int salahCount = 0;
+        String sinyalBenar = "";
+
+        scan.close();
+
+        for (int i = 0; i < input.length() - 2; i += 3) {
+            if (input.substring(i, i + 3).equalsIgnoreCase("SOS")) {
+
+            } else {
+                salahCount++;
+            }
+            sinyalBenar += "SOS";
+
+        }
+        System.out.println("Sinyal yang benar adalah: " + sinyalBenar);
+        System.out.println("Sinyal yang diterima adalah: " + input);
+        System.out.println("Total sinyal salah:" + salahCount);
     }
 }
