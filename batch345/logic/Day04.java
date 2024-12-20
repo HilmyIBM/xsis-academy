@@ -183,7 +183,9 @@ public class Day04 {
     int i = 0;
     for(String s: splitting){
         for(int j = s.length()-3;j< s.length();j++){
-            System.out.print(s.charAt(j));
+            if(j>=0){
+                System.out.print(s.charAt(j));
+            }
         }
         System.out.print(" ");
     }
