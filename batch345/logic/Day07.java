@@ -28,6 +28,9 @@ public class Day07 {
          */
 
         System.out.println("=======================");
+        ojol();
+
+        System.out.println("=======================");
         System.out.print("Masukkan jumlah kue : ");
         int n = input.nextInt();
         input.nextLine();
@@ -98,6 +101,10 @@ public class Day07 {
             System.out.println("GAME OVER");
             System.exit(0);
         }
+    }
+
+    public static void ojol() {
+
     }
 
     public static void kue(int n) {
