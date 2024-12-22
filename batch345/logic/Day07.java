@@ -1,6 +1,24 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Day07 {
+
+    public static void potongKayu(int n, Integer[] kayu) {
+        ArrayList<Integer> kayuArrList = new ArrayList<Integer>(Arrays.asList(kayu));
+
+        System.out.println("");
+        while (!kayuArrList.isEmpty()) {
+            int kayuPendek = kayuArrList.stream().min(Integer::compare).orElse(0);
+
+            for (int i = 0; i < kayuArrList.size(); i++) {
+                kayuArrList.set(i, kayuArrList.get(i) - kayuPendek);
+            }
+            System.out.println(kayuArrList.size());
+
+            kayuArrList.removeIf(panjang -> panjang == 0);
+        }
+    }
 
     public static boolean askContinue(Scanner sc) {
         System.out.print("\nKembali ke menu utama? (y/n): ");
@@ -28,7 +46,15 @@ public class Day07 {
 
             switch (choose_menu) {
                 case 1:
-
+                    System.out.print("Masukkan Jumlah Kayu : ");
+                    int n = sc.nextInt();
+                    Integer[] kayu = new Integer[n];
+                    System.out.println("Masukkan daftar panjang kayu : ");
+                    for (int i = 0; i < n; i++) {
+                        kayu[i] = sc.nextInt();
+                    }
+                    sc.nextLine();
+                    potongKayu(n, kayu);
                     break;
                 case 9:
                     System.out.println("Terima kasih!");
