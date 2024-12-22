@@ -98,18 +98,15 @@ public class _Day06 {
         System.out.print("Input: ");
         String input = s.nextLine();
 
-        // ArrayList<Character> vowels = new ArrayList<>();
-        // ArrayList<Character> consonants = new ArrayList<>();
         String vowels = "";
         String consonants = "";
 
         for(int i = 0; i < input.length(); i++){
             for(char j : vocal.toCharArray()){
                 if (input.charAt(i) == j) {
-                    // vowels.add(input.charAt(i));
                     vowels += input.charAt(i);
                 } //else {
-                //     // consonants.add(input.charAt(i));
+                //     
                 // }
             }
             consonants += input.charAt(i);
@@ -117,19 +114,6 @@ public class _Day06 {
 
         System.out.println("Vokal: " + vowels);
         System.out.println("Konsonan: " + consonants);
-        
-
-        // System.out.print("Vokal = ");
-        // for(char v : vowels){
-        //     System.out.print(v);
-        // }
-
-        // System.out.println();
-
-        // System.out.print("Konsonan = ");
-        // for(char c : consonants){
-        //     System.out.print(c);
-        // }
 
 
         s.close();
