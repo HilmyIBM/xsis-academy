@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Day06 {
@@ -25,23 +26,23 @@ public class Day06 {
                 break;
 
             case 4:
-                // no4();
+                no4();
                 break;
 
             case 5:
-                // no5();
+                no5();
                 break;
 
             case 6:
-                // no6();
+                no6();
                 break;
 
             case 7:
-                // no7();
+                no7();
                 break;
 
             case 8:
-                // no8();
+                no8();
                 break;
 
             case 9:
@@ -186,4 +187,184 @@ public class Day06 {
         scan.close();
     }
     
+    public static void no4(){
+        System.out.print("Input: ");
+        Scanner scan = new Scanner(System.in);
+        String input = scan.nextLine().toLowerCase();
+
+        StringBuilder vokalResult = new StringBuilder();
+        StringBuilder konsonanResult = new StringBuilder();
+
+        String vokal = "aieuo";
+
+        scan.close();
+
+        for (int i = 0; i < input.length(); i++) {
+            char currentChar = input.charAt(i);
+            if (Character.isLetter(currentChar)) { // Process only alphabetic characters
+                if (vokal.indexOf(currentChar) != -1) {
+                    vokalResult.append(currentChar); // Add to vowels
+                } else {
+                    konsonanResult.append(currentChar); // Add to consonants
+                }
+            }
+        }
+        
+
+        char vokalArr[] = vokalResult.toString().toCharArray();
+        char konsonanArr[] = konsonanResult.toString().toCharArray();
+
+        Arrays.sort(vokalArr);
+        Arrays.sort(konsonanArr);
+
+        System.out.println();
+        System.out.print("Vokal: ");
+        for (int l = 0; l < vokalArr.length; l++){
+        System.out.print(vokalArr[l]);
+        }
+
+        System.out.println();
+        System.out.print("Konsonan: ");
+
+        for (int l = 0; l < konsonanArr.length; l++){
+            System.out.print(konsonanArr[l]);
+            }
+        
+
+    }
+
+    public static void no5() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+
+        // Criteria flags
+        boolean hasLowercase = false;
+        boolean hasUppercase = false;
+        boolean hasDigit = false;
+        boolean hasSpecialChar = false;
+        boolean isLongEnough = password.length() >= 6;
+
+        // Special characters definition
+        String specialChars = "!@#$%^&*()-+";
+
+        // Check each character in the password
+        for (char c : password.toCharArray()) {
+            if (Character.isLowerCase(c)) {
+                hasLowercase = true;
+            } else if (Character.isUpperCase(c)) {
+                hasUppercase = true;
+            } else if (Character.isDigit(c)) {
+                hasDigit = true;
+            } else if (specialChars.contains(String.valueOf(c))) {
+                hasSpecialChar = true;
+            }
+        }
+
+        // Evaluate results
+        boolean isStrong = isLongEnough && hasLowercase && hasUppercase && hasDigit && hasSpecialChar;
+
+        if (isStrong) {
+            System.out.println("Password Strong");
+        } else {
+            System.out.println("Password Weak & Kurang:");
+            if (!isLongEnough) {
+                System.out.println("- Panjang kurang dari 6 karakter");
+            }
+            if (!hasLowercase) {
+                System.out.println("- Huruf kecil");
+            }
+            if (!hasUppercase) {
+                System.out.println("- Huruf besar");
+            }
+            if (!hasDigit) {
+                System.out.println("- Angka");
+            }
+            if (!hasSpecialChar) {
+                System.out.println("- Simbol khusus (!@#$%^&*()-+)");
+            }
+        }
+
+        scanner.close();
+    }
+
+    public static void no6() {
+        System.out.print("Input: ");
+
+        Scanner scan = new Scanner(System.in);
+
+        String input = scan.nextLine();
+        
+        int salahCount = 0;
+        String sinyalBenar = "";
+
+        scan.close();
+
+        for (int i = 0; i < input.length() - 2; i += 3) {
+            if (input.substring(i, i + 3).equalsIgnoreCase("SOS")) {
+
+            } else {
+                salahCount++;
+            }
+            sinyalBenar += "SOS";
+
+        }
+        System.out.println("Sinyal yang benar adalah: " + sinyalBenar);
+        System.out.println("Sinyal yang diterima adalah: " + input);
+        System.out.println("Total sinyal salah:" + salahCount);
+    }
+
+    public static void no7(){
+        System.out.print("Input: ");
+        Scanner scan = new Scanner(System.in);
+        String input = scan.nextLine();
+        int len = input.length();
+
+        for (int i = 0; i<len; i++){ //rows
+            for (int j = 0; j < len/2; j++){
+                System.out.print("*");
+            }
+                System.out.print(input.charAt(i));
+
+            for (int k = 0; k < len/2; k++){
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+        scan.close();
+    }
+
+    public static void no8(){
+        System.out.print("Input K: ");
+        Scanner scan = new Scanner(System.in);
+        int inputK = scan.nextInt();
+        int maxJump = 0;
+        int currentJump = 0;
+        scan.nextLine();
+
+        System.out.println();
+        System.out.print("Input rintangan: ");
+        String inputRintangan = scan.nextLine();
+        inputRintangan = inputRintangan.replace(" ", "");
+
+        for (int i = 0; i < inputRintangan.length(); i++){
+            currentJump = inputRintangan.charAt(i) - '0';
+            if (currentJump > maxJump){
+                maxJump = currentJump;
+            }
+        }
+
+        if (inputK > maxJump){
+        System.out.print("Output: 0 Botol ramuan ajaib");
+        } else {
+        System.out.print("Output: " + (maxJump-inputK) + " Botol ramuan ajaib");
+
+        System.out.println();
+
+        }
+        scan.close();
+
+    }
+
 }
