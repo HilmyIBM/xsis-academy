@@ -1,10 +1,19 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Day07Assignment {
 
   private static Scanner input = new Scanner(System.in);
   public static void main(String[] args) {
-    soalKetiga();
+    double number = 5.55;
+    int numberInt;
+    if(Math.floor(number) == number){
+      numberInt = (int) number;
+    } else {
+       = number;
+    }
+    System.out.println(numberInt);
   }
 
   public static void soalPertama() {
@@ -87,17 +96,38 @@ public class Day07Assignment {
     for (int i = 0; i < jumlahCustomer; i++){
       totalJarak += arrJarak[i];
       if(i != 0) {
-        System.out.printf( "+ %.1f KM", arrJarak[i]);
+        System.out.printf( "+ %2.1f KM, %1.1f", arrJarak[i], totalJarak);
       } else {
         System.out.printf("%.1f KM", arrJarak[i]);
       }
     }
 
     System.out.printf(" = %.1f KM%n",totalJarak);
-    double bensin = Math.round(totalJarak / 2.5);
+    double bensin = Math.ceil(totalJarak / 2.5);
     System.out.printf("Bensin yang Dibutuhkan: %.1f Liter%n", bensin);
   }
 
+  public static void soalKeempat() {
+    System.out.print("Input >> ");
+    int n = Integer.parseInt(input.nextLine());
+    double teriguPerKue = 115.00/15.00;
+    double gulaPerKue = 190.00/15.00;
+    double susuPerKue = 100.00/15.00;
+    double[] bahanPerKue = {teriguPerKue, gulaPerKue, susuPerKue};
+    double[][] kueSequences = new double[n][3];
+
+    for (int i = 0; i < n; i++){
+      for (int j = 0; j < 3; j++){
+        kueSequences[i][j] = (i+1) * bahanPerKue[j];
+      }
+    }
+
+    for (int i = 0; i < n; i++){
+      System.out.printf("%d pukis : %.2f gr terigu, %.2f gr gula, %.2f mL susu%n", 
+                              (i+1), kueSequences[i][0], kueSequences[i][1], kueSequences[i][2]);
+      
+    }
+  }
   public static int cariMinPanjang(int[] arr){
     int min = Integer.MAX_VALUE;
     for (int i = 0; i < arr.length; i++){
@@ -127,6 +157,14 @@ public class Day07Assignment {
     return intArray;
   }
 
+  public static ArrayList<Integer> convertToIntList(String[] str){
+    ArrayList<Integer> intArray = new ArrayList<>();
+    for(int i = 0; i < str.length; i++) {
+      intArray.add(Integer.parseInt(str[i]));
+    }
+    return intArray;
+  }
+
   public static double convertToKilometer(String input) {
     input = input.trim().toUpperCase();
 
@@ -139,5 +177,51 @@ public class Day07Assignment {
         System.out.println("Format jarak tidak valid!");
         return 0.0;
     }
+  }
+
+  public static void soalPertamaBonus() {
+    int numKayu = Integer.parseInt(input.nextLine());
+    String[] pKayu = input.nextLine().split(" ");
+    ArrayList<Integer> firstSeries = convertToIntList(pKayu);
+    ArrayList<ArrayList<Integer>> kayuSequences = new ArrayList<>();
+    kayuSequences.add(firstSeries);
+    int sisa = cariSisaKayu(firstSeries);
+    int min = cariMinPanjang(firstSeries);
+    kayuSequences.get(0).add(min);
+    kayuSequences.get(0).add(sisa);
+    int x = 1;
+    while (sisa != 0){
+      ArrayList<Integer> temp = new ArrayList<>();
+      for (int i = 0; i < numKayu; i++){
+        temp.add(kayuSequences.get(x-1).get(i) - min);
+      }
+      sisa = cariSisaKayu(temp);
+      min = cariMinPanjang(temp);
+    
+      kayuSequences.add(temp);
+      kayuSequences.get(x).add(min);
+      kayuSequences.get(x).add(sisa);
+    }
+
+  }
+
+  public static int cariMinPanjang(ArrayList<Integer> arr){
+    int min = Integer.MAX_VALUE;
+    for (int i = 0; i < arr.size(); i++){
+      if (arr.get(i) < min){
+        min = arr.get(i);
+      }
+    }
+    return min;
+  }
+
+  public static int cariSisaKayu(ArrayList<Integer> arr){
+    int sisa = 0;
+    for (int i = 0; i < arr.size(); i++){
+      if(arr.get(i) > 0){
+        sisa++;
+      }
+    }
+    return sisa;
   }
 }
