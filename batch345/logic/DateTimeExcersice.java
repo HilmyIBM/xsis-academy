@@ -21,6 +21,7 @@ public class DateTimeExcersice {
         long monthCount = ChronoUnit.MONTHS.between(startDate, endDate);
         long yearCount = ChronoUnit.YEARS.between(startDate, endDate);
 
+        System.out.println(startDate.getDayOfWeek().getValue());
         System.out.println(dayCount);
         System.out.println(monthCount);
         System.out.println(yearCount);
