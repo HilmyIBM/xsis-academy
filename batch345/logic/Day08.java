@@ -4,8 +4,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 public class Day08 {
@@ -145,11 +143,15 @@ public class Day08 {
     }
 
     public static void beautifulDays(int i, int j, int k) {
-        ArrayList<Double> hariIndah = new ArrayList<>();
+        ArrayList<Integer> hariIndah = new ArrayList<>();
         for (int i2 = i; i2 <= j; i2++) {
-            double result = Math.abs(i2 - reverseNum(i2)) / k;
-
+            int difference = Math.abs(i2 - reverseNum(i2));
+            if (difference % k == 0) {
+                hariIndah.add(i2);
+            }
         }
+
+        System.out.println(hariIndah.toString());
     }
 
     public static int reverseNum(int num) {
@@ -216,6 +218,12 @@ public class Day08 {
                     validateAge(birthDateString);
                     break;
                 case 6:
+                    System.out.print("\nMasukkan nilai i j k : ");
+                    int i = sc.nextInt();
+                    int j = sc.nextInt();
+                    int k = sc.nextInt();
+                    sc.nextLine();
+                    beautifulDays(i, j, k);
                     break;
                 case 9:
                     System.out.println("Terima kasih!");
