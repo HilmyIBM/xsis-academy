@@ -160,6 +160,23 @@ public class Day08 {
         return Integer.parseInt(reversedString);
     }
 
+    public static void maxIceLoli(int uang) {
+        if (uang == 0) {
+            System.out.println("Bambang tidak bisa membeli Es Loli karena tidak punya uang");
+            return;
+        }
+
+        int paidIce = uang / 1000;
+        if (paidIce == 0) {
+            System.out.println("Uang Bambang tidak cukup");
+            return;
+        }
+
+        int freeIce = paidIce / 5;
+        int totalIce = paidIce + freeIce;
+        System.out.println("Maksimal Es Loli yang bisa didapatkan Bambang adalah " + totalIce + " Es Loli");
+    }
+
     public static boolean askContinue(Scanner sc) {
         System.out.print("\nKembali ke menu utama? (y/n): ");
         String response = sc.nextLine().toLowerCase();
@@ -177,6 +194,7 @@ public class Day08 {
             System.out.println("4. Hitung harga sewa warnet");
             System.out.println("5. Validasi Umur untuk Konser");
             System.out.println("6. Beautiful Days");
+            System.out.println("7. Maksimal Es Loli");
             System.out.println("9. Keluar");
             System.out.print("\nPilih menu: ");
             int choose_menu = sc.nextInt();
@@ -224,6 +242,12 @@ public class Day08 {
                     int k = sc.nextInt();
                     sc.nextLine();
                     beautifulDays(i, j, k);
+                    break;
+                case 7:
+                    System.out.print("\nMasukkan Jumlah Uang Bambang : ");
+                    int uang = sc.nextInt();
+                    sc.nextLine();
+                    maxIceLoli(uang);
                     break;
                 case 9:
                     System.out.println("Terima kasih!");
