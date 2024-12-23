@@ -322,7 +322,7 @@ public class Day06 {
         int len = input.length();
 
         for (int i = 0; i<len; i++){ //rows
-            for (int j = 0; j < len/2; j++){
+            for (int j = 0; j < (len/2) + 1; j++){
                 System.out.print("*");
             }
                 System.out.print(input.charAt(i));
