@@ -36,6 +36,7 @@ public class Day06_PR {
         sc.close();
     }
 
+    // Nomor 1
     static void SOSChecker(String input) {
         String correctionPattern = "SOS";
         int counter = 0;
@@ -56,13 +57,18 @@ public class Day06_PR {
         System.out.println(wrongSOS);
     }
 
+    // Nomor 2
     static void namePrinting(String input) {
         char[] data = input.toCharArray();
+        int starCount = data.length/2;
         for (int i = 0; i < data.length; i++) {
-            System.out.println("*".repeat(3) + data[i] + "*".repeat(3));
+            String left = "*".repeat(starCount);
+            String right = "*".repeat(starCount);
+            System.out.println(left + data[i] + right);
         }
     }
 
+    // Nomor 3
     static void jumpingHeight(int maxJump, String banyakRintangan) {
         int botolRamuan = 0;
         String[] banyakRintangan_not_fix = banyakRintangan.split(" ");
