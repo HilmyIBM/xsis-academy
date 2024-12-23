@@ -52,15 +52,11 @@ public class Day07 {
     public static void main(String[] args) {
         int menu = 0;
         while (true) {
-            System.out.println("1. Menghitung Lembah");
-            System.out.println("2. Password Encryption");
-            System.out.println("3. Mencari Element TInggi");
-            System.out.println("4. AIUEO");
-            System.out.println("5. Password Check");
-            System.out.println("6. SOS");
-            System.out.println("7. * Adenia *");
-            System.out.println("8. Obstacle");
-            System.out.println("9. Exit");
+            System.out.println("1. Kayu");
+            System.out.println("2. Tebak Angka");
+            System.out.println("3. Bensin Ojol");
+            System.out.println("4. Memasak Pukis");
+            System.out.println("5. Exit");
             System.out.print("Input: ");
             menu = scanInt();
             switch (menu) {
@@ -77,26 +73,10 @@ public class Day07 {
                     pause();
                     break;
                 case 4:
-                    // aiueo();
+                    pukis();;
                      pause();
                     break;
                 case 5:
-                    // password();
-                    pause();
-                    break;
-                case 6:
-                    // sos();
-                    pause();
-                    break;  
-                case 7:
-                    // adenia();
-                    pause();
-                    break;
-                case 8:
-                    // obstacle();
-                    pause();
-                    break;
-                case 9:
                     System.exit(0);
                     break;
                 default:
@@ -108,19 +88,23 @@ public class Day07 {
     public static void woood(){
         System.out.print("Total Kayu: ");
         int total = scanInt();
-        int[] kayu = new int[total+1];
+        int[] kayu = new int[total];
         System.out.print("Kayu: ");
         for(int i = 0;i<total;i++){
             kayu[i] = sc.nextInt();
         }
         sc.nextLine();
         Arrays.sort(kayu);
-        for(int i = 1;i<=total;){
-            int pengurang = kayu[i];
+        for(int i = 0;i<total;){
+            for(int j = 0; j<total;j++){
+                System.out.println("Index: "+j+" kayu:" +kayu[j]);
+            }
+            int pengurang = kayu[i]; // 3
+            System.out.print("Pengurang: " + pengurang);
             int jagajagaindex = i;
-            System.out.println("total: " + (total-i+1));
-            for(int j =jagajagaindex;j<=total;j++){
-                kayu[j] -= pengurang;
+            System.out.println("     total: " + (total-i));
+            for(int j =jagajagaindex;j<total;j++){
+                kayu[j] -= pengurang; // 2 - 2
                 if(kayu[j] == 0){
                     i++;
                 }
@@ -218,11 +202,23 @@ public class Day07 {
         }
     }
     public static void pukis(){
-        double terigu = 7.6667;
-        double gula = 12.6667;
-        double susu = 6.6667;
-        System.out.println("Masukan jumlah kue pukis yang dibutuhkan: ");
+        HashMap<String, Double> map = new HashMap<>();
+        map.put("terigu", 7.6667);
+        map.put("gula", 12.6667);
+        map.put("susu", 6.6667);
+        System.out.print("Masukan jumlah kue pukis yang dibutuhkan: ");
         int n = scanInt();
-        System.out.printf("");
-    }    
+        System.out.printf("Berikut adalah resep untuk membuat %d kue pukis\n", n);
+        System.out.printf("%.6fgr terigu\n", (map.get("terigu")*n));
+        if((map.get("terigu")*n) - (int)((map.get("terigu")*n)) < 0.001){
+            System.out.printf("%.2fgr terigu\n", (map.get("terigu")*n));
+            System.out.printf("%.2fgr gula\n", (map.get("gula")*n));
+            System.out.printf("%.2fmL susu\n", (map.get("susu")*n));
+        }else{
+            System.out.printf("%.3fgr terigu\n", (map.get("terigu")*n));
+            System.out.printf("%.3fgr gula\n", (map.get("gula")*n));
+            System.out.printf("%.3fmL susu\n", (map.get("susu")*n));
+        }
+    }
+        
 }
