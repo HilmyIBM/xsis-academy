@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Simulasi {
@@ -76,7 +77,7 @@ public class Simulasi {
                      pause();
                     break;
                 case 5:
-                    // validasiUmur();
+                    roundNilai();
                     pause();
                     break;
                 case 6:
@@ -162,5 +163,53 @@ public class Simulasi {
             }
         }
         return false;
+    }
+
+    public static void donasi(){
+        System.out.println("Data input: ");
+        HashMap<String, Integer> map = new HashMap<>();
+        while(true){
+            String datainput = scanStr().toLowerCase();
+            String[] parsedatainput = datainput.split(" = ");
+            int jumlahOrang = Integer.parseInt(parsedatainput[1]);
+            if(map.get(parsedatainput[0]) == 0){
+                map.put(parsedatainput[0], jumlahOrang);
+            }else{
+                map.put(parsedatainput[0], map.get(parsedatainput[0]) + jumlahOrang);
+            }
+            System.out.println("Input data lagi?(y/n)");
+            String validation = scanStr();
+            if (validation.equals("n")) {
+                break;
+            }
+        }
+        //jumlah baju laki = 5
+//      laki = 1 
+//      cewek = 2 || 3
+//      anak = 3
+//      bayi = 5   
+//     5 + 10 + 9 + 25
+        System.out.println("Menu:");
+        System.out.println("1. laki dewasa");
+        System.out.println("2. wanita dewasa");
+        System.out.println("3. Anak-anak");
+        System.out.println("4. Bayi");
+        System.out.print("Input Baju untuk: ");
+    }
+
+    public static void roundNilai(){
+        System.out.print("Input: ");
+        String input = scanStr();
+        String[] parse = input.split("\\s*,\\s*");
+        int[] nilai = new int[parse.length]; 
+        for(int i = 0;i<parse.length;i++){
+            nilai[i] = Integer.parseInt(parse[i]);
+            if(nilai[i] > 35){
+                if(nilai[i]%5 >2){
+                    nilai[i] = nilai[i] + (5-(nilai[i]%5));
+                }
+            }
+            System.out.println(nilai[i]);
+        }
     }
 }
