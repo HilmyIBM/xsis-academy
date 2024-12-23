@@ -1,18 +1,14 @@
 import java.util.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
 
 public class Day07 {
     static Scanner input = new Scanner(System.in);
 
-    public static void main(String[] args) {
-        /*
-         * System.out.print("Masukkan jumlah kayu : ");
-         * int jumlah_kayu = input.nextInt();
-         * input.nextLine();
-         * potong_kayu(jumlah_kayu);
-         */
+    public static void main(String[] args) {  
+        /*  System.out.print("Masukkan jumlah kayu : ");
+         int jumlah_kayu = input.nextInt();
+         input.nextLine();
+         potong_kayu(jumlah_kayu); */
+         
 
         /*
          * System.out.println("=======================");
@@ -22,25 +18,32 @@ public class Day07 {
          * System.out.print("Masukkan taruhan : ");
          * int taruhan = input.nextInt();
          * input.nextLine();
-         * System.out.print("Masukkan tebakan : ");
+         * System.out.print("Masukkan tebakan (U/D) : ");
          * String tebakan = input.nextLine();
          * taruhan(point, taruhan, tebakan);
          */
 
         System.out.println("=======================");
-        ojol();
+        System.out.print("Masukkan jumlah customer : ");
+        int customer=input.nextInt();
+        input.nextLine();
+        ojol(customer);
 
-        System.out.println("=======================");
+     /*    System.out.println("=======================");
         System.out.print("Masukkan jumlah kue : ");
         int n = input.nextInt();
         input.nextLine();
         kue(n);
+
+        System.out.println("======================="); */
+        
     }
 
     public static void potong_kayu(int jumlah_kayu) {
         ArrayList<Integer> list = new ArrayList<>();
         int k = 0;
         int temp = 0;
+        System.out.print("Masukkan panjang Kayu : ");
         for (int i = 0; i < jumlah_kayu; i++) {
             list.add(input.nextInt());
         }
@@ -49,7 +52,7 @@ public class Day07 {
         while (k <= list.size()) {
             for (int j = 0; j < list.size(); j++) {
                 temp = list.get(j) - min;
-                list.set(j, temp);
+                list.set(j, temp);  
             }
             list.removeAll(Collections.singleton(0));
             min = Collections.min(list);
@@ -82,6 +85,8 @@ public class Day07 {
             System.out.println("You Lose");
             point -= taruhan;
             System.out.println("Point saat ini: " + point);
+        }else if(hasil == 5){
+            System.out.println("Seri");
         }
         System.out.println("Apakah anda ingin bermain lagi? (Y/N)");
         again = input.nextLine();
@@ -103,8 +108,37 @@ public class Day07 {
         }
     }
 
-    public static void ojol() {
-
+    public static void ojol(int n) {
+        String[] jarak=new String[n];
+        double[] hasil=new double[n];
+        double temp=0;
+        double k=0;
+        int l=0;
+        for(int i=0;i<n;i++){
+            System.out.print("JARAK "+(i+1)+ " : ");
+            jarak[i]=input.nextLine();
+        }
+        for(int j=0;j<n;j++){
+           if(jarak[j].contains("KM")){
+                jarak[j]=jarak[j].replace("KM", "");
+                hasil[j]=Double.parseDouble(jarak[j])*1000;
+           }else{
+                jarak[j]=jarak[j].replace("M", "");
+                hasil[j]=Double.parseDouble(jarak[j]);
+           }
+        }
+        System.out.print("Customer yang dihitung : ");
+        int hitung_customer=input.nextInt();
+        for(int z=0;z<hitung_customer;z++){
+            temp+=hasil[z];
+        }
+        temp=temp/1000;
+        System.out.println("Jarak tempuh : "+temp + " KM");
+        while (k *2.5 <= temp || k * 2.5 == temp) {
+            l++;
+            k++;
+        }
+        System.out.println("Bensin : "+l + " Liter");
     }
 
     public static void kue(int n) {
