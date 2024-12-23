@@ -68,7 +68,7 @@ public class Simulasi {
                     pause();
                     break;
                 case 3:
-                    // countWorkingDay();
+                    keranjang();
                     pause();
                     break;
                 case 4:
@@ -128,5 +128,39 @@ public class Simulasi {
         }
     }
 
-    
+    public static void keranjang(){
+        String[] keranjang = new String[3];
+        int[] res = new int[3];
+        int total = 0;
+        for(int i = 0;i<3 ; i++){
+            while (true) {
+                System.out.print("Keranjang " + (i+1) + " = ");
+                keranjang[i] = scanStr().toLowerCase();
+                if(keranjang[i].equals("kosong")){
+                    res[i] = 0;
+                }else if(checkIsNumber(keranjang[i])){
+                    res[i] = Integer.parseInt(keranjang[i]);
+                    total += res[i];
+                }else{
+                    continue;
+                }
+                break;
+            }
+        }
+        System.out.println("Masukan keranjang yang di bawa ke pasar: ");
+        String pasar = scanStr();
+        String[] parse = pasar.split(" ");
+        int indexkeranjang = Integer.parseInt(parse[1]);
+        total -= res[indexkeranjang-1];
+        System.out.println("Sisa Buah = " + (total == 0 ? "Kosong" : total));
+    }
+    public static boolean checkIsNumber(String str){
+        for(int i = 0;i<str.length();i++){
+            char ch = str.charAt(i);
+            if(Character.isDigit(ch)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
