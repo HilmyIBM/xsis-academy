@@ -9,9 +9,13 @@ public class Day07 {
 private static Scanner scanIn = new Scanner(System.in);
 
     public static void main(String[] args) {
-        tukangKayu();
-    }
+        // tukangKayu();
+        //typeOf(22/(int)7);
+        double nilai = 5.00;
 
+        System.out.printf("Nilai tanpa desimal dari %f adalah %s", nilai, buangDesimalNol(nilai));
+    }
+                
     public static void tukangKayu() {
         System.out.println("\033\143");
         System.out.println("Potong Kayu");
@@ -71,5 +75,18 @@ private static Scanner scanIn = new Scanner(System.in);
         for(int i : total){
             System.out.println(i);
         }
+    }
+
+    public static void typeOf(Object obj) {
+        System.out.println("Type of object is: " + obj.getClass().getSimpleName());
+    }
+
+    private static String buangDesimalNol(double nilai) {
+        // TODO Auto-generated method stub
+        return ("" +
+            (nilai == Math.floor(nilai)
+                ? String.format("%d", (int)nilai)
+                : nilai)
+        );
     }
 }
