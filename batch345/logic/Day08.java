@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -43,6 +44,25 @@ public class Day08 {
                         tglLibur.add(input.nextLine());
                     } 
                     batchXsis(hariMasuk, tglLibur);
+                    break;                    
+                case 5:
+                    System.out.print("masukkan tgl lahir (mm/dd/yyyy): ");
+                    String tglLahir = input.nextLine();
+                    hitungUmur(tglLahir);
+                    break;                    
+                case 6:
+                    System.out.print("I (1-31): ");
+                    int numI = input.nextInt();
+                    System.out.print("J (1-31): ");
+                    int numJ = input.nextInt();
+                    System.out.print("K (1-31): ");
+                    int numK = input.nextInt();
+                    hariIndah(numI, numJ, numK);
+                    break;                    
+                case 7:
+                    System.out.print("masukkan uang : Rp.");
+                    Double jmlhUang = input.nextDouble();
+                    hitungEsLoli(jmlhUang);
                     break;                    
                 default:
                     System.out.println("Nomor tidak ada!");
@@ -89,7 +109,6 @@ public class Day08 {
                 tanggal = tanggal.plusDays(1);
             }
 
-            // Perhitungan hari libur yang bukan akhir pekan
             for (int i = 0; i < hariLibur.size(); i++) {
                 if (!hariLibur.get(i).getDayOfWeek().toString().equals("SATURDAY") && 
                     !hariLibur.get(i).getDayOfWeek().toString().equals("SUNDAY")) {
@@ -105,7 +124,65 @@ public class Day08 {
             System.out.println("Kelas akan ujian pada tgl : " + tanggal.plusDays(totalDays));
 
         } catch (Exception e) {
-            System.out.println("Format tgl salah");
+            System.out.println("Format tgl salah" +e.getMessage());
         }
     }
+
+    public static void hitungUmur(String tglLahir){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");  // Format yang benar
+        try {
+            LocalDate tglLahirKonser = LocalDate.parse(tglLahir, formatter);
+            LocalDate date = LocalDate.now();  
+            long yearCount = ChronoUnit.YEARS.between(tglLahirKonser, date);
+            
+                if (yearCount >= 18) {
+                    if (date.getMonth().equals(tglLahirKonser.getMonth()) && date.getDayOfMonth() == tglLahirKonser.getDayOfMonth()) {
+                        System.out.println("Umur anda : " + yearCount);
+                        System.out.println("Selamat ulang tahun. konser gratis untuk kamu");
+                    }else{
+                        System.out.println("Umur anda : " + yearCount);
+                        System.out.println("Biaya konser = 1.500.000\nSilahkan melakukan pembayaran");
+                    }
+                       
+                } else {
+                    System.out.println("Umur anda : " + yearCount);
+                    System.out.println("Maaf anda belum cukup umur untuk menonton konser ini");
+                } 
+            }
+         catch (Exception e) {
+            System.out.println("Format tgl salah" + e.getMessage());
+        }
+    }
+
+    public static void hariIndah(int intI, int intJ, int numK){
+        ArrayList<Integer> hariIndah = new ArrayList<>();
+        for (int i = 0; i <= intJ-intI; i++) {  
+            int day = intI + i;   
+            String numStr = Integer.toString(day);
+            char[] digits = numStr.toCharArray();
+
+            char temp = digits[0];
+            digits[0] = digits[1];
+            digits[1] = temp;
+
+            int nilaiDibalik = Integer.parseInt(new String(digits));
+            int perhitungan = day - nilaiDibalik;
+            if (perhitungan % numK == 0) hariIndah.add(day);
+        }
+
+        for (Integer d : hariIndah) {
+            System.out.print(d + " ");
+        }
+    }
+
+    public static void hitungEsLoli(double uang){
+        double jmlhEs = Math.floor(uang/1000);
+        double esGratis = Math.floor(jmlhEs/5);
+
+        System.out.println("\nJumlah es yang didapat jika uang Bambang Rp." + uang + " adalah = " + (jmlhEs + esGratis));
+        System.out.println("Uang kembalian = Rp." + (uang%1000));
+    }
 }
+
+
+
