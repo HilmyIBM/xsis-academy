@@ -265,7 +265,7 @@ public class Day08 {
         int angka = 0;
         ArrayList<Integer> list = new ArrayList<>();
         for(;i<j;i++){
-            angka = (i/10 - i%10) * 9;
+            angka = (i/10 - i%10) * 9; // 20/10 - 20%10 = 2-0
             if(angka%k == 0){
                 list.add(i);
             }
@@ -278,12 +278,12 @@ public class Day08 {
         System.out.print("Masukan jumlah uang: Rp ");
         int uang = scanInt();
         double a1 = uang/1000;  // Suku pertama
-        double r = 1.0 / 5;  // Rasio pembagian (membagi dengan 5)
-        System.out.println(r);
-        int n = 2;  // Suku yang ingin dihitung
+        double r = 1.0 / 5;  // Rasio
+        int n = 2;  // 
         int res = (int)a1;
         while(true){
             double an = a1 * Math.pow(r, n - 1);
+            System.out.println(an);
             if(an < 1){
                 break;
             }
@@ -305,7 +305,7 @@ public class Day08 {
 // 13 -31 = 18 ==
 // 14 - 41 = 27
 // 15 - 51 = 36 ====
-// 16 - 61 = 45======
+// 16 - 61 = 45====== 1 6 = 1-6 = 5*9
 // 17 - 71 = 54
 // 18 - 81 = 63 ===========
 // 19 - 91 = 72 =====
