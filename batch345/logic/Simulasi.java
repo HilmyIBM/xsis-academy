@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -77,8 +78,80 @@ public class Simulasi {
             }
 
             System.out.println("\nTotal baju = " + totalBaju);
-
         }
+    }
+
+    public static void finalGrade(String nilaiString) {
+        String[] arrStringsNilai = nilaiString.split(",");
+        int[] nilai = new int[arrStringsNilai.length];
+
+        for (int i = 0; i < arrStringsNilai.length; i++) {
+            nilai[i] = Integer.parseInt(arrStringsNilai[i]);
+            int kelipatan = 0;
+            while (kelipatan < nilai[i]) {
+                kelipatan += 5;
+            }
+            if (nilai[i] > 35) {
+                if (kelipatan - nilai[i] < 3) {
+                    nilai[i] = kelipatan;
+                }
+            }
+            System.out.println(nilai[i]);
+        }
+    }
+
+    public static void checkPanagram(String text) {
+        text = text.toLowerCase();
+        boolean isPanagram = true;
+
+        for (char i = 'a'; i <= 'z'; i++) {
+            if (!text.contains(String.valueOf(i))) {
+                isPanagram = false;
+                break;
+            }
+        }
+        System.out.println((isPanagram ? "\nKalimat ini adalah panagram" : "\nKalimat ini bukan panagram"));
+    }
+
+    public static int fib2(int n) {
+        if (n <= 1)
+            return n;
+        int a = 0, b = 1, c;
+        for (int i = 2; i <= n; i++) {
+            c = a + b;
+            a = b;
+            b = c;
+        }
+        return b;
+    }
+
+    public static void deretBilangan(int n) {
+        ArrayList<String> arrFib = new ArrayList<>();
+        ArrayList<String> arrOdd = new ArrayList<>();
+        ArrayList<String> arrEven = new ArrayList<>();
+
+        int sumFib = 0;
+        int sumOdd = 0;
+        int sumEven = 0;
+
+        for (int i = 0; i < n; i++) {
+            arrFib.add(String.valueOf(fib2(i + 1)));
+            sumFib += Integer.parseInt(arrFib.get(i));
+            arrOdd.add(String.valueOf(1 + i * 2));
+            sumOdd += Integer.parseInt(arrOdd.get(i));
+            arrEven.add(String.valueOf(2 + i * 2));
+            sumEven += Integer.parseInt(arrEven.get(i));
+        }
+
+        double avgFib = (double) sumFib / n;
+        double avgOdd = (double) sumOdd / n;
+        double avgEven = (double) sumEven / n;
+
+        System.out.println("Fibonacci : " + String.join(",", arrFib) + " | sum : " + sumFib + " | avg : " + avgFib);
+        System.out.println(
+                "Output : Genap : " + String.join(",", arrEven) + " | sum : " + sumEven + " | avg : " + avgOdd);
+        System.out.println(
+                "Output : Ganjil : " + String.join(",", arrOdd) + " | sum : " + sumOdd + " | avg : " + avgEven);
     }
 
     public static boolean askContinue(Scanner sc) {
@@ -132,6 +205,22 @@ public class Simulasi {
                     break;
                 case 4:
                     hitungBaju(sc);
+                    break;
+                case 5:
+                    System.out.print("\nMasukkan daftar nilai (pisahkan dengan \",\")");
+                    String nilaiString = sc.nextLine();
+                    finalGrade(nilaiString);
+                    break;
+                case 6:
+                    System.out.print("\nMasukkan teks : ");
+                    text = sc.nextLine();
+                    checkPanagram(text);
+                    break;
+                case 7:
+                    System.out.print("\nMasukkan maksimal himpunan : ");
+                    int n = sc.nextInt();
+                    sc.nextLine();
+                    deretBilangan(n);
                     break;
                 case 0:
                     System.out.println("Terima kasih!");
