@@ -5,8 +5,8 @@ import java.util.Scanner;
 public class _PRDay06 {
     public static void main(String[] args) {
         // sOs();
-        // adeniaStar();
-        magicPotion();
+        adeniaStar();
+        // magicPotion();
     }
 
     public static void sOs(){
@@ -39,7 +39,7 @@ public class _PRDay06 {
 
         // Process
         for(char i : word.toCharArray()){
-            System.out.println("*".repeat(3)+i+"*".repeat(3));
+            System.out.println("*".repeat((int)Math.round((double)word.length()/2.0))+i+"*".repeat((int) word.length()/2));
         }
 
         s.close();
