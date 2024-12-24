@@ -22,6 +22,13 @@ public class MyFirstJavaProgram {
         // forLoop();
         // Human jack = new Human("Fito", "laki-laki");
         // System.out.println(jack.getName());
+        // String test = "";
+        // char a = 'a';
+        // char k = 'k';
+        // test += a;
+        // test += k;
+        // System.out.println(test);
+        System.out.println(String.format("%05d", 100));
     }
 
     public static void forLoop() {

@@ -172,8 +172,14 @@ public class Day08 {
             return;
         }
 
-        int freeIce = paidIce / 5;
-        int totalIce = paidIce + freeIce;
+        int freeIce = paidIce;
+        int totalIce = paidIce;
+
+        do {
+            freeIce /= 5;
+            totalIce += freeIce;
+        } while (freeIce / 5 != 0);
+
         System.out.println("Maksimal Es Loli yang bisa didapatkan Bambang adalah " + totalIce + " Es Loli");
     }
 
