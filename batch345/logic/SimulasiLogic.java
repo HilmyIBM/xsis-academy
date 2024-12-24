@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class SimulasiLogic {
   private static Scanner input = new Scanner(System.in);
   public static void main(String[] args) {
-    soalKeempat();
+    soalKelima();
   }
 
   public static void soalPertama() {
@@ -70,7 +70,6 @@ public class SimulasiLogic {
   }
 
   public static void soalKeempat() {
-    int selection = Integer.parseInt(input.nextLine());
     int totalLakiDewasa = 0;
     int totalWanitaDewasa = 0;
     int totalAnak = 0;
@@ -79,6 +78,7 @@ public class SimulasiLogic {
     char userPrompt = 'y';
     do {
       System.err.print("Menu :\n1. Untuk Laki-Laki Dewasa\n2. Untuk Wanita Dewasa\n3. Untuk Anak-Anak\n4. Untuk Bayi\nPilihan (1/2/3/4) : ");
+      int selection = Integer.parseInt(input.nextLine());
       switch (selection){
         case 1:
           System.out.print("Jumlah laki-laki dewasa : ");
@@ -102,13 +102,54 @@ public class SimulasiLogic {
       }
       System.out.print("Ingin input lagi? (y/n) : ");
       userPrompt = input.nextLine().toLowerCase().charAt(0);
+      System.out.print("\033[H\033[2J");
+      System.out.flush();
     } while (userPrompt == 'y' && userPrompt != 'n');
     
     int bajuLakiDewasa = totalLakiDewasa;
     int bajuWanitaDewasa = totalWanitaDewasa*2;
     int bajuAnak = totalAnak*3;
     int bajuBayi = totalBayi*5;
+    totalBaju = bajuLakiDewasa + bajuWanitaDewasa + bajuAnak + bajuBayi;
+    if (totalBaju > 10 && totalBaju%2 != 0){
+      totalBaju += totalWanitaDewasa;
+    }
+
+    System.out.println(totalBaju + " baju");
   }
 
+  public static void soalKelima(){
+    System.out.print("Input : ");
+    String[] strInput = input.nextLine().replace(" ", "").split(",");
+    int[] input = convertToInt(strInput);
+    for (int i = 0; i < input.length ; i++){
+      int tempRound;
+      if(input[i]%10 > 5 && input[i]%10 != 0){
+        tempRound = input[i] + (10 - input[i]%10);
+      } else {
+        tempRound = input[i] + (5 - input[i]%10);
+      }
+
+      if ((tempRound - input[i]) < 3 && input[i] > 35){
+        input[i] = tempRound;
+      }
+    }
+
+    for (int i = 0; i < input.length; i++){
+      System.out.println(input[i]);
+    }
+  }
+
+  public static int[] convertToInt(String[] str){
+    int[] intArray = new int[str.length];
+    for(int i = 0; i < str.length; i++) {
+      intArray[i] = Integer.parseInt(str[i]);
+    }
+    return intArray;
+  }
+
+  public static void soalKeenam() {
+    System.out.print("Input : ");
+  }
 
 }
