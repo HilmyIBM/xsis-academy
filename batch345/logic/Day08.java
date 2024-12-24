@@ -11,7 +11,7 @@ public class Day08 {
     static Scanner input = new Scanner(System.in);
     static DateTimeFormatter formatter=DateTimeFormatter.ofPattern("MM/dd/yyyy");
     public static void main(String[] args) {
-        parkir();
+     /*   parkir();
         System.out.println("================");
         System.out.print("Masukkan Tgl Pinjam : ");
         String tgl_pinjam=input.nextLine();
@@ -19,7 +19,7 @@ public class Day08 {
         System.out.print("Masukkan Tgl diberikan : ");
         String tgl_buku=input.nextLine();
         LocalDate batas_buku=LocalDate.parse(tgl_buku,formatter);
-        buku(buku_pinjam,batas_buku);
+        buku(buku_pinjam,batas_buku); */
         System.out.println("================");
         System.out.print("Masukkan tanggal : ");
         String tgl=input.nextLine();
@@ -57,14 +57,19 @@ public class Day08 {
         System.out.println("Waktu Diberikan : "+waktu_diberikan);
         long denda=ChronoUnit.DAYS.between(waktu_pinjam, waktu_diberikan);
         long hasil=denda-3;
-        System.out.println("Denda : " + hasil + " hari");
-        System.out.println("Bayar : "+hasil*500);
+        if(hasil==0 || hasil < 0){
+            System.out.println("Buku dikembalikan tepat waktu tidak ada denda");
+        }else{
+            System.out.println("Denda : " + hasil + " hari");
+            System.out.println("Bayar : "+hasil*500);
+        }
     }
 
     public static void FT1(LocalDate tgl){
         System.out.println("Tanggal Mulai (mm/dd/yyyy) : " + tgl.format(formatter));
         System.out.print("Masukkan Jumlah tgl libur : ");
         int libur=input.nextInt();
+        input.nextLine();
         int total_libur=libur;
         int weekend=0;
         int hari=10+total_libur;
@@ -98,10 +103,11 @@ public class Day08 {
     public static void konser(LocalDate tgl_lahir){
         System.out.print("Tgl Lahir : "+ tgl_lahir.format(formatter));
         System.out.println();
-
         LocalDate today=LocalDate.now();        
+        
         int hari=today.getDayOfMonth();
         Month bulan =today.getMonth();
+        
         int hari_ultah=tgl_lahir.getDayOfMonth();
         Month bulan_ultah=tgl_lahir.getMonth();
         
