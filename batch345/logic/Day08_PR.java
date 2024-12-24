@@ -4,7 +4,7 @@ import java.util.List;
 public class Day08_PR {
     public static void main(String[] args) {
         // cariHariIndah(20, 23, 6);
-        hitungTotalEsLoli(10000,1000, 5);
+        hitungTotalEsLoli(24000,1000, 5);
     }
 
     // Nomor 1 (On Going)
@@ -22,21 +22,19 @@ public class Day08_PR {
             System.out.println("Hari: " + hari + ", Kebalikan: " + kebalikan + ", Perbedaan: " + perbedaan);
 
             // Memeriksa apakah hari tersebut habis dibagi k dan perbedaannya habis dibagi k
-            if (hari % k == 0) {
-                System.out.println("Hari " + hari + " habis dibagi " + k);
-                if (perbedaan % k == 0) {
-                    System.out.println("Perbedaan " + perbedaan + " habis dibagi " + k);
-                    hasil.add(hari); // Jika kedua kondisi dipenuhi, tambahkan hari ke hasil
-                } else {
-                    System.out.println("Perbedaan " + perbedaan + " tidak habis dibagi " + k);
-                }
+            if (perbedaan % k == 0) {
+                System.out.printf("Hari %d habis dibagi %d\n", perbedaan, k);
+                hasil.add(hari);
             } else {
-                System.out.println("Hari " + hari + " tidak habis dibagi " + k);
+                System.out.printf("Hari %d tidak habis dibagi %d\n", perbedaan, k);
             }
         }
 
         // Tampilkan hasil
-        System.out.println("Hari yang indah: " + hasil);
+        System.out.println("Hari yang indah: ");
+        for (int index = 0; index < hasil.size(); index++) {
+            System.out.println(hasil.get(index));
+        }
     }
 
     // Fungsi untuk membalikkan angka
@@ -52,13 +50,15 @@ public class Day08_PR {
     // Nomor 2 (Hitung es loli)
     static void hitungTotalEsLoli(int uang, int hargaEsLoli, int stikPerEsLoliGratis) {
         int esLoliDibeli = uang / hargaEsLoli;
-        int totalEsLoli = esLoliDibeli;
         int stikEsLoli = esLoliDibeli;
+
+        int totalEsLoli = esLoliDibeli;
         while (stikEsLoli >= stikPerEsLoliGratis) {
             int esLoliGratis = stikEsLoli / stikPerEsLoliGratis;
             totalEsLoli += esLoliGratis;
             stikEsLoli = esLoliGratis + (stikEsLoli % stikPerEsLoliGratis);
         }
-        System.out.println(totalEsLoli);;
+        System.out.println(totalEsLoli);
+        ;
     }
 }
