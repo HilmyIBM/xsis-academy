@@ -43,21 +43,19 @@ public class Day08AssignmentPR {
         reversedStr = new StringBuilder(strNumber).reverse().toString();
     }
 
-    // Convert back to an integer and handle overflow
-    try {
-        return Integer.parseInt(reversedStr);
-    } catch (NumberFormatException e) {
-        System.out.println("Integer overflow");
-        return 0; // Return 0 if it overflows
-    }
+    return Integer.parseInt(reversedStr);
+
   }
 
   public static void soalKedua() {
     System.out.print("Uang Bambang : Rp ");
     int uangBambang = Integer.parseInt(input.nextLine());
-    int numAfforable = (int) Math.floor(uangBambang/1000);
-    int numBonus = (int) Math.floor(numAfforable/5);
-    int esLoliBambang = numAfforable+numBonus;
+    int numAffordable = (int) Math.floor(uangBambang/1000);
+    int numBonus = (int) Math.floor(numAffordable/5);
+    while (numBonus >= 5) {
+      numBonus += Math.floor(numBonus/5);
+    }
+    int esLoliBambang = numAffordable+numBonus;
     System.out.println("Jumlah maksimal es loli yang bisa dibeli Bambang dengan uang Rp "+ uangBambang + " adalah " + esLoliBambang +  " stik es loli");
   }
 }
