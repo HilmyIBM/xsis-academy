@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Day08Assignment {
   private static Scanner input = new Scanner(System.in);
   public static void main(String[] args) {
-    soalKetiga();
+    soalKelima();
   }
 
   public static void soalPertama() {
@@ -77,7 +77,52 @@ public class Day08Assignment {
   }
 
   public static void soalKeempat(){
-    
+    LocalTime rentStart = LocalTime.of(8, 15);
+    int perHourPrice = 3500;
+    int rentDuration = 3;
+    int rentPrice = rentDuration * perHourPrice;
+
+    LocalTime rentExpire = rentStart.plusHours(rentDuration);
+
+    String formattedPrice = "Rp. " + String.format("%,d", rentPrice);
+
+    System.out.println("Sewa anak tersebut akan selesai pada jam " + rentExpire + " dan biayanya " + formatPrice(rentPrice));
+
+    int rentExtension = 2;
+    rentExpire = rentExpire.plusHours(rentExtension);
+    rentDuration = (int) ChronoUnit.HOURS.between(rentStart, rentExpire);
+    rentPrice = rentDuration * perHourPrice;
+    System.out.println("Setelah melakukan perpanjangan durasi sebanyak " + rentExtension + " jam, maka biaya keseluruhannya menjadi " + formatPrice(rentPrice) + " dan akan berakhir pada jam " + rentExpire);
+  }
+
+  public static String formatPrice (int p) {
+    return "Rp. " + String.format("%,d", p);
+  }
+
+  public static void soalKelima() {
+    System.out.print("Input tanggal lahir (MM/DD/YYYY) : ");
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    LocalDate birthDate = LocalDate.parse(input.nextLine(), dateFormat);
+    System.out.println("Tanggal lahir yang dimasukkan: " + birthDate.format(dateFormat));
+
+    LocalDate currentDate = LocalDate.now();
+    int currentYear = currentDate.getYear();
+    int birthYear = birthDate.getYear();
+    int age = currentYear - birthYear;
+
+    if(age > 17){
+      // If sedang berulang tahun hari ini harga konser gratis, Else bayar harga 1.5jt
+      if (currentDate.getDayOfMonth() == birthDate.getDayOfMonth() && currentDate.getMonthValue() == birthDate.getMonthValue()){
+        System.out.println("Umur anda = " + age + " tahun");
+        System.out.println("Selamat ulang tahun. Konser gratis untuk kamu\nBiaya Konser = 0\nSilahkan melakukan pembayaran");
+      }else{
+        System.out.println("Umur anda = " + age + " tahun");
+        System.out.println("Biaya Konser = 1.500.000\nSilahkan melakukan pembayaran");
+      }
+    }else{
+      System.out.println("Umur anda = " + age + " tahun");
+      System.out.println("Maaf anda belum cukup umur untuk menonton konser ini");
+    }
   }
 }
 
