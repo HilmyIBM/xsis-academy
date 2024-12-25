@@ -244,6 +244,6 @@ public class simulasiUjian {
                 }
             }
         }
-        System.out.println(count);
+        System.out.println("Jumlah Himpunan dengan selisih " + n + " sebanyak : " + count);
     }
 }
