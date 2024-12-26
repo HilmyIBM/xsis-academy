@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -16,6 +17,7 @@ public class SimulasiLogic {
         System.out.println("8. Recursive Digits");
         System.out.println("9. Point Pulsa");
         System.out.println("10. Mencari Pasangan Array");
+        System.out.println("11. Mencari TheOneNumber");
         System.out.print("Masukkan Nomor Menu: ");
         switch (Integer.parseInt(sc.nextLine())) {
             case 1:
@@ -93,6 +95,9 @@ public class SimulasiLogic {
                 }
 
                 mencariPasanganArray(arrayParse, targetAngka);
+                break;
+            case 11:
+                iAmNumberOne(10000);
                 break;
             default:
                 main(args);
@@ -249,17 +254,31 @@ public class SimulasiLogic {
 
     // Nomor 6 (Pangram)
     static boolean pangram(String kalimat) {
-        HashSet<Character> checkCharacter = new HashSet<>();
+        // HashSet<Character> checkCharacter = new HashSet<>();
         // need to lowerCase because a and A is different (and make sure the a and A is
         // same)
-        String kata = kalimat.toLowerCase();
+        ArrayList<Character> checkCharacter = new ArrayList<>();
+        String kata = kalimat.replaceAll("[^a-zA-Z]", "").toLowerCase();
+        System.out.println(kata);
         for (char c : kata.toCharArray()) {
             if ((c >= 'a' && c <= 'z')) {
-                checkCharacter.add(c);
+                if (checkCharacter.contains(c)) {
+                    continue;
+                } else {
+                    checkCharacter.add(c);
+                }
             }
         }
         return checkCharacter.size() == 26;
     }
+
+    // Nomor 6 (Pangram Alternative)
+    // static boolean pangram2(String input) {
+    // StringBuilder sb = new StringBuilder();
+    // sb.append(input.replaceAll("[^0-9a-zA-Z]", "").toLowerCase());
+
+    // return sb.toString().length() == 26;
+    // }
 
     // Nomot 7 (Fibonacci dan mencari ganjil genap)
     static void fibonacci(int number) {
@@ -270,6 +289,7 @@ public class SimulasiLogic {
 
         // System.out.print(a + ", " + b + ", ");
         ganjil.add(a);
+        ganjil.add(b);
         fib.add(a);
         fib.add(b);
         for (int i = 2; i < number; i++) {
@@ -358,10 +378,27 @@ public class SimulasiLogic {
                 }
             }
         }
-
         // karena ada hasil yang duplikat
         System.out.println(counter / 2);
     }
 
-    
+    // Nomor 11
+    static void iAmNumberOne(int n) {
+        int number = 0, sum = 0, digit = 0;
+        for (int i = 100; i <= (n <= 1000 ? n : 1000); i++) {
+            number = i;
+            while (number != 1 && number != 4) {
+                sum = 0;
+                while (number > 0) {
+                    digit = number % 10;
+                    sum += Math.pow(digit, 2);
+                    number /= 10; // menghapus nilai akhir
+                }
+                number = sum;
+            }
+            if (number == 1) {
+                System.out.println(i + " is number One");
+            }
+        }
+    }
 }
