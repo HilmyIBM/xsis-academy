@@ -82,7 +82,7 @@ public class Simulasi {
     }
 
     public static void finalGrade(String nilaiString) {
-        String[] arrStringsNilai = nilaiString.split(",");
+        String[] arrStringsNilai = nilaiString.split("\\s*,\\s*");
         int[] nilai = new int[arrStringsNilai.length];
 
         for (int i = 0; i < arrStringsNilai.length; i++) {
@@ -154,6 +154,80 @@ public class Simulasi {
                 "Output : Ganjil : " + String.join(",", arrOdd) + " | sum : " + sumOdd + " | avg : " + avgEven);
     }
 
+    public static int recursiveSumDigit(long digit) {
+        if (digit % 10 == digit) {
+            return (int) digit;
+        }
+        String strDigit = String.valueOf(digit);
+        long sum = 0;
+        for (int i = 0; i < strDigit.length(); i++) {
+            sum += strDigit.charAt(i) - '0';
+        }
+        return recursiveSumDigit(sum);
+    }
+
+    public static void pointPulsa(int pulsa) {
+        int poin = 0;
+        int pembilang = 0;
+        System.out.print(poin);
+        pulsa -= 10000;
+        if (pulsa >= 10000) {
+            if (pulsa >= 30000) {
+                pembilang = 20000;
+                poin += 20000 / 1000;
+            } else {
+                pembilang = pulsa;
+                poin += pulsa / 1000;
+            }
+            pulsa -= pembilang;
+            System.out.print(" + " + pembilang / 1000);
+        }
+        if (pulsa > 30000) {
+            poin += (pulsa / 1000) * 2;
+            System.out.print(" + " + (pulsa / 1000) * 2);
+        }
+        System.out.print(" = " + poin);
+    }
+
+    public static void countFreqDifference(int f, Integer[] num) {
+        int countDiff = 0;
+        for (int i = 0; i < num.length; i++) {
+            for (int j = i + 1; j < num.length; j++) {
+                if (Math.abs(num[i] - num[j]) == f) {
+                    countDiff++;
+                }
+            }
+        }
+        System.out.println(countDiff);
+    }
+
+    public static int recursiveSumDigitPow(long digit) {
+        if (digit < 10) {
+            return (int) digit;
+        }
+        String strDigit = String.valueOf(digit);
+        long sum = 0;
+        for (int i = 0; i < strDigit.length(); i++) {
+            sum += Math.pow(strDigit.charAt(i) - '0', 2);
+        }
+        return recursiveSumDigitPow(sum);
+    }
+
+    public static void theNumberOne(int n) {
+        int num = 100;
+        int end = 1000;
+        int count = 0;
+
+        while (count < n && num <= end) {
+            int sum = recursiveSumDigitPow(num);
+            if (sum == 1) {
+                System.out.println(num + " is The One Number");
+                count++;
+            }
+            num++;
+        }
+    }
+
     public static boolean askContinue(Scanner sc) {
         System.out.print("\nKembali ke menu utama? (y/n): ");
         String response = sc.nextLine().toLowerCase();
@@ -167,11 +241,15 @@ public class Simulasi {
         while (continueMenu) {
             System.out.println("\n1. Split Text");
             System.out.println("2. Print invoice");
-            System.out.println("3. Hitung Sisa buah");
-            System.out.println("4. Hitung harga sewa warnet");
-            System.out.println("5. Validasi Umur untuk Konser");
-            System.out.println("6. Beautiful Days");
-            System.out.println("7. Maksimal Es Loli");
+            System.out.println("3. Hitung Sisa Buah");
+            System.out.println("4. Hitung Baju");
+            System.out.println("5. Menentukan Nilai");
+            System.out.println("6. Pangram");
+            System.out.println("7. Deret Fibonacci, Ganji, Genap");
+            System.out.println("8. Recursive Digit Sum");
+            System.out.println("9. Poin Pulsa");
+            System.out.println("10. Menghitung banyaknya selisih");
+            System.out.println("11. I Am The One Number");
             System.out.println("0. Keluar");
             System.out.print("\nPilih menu: ");
             int choose_menu = sc.nextInt();
@@ -207,7 +285,7 @@ public class Simulasi {
                     hitungBaju(sc);
                     break;
                 case 5:
-                    System.out.print("\nMasukkan daftar nilai (pisahkan dengan \",\")");
+                    System.out.print("\nMasukkan daftar nilai (pisahkan dengan \",\") : ");
                     String nilaiString = sc.nextLine();
                     finalGrade(nilaiString);
                     break;
@@ -221,6 +299,47 @@ public class Simulasi {
                     int n = sc.nextInt();
                     sc.nextLine();
                     deretBilangan(n);
+                    break;
+                case 8:
+                    System.out.print("\nMasukkan digit dan perulangannya (pisahkan dengan \",\") : ");
+                    String inputString = sc.nextLine();
+                    String[] arrInput = inputString.split(",");
+
+                    String arrDigit = "";
+                    int k = Integer.parseInt(arrInput[1]);
+
+                    for (int i = 0; i < k; i++) {
+                        arrDigit += arrInput[0];
+                    }
+
+                    long digit = Long.parseLong(arrDigit);
+
+                    System.out.println(recursiveSumDigit(digit));
+                    break;
+                case 9:
+                    System.out.print("\nMasukkan berapa pulsa yang akan kamu beli : ");
+                    int pulsa = sc.nextInt();
+                    sc.nextLine();
+                    pointPulsa(pulsa);
+                    break;
+                case 10:
+                    System.out.print("\nMasukkan panjang array bilangan : ");
+                    n = sc.nextInt();
+                    Integer[] num = new Integer[n];
+                    System.out.print("Masukkan nilai selisih yang akan dicari : ");
+                    int f = sc.nextInt();
+                    System.out.print("Masukkan daftar array bilangan : ");
+                    for (int i = 0; i < n; i++) {
+                        num[i] = sc.nextInt();
+                    }
+                    sc.nextLine();
+                    countFreqDifference(f, num);
+                    break;
+                case 11:
+                    System.out.print("\nMasukkan banyaknya baris : ");
+                    n = sc.nextInt();
+                    sc.nextLine();
+                    theNumberOne(n);
                     break;
                 case 0:
                     System.out.println("Terima kasih!");
