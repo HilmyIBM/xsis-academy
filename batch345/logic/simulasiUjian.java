@@ -41,16 +41,30 @@ public class simulasiUjian {
          * String kalimat_panam=input.nextLine();
          * panagram(kalimat_panam);
          */
-        /*
-         * System.out.println("=======================");
-         * System.out.print("Masukkan Maksimal Himpunan : ");
-         * int himpunan=input.nextInt();
-         * fibo(himpunan);
-         */
+        
+       /*   System.out.println("=======================");
+         System.out.print("Masukkan Maksimal Himpunan : ");
+         int himpunan=input.nextInt();
+          fibo(himpunan);
+        
         System.out.println("=======================");
+        System.out.print("Masukkan Digit : ");
+        int digit=input.nextInt();
+        System.out.print("Masukkan n : ");
+        int n=input.nextInt();
+        rekursif_digit(digit, n); */
+/* 
+        System.out.println("========================");
+        System.out.print("Masukkan Pulsa : ");
+        int isi=input.nextInt();
+        pulsa(isi); */
+     /*    System.out.println("=======================");
         System.out.print("Masukkan Selisih : ");
         int selisih = input.nextInt();
-        selisih(selisih);
+        selisih(selisih); */
+        System.out.print("Masukkan Input : ");
+        int n=input.nextInt();
+        number_one(n);
     }
 
     public static void count_upper(String s) {
@@ -173,7 +187,7 @@ public class simulasiUjian {
             }
         }
         if (jumlah_alphabet.size() == 26) {
-            System.out.println("KAlimat Panagram");
+            System.out.println("Kalimat Panagram");
         } else {
             System.out.println("Kalimat Bukan Panagram");
         }
@@ -230,6 +244,58 @@ public class simulasiUjian {
 
     }
 
+    public static void rekursif_digit(int digit,int n){
+        ArrayList<Integer> isi_digit=new ArrayList<>();
+        int total=0;
+        int j=0;
+        while (digit!=0) {
+            isi_digit.add(digit%10);
+            digit/=10;
+        }
+        Collections.reverse(isi_digit);
+        for(int i=0;i<n;i++){
+            j=0;
+            while (j<isi_digit.size()) {
+                total+=isi_digit.get(j);
+                j++;
+            }
+        }
+        if(total < 9){
+            System.out.println(total);
+        }else{
+            int temp=total%10;
+            total/=10;
+            temp=temp+total;
+            if(temp>9){
+                total=temp%10;
+                temp/=10;
+                total+=temp;
+                System.out.println(total);
+            }else{
+                System.out.println(temp);
+            }
+        }
+    }
+
+    public static void pulsa(int n){
+        int hasil=0;
+        if(n<10000){
+            System.out.println("0 point");
+        }else if(n<30000){
+            int temp=20000-10000;
+            n-=temp;
+            hasil=n/1000;
+            System.out.println("Point : "+ hasil);
+        }else{;
+            n-=10000;
+            int temp=30000-10000;
+            hasil+=temp/1000;
+            n-=temp;
+            hasil+=(n/1000)*2;
+            System.out.println("Point : "+ hasil);
+        }
+    }
+
     public static void selisih(int n) {
         int[] arr = new int[5];
         int count = 0;
@@ -245,5 +311,34 @@ public class simulasiUjian {
             }
         }
         System.out.println("Jumlah Himpunan dengan selisih " + n + " sebanyak : " + count);
+    }
+
+    public static void number_one(int n){
+        int count=1;
+        int i=100;
+        while(i<=1000 && count <= n){
+            if(checknumber(i)){
+                System.out.println(i +" Is the one number");
+                count++;
+            }
+            i++;
+        }
+    }
+
+    public static boolean checknumber(int num){
+        while (num > 9) {
+            num=count_pow(num);
+        }
+        return num==1;
+    }
+
+    public static int count_pow(int n){
+        int total=0;
+        while (n!=0) {
+            int temp=n%10;
+            total+=temp*temp;
+            n/=10;
+        }
+        return total;
     }
 }
