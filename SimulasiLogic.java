@@ -261,46 +261,47 @@ public class SimulasiLogic {
     }
     
 
-    public static void no11(){
+    public static void no11() {
         System.out.print("Input: ");
         Scanner scan = new Scanner(System.in);
 
-        int input = scan.nextInt();
-        int start = 100;
-        int count = 0;
-        
-        theOne(input, start, count);
-    }
-    
-    public static void theOne(int input, int start, int count){
-        while (count < input){
-            for (int i = 0; i < input+1; i++){
-                for (int k = start; k <= 1000; k++){
-                    if (count < input){
-                        String startingNum = "" + k;
-                        String startingNumStr[] = startingNum.split("");
-                        Integer startingNumArr[] = new Integer[startingNumStr.length];
-                        int numTotalSquared = 0;
-                
-                        for (int j = 0; j < startingNumArr.length; j++) {
-                            startingNumArr[j] = Integer.parseInt(startingNumStr[j]);
-                            numTotalSquared+=(startingNumArr[j] * startingNumArr[j]);
-                        }
-                        if (numTotalSquared == 1) {
-                            count++;
-                            System.out.println(k + " is The One Number.");
-                        } else {
-                            theOne(input, k, count);
-                        }
-    
-    
-                    }
-                }
-                
-            }
+        int input = scan.nextInt(); // Number of "The One Numbers" to find
+        int start = 100;            // Start from 100
+        int count = 0;              // Count of "The One Numbers" found
 
+        findTheOneNumbers(input, start, count);
+        scan.close();
+    }
+
+    public static void findTheOneNumbers(int input, int start, int count) {
+        // Base case: Stop when we find the required count
+        if (count >= input) {
+            System.out.println("done");
+            return;
         }
-        System.out.println("done");
+
+        // Check if the current number is "The One Number"
+        if (isTheOneNumber(start)) {
+            count++;
+            System.out.println(start + " is The One Number.");
+        }
+
+        // Move to the next number
+        findTheOneNumbers(input, start + 1, count);
+    }
+
+    public static boolean isTheOneNumber(int number) {
+        int sum;
+        while (number != 1 && number != 4) { // If it becomes 4, it will loop endlessly, so we stop
+            sum = 0;
+            while (number > 0) {
+                int digit = number % 10;
+                sum += digit * digit; // Sum of squared digits
+                number /= 10;
+            }
+            number = sum;
+        }
+        return number == 1;
     }
 
 }
