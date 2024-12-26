@@ -10,9 +10,12 @@ public class simLog {
         // soal1();
         // soal2();
         // soal3();
-        soal4();
+        // soal4();
         // soal5();
         // soal6();
+        // soal7();
+        // soal10();
+        soal11();
 
     }
 
@@ -224,6 +227,156 @@ public class simLog {
     public static void soal7(){
         Scanner s = new Scanner(System.in);
 
+        System.out.print("Input panjang baris: ");
+        int input = s.nextInt();
+
+        ArrayList<Integer> h1 = new ArrayList<>(); //Array fibonanci
+        ArrayList<Integer> h2 = new ArrayList<>(); //Array Genap
+        ArrayList<Integer> h3 = new ArrayList<>(); //Array Ganjil
+
+        int sum1 = 0;
+        int sum2 = 0;
+        int sum3 = 0;
+
+        for(int i = 0; i < input; i++){
+            if(i < 2){
+                h1.add(1);
+            }else{
+                h1.add(h1.get(i-1) + h1.get(i-2));
+            }
+        }
+
+        int i = 0;
+        while(i<=input*2){
+            if (i != 0) {
+                if (i % 2 == 0) {
+                    h2.add(i);
+                }else{
+                    h3.add(i);
+                }
+            }
+            i++;
+        }
+        
+
+        for(i = 0;i<input;i++){
+            System.out.print(i == 0 ? h1.get(i) : ", " + h1.get(i));
+            sum1 += h1.get(i);
+        }
+        double avg1 = sum1 / input;
+        System.out.println(" = " + sum1 + ", avg = " +  avg1);
+
+        for(i = 0;i<input;i++){
+            System.out.print(i == 0 ? h2.get(i) : ", " + h2.get(i));
+            sum2 += h2.get(i);
+        }
+        double avg2 = sum2 / input;
+        System.out.println(" = " + sum2 + ", avg = " + avg2);
+
+        for(i = 0;i<input;i++){
+            System.out.print(i == 0 ? h3.get(i) : ", " + h3.get(i));
+            sum3 += h3.get(i);
+        }
+        double avg3 = sum3 / input;
+        System.out.println(" = " + sum3 + ", avg = " + avg3);
+
+
         s.close();
     }
+
+    public static void recursiveDigit(){
+        Scanner s = new Scanner(System.in);
+
+        System.out.print("Input = ");
+        int input = s.nextInt();
+        System.out.print("Loop = ");
+        int loop = s.nextInt();
+
+        int sum = input;
+
+        while(sum > 9){
+
+
+
+        }
+
+
+
+        s.close();
+    }
+
+    public static void soal10(){
+        Scanner s = new Scanner(System.in);
+
+        System.out.print("Sample Input = ");
+        int input = s.nextInt();
+
+        s.nextLine();
+
+        System.out.print("Array = ");
+        String inputArr = s.nextLine();
+
+        String[] splitInputArr = inputArr.split(" ");
+        ArrayList<Integer> arr = new ArrayList<>();
+        for (String i : splitInputArr){
+            arr.add(Integer.parseInt(i));
+        }
+
+        int count = 0;
+        for(int i = 0; i < arr.size(); i++){
+            for(int j = 0; j < arr.size(); j++){
+                if (arr.get(i) - arr.get(j) == input) {
+                    count++;
+                    System.out.println(arr.get(i) + "," + arr.get(j));
+                }
+            }
+        }
+
+        System.out.println(count);
+
+        s.close();
+    }
+
+    public static void soal11(){
+        Scanner s = new Scanner(System.in);
+
+        System.out.print("Input: ");
+        int input = s.nextInt();
+
+        int count = 0;
+        
+        for(int i = 100; i <= 1000; i++){
+            int number = i;
+            int sum = 0;
+
+            while (number > 0){
+                int temp = number % 10;
+                sum += (temp * temp);
+                number /= 10;
+            }
+
+            while (sum >= 10){
+                int tempSum = 0;
+                while (sum > 0){
+                    int temp = sum % 10;
+                    tempSum += (temp * temp);
+                    sum /= 10;
+                }
+                sum = tempSum;
+            }
+
+
+            if (sum == 1){
+                count++;
+                System.out.println(i + " is The One Number");
+                if(count == input){
+                    break;
+                }
+            }
+
+        }
+
+        s.close();
+    }
+
 }
