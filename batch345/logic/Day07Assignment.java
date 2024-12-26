@@ -6,14 +6,7 @@ public class Day07Assignment {
 
   private static Scanner input = new Scanner(System.in);
   public static void main(String[] args) {
-    double number = 5.55;
-    int numberInt;
-    if(Math.floor(number) == number){
-      numberInt = (int) number;
-    } else {
-       = number;
-    }
-    System.out.println(numberInt);
+    soalPertama();
   }
 
   public static void soalPertama() {

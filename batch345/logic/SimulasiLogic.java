@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class SimulasiLogic {
   private static Scanner input = new Scanner(System.in);
   public static void main(String[] args) {
-    soalKelima();
+    soalKetujuh();
   }
 
   public static void soalPertama() {
@@ -150,6 +150,97 @@ public class SimulasiLogic {
 
   public static void soalKeenam() {
     System.out.print("Input : ");
+    char[] strChar = input.nextLine().toLowerCase().replace(" ", "").toCharArray();
+    boolean[] alphabetPresent = new boolean[26];
+    boolean isPangram = true;
+    
+    for (char c : strChar){
+      if (Character.isLetter(c)){
+        alphabetPresent[c-'a'] = true;
+      }
+    }
+
+    for (boolean present : alphabetPresent){
+      if (!present){
+        isPangram = false;
+        break;
+      }
+    }
+
+    if(isPangram){
+      System.out.println("Kalimat ini adalah pangram");
+    }else{
+      System.out.println("Kalimat ini bukan pangram");
+    }
   }
 
+  public static void soalKetujuh(){
+    int n = Integer.parseInt(input.nextLine());
+    int[] fib2 = new int[n];
+    int[] genap = new int[n];
+    int[] ganjil = new int[n];
+
+    for (int i= 0; i < n; i++){
+      if(i < 2){
+        fib2[i] = 1;
+      }else{
+        fib2[i] =  fib2[i-1] + fib2[i-2];
+      }
+      
+      genap[i] = (i+1) * 2;
+      ganjil[i] = (i+1) * 2 - 1;
+    }
+
+    int sumFib2 = sumArray(fib2);
+    int sumGanjil = sumArray(ganjil);
+    int sumGenap = sumArray(genap);
+
+    double avgFib2 = sumFib2/n;
+    double avgGanjil = sumGanjil/n;
+    double avgGenap = sumGenap/n;
+
+    System.out.print("Fibonaci : ");
+    printArraySumAvg(fib2, sumFib2, avgFib2);
+    System.out.print("Ganjil : ");
+    printArraySumAvg(ganjil, sumGanjil, avgGanjil);
+    System.out.print("Genap : ");
+    printArraySumAvg(genap, sumGenap, avgGenap);
+
+  }
+
+  public static int sumArray(int[] arr){
+    int sum = 0;
+    for (int i = 0; i < arr.length; i++){
+      sum += arr[i];
+    }
+    return sum;
+  }
+
+  public static void printArraySumAvg(int[] arr, int sum, double avg){
+    for(int i = 0; i<arr.length; i++){
+      if(i == 0){
+        System.out.print(arr[i]);
+      }else{
+        System.out.print("," + arr[i]);
+      }
+    }
+    
+    System.out.print("\t");
+    System.out.print("Sum : " + sum + "\t");
+    System.out.print("Avg. : " + avg + "\t");
+    System.out.println();
+  }
+
+  public static void soalKedelapan(){
+    System.out.print("Beli pulsa = ");
+    int pulsa = Integer.parseInt(input.nextLine());
+    int poin = 0;
+    System.out.print(poin);
+
+    if (pulsa > 10000){
+      if (pulsa % 30000 != 0){
+        poin += (int) Math.floor(pulsa/1000);
+      }
+    }
+  }
 }
