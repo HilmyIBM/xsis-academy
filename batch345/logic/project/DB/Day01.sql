@@ -43,3 +43,24 @@ where col.table_name = 'coba01' group by constraint_type
 
 select table_name, constraint_type
 from information_schema.table_constraints where table_name = 'coba01' and constraint_type != 'CHECK';
+
+CREATE DATABASE test;
+
+DROP TABLE t1;
+
+CREATE TABLE t1(
+    id SERIAL PRIMARY KEY NOT NULL,
+    name varchar(12) not null,
+    addr varchar(24) not null,
+    nik varchar(12) not null
+);
+
+INSERT INTO t1 (name, addr, nik)
+VALUES
+    ('asd1', 'asd1', '2223'),
+    ('asd2', 'asd2', '1245'),
+    ('asd3', 'asd3', '3333'),
+    ('as4', 'asd4', '4444');
+
+SELECT t1.name, t1.addr into t1_b from t1;
+
