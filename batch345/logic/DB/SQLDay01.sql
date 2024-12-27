@@ -60,27 +60,9 @@ ALTER TABLE coba01
 --ALTER Table Sequence Number
 ALTER SEQUENCE pelanggan_id_seq RESTART WITH 2;
 
-
---DML--
---DML Create Data
-INSERT INTO coba01
-VALUES
-(1, 'Coba 01', 'Coba yang ke-01');
-
-INSERT INTO pelanggan
-VALUES
-(1, 'Pelanggan 01', 'Alamat si Pelanggan 01', 'pelanggan01@email.net');
-
-INSERT INTO pelanggan
-(nama, alamat, email)
-VALUES
-('Pelanggan 02', 'Alamat si Pelanggan 02', 'pelanggan02@email.net');
-
-
---DML Read Data
-select * from coba01;
-SELECT * FROM "cobaPertama";
-select * from pelanggan;
+--DML Truncate TABLE
+TRUNCATE TABLE coba_bak; 
+SELECT * from coba_bak;
 
 --Show all Database available
 select * from pg_database;
