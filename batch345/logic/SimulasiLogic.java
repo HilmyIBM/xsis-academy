@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SimulasiLogic {
@@ -50,6 +51,27 @@ public static void main(String[] args) {
                     break;                  
                 case 4:
                     hitungBaju();
+                    break;                  
+                case 5:
+                    System.out.println("Banyak Nilai : ");
+                    int n = input.nextInt();
+                    ArrayList<Integer> nilai = new ArrayList<>();
+                    for (int i = 0; i < n; i++) {
+                        nilai.add(input.nextInt());
+                    }
+                    // hitungNilai(nilai);
+                    break;                  
+                case 7:
+                    System.out.print("Input : ");
+                    int inputJmlh = input.nextInt();
+                    rataRata(inputJmlh);
+                    break;                  
+                case 8:
+                    System.out.print("Input : ");
+                    String angka1 = input.next();
+                    System.out.print("Perulangan : ");
+                    int angkaPerulangan = input.nextInt();
+                    preulanganAngka(angka1,angkaPerulangan);
                     break;                  
                 default:
                     System.out.println("Nomor tidak ada!");
@@ -114,9 +136,79 @@ public static void main(String[] args) {
         int jumlahSemuaBaju = lkDewasa + (wanitaDewasa*2) + (anakAnak*3) + (bayi*5);
         if(jumlahSemuaBaju % 2 != 0 && jumlahSemuaBaju >10) jumlahSemuaBaju += wanitaDewasa;
         
-        System.out.println(jumlahSemuaBaju);
+        System.out.println("Jumlah : " + jumlahSemuaBaju);
         System.out.print("Ingin input lagi? y/n ");
         String yesNo = newSc.next();
         if (yesNo.equals("y")) hitungBaju();
+        else System.out.println("Keluar");
+        newSc.close();
     }
+    
+    // No 7 --------------------------------------------------------------------------------
+    public static void rataRata(int input){
+        ArrayList<Integer> fibonaci = new ArrayList<>();
+        ArrayList<Integer> ganjil = new ArrayList<>();
+        ArrayList<Integer> genap = new ArrayList<>();
+        double jmlFibonaci = 0, jmlGanjil = 0, jmlhGenap = 0;
+        for(int i =0; i < input; i++){
+            if (fibonaci.size() < 2) {
+                fibonaci.add(1);
+                jmlFibonaci += 1;
+            }else{
+                fibonaci.add(fibonaci.get(fibonaci.size()-1) + fibonaci.get(fibonaci.size()-2));
+                jmlFibonaci += fibonaci.get(i);
+            }
+        
+        }
+        int masukan = 1;
+        while (ganjil.size() < input || genap.size() < input) {
+            if (masukan % 2 == 0) {
+                genap.add(masukan);
+                jmlhGenap += masukan;
+            }
+            else {
+                ganjil.add(masukan);
+                jmlGanjil += masukan;
+            }
+            masukan++;
+        }
+        System.out.println( fibonaci);
+        System.out.println( ganjil);
+        System.out.println( genap);
+        
+        System.out.println(jmlFibonaci);
+        System.out.println(jmlGanjil);
+        System.out.println(jmlhGenap);
+           
+
+        System.out.println("Rata-rata Fibonaci = " + jmlFibonaci/input);
+        System.out.println("Rata-rata Ganjil = " + jmlGanjil/input);
+        System.out.println("Rata-rata Genap = " + jmlhGenap/input);
+    }
+
+    public static void preulanganAngka(String angka1, int angkaPerulangan){
+        int jumlahAngka = 0;
+        for (int i = 0; i < angkaPerulangan; i++) {
+            for (int j = 0; j < angka1.length(); j++) {
+                jumlahAngka += Integer.parseInt("" +angka1.charAt(j));
+            }
+        }
+        int jumlahAngka2 = 0;
+        String numSrt = Integer.toString(jumlahAngka);
+        System.out.println(jumlahAngka);
+        while (numSrt.length()>1) {
+            for (int j = 0; j < numSrt.length(); j++) {
+                jumlahAngka2 += Integer.parseInt(""+numSrt.charAt(j));
+            }
+            numSrt = Integer.toString(jumlahAngka2);
+        }
+        System.out.println(jumlahAngka2);
+    }
+
+    public static String hitungLagi(String angka2){
+        int jumlahAngka = 0;
+        
+        return Integer.toString(jumlahAngka);
+    }
+
 }

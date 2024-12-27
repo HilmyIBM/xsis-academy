@@ -183,6 +183,3 @@ public class Day08 {
         System.out.println("Uang kembalian = Rp." + (uang%1000));
     }
 }
-
-
-
