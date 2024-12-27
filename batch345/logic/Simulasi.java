@@ -54,16 +54,19 @@ public class Simulasi {
     public static void main(String[] args) {
         int menu = 0;
         while (true) {
-            System.out.println("1. Menghitung Harga Parkir");
-            System.out.println("2. Denda Buku");
-            System.out.println("3. Berapa hari sebelum test");
-            System.out.println("4. Warnet");
-            System.out.println("5. Validasi Umur");
-            System.out.println("6. Angka Palindrome");
-            System.out.println("7. Geometri");
-            System.out.println("8. Recursive");
-            System.out.println("9. Exit");
-            System.out.print("Input: ");
+            System.out.println("1. Cek Upper Case");
+            System.out.println("2. Print invoice");
+            System.out.println("3. Buah dalam keranjang");
+            System.out.println("4. Donasi baju");
+            System.out.println("5. Katrol nilai");
+            System.out.println("6. Pangram");
+            System.out.println("7. Odd Even Fibonaci");
+            System.out.println("8. Recursive digit");
+            System.out.println("9. Point pulsa");
+            System.out.println("10. Pairing array");
+            System.out.println("10. The one number");
+            System.out.println("12. Exit");
+            System.out.print("Choose menu: ");
             menu = scanInt();
             switch (menu) {
                 case 1:
@@ -95,7 +98,7 @@ public class Simulasi {
                     pause();
                     break;
                 case 8:
-                    recursiveDigit();
+                    recursiveDigit2();
                     pause();
                     break;
                 case 9:
@@ -105,6 +108,13 @@ public class Simulasi {
                 case 10:
                     pairing();
                     pause();
+                    break;
+                case 11:
+                    theOne();
+                    pause();
+                    break;
+                case 12:
+                    System.exit(0);
                     break;
                 default:
                     System.out.println("Inputan Salah");
@@ -246,7 +256,7 @@ public class Simulasi {
 
     public static void pangram(){
         System.out.print("Input = ");
-        String input = scanStr().toLowerCase().replaceAll("\\s", "");
+        String input = scanStr().toLowerCase().replaceAll("[^a-z]", "");
         System.out.println(input);
         Set<Character> map = new HashSet<>();
         for(int i = 0;i<input.length();i++){
@@ -340,6 +350,11 @@ public class Simulasi {
     //     if(angka<10){
     //         return angka;
     //     }
+    // 153%10 = 3
+    // 153/10 = 15
+    // 15%10 = 5
+    // 15/10 = 1
+
     //     while(10 < angka){
     //         temp += (angka%10)*awal;
     //         angka/=10;
@@ -352,12 +367,13 @@ public class Simulasi {
         String input = scanStr();
         String[] parse = input.split("\\s*,\\s*");
         int[] intparse = new int[parse.length];
-        intparse[1] = Integer.parseInt(parse[1]);
+        System.out.println(intparse[1]);
+        intparse[1] = Integer.parseInt(parse[1]); // 3
         int parsed = parseToInt(parse[0], intparse[1]);
         // int result = numberRecursionFunc(parsed);
         System.out.println(parsed);
     }
-    public static int parseToInt(String angka, int awal){
+    public static int parseToInt(String angka, int awal){ // 153 ,3
         int res = 0;
         for(int i = 0;i<angka.length();i++){
             res += Integer.parseInt(String.format("%c", angka.charAt(i)));
@@ -365,6 +381,29 @@ public class Simulasi {
         res *= awal;
         if(res>=10){
             return parseToInt(String.format("%d", res), 1);
+        }
+        return res;
+    }
+
+    public static void recursiveDigit2(){
+        System.out.print("Input: ");
+        String input = scanStr();
+        String[] parse = input.split("\\s*,\\s*");
+        int[] intparse = new int[parse.length];
+        intparse[1] = Integer.parseInt(parse[1]); // ambil perkalian awal
+        int parsed = parseToInt2(parse[0]);
+        parsed = parseToInt2(Integer.toString(parsed*intparse[1]));
+        // int result = numberRecursionFunc(parsed);
+        System.out.println(parsed);
+
+    }
+    public static int parseToInt2(String angka){ //9999 3
+        int res = 0;
+        for(int i = 0;i<angka.length();i++){
+            res += Integer.parseInt(String.format("%c", angka.charAt(i)));
+        }
+        if(res>=10){
+            return parseToInt2(String.format("%d", res));
         }
         return res;
     }
@@ -408,11 +447,11 @@ public class Simulasi {
         }
         sc.nextLine();
         int ctr = 0;
-        Arrays.sort(arr, Collections.reverseOrder());
-        ArrayList<Integer> list = new ArrayList<>(Arrays.asList(arr));
-        ArrayList<String> pasangan = new ArrayList<>();
-        for(int i = 0;i<5;i++){
-            int check = list.get(i)-target;
+        Arrays.sort(arr, Collections.reverseOrder()); // sort dari gede ke kecil
+        ArrayList<Integer> list = new ArrayList<>(Arrays.asList(arr)); // dimasukin ke list buat searching
+        ArrayList<String> pasangan = new ArrayList<>(); // store arraynya
+        for(int i = 0;i<4;i++){
+            int check = list.get(i)-target; // 5-2 = 3
             if(list.contains(check)){
                 ctr++;
                 pasangan.add(String.format("[%d,%d]", list.get(i), check));
@@ -426,6 +465,34 @@ public class Simulasi {
             i++;
         }
         System.out.println();
+    }
+
+
+    public static void theOne(){
+        System.out.print("Input: ");
+        int input = scanInt();
+        int i =0;
+        int ansCtr = 0;
+        while(ansCtr<input){
+            String num = Integer.toString(100+i);
+            if(isNumberOne(num) == 1){
+                System.out.println(num + " is The One Number");
+                ansCtr++;
+            }
+            i++;
+        }
+    }
+    public static int isNumberOne(String num){
+        int res = 0;
+        int curr = 0;
+        if(num.length() == 1){
+            return Integer.parseInt(num);
+        }
+        for(int i = 0;i<num.length();i++){
+            curr =  Integer.parseInt(Character.toString(num.charAt(i)));
+            res += Math.pow(curr, 2);
+        }
+        return isNumberOne(Integer.toString(res));
     }
 //     153%10 = 3
 //     153/10 = 15

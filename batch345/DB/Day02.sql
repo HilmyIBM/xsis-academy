@@ -1,0 +1,67 @@
+CREATE DATABASE db_entertainer
+
+CREATE TABLE artis(
+    kd_artis VARCHAR(100) PRIMARY KEY NOT NULL,
+    nm_artis VARCHAR(100) NOT NULL,
+    jk VARCHAR(100) NOT NULL,
+    bayaran INTEGER NOT NULL,
+    award INTEGER NOT NULL,
+    negara VARCHAR(100) NOT NULL
+);
+CREATE TABLE film(
+    kd_film VARCHAR(10) NOT NULL,
+    nm_film  VARCHAR(55) NOT NULL,
+    genre VARCHAR(55) NOT NULL,
+    artis VARCHAR(55) NOT NULL,
+    produser  VARCHAR(55) NOT NULL,
+    pendapatan INTEGER NOT NULL,
+    nominasi INTEGER NOT NULL
+);
+
+CREATE TABLE produser(
+    kd_produser VARCHAR(50) PRIMARY KEY NOT NULL,
+    nm_produser VARCHAR(50) NOT NULL,
+    international VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE negara(
+    kd_negara VARCHAR(100) PRIMARY KEY NOT NULL,
+    nm_negara VARCHAR(100) NOT NULL
+);
+CREATE TABLE genre(
+    kd_genre VARCHAR(50) PRIMARY KEY NOT NULL,
+    nm_genre VARCHAR(50) NOT NULL
+);
+SELECT *
+FROM information_schema.columns
+WHERE table_name = ''
+
+
+DROP TABLE artis
+
+INSERT INTO artis(kd_artis, nm_artis, jk, bayaran, award, negara) VALUES
+('A001', 'ROBERT DOWNEY JR', 'PRIA', 1000000000, 2, 'AS'),
+('A002', 'ANGELINA JOLIE', 'WANITA', 700000000, 1, 'AS'),
+('A003', 'JACKIE CHAN', 'PRIA', 200000000, 7, 'HK'),
+('A004', 'JOE TASLIM', 'PRIA', 350000000, 1, 'ID'),
+('A005', 'CHELSEA ISLAN', 'WANITA', 300000000, 0, 'ID');
+
+INSERT INTO film(kd_film, nm_film, genre, artis, produser, pendapatan, nominasi)
+VALUES
+('F001', 'IRON MAN', 'G001', 'A001', 'PD01', 3000000000, 3),
+('F002', 'IRON MAN 2', 'G001', 'A001', 'PD01', 1800000000, 2),
+('F003', 'IRON MAN 3', 'G001', 'A001', 'PD01', 1200000000, 0),
+('F004', 'AVENGER: CIVIL WAR', 'G001', 'A001', 'PD01', 2000000000, 1),
+('F005', 'SPIDERMAN HOME COMING', 'G001', 'A001', 'PD01', 1300000000, 0),
+('F006', 'THE RAID', 'G001', 'A004', 'PD03', 800000000, 5),
+('F007', 'FAST & FURIOUS', 'G001', 'A004', 'PD05', 830000000, 2),
+('F008', 'HABIBIE DAN AINUN', 'G004', 'A005', 'PD03', 670000000, 4),
+('F009', 'POLICE STORY', 'G001', 'A003', 'PD02', 700000000, 3),
+('F010', 'POLICE STORY 2', 'G001', 'A003', 'PD02', 710000000, 1),
+('F011', 'POLICE STORY 3', 'G001', 'A003', 'PD02', 615000000, 0),
+('F012', 'RUSH HOUR', 'G003', 'A003', 'PD05', 695000000, 2),
+('F013', 'KUNGFU PANDA', 'G003', 'A003', 'PD05', 923000000, 5);
+
+
+DROP TABLE film
+SELECT * FROM film
