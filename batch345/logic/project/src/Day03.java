@@ -69,7 +69,6 @@ public class Day03 {
                     .reduce(0, Integer::sum);
 
             l.add(sum);
-//            l.forEach();
             l.removeFirst();
 
             System.out.printf("%d ", sum);
