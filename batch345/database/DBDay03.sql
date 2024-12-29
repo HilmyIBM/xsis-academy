@@ -67,12 +67,96 @@ VALUES
 (2, '002', 'OB', 'UM', 350000, 'Sukabumi'),
 (3, '003', 'MGR', 'HRD', 1500000, 'Sukabumi');
 
+
+WITH Gaji_Detail AS (
+    SELECT 
+        k.nip,
+        CONCAT(k.nama_depan, ' ', k.nama_belakang) AS nama_lengkap,
+        j.nama_jabatan,
+        d.nama_divisi,
+        j.gaji_pokok,
+        j.tunjangan_jabatan,
+        (j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja) AS total_gaji,
+        ROUND((j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja) * 0.05, 2) AS pajak,
+        (j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja) - 
+        ROUND((j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja) * 0.05, 2) AS gaji_bersih,
+        p.kota_penempatan,
+        k.jenis_kelamin
+    FROM 
+        tb_karyawan k
+    JOIN 
+        tb_pekerjaan p ON k.nip = p.nip
+    JOIN 
+        tb_jabatan j ON p.kd_jabatan = j.kd_jabatan
+    JOIN 
+        tb_divisi d ON p.kd_divisi = d.kd_divisi
+)
+
+SELECT nama_lengkap, nama_jabatan, total_gaji AS gaji_tunjangan
+FROM Gaji_Detail
+WHERE (gaji_pokok + tunjangan_jabatan) < 5000000;
+
+SELECT 
+    nama_lengkap,
+    nama_jabatan,
+    nama_divisi,
+    total_gaji,
+    pajak,
+    gaji_bersih
+FROM 
+    Gaji_Detail
+WHERE 
+    jenis_kelamin = 'Pria' 
+    AND kota_penempatan <> 'Sukabumi';
+
 -- No 1
 SELECT CONCAT(k.nama_depan, ' ', k.nama_belakang) AS nama_lengkap, j.nama_jabatan, (j.gaji_pokok + j.tunjangan_jabatan) AS gaji_tunjangan
 FROM tb_karyawan k
 JOIN tb_pekerjaan p ON k.nip = p.nip JOIN tb_jabatan j ON p.kd_jabatan = j.kd_jabatan WHERE (j.gaji_pokok + j.tunjangan_jabatan) <5000000;
 
-UPDATE tb_karyawan
-SET
-    nip='002'
-WHERE nama_depan = 'Ghandi';
+-- No 2
+SELECT CONCAT(k.nama_depan, ' ', k.nama_belakang) AS nama_lengkap, j.nama_jabatan, d.nama_divisi,
+(j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja) AS total_gaji,
+((j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja)*0.05) AS pajak,
+(j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja) - ((j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja)*0.05) AS gaji_bersih
+FROM tb_karyawan k
+JOIN tb_pekerjaan p ON k.nip = p.nip
+JOIN tb_jabatan j ON p.kd_jabatan = j.kd_jabatan
+JOIN tb_divisi d ON p.kd_divisi = d.kd_divisi
+WHERE k.jenis_kelamin = 'Pria' AND p.kota_penempatan <> 'Sukabumi';
+
+-- No 3
+SELECT k.nip, CONCAT(k.nama_depan, ' ', k.nama_belakang) AS nama_lengkap, j.nama_jabatan, d.nama_divisi, (((j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja)*7)*0.25) AS bonus
+FROM tb_karyawan k
+JOIN tb_pekerjaan p ON k.nip = p.nip
+JOIN tb_jabatan j ON p.kd_jabatan = j.kd_jabatan
+JOIN tb_divisi d ON p.kd_divisi = d.kd_divisi
+ORDER BY k.nip;
+
+-- No 4
+SELECT CONCAT(k.nama_depan, ' ', k.nama_belakang) AS nama_lengkap, j.nama_jabatan, d.nama_divisi, (j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja) AS total_gaji, ((j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja)*0.05) AS infak
+FROM tb_karyawan k
+JOIN tb_pekerjaan p ON k.nip = p.nip
+JOIN tb_jabatan j ON p.kd_jabatan = j.kd_jabatan
+JOIN tb_divisi d ON p.kd_divisi = d.kd_divisi
+WHERE j.kd_jabatan = 'MGR';
+
+-- No 5
+SELECT CONCAT(k.nama_depan, ' ', k.nama_belakang) AS nama_lengkap, j.nama_jabatan, k.pendidikan_terakhir, 2000000 AS tunjangan_pendidikan, (j.gaji_pokok + j.tunjangan_jabatan + 2000000) AS total_gaji
+FROM tb_karyawan k
+JOIN tb_pekerjaan p ON k.nip = p.nip
+JOIN tb_jabatan j ON p.kd_jabatan = j.kd_jabatan
+JOIN tb_divisi d ON p.kd_divisi = d.kd_divisi
+WHERE k.pendidikan_terakhir LIKE 'S1%';
+
+-- No 6
+SELECT k.nip, CONCAT(k.nama_depan, ' ', k.nama_belakang) AS nama_lengkap, j.nama_jabatan, d.nama_divisi,
+CASE 
+    WHEN j.kd_jabatan = 'MGR' THEN (j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja) * 7 * 0.25
+    WHEN j.kd_jabatan = 'ST' THEN (j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja) * 5 * 0.25
+    ELSE (j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja) * 2 * 0.25
+END AS bonus
+FROM tb_karyawan k
+JOIN tb_pekerjaan p ON k.nip = p.nip
+JOIN tb_jabatan j ON p.kd_jabatan = j.kd_jabatan
+JOIN tb_divisi d ON p.kd_divisi = d.kd_divisi;
