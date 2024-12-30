@@ -47,3 +47,46 @@ VALUES
     (2, 'PHONE', '081312345678'),
     (2, 'PHONE', '087812345678'),
     (3, 'MAIL', 'melati.marcelia@gmail.com');
+
+create table leave (
+    id bigserial,
+    type varchar(10),
+    name varchar(100)
+);
+
+insert into leave (type, name)
+values
+    ('Regular', 'Cuti Tahunan'),
+    ('Khusus', 'Cuti Menikah'),
+    ('Khusus', 'Cuti Haji & Umroh'),
+    ('Khusus', 'Melahirkan');
+
+create table employee_leave(
+    id serial,
+    employee_id int,
+    period varchar(4),
+    regular_quota int
+);
+
+insert into employee_leave (employee_id, period, regular_quota)
+values
+    (1, '2021', 16),
+    (2, '2021', 12),
+    (3, '2021', 12);
+
+create table request(
+    id bigserial,
+    employee_id int,
+    leave_id int,
+    start_date date,
+    end_date date,
+    reason varchar(255)
+);
+
+insert into request(employee_id, leave_id, start_date, end_date, reason)
+VALUES
+    (1, 1, '2021-10-10', '2021-10-12', 'Liburan'),
+    (1, 1, '2021-11-12', '2021-11-15', 'Acara Keluarga'),
+    (2, 2, '2021-05-05', '2021-05-07', 'Menikah'),
+    (2, 1, '2021-09-09', '2021-09-13', 'Touring'),
+    (2, 1, '2021-12-20', '2021-12-23', 'Acara Keluarga');
