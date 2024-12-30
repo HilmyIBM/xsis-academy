@@ -69,6 +69,10 @@ SELECT kd_pengarang, nama
 FROM tblPengarang 
 ORDER BY kd_pengarang DESC;
 
+SELECT 'min' AS label, MIN(kd_pengarang) AS kd_pengarang FROM tblPengarang
+UNION
+SELECT 'max' AS label, MAX(kd_pengarang) AS kd_pengarang FROM tblPengarang;
+
 -- 6
 -- SELECT MIN(gaji) AS MIN, MAX(gaji) AS MAX
 -- FROM tblGaji;
@@ -82,7 +86,7 @@ FROM tblGaji
 WHERE gaji > 600000;
 
 -- 8
-SELECT SUM(gaji) jumlahGaji FROM tblGaji;
+SELECT SUM(gaji) AS jumlahGaji FROM tblGaji;
 
 -- 9
 SELECT kota, COUNT(*) as count, SUM(gaji) as jumlahGaji

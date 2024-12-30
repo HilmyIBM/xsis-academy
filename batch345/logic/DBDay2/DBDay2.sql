@@ -188,6 +188,12 @@ RIGHT JOIN produser b on a.produser = b.kd_produser
 GROUP BY b.nm_produser;
 
 
+-- SELECT *
+-- INTO film_bak
+-- FROM film;
 
+CREATE DATABASE db_hr;
+
+SELECT * FROM pg_database;
 
 
