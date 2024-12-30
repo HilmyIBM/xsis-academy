@@ -60,19 +60,17 @@ FROM "tblPengarang" as tP;
 -- NO 3 --
 SELECT tP."Kota", count(tp."Kota") as "Jumlah"
 from "tblPengarang" as tP
-GROUP BY tP."Kota"
-ORDER BY "Jumlah" DESC;
+GROUP BY tP."Kota";
 
 -- NO 4 --
 SELECT tP."Kota", count(tP."Kota") as "Jumlah"
 from "tblPengarang" as tP
 GROUP BY tP."Kota"
-HAVING count(tP."Kota") > 1
-ORDER BY "Jumlah" DESC;
+HAVING count(tP."Kota") > 1;
 
 -- NO 5 --
 SELECT max(t."Kd_Pengarang") as "Terbesar",
-       min(t."Kd_Pengarang") as "Terkecil"
+       min(t."Kd_Pengarang") as "Terkeci zl"
 FROM "tblPengarang" as t;
 
 -- NO 6 --
@@ -84,18 +82,17 @@ FROM "tblGaji" as g;
 SELECT g."Nama",
        g."Gaji"
 FROM "tblGaji" as g
-WHERE g."Gaji" > 600000
-ORDER BY g."Gaji" DESC;
+WHERE g."Gaji" > 600000;
 -- NO 8 --
 SELECT sum(g."Gaji") as "Jumlah Gaji"
 FROM "tblGaji" as g;
 -- NO 9 --
 SELECT SUM(g."Gaji") as "Total Gaji",
        tp."Kota"
-FROM "tblGaji" as g
-         JOIN "tblPengarang" tP on g."Kd_Pengarang" = tP."Kd_Pengarang"
-GROUP BY tp."Kota"
-ORDER BY "Total Gaji" DESC;
+FROM
+    "tblGaji" as g
+        JOIN "tblPengarang" tP on g."Kd_Pengarang" = tP."Kd_Pengarang"
+GROUP BY tp."Kota";
 
 -- NO 10 --
 SELECT *
@@ -161,3 +158,6 @@ FROM vwPengarang;
 DROP TABLE "tblGaji";
 DROP TABLE "tblPengarang";
 DROP VIEW vwPengarang;
+
+SELECT "tblGaji"."Nama", "tblGaji"."Gaji"
+FROM "tblGaji" WHERE "Gaji" = ()
