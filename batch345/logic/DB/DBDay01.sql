@@ -44,11 +44,11 @@ VALUES('P0002','Rian',600000),
 --No.1
 SELECT COUNT(nama) as jumlah_pengarang from tblPengarang;
 --No.2
-select count(kelamin) as jumlah from tblPengarang GROUP BY kelamin;
+select count(kelamin)as jumlah,kelamin  from tblPengarang GROUP BY kelamin;
 --No.3
 SELECT kota,COUNT(kota) as jumlah_kota from tblPengarang GROUP BY kota;
 --No.4
-SELECT COUNT(kota) as kota_terbanyak from tblPengarang GROUP BY kota HAVING COUNT(kota)>1;
+SELECT kota,COUNT(kota) as kota_terbanyak from tblPengarang GROUP BY kota HAVING COUNT(kota)>1;
 --No.5
 SELECT MIN(kdPengarang) as terkecil, MAX(kdPengarang) as terbesar from tblPengarang;
 --No.6
@@ -58,7 +58,8 @@ Select nama,gaji from tblgaji where gaji > 600000;
 --No.8
 SELECT sum(gaji) as sum_gaji,count(gaji) as jumlah_gaji from tblgaji;
 --No.9
-SELECT gaji,kota from tblgaji join tblPengarang on tblgaji.kdpengarang=tblPengarang.kdpengarang;
+SELECT kota,SUM(gaji) as jumlah_gaji from tblgaji join tblPengarang on tblgaji.kdpengarang=tblPengarang.kdpengarang
+GROUP BY kota;
 --No.10
 SELECT * from tblPengarang WHERE kdpengarang BETWEEN 'P0003' and 'P0006';
 --No.11
@@ -84,8 +85,8 @@ ALTER COLUMN Kelamin TYPE VARCHAR(10);
 ALTER TABLE tblPengarang
 ADD COLUMN gelar VARCHAR(12);
 --No.18
-UPDATE tblpengarang SET alamat='Jl. Cendrawasih 65',kota='Pekanbaru'
-WHERE nama='Rian';
+UPDATE tblpengarang SET kota='Bandung'
+WHERE nama='Jaja';
 SELECT * from tblpengarang;
 --No.19
 CREATE VIEW vwPengarang AS SELECT
