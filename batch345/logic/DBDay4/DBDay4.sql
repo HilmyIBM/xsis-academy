@@ -88,6 +88,22 @@ from orders o
 where o.sales_person_id is null;
 
 -- 7
+select 
+    sp.*,
+    case
+        when sp.id in (
+            select sp.id
+            from orders o 
+	            right join sales_person sp on o.sales_person_id = sp.id 
+            where o.sales_person_id is null
+        ) then salary * 0.02
+        else 0
+    end potong_gaji
+from orders o 
+	full outer join sales_person sp on o.sales_person_id = sp.id
+order by sp.id;
+
+create database db_ptxa;
 
 
 
