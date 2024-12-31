@@ -107,14 +107,15 @@ FROM "tblGaji";
 
 
  --1
-SELECT *
+SELECT 
+    COUNT(*) as "Jumlah"
 FROM "tblPengarang";
 
 --2
-SELECT *
-FROM "tblPengarang"
-WHERE kelamin='P'
-    OR kelamin ='W' 
+SELECT COUNT(CASE WHEN kelamin = 'P' THEN 1 END) as "Jumlah Pria",  
+    COUNT(CASE WHEN kelamin='W' THEN 1 END) as "Jumlah Wanita" 
+FROM "tblPengarang";
+
 
 
 --3
@@ -122,6 +123,9 @@ SELECT Kota,
     COUNT(*) AS "Jumlah_Kota"
     FROM "tblPengarang"
 GROUP BY kota;
+
+--klo mau nama doang
+---SELECT nama, gaji from "tblGaji" WHERE gaji = (SELECT MIN(gaji) from "tblGaji");
 
 
 --4
@@ -145,47 +149,163 @@ FROM "tblGaji";
 
 
 --7
-SELECT gaji FROM "tblGaji" WHERE gaji > 60;
+SELECT gaji 
+FROM "tblGaji" WHERE gaji > 60;
 
 
 --8
-SELECT SUM(gaji) FROM "tblGaji";
+SELECT SUM(gaji) 
+FROM "tblGaji";
 
 
 --9
-SELECT SUM(gaji), kota FROM "tblGaji", "tblPengarang" WHERE "tblPengarang".Kd_Pengarang = "tblGaji".Kd_Pengarang GROUP BY kota;
+SELECT kota, SUM(gaji) 
+FROM "tblGaji", "tblPengarang" 
+WHERE "tblPengarang".Kd_Pengarang = "tblGaji".Kd_Pengarang 
+GROUP BY kota;
 
 
 --10
-SELECT * FROM "tblPengarang" WHERE Kd_Pengarang >= 'P0003' AND Kd_Pengarang <= 'P0006';
+SELECT * FROM "tblPengarang" 
+WHERE Kd_Pengarang BETWEEN 'P0003' AND  'P0006';
 
 --11
-SELECT *  FROM "tblPengarang" WHERE kota = 'Solo' OR kota = 'Yogya' OR kota = 'Magelang';
+SELECT *  FROM "tblPengarang" 
+WHERE kota = 'Solo' OR kota = 'Yogya' OR kota = 'Magelang';
+
+--cara lain
+SELECT *  FROM "tblPengarang" 
+WHERE kota IN ('Solo', 'Yogya', 'Magelang');
 
 
 --12
-SELECT *  FROM "tblPengarang" WHERE kota != 'Solo';
+SELECT *  FROM "tblPengarang" 
+WHERE kota != 'Solo';
 
 
 --13
 --a
-SELECT * FROM "tblPengarang" WHERE  nama LIKE 'A%';
+SELECT * FROM "tblPengarang" 
+WHERE  nama LIKE 'A%';
 
 --b
-SELECT * FROM "tblPengarang" WHERE  nama LIKE '%i';
+SELECT * FROM "tblPengarang" 
+WHERE  nama LIKE '%i';
 
 --c
-SELECT * FROM "tblPengarang" WHERE  nama LIKE '__%a';
+SELECT * FROM "tblPengarang" 
+WHERE  nama LIKE '___a';
 
 --d
-SELECT * FROM "tblPengarang" WHERE  nama NOT LIKE '%n';
+SELECT * FROM "tblPengarang" 
+WHERE  nama NOT LIKE '%n';
 
 
 --14
-SELECT p.*,g.gaji FROM "tblPengarang" AS p, "tblGaji" AS g WHERE g.Kd_Pengarang = p.Kd_Pengarang;
+SELECT p.*,g.gaji 
+FROM "tblPengarang" AS p, "tblGaji" AS g 
+WHERE g.Kd_Pengarang = p.Kd_Pengarang;
+
+-- cara kalo pake JOIN
+SELECT * 
+FROM "tblPengarang" AS p JOIN "tblGaji" AS g 
+ON g.Kd_Pengarang = p.Kd_Pengarang;
+
 
 
 --15
-SELECT p.kota, g.gaji FROM "tblPengarang" AS p, "tblGaji" AS g WHERE g.Kd_Pengarang = p.Kd_Pengarang AND g.gaji >= 100;
+SELECT p.kota, g.gaji 
+FROM "tblPengarang" AS p, "tblGaji" AS g 
+WHERE g.Kd_Pengarang = p.Kd_Pengarang AND g.gaji >= 100;
 
 
+--16
+ALTER TABLE "tblPengarang" 
+ALTER COLUMN kelamin TYPE VARCHAR(10); --wajib ada type
+
+
+--17
+ALTER TABLE "tblPengarang"
+ADD COLUMN Gelar VARCHAR(12);
+SELECT * FROM "tblPengarang";
+
+
+--18
+UPDATE "tblPengarang"
+SET alamat = 'Jl. Cendrawasih 65', kota = 'Pekanbaru'
+WHERE nama = 'Rian'; --kalo gaada where nanti keubah satu tabel
+
+SELECT * FROM "tblPengarang";
+
+
+--19
+CREATE VIEW pengarang AS --isi dalem view dimulai dengan AS, wajib
+SELECT p.Kd_Pengarang, p.nama, p.kota, g.gaji 
+FROM "tblPengarang" AS p, "tblGaji" AS g WHERE p.Kd_Pengarang = g.Kd_Pengarang;
+
+SELECT * FROM pengarang;
+
+
+--cara gabung string
+SELECT CONCAT(Kd_Pengarang, '-', Nama)
+FROM "tblPengarang";
+
+--IN bisa untuk subquery
+SELECT *
+FROM "tblPengarang"
+WHERE Kota IN (
+    SELECT kota -- cuman bisa sesuai tabel, jangan * (all)
+    FROM "tblPengarang"
+    WHERE Kota like 'B%'
+);
+
+
+--cari sesuai jumlah karakter
+SELECT kota
+FROM "tblPengarang"
+WHERE kota like '____' --4 karakter jadi 4 underscore
+GROUP BY kota;
+
+
+--membuat kolom menjadi NULLABLE
+ALTER TABLE "tblPengarang"
+ALTER COLUMN alamat DROP NOT NULL;
+
+--membuat kolom NOT NULL
+ALTER TABLE "tblPengarang"
+ALTER COLUMN alamat SET NOT NULL;
+
+--liat property column tblPengarang
+SELECT * FROM information_schema.columns
+WHERE table_name = 'tblPengarang';
+
+
+
+--UNION ukuran tabel harus sama persis, data type harus sama
+
+SELECT Kd_Pengarang, gaji, 'Staff' as status from "tblGaji" where gaji < 60
+UNION
+SELECT Kd_Pengarang, gaji, 'Supervisor' as status from "tblGaji" where gaji >= 60 AND gaji < 70
+UNION 
+SELECT Kd_Pengarang, gaji, 'Manager' as status from "tblGaji" where gaji > 70;
+
+
+--DATE TIME
+CREATE TABLE timestamp_demo (
+    ts TIMESTAMP,
+    tstz TIMESTAMPTZ
+);
+
+SELECT * FROM timestamp_demo
+
+SHOW TIMEZONE;
+SET TIMEZONE = 'Asia/Jakarta';
+SET TIMEZONE = 'America/Los_Angeles';
+
+Select NOW();
+
+
+
+
+--Check DB Current Timezones
+SELECT * FROM pg_timezone_names WHERE abbrev = current_setting('TIMEZONE');
