@@ -1,4 +1,4 @@
-CREATE DATABASE hrdatabase
+CREATE DATABASE hrdatabase;
 
 CREATE TABLE tb_karyawan(
     id BIGINT PRIMARY KEY NOT NULL,
@@ -70,7 +70,12 @@ VALUES
 (2, '002', 'OB', 'UM', 350000, 'Sukabumi'),
 (3, '003', 'MGR', 'HRD', 1500000, 'Sukabumi');
 
+SELECT * FROM pg_database
+SELECT * FROM tb_pekerjaan
 
+SELECT * FROM information_schema.columns WHERE  table_name like 'tb_karyawan';
+
+SELECT * FROM pg_indexes
 -- No. 1
 SELECT CONCAT(nama_depan, ' ', nama_belakang) AS nama_lengkap, 
 tj.nama_jabatan, 
@@ -130,16 +135,44 @@ WHERE tk.pendidikan_terakhir LIKE 'S1%';
 
 -- No. 6
 SELECT tk.nip,
-CONCAT(nama_depan, ' ', nama_belakang) AS nama_lengkap, 
+CONCAT(tk.nama_depan, ' ', tk.nama_belakang) AS nama_lengkap, 
 tj.nama_jabatan, 
 td.nama_divisi,
-SUM(
-    CASE
-        WHEN tj.kd_jabatan = 'MGR' THEN (tj.gaji_pokok + tj.tunjangan_jabatan + tp.tunjangan_kinerja) * 0.25 *7
-        WHEN tj.kd_jabatan = 'ST' THEN (tj.gaji_pokok + tj.tunjangan_jabatan + tp.tunjangan_kinerja) * 0.25 *5
-        ELSE (tj.gaji_pokok + tj.tunjangan_jabatan + tp.tunjangan_kinerja) * 0.25 *2
-) AS bonus
+CASE
+    WHEN tj.kd_jabatan = 'MGR' THEN (tj.gaji_pokok + tj.tunjangan_jabatan + tp.tunjangan_kinerja) * 0.25 *7
+    WHEN tj.kd_jabatan = 'ST' THEN (tj.gaji_pokok + tj.tunjangan_jabatan + tp.tunjangan_kinerja) * 0.25 *5
+ELSE 
+    (tj.gaji_pokok + tj.tunjangan_jabatan + tp.tunjangan_kinerja) * 0.25 *2
+END AS bonus
 FROM tb_karyawan tk
 JOIN tb_pekerjaan tp ON tk.nip = tp.nip
 JOIN tb_jabatan tj ON tj.kd_jabatan = tp.kd_jabatan
 JOIN tb_divisi td On td.kd_divisi = tp.kd_divisi
+ORDER BY tk.nip;
+
+-- No. 7
+ALTER TABLE tb_karyawan
+ADD CONSTRAINT nip UNIQUE(nip);
+
+-- No. 8
+CREATE INDEX idx_nip ON tb_karyawan(nip);
+
+-- No. 9
+SELECT CONCAT(nama_depan,' ', UPPER(nama_belakang))
+FROM tb_karyawan
+WHERE nama_belakang LIKE 'W%';
+
+-- No. 10
+SELECT 
+    CONCAT(tk.nama_depan, ' ', tk.nama_belakang) AS nama_lengkap, 
+    tgl_masuk,
+    tj.nama_jabatan,
+    td.nama_divisi,
+    (tj.gaji_pokok + tj.tunjangan_jabatan + tp.tunjangan_kinerja) AS total_gaji,
+    (tj.gaji_pokok + tj.tunjangan_jabatan + tp.tunjangan_kinerja)/10 AS bonus,
+    EXTRACT(YEAR FROM AGE('2022-12-30',tgl_masuk)) AS lama_bekerja
+FROM tb_karyawan tk
+JOIN tb_pekerjaan tp ON tk.nip = tp.nip
+JOIN tb_jabatan tj ON tj.kd_jabatan = tp.kd_jabatan
+JOIN tb_divisi td On td.kd_divisi = tp.kd_divisi
+WHERE EXTRACT(YEAR FROM AGE('2022-12-30', tgl_masuk)) >= 8;

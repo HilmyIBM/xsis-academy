@@ -46,7 +46,10 @@ VALUES
 SELECT * FROM tblPengarang;
 SELECT * FROM tblGaji;
 
-
+-- test
+SELECT nama
+FROM tblGaji
+GROUP BY nama
 -- No.1
 SELECT COUNT(kd_pengarang)
 FROM tblpengarang
