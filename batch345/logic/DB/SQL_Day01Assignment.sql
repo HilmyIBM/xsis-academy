@@ -1,4 +1,3 @@
---BUAT TABEL tblPengarang 
 CREATE TABLE tbl_pengarang (
   id SERIAL PRIMARY KEY,
   kd_pengarang VARCHAR(7) NOT NULL,
@@ -38,43 +37,31 @@ INSERT INTO tbl_gaji (kd_pengarang, nama, gaji)
   ('P0010', 'Fatmawati', 600000),
   ('P0008', 'Saman', 750000);
 
--- TAMPIL KESELURUHAN TABEL
-SELECT * FROM tbl_pengarang;
-SELECT * FROM tbl_gaji;
-
--- HITUNG JUMLAH PENGARANG PADA TABEL
-SELECT COUNT(*) AS jumlah_pengarang FROM tbl_pengarang;
+select count(*) from tbl_gaji where gaji>700000; 
 
 
--- HITUNG JUMLAH WANITA DAN PRIA
-SELECT
-    COUNT(CASE WHEN kelamin = 'W' THEN 1 END) AS Jumlah_wanita,
-    COUNT(CASE WHEN kelamin = 'P' THEN 1 END) AS Jumlah_pria
-FROM tbl_pengarang;
+--nomer 10
+select * from tbl_pengarang where kd_pengarang between 'P0003' and 'P0006';
 
--- MEMILIH KOLOM KOTA LALU MENJUMLAHKAN SEMUANYA BERDASARKAN NAMA KOTANYA
-SELECT kota, COUNT(*) AS jumlah_kota FROM tbl_pengarang
-GROUP BY kota;
+--nomer 11
+select * from tbl_pengarang where kota in ('Yogya', 'Solo', 'Magelang');
 
--- MEMILIH KOLOM KOTA LALU MENJUMLAHKANNYA DAN MENAMPILKAN YANG MEMILIKI JUMLAH > 1
-SELECT kota, COUNT(*) AS jumlah_kota FROM tbl_pengarang
-GROUP BY kota HAVING COUNT(*) > 1;
+--nomer 12
+select * from tbl_pengarang where kota <> 'Yogya';
 
--- MENAMPILKAN kd_pengarang YANG TERBESAR DAN TERKECIL
-SELECT 
-  MAX(kd_pengarang) AS max_kd_pengarang,
-  MIN(kd_pengarang) AS min_kd_pengarang
-FROM tbl_pengarang;
+--nomer 13
+SELECT *
+FROM tbl_pengarang
+WHERE nama LIKE 'A%';
 
--- MENAMPILKAN GAJI TERBESAR DAN GAJI TERKECIL
-SELECT
-  MAX(gaji) as gaji_tertinggi,
-  MIN(gaji) as gaji_terendah
-FROM tbl_gaji;
+SELECT *
+FROM tbl_pengarang
+WHERE nama LIKE '%i';
 
--- MENAMPILKAN GAJI DIATAS 600000
-SELECT gaji FROM tbl_gaji WHERE gaji > 600000;
+SELECT *
+FROM tbl_pengarang
+WHERE nama LIKE '__a%';
 
--- MENAMPILKAN JUMLAH GAJI
-SELECT SUM(gaji) FROM tbl_gaji;
-
+SELECT *
+FROM tbl_pengarang
+WHERE nama NOT LIKE '%n';
