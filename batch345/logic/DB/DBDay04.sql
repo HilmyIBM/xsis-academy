@@ -83,3 +83,5 @@ WHERE orders.sales_person_id is NULL
 GROUP BY nama,bod,salary;
 
 
+
+

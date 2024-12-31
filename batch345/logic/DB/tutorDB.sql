@@ -130,3 +130,5 @@ select * from pg_indexes where tablename='pelanggan';
 --Check Table Sequence
 SELECT *
 FROM information_schema.sequences;
+
+CREATE DATABASE northwind;

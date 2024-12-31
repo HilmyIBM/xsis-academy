@@ -63,9 +63,9 @@ GROUP BY kota;
 --No.10
 SELECT * from tblPengarang WHERE kdpengarang BETWEEN 'P0003' and 'P0006';
 --No.11
-SELECT * from tblPengarang WHERE kota IN('yogya','Solo','Magelang','Yogya');
+SELECT * from tblPengarang WHERE kota IN('Solo','Magelang','Yogya');
 --No.12
-SELECT * from tblPengarang WHERE kota not in('Yogya','yogya');
+SELECT * from tblPengarang WHERE kota not in('Yogya');
 --No.13 a
 SELECT * from tblPengarang WHERE nama like 'A%';
 --No.13 b
