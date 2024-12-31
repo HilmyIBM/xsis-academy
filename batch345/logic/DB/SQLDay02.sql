@@ -31,6 +31,10 @@ INSERT INTO coba_bak
     SELECT id, nama, deskripsi
     FROM coba01;
 
+SELECT id, nama, deskripsi
+INTO coba_bak_2
+FROM coba01;
+
 
 --DML Read Data
 select * from coba01;
