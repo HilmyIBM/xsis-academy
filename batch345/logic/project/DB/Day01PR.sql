@@ -113,13 +113,13 @@ SELECT *
 FROM "tblPengarang" as tP
 WHERE tP."Nama" LIKE 'A%'
   AND tP."Nama" LIKE '%i'
-  AND tP."Nama" LIKE '__a%'
+  AND tP."Nama" LIKE '___a%'
   AND tP."Nama" NOT LIKE '%n';
 
 -- NO 14 --
 SELECT *
 FROM "tblGaji" as g
-         JOIN "tblPengarang" tP on g."Kd_Pengarang" = tP."Kd_Pengarang";
+         INNER JOIN "tblPengarang" tP on g."Kd_Pengarang" = tP."Kd_Pengarang";
 
 -- NO 15 --
 SELECT SUM(g."Gaji") as "Total Gaji",
