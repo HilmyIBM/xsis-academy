@@ -5,7 +5,7 @@ create table tblPengarang (
 	"Nama" varchar(30) not null,
 	"Alamat" varchar(80) not null,
 	"Kota" varchar(15) not null,
-	"Kelamin" varchar(1) not null
+	"Kelamin" varchar(1)
 );
 
 drop table tblPengarang;
@@ -49,3 +49,6 @@ select * from tblgaji;
 --aggregate function (Count, min, max, sum, avg)
 select count(*) from tblgaji;
 select * from tblpengarang;
+
+ALTER TABLE tblpengarang
+	alter COLUMN kelamin TYPE varchar not null;
