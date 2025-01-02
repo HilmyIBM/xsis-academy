@@ -49,29 +49,44 @@ VALUES(101,'PTI447'),
       (123,'PTI999');
     
 --No. 1
-SELECT nama,nama_mk from mahasiswa join ambil_mk on mahasiswa.nim=ambil_mk.nim
-JOIN mata_kuliah on ambil_mk.kode_mk=mata_kuliah.kode_mk;
+SELECT nama,nama_mk from mahasiswa 
+INNER JOIN ambil_mk on mahasiswa.nim=ambil_mk.nim
+INNER JOIN mata_kuliah on ambil_mk.kode_mk=mata_kuliah.kode_mk;
 
 --No.2
-SELECT mahasiswa.nim,nama,jenis_kelamin,alamat from mahasiswa left join ambil_mk on mahasiswa.nim=ambil_mk.nim
-left JOIN mata_kuliah on ambil_mk.kode_mk=mata_kuliah.kode_mk WHERE ambil_mk.nim is NULL;
+SELECT mahasiswa.nim,nama,jenis_kelamin,alamat
+from mahasiswa left join ambil_mk on mahasiswa.nim=ambil_mk.nim
+left JOIN mata_kuliah on ambil_mk.kode_mk=mata_kuliah.kode_mk
+WHERE ambil_mk.nim is NULL;
 
 --No.3
-SELECT COUNT(jenis_kelamin) as jumlah,jenis_kelamin from mahasiswa left join ambil_mk on mahasiswa.nim=ambil_mk.nim
-left JOIN mata_kuliah on ambil_mk.kode_mk=mata_kuliah.kode_mk WHERE ambil_mk.nim is NULL GROUP BY jenis_kelamin;
+SELECT COUNT(jenis_kelamin) as jumlah,jenis_kelamin from mahasiswa 
+left join ambil_mk on mahasiswa.nim=ambil_mk.nim
+left JOIN mata_kuliah on ambil_mk.kode_mk=mata_kuliah.kode_mk 
+WHERE ambil_mk.nim is NULL 
+GROUP BY jenis_kelamin
+ORDER BY jumlah DESC;
 
 --No.4
-SELECT mahasiswa.nim,nama,mata_kuliah.kode_mk,nama_mk from mahasiswa join ambil_mk on mahasiswa.nim=ambil_mk.nim
-JOIN mata_kuliah on ambil_mk.kode_mk=mata_kuliah.kode_mk;
+SELECT mahasiswa.nim,nama,mata_kuliah.kode_mk,nama_mk 
+from mahasiswa 
+INNER JOIN ambil_mk on mahasiswa.nim=ambil_mk.nim
+INNER JOIN mata_kuliah on ambil_mk.kode_mk=mata_kuliah.kode_mk;
 
 --No.5
-SELECT mahasiswa.nim,nama,SUM(sks) from mahasiswa join ambil_mk on mahasiswa.nim=ambil_mk.nim
-JOIN mata_kuliah on ambil_mk.kode_mk=mata_kuliah.kode_mk GROUP BY nama,mahasiswa.nim 
+SELECT mahasiswa.nim,nama,SUM(sks) as "Jumlah SKS" 
+FROM mahasiswa 
+INNER JOIN ambil_mk on mahasiswa.nim=ambil_mk.nim
+INNER JOIN mata_kuliah on ambil_mk.kode_mk=mata_kuliah.kode_mk 
+GROUP BY mahasiswa.nim,nama
 HAVING SUM(sks) > 4 and  SUM(sks) <10;
 
 --No.6
-SELECT nama_mk from mata_kuliah left join ambil_mk on mata_kuliah.kode_mk=ambil_mk.kode_mk
-left JOIN mahasiswa on ambil_mk.nim=mahasiswa.nim WHERE mahasiswa.nim is NULL;
+SELECT nama_mk from mata_kuliah 
+left join ambil_mk on mata_kuliah.kode_mk=ambil_mk.kode_mk
+left JOIN mahasiswa on ambil_mk.nim=mahasiswa.nim
+WHERE mahasiswa.nim is NULL
+ORDER BY nama_mk DESC;
 
 
 

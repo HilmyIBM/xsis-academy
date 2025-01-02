@@ -105,9 +105,9 @@ HAVING COUNT(leave_request.leave_id) > 2;
 
 --No.4
 SELECT employee.nip,CONCAT(first_name,' ',last_name) as nama,
-employee_leave.regular_quota,
-COUNT(leave_request.leave_id) as cuti_yg_diambil, 
-SUM(employee_leave.regular_quota)-COUNT(leave_request.leave_id) as sisa_cuti
+employee_leave.regular_quota as "Quota Regular",
+COUNT(leave_request.leave_id) as "Cuti yg di ambil", 
+employee_leave.regular_quota-COUNT(leave_request.leave_id) as "Sisa Cuti"
 FROM employee  LEFT join biodata on employee.biodata_id=biodata.id
 LEFT join leave_request on employee.id=leave_request.employee_id
 LEFT join  employee_leave on employee.id=employee_leave.employee_id
@@ -117,11 +117,72 @@ GROUP BY employee.nip,nama,employee_leave.regular_quota;
 --No.5
 SELECT employee.nip,CONCAT(first_name,' ',last_name) as nama, 2022-EXTRACT(YEAR from employee.join_date) as lama_bekerja,
 CASE
-WHEN 2022-EXTRACT(YEAR from employee.join_date) > 5 THEN 10
+WHEN 2022-EXTRACT(YEAR from employee.join_date) > 5 THEN (1.5 * salary)
 ELSE 0
 END as bonus,
 (CASE
-WHEN 2022-EXTRACT(YEAR from employee.join_date) > 5 THEN 10
+WHEN 2022-EXTRACT(YEAR from employee.join_date) > 5 THEN (1.5 * salary)
 ELSE 0
 END)+employee.salary as total_gaji
 FROM employee join biodata on employee.biodata_id = biodata.id;
+
+--No.6
+SELECT nip,CONCAT(first_name,' ',last_name) as nama,dob,'2022'-EXTRACT(YEAR from dob) as usia,
+CASE
+WHEN EXTRACT(MONTH from dob) = 12 and EXTRACT(DAY from dob) = 22
+THEN (0.05 * salary)
+ELSE 0
+END as bonus,
+(CASE
+WHEN EXTRACT(MONTH from dob) = 12 and EXTRACT(DAY from dob) = 22
+THEN (0.05 * salary)
+ELSE 0
+END) + salary as total_gaji
+FROM employee join biodata on employee.biodata_id = biodata.id;
+
+--No.7
+SELECT nip,CONCAT(first_name,' ',last_name) as nama,dob as "Tgl Lahir",
+'2022'-EXTRACT(YEAR from dob) as "Umur"
+FROM employee join biodata on employee.biodata_id = biodata.id
+ORDER BY '2022'-EXTRACT(YEAR from dob);
+
+--No.8
+SELECT employee.nip,CONCAT(first_name,' ',last_name) as nama,
+COUNT(leave_request.leave_id) as cuti_yg_diambil
+FROM employee  LEFT join biodata on employee.biodata_id=biodata.id
+LEFT join leave_request on employee.id=leave_request.employee_id
+LEFT join  employee_leave on employee.id=employee_leave.employee_id
+WHERE leave_request.leave_id IS NULL 
+GROUP BY employee.nip,nama,employee_leave.regular_quota;
+
+--No.9
+SELECT CONCAT(first_name,' ',last_name) as "Nama Lengkap", leave.type as "Jenis Cuti",
+leave_request.end_date - leave_request.start_date as "Durasi Cuti", contact_person.contact,
+leave_request.reason
+FROM biodata JOIN employee on biodata.id=employee.biodata_id
+JOIN contact_person on biodata.id=contact_person.biodata_id
+JOIN leave_request on employee.id=leave_request.employee_id
+JOIN leave ON leave_request.leave_id=leave.id
+WHERE '2021-12-22' BETWEEN start_date and end_date AND
+contact_person.type='Phone';
+
+--No.10
+SELECT biodata.* from biodata LEFT JOIN employee on biodata.id=employee.biodata_id
+WHERE biodata_id is NULL;
+
+--No.11
+CREATE VIEW vw_data AS SELECT
+CONCAT(biodata.first_name,' ',biodata.last_name) as "Nama Lengkap",
+biodata.dob,
+biodata.pob,
+employee.status,
+employee.salary
+FROM biodata
+INNER JOIN employee on biodata.id=employee.biodata_id;
+
+--No.12
+SELECT COUNT(leave_request.leave_id) as jumlah_cuti,leave.type,leave.nama
+FROM leave_request 
+INNER JOIN leave on leave_request.leave_id=leave.id
+GROUP BY leave.type,leave.nama
+ORDER BY jumlah_cuti DESC LIMIT 1;

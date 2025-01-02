@@ -59,51 +59,58 @@ VALUES(1,'001','ST','KU',750000,'Cianjur'),
       (2,'002','OB','UM',350000,'Sukabumi'),
       (3,'003','MGR','HRD',1500000,'Sukabumi');
 
+CREATE FUNCTION fn_gaji(
+    gapok NUMERIC,
+    tunjangan_jabatan NUMERIC,
+    tunjangan_kinerja NUMERIC
+)
+RETURNS NUMERIC AS $total$
+DECLARE total NUMERIC;
+BEGIN
+    SELECT((gapok+tunjangan_jabatan+tunjangan_kinerja)) INTO total;
+    RETURN total;
+END;
+$total$ LANGUAGE plpgsql;
+
 --No. 1
-SELECT CONCAT(nama_depan,' ',nama_belakang) as nama_lengkap,nama_jabatan,SUM(gaji_pokok+tunjangan_jabatan) as gaji_tunjangan
+SELECT CONCAT(nama_depan,' ',nama_belakang) as "Nama Lengkap",nama_jabatan,gaji_pokok+tunjangan_jabatan as gaji_tunjangan
 FROM karyawan join pekerjaan on karyawan.nip=pekerjaan.nip 
 join jabatan on pekerjaan.kode_jabatan=jabatan.kd_jabatan
-GROUP BY nama_lengkap,nama_jabatan
-HAVING SUM(gaji_pokok+tunjangan_kinerja) < 5000000;
+WHERE gaji_pokok+tunjangan_kinerja < 5000000;
 
 --No.2
-SELECT CONCAT(nama_depan,' ',nama_belakang) as nama_lengkap,nama_jabatan,nama_divisi,
-SUM(gaji_pokok+tunjangan_jabatan+tunjangan_kinerja) as total_gaji,
-SUM(gaji_pokok+tunjangan_jabatan+tunjangan_kinerja)*0.05 as pajak, 
-SUM(gaji_pokok+tunjangan_jabatan+tunjangan_kinerja)-
-SUM(gaji_pokok+tunjangan_jabatan+tunjangan_kinerja)*0.05 as gaji_bersih 
+SELECT CONCAT(nama_depan,' ',nama_belakang) as "Nama Lengkap",nama_jabatan,nama_divisi,
+fn_gaji(gaji_pokok,tunjangan_jabatan,tunjangan_kinerja)as "Total Gaji",
+fn_gaji(gaji_pokok,tunjangan_jabatan,tunjangan_kinerja)*0.05 as "Pajak", 
+fn_gaji(gaji_pokok,tunjangan_jabatan,tunjangan_kinerja)-
+fn_gaji(gaji_pokok,tunjangan_jabatan,tunjangan_kinerja)*0.05 as "Gaji Bersih" 
 FROM karyawan join pekerjaan on karyawan.nip=pekerjaan.nip 
 join jabatan on pekerjaan.kode_jabatan=jabatan.kd_jabatan
 join divisi on pekerjaan.kode_divisi=divisi.kd_divisi
-WHERE karyawan.jenis_kelamin='Pria' and pekerjaan.kota_penenempatan NOT IN('Sukabumi')
-GROUP BY nama_lengkap,nama_jabatan,nama_divisi;
+WHERE karyawan.jenis_kelamin='Pria' and pekerjaan.kota_penenempatan NOT IN('Sukabumi');
 
 --No.3
 SELECT karyawan.nip,CONCAT(nama_depan,' ',nama_belakang) as nama_lengkap,nama_jabatan,nama_divisi,
-(0.25*SUM(gaji_pokok+tunjangan_jabatan+tunjangan_kinerja)*7) as bonus
+(0.25*(gaji_pokok+tunjangan_jabatan+tunjangan_kinerja)*7) as bonus
 FROM karyawan join pekerjaan on karyawan.nip=pekerjaan.nip 
 join jabatan on pekerjaan.kode_jabatan=jabatan.kd_jabatan
-join divisi on pekerjaan.kode_divisi=divisi.kd_divisi
-GROUP BY nama_lengkap,nama_jabatan,nama_divisi,karyawan.nip;
+join divisi on pekerjaan.kode_divisi=divisi.kd_divisi;
 
 --No.4
 SELECT karyawan.nip,CONCAT(nama_depan,' ',nama_belakang) as nama_lengkap,nama_jabatan,nama_divisi,
-SUM(gaji_pokok+tunjangan_jabatan+tunjangan_kinerja) as total_gaji,
-SUM(gaji_pokok+tunjangan_jabatan+tunjangan_kinerja)*0.05 as infak
+(gaji_pokok+tunjangan_jabatan+tunjangan_kinerja) as total_gaji,
+(gaji_pokok+tunjangan_jabatan+tunjangan_kinerja)*0.05 as infak
 FROM karyawan join pekerjaan on karyawan.nip=pekerjaan.nip 
 join jabatan on pekerjaan.kode_jabatan=jabatan.kd_jabatan
 join divisi on pekerjaan.kode_divisi=divisi.kd_divisi
-WHERE pekerjaan.kode_jabatan='MGR'
-GROUP BY nama_lengkap,nama_jabatan,nama_divisi,karyawan.nip;
+WHERE pekerjaan.kode_jabatan='MGR';
 
 --No.5
 SELECT karyawan.nip,CONCAT(nama_depan,' ',nama_belakang) as nama_lengkap, nama_jabatan,pendidikan_terakhir,
-'2000000'as tunjangan_pendidikan,SUM(gaji_pokok+tunjangan_jabatan) + 2000000 as total_gaji
+'2000000'as tunjangan_pendidikan,(gaji_pokok+tunjangan_jabatan) + 2000000 as total_gaji
 FROM karyawan join pekerjaan on karyawan.nip=pekerjaan.nip 
 join jabatan on pekerjaan.kode_jabatan=jabatan.kd_jabatan
-join divisi on pekerjaan.kode_divisi=divisi.kd_divisi
-WHERE pendidikan_terakhir LIKE 'S1%'
-GROUP BY nama_lengkap,nama_jabatan,nama_divisi,karyawan.nip,pendidikan_terakhir;
+WHERE pendidikan_terakhir LIKE 'S1%';
 
 --No.6
 SELECT karyawan.nip,CONCAT(nama_depan,' ',nama_belakang) as nama_lengkap,nama_jabatan,nama_divisi,
@@ -125,12 +132,12 @@ CREATE INDEX nip_idx
 on karyawan(nip);
 
 --No.9 
-SELECT Upper(CONCAT(nama_depan,' ',nama_belakang))as nama_lengkap FROM karyawan
+SELECT CONCAT(nama_depan,' ',UPPER(nama_belakang))as nama_lengkap FROM karyawan
 WHERE nama_belakang LIKE 'W%';
 
 --No.10
 SELECT CONCAT(nama_depan,' ',nama_belakang) as nama_lengkap,tgl_masuk,nama_jabatan,
-SUM(gaji_pokok+tunjangan_jabatan+tunjangan_kinerja) as total_gaji,
+(gaji_pokok+tunjangan_jabatan+tunjangan_kinerja) as total_gaji,
 CASE
 WHEN '2022'-Extract(year from tgl_masuk) >= 8 THEN (gaji_pokok+tunjangan_jabatan+tunjangan_kinerja)*0.10
 end as bonus
@@ -138,5 +145,4 @@ end as bonus
 FROM karyawan join pekerjaan on karyawan.nip=pekerjaan.nip 
 join jabatan on pekerjaan.kode_jabatan=jabatan.kd_jabatan
 join divisi on pekerjaan.kode_divisi=divisi.kd_divisi
-WHERE '2022'-Extract(year from tgl_masuk) >=8
-GROUP BY nama_lengkap,nama_jabatan,tgl_masuk,gaji_pokok,tunjangan_jabatan,tunjangan_kinerja;
+WHERE '2022'-Extract(year from tgl_masuk) >=8;

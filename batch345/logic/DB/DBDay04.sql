@@ -34,7 +34,8 @@ VALUES('8/2/2020',4,2,540),
 
 
 --No.1
-SELECT nama,COUNT(cust_id) from sales_person join orders on sales_person.id=orders.sales_person_id
+SELECT nama,COUNT(cust_id) from sales_person 
+INNER JOIN orders on sales_person.id=orders.sales_person_id
 GROUP BY nama
 HAVING COUNT(cust_id) >1; 
 
