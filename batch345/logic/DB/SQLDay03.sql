@@ -182,3 +182,97 @@ select P.nama , G.gaji
 from tblpengarang P full outer join tblgaji G
 	on P.kd_pengarang = G.kd_pengarang
 where P.kd_pengarang is null or G.kd_pengarang is null;
+
+--10. Pengarang dari P0003-P0006
+SELECT * FROM tblPengarang
+WHERE kd_pengarang BETWEEN 'P0003' AND 'P0006';
+
+SELECT * FROM tblPengarang
+WHERE kd_pengarang >= 'P0003' AND kd_pengarang <= 'P0006';
+
+--11.Pengarang dari Yogya, Solo dan Magelang
+SELECT * FROM tblPengarang
+WHERE kota = 'Yogya' OR kota = 'Solo' OR kota = 'Magelang';
+
+SELECT * FROM tblPengarang
+WHERE kota IN('Yogya', 'Solo', 'Magelang');
+
+--//Concat String untuk menggabungkan String//--
+'P0001-ASHADI'
+SELECT CONCAT(kd_pengarang, '-', nama) FROM  tblpengarang;
+
+--//Wildcard Character (%  _)//--
+select kota from tblpengarang
+where LOWER(kota) like 'b%'
+group by kota;
+
+select kota from tblpengarang
+where kota like '____' group by kota;
+
+select nama from tblpengarang
+where nama like '%p%' or nama like '%P%';
+
+--11.Pengarang bukan dari Yogya
+SELECT * FROM tblPengarang
+WHERE kota NOT IN ('Yogya');
+
+SELECT * FROM tblPengarang
+WHERE kota != 'Yogya';
+
+SELECT * FROM tblPengarang
+WHERE kota <> 'Yogya';
+
+--Pengarang dengan kota yg berawalan B
+SELECT * FROM tblPengarang
+WHERE kota IN (
+    SELECT kota FROM tblPengarang
+    where kota like 'B%' group by kota
+);
+
+--13a. Pengarang namanya dimulai A
+SELECT nama FROM tblpengarang
+where nama like 'A%';
+
+--13a. Pengarang namanya dimulai A
+SELECT nama FROM tblpengarang
+where nama like '%i';
+
+--14. tblPengarang dan Tbl gaji dengan kd_pengarang yg sama
+SELECT *
+FROM tblpengarang INNER JOIN tblgaji
+    ON tblpengarang.kd_pengarang = tblgaji.kd_pengarang;
+
+SELECT p.kd_pengarang, p.kelamin
+FROM tblpengarang as p INNER JOIN tblgaji as g
+    ON p.kd_pengarang = g.kd_pengarang;
+
+--16. Ubah panjang dari tipe kelamin menjadi 10
+ALTER TABLE tblpengarang
+    ALTER COLUMN kelamin TYPE VARCHAR(10);
+
+--Membuat Kolom menjadi NULLABLE
+ALTER TABLE tblpengarang
+    ALTER COLUMN alamat DROP NOT NULL;
+
+--17. Tambahkan kolom [Gelar] dengan tipe Varchar (12) pada tabel tblPengarang
+ALTER TABLE tblpengarang
+    ADD COLUMN gelar VARCHAR(12);
+
+--18. Ubah alamat dan kota dari Rian di table tblPengarang menjadi, Jl. Cendrawasih 65 dan Pekanbaru
+SELECT * FROM tblpengarang WHERE nama='Rian';
+
+UPDATE tblpengarang
+SET alamat='Jl. Cendrawasih 65', kota='Pekanbaru'
+WHERE id=2;
+
+--19. Buatlah view untuk attribute Kd_Pengarang, Nama, Kota, Gaji dengan nama vwPengarang
+create view vw_pengarang
+AS
+    select p.kd_pengarang, p.nama, p.kota, g.gaji
+    from tblpengarang as p inner join tblgaji as g
+        on p.kd_pengarang = g.kd_pengarang;
+
+select * from vw_pengarang vp right join tblgaji g
+    on vp.kd_pengarang = g.kd_pengarang;
+
+select * from vw_pengarang vp where vp.kota='Yogya';

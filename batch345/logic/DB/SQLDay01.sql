@@ -74,13 +74,18 @@ where table_catalog='coba' and table_schema='public';
 select * from information_schema.TABLES
 where table_catalog='coba' and table_name like '%index%';
 
+select * from information_schema.TABLES
+where table_catalog='dbpenerbit' and table_schema='public';
+
+select * from information_schema.TABLES
+where table_catalog='northwind' and table_schema='public';
+
 --List all Database Activity
 select * from pg_stat_activity;
 
 --Kill Database session
 SELECT pg_terminate_backend(pid)
 from pg_stat_activity where pid='151';
-
 
 --DESCRIBE a Table Schema / Structure
 SELECT *
@@ -92,6 +97,12 @@ WHERE table_name = 'cobaPertama';
 SELECT *
 FROM information_schema.columns
 WHERE table_name = 'pelanggan';
+SELECT *
+FROM information_schema.columns
+WHERE table_name = 'tblpengarang'
+SELECT *
+FROM information_schema.columns
+WHERE table_name = 'employees'
 
 --LIST Table Constraints
 SELECT *
@@ -112,3 +123,6 @@ select * from pg_indexes where tablename='pelanggan';
 --Check Table Sequence
 SELECT *
 FROM information_schema.sequences;
+
+--Check DB Current TimeZone
+SELECT * FROM pg_timezone_names WHERE abbrev = current_setting('TIMEZONE')
