@@ -120,11 +120,11 @@ WHERE Nama NOT LIKE '%n';
 
 -- No 14
 SELECT * FROM tblPengarang tp
-JOIN tblGaji tg ON tp.Kd_Pengarang = tg.Kd_Pengarang;
+INNER JOIN tblGaji tg ON tp.Kd_Pengarang = tg.Kd_Pengarang;
 
 -- No 15
 SELECT DISTINCT tp.Kota FROM tblPengarang tp
-JOIN tblGaji tg ON tp.Kd_Pengarang = tg.Kd_Pengarang
+INNER JOIN tblGaji tg ON tp.Kd_Pengarang = tg.Kd_Pengarang
 WHERE tg.Gaji < 1000000;
 
 -- No 16
@@ -140,7 +140,7 @@ UPDATE tblPengarang
 SET
     Alamat='Jl. Cendrawasih 65',
     Kota='Pekanbaru'
-WHERE Nama ='Rian';
+WHERE id = 2;
 
 -- No 19
 CREATE VIEW vwPengarang AS
@@ -163,5 +163,8 @@ WHERE table_catalog='dbpenerbit' AND table_schema='public';
 
 SELECT * FROM information_schema.columns
 WHERE column_name = 'gelar';
+
+SELECT * FROM information_schema.columns
+WHERE table_name = 'tblpengarang';
 
 CREATE DATABASE DB_Entertainer;
