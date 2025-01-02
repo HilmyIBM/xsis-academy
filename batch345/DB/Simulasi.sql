@@ -93,7 +93,7 @@ FROM tb_employee
 SELECT te.nip,
 CONCAT(first_name, ' ', last_name),
 tgl_mulai,
-CONCAT(EXTRACT(DAY FROM AGE(tgl_selesai , tgl_mulai)), ' Hari') AS lama_cuti
+CONCAT(EXTRACT(DAY FROM AGE(tgl_selesai , tgl_mulai))+1, ' Hari') AS lama_cuti
 FROM tb_employee te
 JOIN tb_biodata tb ON tb.id = te.biodata_id
 JOIN tb_leave_req tlr ON te.id = tlr.employee_id
@@ -117,7 +117,7 @@ tc.lama_cuti,
 (regular_quota - tc.lama_cuti) AS sisa_cuti
 FROM tb_employee te
 JOIN (
-    SELECT employee_id, SUM(EXTRACT(DAY FROM AGE(tgl_selesai,tgl_mulai))) as lama_cuti
+    SELECT employee_id, SUM(EXTRACT(DAY FROM AGE(tgl_selesai,tgl_mulai))+1) as lama_cuti
     FROM tb_leave_req
     WHERE leave_id = 1
     GROUP BY employee_id) 
@@ -178,7 +178,7 @@ WHERE tlq.id IS NULL
 -- No. 9
 SELECT CONCAT(first_name, ' ', last_name) AS nama_lengkap,
 tl.tipe,
-CONCAT(EXTRACT(DAY FROM AGE(tgl_selesai , tgl_mulai)), ' Hari') AS lama_cuti,
+CONCAT(EXTRACT(DAY FROM AGE(tgl_selesai , tgl_mulai))+1, ' Hari') AS lama_cuti,
 tc.contact
 FROM tb_employee te
 JOIN (SELECT biodata_id, contact FROM tb_cp WHERE tipe LIKE 'PHONE')  AS tc ON tc.biodata_id = te.biodata_id
@@ -220,3 +220,8 @@ SELECT reason, COUNT(reason)
 FROM tb_leave_req tlr
 GROUP BY reason
 HAVING MAX(SELECT COUNT(reason) FROM tb_leave_req GROUP BY reason) = COUNT(reason)
+
+
+SELECT tlr.leave_id, MAX(tlr.leave_id)
+FROM tb_leave_req tlr
+GROUP BY tlr.leave_id

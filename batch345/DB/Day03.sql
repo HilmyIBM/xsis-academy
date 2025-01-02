@@ -150,6 +150,22 @@ JOIN tb_jabatan tj ON tj.kd_jabatan = tp.kd_jabatan
 JOIN tb_divisi td On td.kd_divisi = tp.kd_divisi
 ORDER BY tk.nip;
 
+SELECT tk.nip,
+CONCAT(tk.nama_depan, ' ', tk.nama_belakang) AS nama_lengkap, 
+tj.nama_jabatan, 
+td.nama_divisi,
+CASE tj.kd_jabatan
+    WHEN 'MGR' THEN (tj.gaji_pokok + tj.tunjangan_jabatan + tp.tunjangan_kinerja) * 0.25 *7
+    WHEN 'ST' THEN (tj.gaji_pokok + tj.tunjangan_jabatan + tp.tunjangan_kinerja) * 0.25 *5
+ELSE 
+    (tj.gaji_pokok + tj.tunjangan_jabatan + tp.tunjangan_kinerja) * 0.25 *2
+END AS bonus
+FROM tb_karyawan tk
+JOIN tb_pekerjaan tp ON tk.nip = tp.nip
+JOIN tb_jabatan tj ON tj.kd_jabatan = tp.kd_jabatan
+JOIN tb_divisi td On td.kd_divisi = tp.kd_divisi
+ORDER BY tk.nip;
+
 -- No. 7
 ALTER TABLE tb_karyawan
 ADD CONSTRAINT nip UNIQUE(nip);
@@ -176,3 +192,15 @@ JOIN tb_pekerjaan tp ON tk.nip = tp.nip
 JOIN tb_jabatan tj ON tj.kd_jabatan = tp.kd_jabatan
 JOIN tb_divisi td On td.kd_divisi = tp.kd_divisi
 WHERE EXTRACT(YEAR FROM AGE('2022-12-30', tgl_masuk)) >= 8;
+
+
+CREATE FUNCTION fn_total_gaji(gapok NUMERIC, tunjangan_jabatan NUMERIC, tunjangan_kinerja NUMERIC)
+RETURNS NUMERIC AS $total$
+DECLARE total NUMERIC;
+BEGIN
+    SELECT (gapok + tunjangan_jabatan + tunjangan_kinerja) INTO total;
+    RETURN total;
+END;
+$total$ LANGUAGE plpgsql;
+
+SELECT  fn_total_gaji(1000000, 500000, 100000)

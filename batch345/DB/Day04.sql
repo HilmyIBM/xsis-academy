@@ -31,7 +31,7 @@ INSERT INTO tb_mahasiswa(pk_nim, nama, j_kelamin, alamat)
 VALUES
 ('101', 'Arif', 'L' , 'Jl. Kenangan'),
 ('102', 'Budi', 'L' , 'Jl. Jombang'),
-('103', 'Wati', 'p' , 'Jl. Surabaya'),
+('103', 'Wati', 'P' , 'Jl. Surabaya'),
 ('104', 'Ika', 'P' , 'Jl. Jombang'),
 ('105', 'Tono', 'L' , 'Jl. jakarta'),
 ('106', 'Iwan', 'L' , 'Jl. Bandung'),
@@ -71,12 +71,17 @@ WHERE tam.nim IS NULL
 
 -- No. 3
 SELECT COUNT(j_kelamin) AS jml, j_kelamin
-FROM tb_ambil_mk tam
-RIGHT JOIN tb_mahasiswa tm ON tm.pk_nim = tam.nim
+FROM tb_mahasiswa  tm
+LEFT JOIN tb_ambil_mk tam ON tm.pk_nim = tam.nim
 WHERE tam.nim IS NULL
 GROUP BY j_kelamin
 ORDER BY COUNT(j_kelamin) DESC
 
+
+SELECT tm.pk_nim, j_kelamin, tam.kode_mk
+FROM tb_mahasiswa  tm
+LEFT JOIN tb_ambil_mk tam ON tm.pk_nim = tam.nim
+WHERE tam.nim IS NOT NULL
 -- No. 4
 SELECT tm.pk_nim, nama, tmk.pk_kode_mk, nama_mk
 FROM tb_ambil_mk tam
@@ -96,5 +101,5 @@ SELECT nama_mk
 FROM tb_ambil_mk tam
 RIGHT JOIN tb_matakuliah tmk ON tmk.pk_kode_mk = tam.kode_mk
 LEFT JOIN tb_mahasiswa tm ON tm.pk_nim = tam.nim
-WHERE tam.kode_mk IS NULL OR tm.pk_nim IS NULL
+WHERE tm.pk_nim IS NULL
 ORDER BY sks ASC
