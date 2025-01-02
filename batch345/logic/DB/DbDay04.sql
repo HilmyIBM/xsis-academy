@@ -22,8 +22,6 @@ VALUES
 
 SELECT * FROM "Mahasiswa";
 
-SELECT * FROM "Mahasiswa";
-
 
 --setup tb Matakuliah
 
@@ -63,3 +61,30 @@ VALUES
 (123, 'PTI999');
 
 SELECT * FROM ambil_mk;
+
+
+
+--no 1
+SELECT "Mahasiswa".nama, "Matakuliah".nama_mk
+FROM "Mahasiswa"
+INNER JOIN ambil_mk ON "Mahasiswa"."Nim" = ambil_mk.nim
+INNER JOIN "Matakuliah" ON ambil_mk.kode_mk = "Matakuliah".kode_mk;
+
+SELECT "Mahasiswa".nama, "Matakuliah".nama_mk
+FROM "Matakuliah"
+INNER JOIN ambil_mk ON ambil_mk.kode_mk = "Matakuliah".kode_mk
+INNER JOIN "Mahasiswa" ON "Mahasiswa"."Nim" = ambil_mk.nim;
+SELECT * from "Matakuliah"
+
+
+--no 2
+
+
+
+--no 6
+SELECT "Matakuliah".nama_mk
+FROM "Mahasiswa"
+INNER JOIN ambil_mk ON "Mahasiswa"."Nim" = ambil_mk.nim
+RIGHT OUTER JOIN "Matakuliah" ON ambil_mk.kode_mk = "Matakuliah".kode_mk
+WHERE "Mahasiswa"."Nim" IS NULL
+ORDER BY "Matakuliah".kode_mk DESC;

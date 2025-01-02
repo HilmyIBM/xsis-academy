@@ -303,9 +303,16 @@ SET TIMEZONE = 'Asia/Jakarta';
 SET TIMEZONE = 'America/Los_Angeles';
 
 Select NOW();
+Select NOW() :: DATE; --klo mau tanggal aj
 
+SELECT TO_CHAR(now()::date, 'dd/mm/yyyy');
+SELECT TO_CHAR(now()::date, 'dd mon yyyy');
 
+select current_timestamp;
 
 
 --Check DB Current Timezones
 SELECT * FROM pg_timezone_names WHERE abbrev = current_setting('TIMEZONE');
+
+
+

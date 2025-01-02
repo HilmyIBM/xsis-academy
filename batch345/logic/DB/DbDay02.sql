@@ -9,8 +9,6 @@ CREATE TABLE artis(
     award INTEGER,
     negara VARCHAR(100) REFERENCES negara(kd_negara)
 );
- 
-DROP TABLE artis;
 
 DROP TABLE artis;
 
@@ -144,11 +142,13 @@ WHERE UPPER(nm_film) LIKE '%D%';
 
 --no 6
 SELECT film.nm_film, artis.nm_artis
-FROM film as film INNER JOIN artis as artis ON film.artis = artis.kd_artis;
+FROM film as film 
+INNER JOIN artis as artis ON film.artis = artis.kd_artis;
 
 --no 7
 SELECT film.nm_film AS "Nama Film", artis.negara AS "Nama Negara"
-FROM film as film INNER JOIN artis as artis ON film.artis = artis.kd_artis
+FROM film as film 
+INNER JOIN artis as artis ON film.artis = artis.kd_artis
 WHERE artis.negara = 'HK';
 
 --no 8
@@ -185,4 +185,22 @@ GROUP BY artis.nm_artis, genre.nm_genre;
 
 --no 12
 SELECT negara.kd_negara, negara.nm_negara, COUNT (film.*) AS "jumlah_Film"
-FROM 
+FROM artis
+INNER JOIN film ON film.artis = artis.kd_artis
+RIGHT OUTER JOIN negara ON artis.negara = negara.kd_negara -- kalo pake full, misal ada null di sisi kiri nnti ke show
+GROUP BY negara.kd_negara
+ORDER BY negara.nm_negara;
+
+--no 13
+SELECT film.nm_film
+FROM film
+INNER JOIN produser ON film.produser = produser.kd_produser
+WHERE produser.international = 'YA';
+
+
+--no 14
+SELECT produser.nm_produser, COUNT(film.*)
+FROM film
+FULL OUTER JOIN produser ON film.produser = produser.kd_produser
+GROUP BY produser.nm_produser
+ORDER BY produser.nm_produser;
