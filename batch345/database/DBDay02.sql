@@ -26,7 +26,7 @@ CREATE TABLE film (
     nominasi INTEGER NOT NULL
 );
 
-DROP TABLE film;
+-- DROP TABLE film;
 
 INSERT INTO film(kd_film, nm_film, genre, artis, produser, pendapatan, nominasi)
 VALUES
@@ -139,7 +139,8 @@ WHERE g.nm_genre = 'ACTION';
 
 -- No 12
 SELECT n.kd_negara, n.nm_negara, COUNT(f.kd_film) AS jumlah_film FROM negara n
-LEFT JOIN artis a ON n.kd_negara = a.negara LEFT JOIN film f ON a.kd_artis=f.artis
+LEFT JOIN artis a ON n.kd_negara = a.negara
+LEFT JOIN film f ON a.kd_artis=f.artis
 GROUP BY n.kd_negara
 ORDER BY n.nm_negara ASC;
 

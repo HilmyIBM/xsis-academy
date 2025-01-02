@@ -16,6 +16,7 @@ CREATE TABLE ambil_mk (
 );
 
 select * from  Mahasiswa;
+
 INSERT INTO Mahasiswa (Nim, nama, jenis_kelamin, alamat)
 VALUES 
 	(101, 'Arif', 'L', 'Jl. Kenangan'),
@@ -52,3 +53,39 @@ JOIN ambil_mk am ON m.nim = am.nim
 JOIN matakuliah mk ON am.kode_mk = mk.kode_mk;
 
 -- No 2
+SELECT m.nim, m.nama, m.jenis_kelamin, m.alamat
+FROM mahasiswa m
+LEFT JOIN ambil_mk am ON m.nim = am.nim
+WHERE am.nim IS NULL;
+
+-- No 3
+SELECT COUNT(m.jenis_kelamin) AS jml, m.jenis_kelamin
+FROM mahasiswa m
+LEFT JOIN ambil_mk am ON m.nim = am.nim
+WHERE am.nim IS NULL
+GROUP BY m.jenis_kelamin;
+
+-- No 4
+SELECT m.nim, m.nama, mk.kode_mk, mk.nama_mk
+FROM mahasiswa m
+INNER JOIN ambil_mk am ON m.nim = am.nim
+INNER JOIN matakuliah mk on am.kode_mk = mk.kode_mk;
+
+-- No 5
+SELECT m.nim, m.nama, SUM(mk.sks) AS jml_sks
+FROM ambil_mk a
+INNER JOIN Mahasiswa m ON a.nim = m.nim
+INNER JOIN Matakuliah mk ON a.kode_mk = mk.kode_mk
+GROUP BY m.nim, m.nama
+HAVING SUM(mk.sks) > 4 AND SUM(mk.sks) < 10;
+
+-- No 6
+SELECT mk.nama_mk
+FROM matakuliah mk
+LEFT JOIN ambil_mk am ON mk.kode_mk = am.kode_mk
+LEFT JOIN mahasiswa m ON am.nim = m.nim
+WHERE m.nim IS NULL
+ORDER BY mk.nama_mk DESC;
+
+CREATE DATABASE DB_Sales;
+
