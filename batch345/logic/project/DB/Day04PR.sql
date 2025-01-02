@@ -38,7 +38,7 @@ values
 
 
 --- a
-SELECT
+ SELECT
     sp.name,
     count(salesperson_id) as jml_order
 FROM

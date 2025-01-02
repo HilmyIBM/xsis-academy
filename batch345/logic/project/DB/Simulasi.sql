@@ -134,14 +134,15 @@ HAVING count(r.reason) > 2;
 SELECT
     e.nip,
     b.frist_name || ' ' || b.last_name as full_name,
-    count(r.reason) || ' ' || 'Hari' as jumlah_cuti_yang_diambil,
-    el.regular_quota - count(r.reason) || ' ' || 'Hari' as sisa_cuti
+    SUM(extract(DAYS from age(r.end_date, r.start_date)) + 1) || ' ' || 'Hari' as total_cuti,
+    el.regular_quota - SUM(extract(DAYS from age(r.end_date, r.start_date)) + 1) || ' ' || 'Hari' as sisa_cuti
 FROM
     employee e
         INNER JOIN biodata b on e.biodata_id = b.id
         INNER JOIN request r on e.id = r.employee_id
         INNER JOIN employee_leave el on e.id = el.employee_id
-GROUP BY e.nip, b.frist_name, b.last_name, el.regular_quota;
+WHERE r.leave_id = 1
+GROUP BY e.nip, full_name, el.regular_quota;
 
 --- NO 5
 SELECT
@@ -193,7 +194,7 @@ SELECT
     b.frist_name || ' ' || b.last_name as full_name,
     l.type,
     r.reason,
-    extract(DAYS FROM age(r.end_date, r.start_date)) || ' ' || 'Hari' as lama_cuti,
+    extract(DAYS FROM age(r.end_date, r.start_date)) + 1 || ' ' || 'Hari' as lama_cuti,
     string_agg(cp.contact, ', ') as cp
 --     cp.contact
 FROM
@@ -226,11 +227,12 @@ FROM
 SELECT * FROM vw_employee;
 
 --- NO 12
-SELECT max(reason_count), freq. reason
-FROM (SELECT COUNT(reason) AS reason_count, reason FROM request
-         group by reason) freq
-group by freq.reason, reason_count
-having reason_count = max(reason_count);
-
-
--- HAVING count(reason) > 1
+SELECT r.reason
+FROM request r
+GROUP BY reason
+HAVING count(reason) >= (
+    SELECT MAX(rf.freq)
+    FROM (SELECT count(reason) as freq
+          FROM request
+          GROUP BY reason) as rf
+);

@@ -71,8 +71,8 @@ SELECT
     tj.gaji_pokok + tj.tunjangan_jabatan as gaji_tunjangan
 FROM
     tb_pekerjaan tp
-    JOIN public.tb_karyawan tk on tp.nip = tk.nip
-    JOIN tb_jabatan tj on tp.kode_jabatan = tj.kd_jabatan
+    INNER JOIN public.tb_karyawan tk on tp.nip = tk.nip
+    INNER JOIN tb_jabatan tj on tp.kode_jabatan = tj.kd_jabatan
 WHERE tj.gaji_pokok + tj.tunjangan_jabatan < 5000000
 ORDER BY gaji_tunjangan desc;
 
@@ -100,7 +100,7 @@ SELECT
     ((tj.gaji_pokok + tj.tunjangan_jabatan + tp.tunjangan_kinerja) * 7) * 0.25 as bonus
 FROM
     tb_pekerjaan tp
-        JOIN public.tb_karyawan tk on tp.nip = tk.nip
+        JOIN tb_karyawan tk on tp.nip = tk.nip
         JOIN tb_jabatan tj on tp.kode_jabatan = tj.kd_jabatan
         JOIN tb_divisi td on tp.kode_divisi = td.kd_divisi;
 
@@ -131,7 +131,7 @@ FROM
     tb_pekerjaan tp
         JOIN public.tb_karyawan tk on tp.nip = tk.nip
         JOIN tb_jabatan tj on tp.kode_jabatan = tj.kd_jabatan
-WHERE tk.pendidikan_terakhir LIKE 'S1%';
+WHERE tk.pendidikan_terakhir LIKE 'S1 %';
 
 -- NO 6
 SELECT
@@ -140,9 +140,9 @@ SELECT
     tj.nama_jabatan,
     td.nama_divisi,
     CASE tj.kd_jabatan
-        WHEN 'MGR' THEN ((tj.gaji_pokok + tj.tunjangan_jabatan + tp.tunjangan_kinerja) * 0.25) * 7
-        WHEN 'ST' THEN ((tj.gaji_pokok + tj.tunjangan_jabatan + tp.tunjangan_kinerja) * 0.25) * 5
-        ELSE ((tj.gaji_pokok + tj.tunjangan_jabatan + tp.tunjangan_kinerja) * 0.25) * 2
+        WHEN 'MGR' THEN total_gaji(jabatan := tj, pekerjaan := tp) * 7
+        WHEN 'ST' THEN total_gaji(tj, tp) * 5
+        ELSE total_gaji(tj, tp) * 2
     END bonus
 FROM
     tb_pekerjaan tp
@@ -152,11 +152,15 @@ FROM
 
 -- NO 7
 ALTER TABLE tb_karyawan
-    ADD UNIQUE (nip);
+    ADD CONSTRAINT uq_karyawan_nip UNIQUE (nip);
+
+SELECT * FROM pg_indexes where tablename='tb_karyawan';
+
 
 -- NO 8
 CREATE INDEX idx_nip
 ON tb_karyawan(nip);
+
 
 -- NO 9
 SELECT
@@ -174,15 +178,33 @@ SELECT
     tk.tgl_masuk,
     tj.nama_jabatan,
     td.nama_divisi,
-    tj.gaji_pokok + tj.tunjangan_jabatan + tp.tunjangan_kinerja as total_gaji,
-    (tj.gaji_pokok + tj.tunjangan_jabatan + tp.tunjangan_kinerja) * 0.1 as bonus,
-    extract(YEAR FROM age('2022-12-01', tk.tgl_masuk)) as lama_bekerja
+    total_gaji(tj, tp) as total_gaji,
+    total_gaji(tj, tp) * 0.1 as bonus,
+    2022 - extract(YEAR FROM tk.tgl_masuk) as lama_bekerja
 FROM
     tb_pekerjaan tp
-        JOIN public.tb_karyawan tk on tp.nip = tk.nip
-        JOIN tb_jabatan tj on tp.kode_jabatan = tj.kd_jabatan
-        JOIN tb_divisi td on tp.kode_divisi = td.kd_divisi
+        INNER JOIN public.tb_karyawan tk on tp.nip = tk.nip
+        INNER JOIN tb_jabatan tj on tp.kode_jabatan = tj.kd_jabatan
+        INNER JOIN tb_divisi td on tp.kode_divisi = td.kd_divisi
 WHERE
-    extract(YEAR FROM age('2022-12-01', tk.tgl_masuk)) >= 8;
+    2022 - extract(YEAR FROM  tk.tgl_masuk) >= 8;
 
-SELECT extract(YEAR FROM age('2022-12-01', tk.tgl_masuk)) from tb_karyawan tk
+SELECT extract(YEAR FROM age('2022-12-01', tk.tgl_masuk)) from tb_karyawan tk;
+
+CREATE FUNCTION ufn_total_gaji(gapok numeric, tunjangan_jabatan numeric, tunjangan_kinerja numeric)
+RETURNS numeric as $total$
+    DECLARE total numeric;
+    BEGIN
+        SELECT (gapok + tunjangan_jabatan, tunjangan_kinerja) INTO total;
+        RETURN total;
+    END
+$total$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION total_gaji(jabatan tb_jabatan, pekerjaan tb_pekerjaan) RETURNS numeric
+return jabatan.gaji_pokok + jabatan.tunjangan_jabatan + pekerjaan.tunjangan_kinerja;
+
+CREATE FUNCTION add(a numeric, b numeric) returns numeric
+RETURN a+b;
+
+select add(1000000, 1000000)
+

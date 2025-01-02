@@ -106,7 +106,7 @@ HAVING sum(m2.sks) > 4 AND sum(m2.sks) < 10;
 
 --  NO 6
 SELECT
-    m.nama_mk
+    *
 FROM
     ambil_mk am
         RIGHT JOIN matakuliah m on am.kode_mk = m.kode_mk

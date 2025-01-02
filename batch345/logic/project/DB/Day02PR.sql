@@ -133,14 +133,13 @@ SELECT f.nm_film, n.nm_negara
 FROM film f
          JOIN artis a on a.kd_artis = f.artis
          JOIN negara n on n.kd_negara = a.negara
-WHERE n.nm_negara NOT LIKE '%O%';
+WHERE n.nm_negara NOT ILIKE '%o%';
 
 -- NO 9
 SELECT a.nm_artis
 FROM film f
     RIGHT JOIN artis a on a.kd_artis = f.artis
-WHERE f.artis is NULL
-GROUP BY a.nm_artis;
+WHERE f.artis is NULL;
 
 -- NO 10
 
@@ -164,25 +163,34 @@ SELECT
     g.nm_negara,
     count(f) as jumlah_film
 FROM negara g
-FULL JOIN artis a on g.kd_negara = a.negara
-FULL JOIN film f on a.kd_artis = f.artis
+         FULL OUTER JOIN artis a on g.kd_negara = a.negara
+         LEFT JOIN film f on a.kd_artis = f.artis
 group by g.kd_negara, g.nm_negara;
+
+SELECT
+    n.nm_negara,
+    n.kd_negara,
+    count(f.kd_film) as jumlah_film
+FROM film f
+    INNER JOIN artis a on f.artis = a.kd_artis
+    RIGHT JOIN negara n on n.kd_negara = a.negara
+group by n.kd_negara;
 
 -- NO 13
 SELECT
     f.nm_film
 FROM
     film f
-    JOIN produser p on p.kd_produser = f.produser
+    INNER JOIN produser p on p.kd_produser = f.produser
 WHERE p.international = 'YA';
 
 -- NO 14
 SELECT
     p.nm_produser,
-    count(f)
+    count(f.produser)
 FROM
     film f
-        FULL JOIN produser p on p.kd_produser = f.produser
+        RIGHT JOIN produser p on p.kd_produser = f.produser
 GROUP BY p.nm_produser;
 
 CREATE DATABASE northwind
