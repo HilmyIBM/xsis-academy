@@ -59,6 +59,8 @@ VALUES
 -- SELECT * FROM mata_kuliah;
 -- SELECT * FROM ambil_mk;
 
+
+
 -- 1
 SELECT 
     b.nama,
@@ -81,7 +83,8 @@ FROM mahasiswa b
 WHERE b.nim NOT IN (
     SELECT a.nim FROM ambil_mk a
 )
-GROUP BY b.jenis_kelamin;
+GROUP BY b.jenis_kelamin
+ORDER BY jml desc;
 
 -- 4
 SELECT
@@ -90,19 +93,19 @@ SELECT
     a.kode_mk,
     c.nama_mk
 FROM ambil_mk a
-    JOIN mahasiswa b ON a.nim = b.nim
-    JOIN mata_kuliah c ON a.kode_mk = c.kode_mk;
+    INNER JOIN mahasiswa b ON a.nim = b.nim
+    INNER JOIN mata_kuliah c ON a.kode_mk = c.kode_mk;
 
 -- 5
 SELECT
-    a.nim,
-    b.nama,
-    SUM(c.sks) AS jml_sks
-FROM ambil_mk a
-    JOIN mahasiswa b ON a.nim = b.nim
-    JOIN mata_kuliah c ON a.kode_mk = c.kode_mk
-GROUP BY a.nim, b.nama
-HAVING SUM(c.sks) > 4 AND SUM(c.sks) < 10;
+    amk.nim,
+    m.nama,
+    SUM(mk.sks) AS jml_sks
+FROM ambil_mk amk
+    INNER JOIN mahasiswa m ON amk.nim = m.nim
+    INNER JOIN mata_kuliah mk ON amk.kode_mk = mk.kode_mk
+GROUP BY amk.nim, m.nama
+HAVING SUM(mk.sks) > 4 AND SUM(mk.sks) < 10;
 
 -- 6
 SELECT c.nama_mk

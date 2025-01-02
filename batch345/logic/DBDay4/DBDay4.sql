@@ -103,8 +103,6 @@ from orders o
 	full outer join sales_person sp on o.sales_person_id = sp.id
 order by sp.id;
 
-create database db_ptxa;
-
 
 
 	

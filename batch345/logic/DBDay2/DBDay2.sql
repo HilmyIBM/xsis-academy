@@ -126,24 +126,23 @@ JOIN negara c ON b.negara = c.kd_negara
 WHERE b.negara = 'HK';
 
 -- 8
-SELECT a.nm_film AS nama_film, c.nm_negara AS negara
-FROM film a
-JOIN artis b ON a.artis = b.kd_artis
-JOIN negara c ON b.negara = c.kd_negara
-WHERE c.nm_negara NOT LIKE '%O%';
+SELECT f.nm_film AS nama_film, n.nm_negara AS negara
+FROM film f
+JOIN artis a ON f.artis = a.kd_artis
+JOIN negara n ON a.negara = n.kd_negara
+WHERE n.nm_negara NOT LIKE '%O%';
 
 -- 9
--- SELECT b.nm_artis
--- FROM film a join artis b 
--- ON a.artis = b.kd_artis
--- GROUP BY b.nm_artis
--- WHERE NOT IN FILM;
+SELECT a.nm_artis
+FROM artis a
+WHERE a.kd_artis NOT IN 
+    (SELECT f.artis FROM film f)
+GROUP BY a.nm_artis;
 
-SELECT b.nm_artis
-FROM artis b
-WHERE b.kd_artis NOT IN 
-    (SELECT a.artis FROM film a)
-GROUP BY b.nm_artis;
+SELECT a.nm_artis
+FROM artis a 
+    left join film f on a.kd_artis = f.artis
+WHERE f.kd_film is null;
 
 -- 10
 SELECT b.nm_artis AS nm_artis, c.nm_genre AS genre
@@ -173,7 +172,7 @@ FROM negara c
 LEFT JOIN artis b ON b.negara = c.kd_negara
 LEFT JOIN film a ON a.artis = b.kd_artis
 GROUP BY c.kd_negara, c.nm_negara
-ORDER BY c.kd_negara;
+ORDER BY c.nm_negara;
 
 -- 13
 SELECT a.nm_film
@@ -187,13 +186,5 @@ FROM film a
 RIGHT JOIN produser b on a.produser = b.kd_produser
 GROUP BY b.nm_produser;
 
-
--- SELECT *
--- INTO film_bak
--- FROM film;
-
-CREATE DATABASE db_hr;
-
-SELECT * FROM pg_database;
 
 

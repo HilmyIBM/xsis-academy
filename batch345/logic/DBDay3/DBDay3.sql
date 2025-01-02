@@ -82,61 +82,64 @@ FROM tb_pekerjaan a
     JOIN tb_karyawan b ON a.nip = b.nip
     JOIN tb_jabatan c on a.kd_jabatan = c.kd_jabatan
 WHERE c.tunjangan_jabatan + c.gaji_pokok < 5000000
+ORDER BY gaji_tunjangan DESC;
 
 -- 2
 SELECT 
-    CONCAT (b.nama_depan, ' ', b.nama_belakang) AS nama_lengkap,
-    c.nama_jabatan AS nama_jabatan,
+    CONCAT (k.nama_depan, ' ', k.nama_belakang) AS nama_lengkap,
+    j.nama_jabatan AS nama_jabatan,
     d.nama_divisi AS nama_divisi,
-    c.tunjangan_jabatan + c.gaji_pokok + a.tunjangan_kinerja AS total_gaji,
-    (c.tunjangan_jabatan + c.gaji_pokok + a.tunjangan_kinerja) * 0.05 AS pajak,
-    (c.tunjangan_jabatan + c.gaji_pokok + a.tunjangan_kinerja) - ((c.tunjangan_jabatan + c.gaji_pokok + a.tunjangan_kinerja) * 0.05) AS gaji_bersih
-FROM tb_pekerjaan a
-    JOIN tb_karyawan b ON a.nip = b.nip
-    JOIN tb_jabatan c ON a.kd_jabatan = c.kd_jabatan
-    JOIN tb_divisi d ON a.kd_divisi = d.kd_divisi
-WHERE b.jenis_kelamin = 'Pria' AND a.kota_penempatan != 'Sukabumi';
+    j.tunjangan_jabatan + j.gaji_pokok + a.tunjangan_kinerja AS total_gaji,
+    (j.tunjangan_jabatan + j.gaji_pokok + a.tunjangan_kinerja) * 0.05 AS pajak,
+    (j.tunjangan_jabatan + j.gaji_pokok + a.tunjangan_kinerja) - ((j.tunjangan_jabatan + j.gaji_pokok + a.tunjangan_kinerja) * 0.05) AS gaji_bersih
+FROM tb_pekerjaan p
+    INNER JOIN tb_karyawan k ON p.nip = k.nip
+    INNER JOIN tb_jabatan j ON p.kd_jabatan = j.kd_jabatan
+    INNER JOIN tb_divisi d ON p.kd_divisi = d.kd_divisi
+WHERE k.jenis_kelamin = 'Pria' AND p.kota_penempatan != 'Sukabumi';
 
 -- 3
 SELECT 
-    a.nip AS nip,
-    CONCAT (b.nama_depan, ' ', b.nama_belakang) AS nama_lengkap,
-    c.nama_jabatan AS nama_jabatan,
+    p.nip AS nip,
+    CONCAT (k.nama_depan, ' ', k.nama_belakang) AS nama_lengkap,
+    j.nama_jabatan AS nama_jabatan,
     d.nama_divisi AS nama_divisi,
-    ((c.tunjangan_jabatan + c.gaji_pokok + a.tunjangan_kinerja) * 7) * 0.25 AS bonus
-FROM tb_pekerjaan a
-    JOIN tb_karyawan b ON a.nip = b.nip
-    JOIN tb_jabatan c ON a.kd_jabatan = c.kd_jabatan
-    JOIN tb_divisi d ON a.kd_divisi = d.kd_divisi
-ORDER BY a.nip ASC;
+    j.tunjangan_jabatan + j.gaji_pokok + p.tunjangan_kinerja AS gaji,
+    ((j.tunjangan_jabatan + j.gaji_pokok + p.tunjangan_kinerja) * 7) * 0.25 AS bonus,
+    (j.tunjangan_jabatan + j.gaji_pokok + p.tunjangan_kinerja) + ((j.tunjangan_jabatan + j.gaji_pokok + p.tunjangan_kinerja) * 7) * 0.25 as total_gaji
+FROM tb_pekerjaan p
+    INNER JOIN tb_karyawan k ON p.nip = k.nip
+    INNER JOIN tb_jabatan j ON p.kd_jabatan = j.kd_jabatan
+    INNER JOIN tb_divisi d ON p.kd_divisi = d.kd_divisi
+ORDER BY p.nip ASC;
 
 -- 4
 SELECT 
-    a.nip AS nip,
-    CONCAT (b.nama_depan, ' ', b.nama_belakang) AS nama_lengkap,
+    p.nip AS nip,
+    CONCAT (k.nama_depan, ' ', k.nama_belakang) AS nama_lengkap,
     c.nama_jabatan AS nama_jabatan,
     d.nama_divisi AS nama_divisi,
-    c.tunjangan_jabatan + c.gaji_pokok + a.tunjangan_kinerja AS total_gaji,
-    (c.tunjangan_jabatan + c.gaji_pokok + a.tunjangan_kinerja) * 0.05 AS infak
-FROM tb_pekerjaan a
-    JOIN tb_karyawan b ON a.nip = b.nip
-    JOIN tb_jabatan c ON a.kd_jabatan = c.kd_jabatan
-    JOIN tb_divisi d ON a.kd_divisi = d.kd_divisi
-WHERE a.kd_jabatan = 'MGR';
+    c.tunjangan_jabatan + c.gaji_pokok + p.tunjangan_kinerja AS total_gaji,
+    (c.tunjangan_jabatan + c.gaji_pokok + p.tunjangan_kinerja) * 0.05 AS infak
+FROM tb_pekerjaan p
+    JOIN tb_karyawan k ON p.nip = k.nip
+    JOIN tb_jabatan c ON p.kd_jabatan = c.kd_jabatan
+    JOIN tb_divisi d ON p.kd_divisi = d.kd_divisi
+WHERE p.kd_jabatan = 'MGR';
 
 -- 5
 SELECT 
-    a.nip AS nip,
-    CONCAT (b.nama_depan, ' ', b.nama_belakang) AS nama_lengkap,
+    p.nip AS nip,
+    CONCAT (k.nama_depan, ' ', k.nama_belakang) AS nama_lengkap,
     c.nama_jabatan AS nama_jabatan,
-    b.pendidikan_terakhir AS pendidikan_terakhir,
+    k.pendidikan_terakhir AS pendidikan_terakhir,
     2000000 AS tunjangan_pendidikan,
     (c.tunjangan_jabatan + c.gaji_pokok + 2000000) AS total_gaji
-FROM tb_pekerjaan a
-    JOIN tb_karyawan b ON a.nip = b.nip
-    JOIN tb_jabatan c ON a.kd_jabatan = c.kd_jabatan
-    JOIN tb_divisi d ON a.kd_divisi = d.kd_divisi
-WHERE b.pendidikan_terakhir LIKE 'S1%';
+FROM tb_pekerjaan p
+    JOIN tb_karyawan k ON p.nip = k.nip
+    JOIN tb_jabatan c ON p.kd_jabatan = c.kd_jabatan
+    JOIN tb_divisi d ON p.kd_divisi = d.kd_divisi
+WHERE k.pendidikan_terakhir LIKE 'S1%';
 
 -- 6
 SELECT 
@@ -186,11 +189,12 @@ SELECT
     END AS bonus,
     EXTRACT(YEAR FROM AGE('2022-12-31', b.tgl_masuk))  AS lama_bekerja
 FROM tb_pekerjaan a
-JOIN tb_karyawan b ON a.nip = b.nip
-JOIN tb_jabatan c ON a.kd_jabatan = c.kd_jabatan
-JOIN tb_divisi d ON a.kd_divisi = d.kd_divisi
-WHERE EXTRACT(YEAR FROM AGE('2022-12-31', b.tgl_masuk)) >= 8
+INNER JOIN tb_karyawan b ON a.nip = b.nip
+INNER JOIN tb_jabatan c ON a.kd_jabatan = c.kd_jabatan
+INNER JOIN tb_divisi d ON a.kd_divisi = d.kd_divisi
+-- WHERE EXTRACT(YEAR FROM AGE('2022-12-31', b.tgl_masuk)) >= 8
 ORDER BY a.nip ASC;
+
 
 
 
