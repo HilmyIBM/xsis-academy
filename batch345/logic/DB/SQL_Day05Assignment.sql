@@ -14,7 +14,7 @@ create table orders (
 );
 
 insert into sales_person (sales_name, date_of_birth, salary)
-  VALUES 
+  VALUES
     ('Abe','1988-11-9',140000),
     ('Bob','1978-11-9',44000),
     ('Chris','1983-11-9',40000),

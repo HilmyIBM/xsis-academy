@@ -7,7 +7,7 @@ create table mahasiswa (
 
 select pg_get_serial_sequence('mahasiswa', 'nim');
 
-select setval('mahasiswa_nim_seq', 100, false);
+select setval('mahasiswa_nim_seq', 100, true);
 
 --select currval('mahasiswa_nim_seq');
 
@@ -58,3 +58,71 @@ select * from mata_kuliah;
 select * from ambil_mk;
 
 drop table if exists mahasiswa, mata_kuliah, ambil_mk;
+
+-- 1
+SELECT 
+    m.nama AS nama_mahasiswa,
+    mk.nama_mk AS nama_mata_kuliah
+FROM 
+    ambil_mk am
+INNER JOIN 
+    mahasiswa m ON am.nim = m.nim
+INNER JOIN 
+    mata_kuliah mk ON am.kode_mk = mk.kode_mk;
+
+-- 2
+SELECT
+		m.nim,
+    m.nama AS nama_mahasiswa,
+    m.jenis_kelamin,
+    m.alamat
+FROM 
+    mahasiswa m
+LEFT JOIN 
+    ambil_mk am ON m.nim = am.nim
+WHERE 
+    am.nim IS NULL;
+
+-- 3
+SELECT 
+    COUNT(m.nim) AS jml,
+    m.jenis_kelamin
+FROM 
+    mahasiswa m
+LEFT JOIN 
+    ambil_mk am ON m.nim = am.nim
+WHERE 
+    am.nim IS NULL
+GROUP BY 
+    m.jenis_kelamin
+ORDER BY
+		COUNT(m.nim) DESC;
+
+-- 4
+SELECT
+    M.nim, 
+    M.nama AS nama_mahasiswa, 
+    A.kode_mk, 
+    MK.nama_mk
+FROM 
+    mahasiswa M
+INNER JOIN 
+    ambil_mk A ON M.nim = A.nim
+INNER JOIN 
+    mata_kuliah MK ON A.kode_mk = MK.kode_mk;
+
+-- 5
+SELECT 
+    M.nim, 
+    M.nama AS nama_mahasiswa, 
+    SUM(MK.sks) AS total_sks
+FROM 
+    mahasiswa M
+INNER JOIN 
+    ambil_mk A ON M.nim = A.nim
+INNER JOIN 
+    mata_kuliah MK ON A.kode_mk = MK.kode_mk
+GROUP BY 
+    M.nim, M.nama
+HAVING 
+    SUM(MK.sks) > 4 AND SUM(MK.sks) < 10;

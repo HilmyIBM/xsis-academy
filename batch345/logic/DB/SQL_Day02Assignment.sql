@@ -90,3 +90,86 @@ select * from genre;
 select * from negara;
 
 drop table if exists produser, film, artis, genre, negara;
+
+
+-- TASK --
+
+-- No. 1 --
+SELECT produser.nama_produser, SUM(film.pendapatan) AS pendapatan 
+FROM
+	produser JOIN film ON produser.kd_produser = film.kd_produser 
+WHERE 
+    produser.nama_produser = 'MARVEL'
+GROUP BY 
+    produser.nama_produser;
+
+-- No. 2 --
+SELECT nama_film, nominasi from film where nominasi = 0;
+
+-- No. 4 --
+SELECT nama_film from film where LOWER(nama_film) like '%y';
+
+-- No. 5 --
+SELECT nama_film from film where LOWER(nama_film) like '%d%';
+
+-- No. 6 --
+SELECT nama_film, nama_artis
+FROM
+	film JOIN artis on film.kd_artis = artis.kd_artis;
+
+-- No. 7 --
+SELECT nama_film, nama_negara
+FROM
+	film JOIN negara on film.kd_negara
+
+-- No. 7 --
+SELECT nama_film, kd_negara
+FROM film
+JOIN artis ON film.kd_artis = artis.kd_artis
+WHERE artis.kd_negara = 'HK';
+
+-- 8
+
+
+-- 9
+SELECT nama_artis
+FROM artis
+LEFT JOIN film ON artis.kd_artis = film.kd_artis
+WHERE film.kd_film IS NULL;
+
+-- 10
+
+SELECT artis.nama_artis, genre.nama_genre
+FROM artis
+JOIN film ON artis.kd_artis = film.kd_artis
+JOIN genre ON film.kd_genre = genre.kd_genre
+WHERE genre.nama_genre = 'DRAMA';
+
+-- 11
+
+SELECT DISTINCT artis.nama_artis, genre.nama_genre
+FROM artis
+JOIN film ON artis.kd_artis = film.kd_artis
+JOIN genre ON film.kd_genre = genre.kd_genre
+WHERE genre.nama_genre = 'ACTION';
+
+-- 12
+
+SELECT negara.nama_negara, COUNT(film.kd_film) AS jumlah_film
+FROM negara
+LEFT JOIN artis ON negara.kd_negara = artis.kd_negara
+LEFT JOIN film ON artis.kd_artis = film.kd_artis
+GROUP BY negara.nama_negara
+ORDER BY negara.nama_negara;
+
+-- 13
+SELECT nama_film
+FROM film 
+INNER JOIN produser
+ON film.kd_produser = produser.kd_produser
+where produser.international = 'YA';
+
+SELECT produser.nama_produser, COUNT(film.kd_film) AS jumlah_film
+FROM produser	
+LEFT JOIN film ON produser.kd_produser = film.kd_produser
+GROUP BY produser.nama_produser;

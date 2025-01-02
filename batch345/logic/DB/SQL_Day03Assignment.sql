@@ -70,3 +70,118 @@ select * from tb_pekerjaan;
 drop table if exists tb_karyawan, tb_divisi, tb_jabatan, tb_pekerjaan;
 
 
+-- 1
+SELECT 
+    CONCAT(K.nama_depan, ' ', K.nama_belakang) AS nama_lengkap,
+    J.nama_jabatan,
+    J.gaji_pokok + J.tunjangan_jabatan AS gaji_tunjangan
+FROM 
+    tb_karyawan K
+JOIN 
+    tb_pekerjaan P ON K.nip = P.nip
+JOIN 
+    tb_jabatan J ON P.kd_jabatan = J.kd_jabatan
+WHERE 
+    J.gaji_pokok + P.tunjangan_kinerja < 5000000;
+
+-- 2
+SELECT 
+    CONCAT(K.nama_depan, ' ', K.nama_belakang) AS nama_lengkap,
+    J.nama_jabatan,
+    D.nama_divisi,
+    J.gaji_pokok + J.tunjangan_jabatan + P.tunjangan_kinerja AS total_gaji,
+    (J.gaji_pokok + J.tunjangan_jabatan + P.tunjangan_kinerja) * 0.05 AS pajak,
+    (J.gaji_pokok + J.tunjangan_jabatan + P.tunjangan_kinerja) - ((J.gaji_pokok + J.tunjangan_jabatan + P.tunjangan_kinerja) * 0.05) AS gaji_bersih
+FROM 
+    tb_karyawan K
+INNER JOIN 
+    tb_pekerjaan P ON K.nip = P.nip
+INNER JOIN 
+    tb_jabatan J ON P.kd_jabatan = J.kd_jabatan
+INNER JOIN 
+    tb_divisi D ON P.kd_divisi = D.kd_divisi
+WHERE 
+    K.jenis_kelamin = 'Pria'
+    AND P.kota_penempatan != 'Sukabumi';
+
+-- 3
+SELECT 
+    K.nip,
+    CONCAT(K.nama_depan, ' ', K.nama_belakang) AS nama_lengkap,
+    J.nama_jabatan,
+    D.nama_divisi,
+    0.25 * ((J.gaji_pokok + J.tunjangan_jabatan + P.tunjangan_kinerja) * 7) AS bonus
+FROM 
+    tb_karyawan K
+INNER JOIN 
+    tb_pekerjaan P ON K.nip = P.nip
+INNER JOIN 
+    tb_jabatan J ON P.kd_jabatan = J.kd_jabatan
+INNER JOIN 
+    tb_divisi D ON P.kd_divisi = D.kd_divisi;
+
+
+-- 4
+SELECT 
+    CONCAT(K.nama_depan, ' ', K.nama_belakang) AS nama_lengkap,
+		J.nama_jabatan,
+		D.nama_divisi,
+    (J.gaji_pokok + J.tunjangan_jabatan + P.tunjangan_kinerja) AS total_gaji,
+    0.05 * (J.gaji_pokok + J.tunjangan_jabatan + P.tunjangan_kinerja) AS infak
+FROM 
+    tb_karyawan K
+INNER JOIN 
+    tb_pekerjaan P ON K.nip = P.nip
+INNER JOIN 
+    tb_jabatan J ON P.kd_jabatan = J.kd_jabatan
+INNER JOIN
+		tb_divisi D ON P.kd_divisi = D.kd_divisi
+WHERE 
+    J.kd_jabatan = 'MGR';
+
+-- 5
+SELECT 
+    CONCAT(K.nama_depan, ' ', K.nama_belakang) AS nama_lengkap,
+    J.nama_jabatan,
+    K.pendidikan_terakhir,
+    2000000 AS tunjangan_pendidikan,
+    J.gaji_pokok + J.tunjangan_jabatan + 2000000 AS total_gaji
+FROM tb_karyawan K
+INNER JOIN tb_pekerjaan P ON K.nip = P.nip
+INNER JOIN tb_jabatan J ON P.kd_jabatan = J.kd_jabatan
+WHERE LOWER(K.pendidikan_terakhir) LIKE 's1%';
+
+-- 6
+SELECT 
+    P.nip,
+    CONCAT(K.nama_depan, ' ', K.nama_belakang) AS nama_lengkap,
+    J.nama_jabatan,
+    D.nama_divisi,
+    CASE 
+        WHEN J.nama_jabatan = 'Manager' THEN 0.25 * (J.gaji_pokok + J.tunjangan_jabatan + P.tunjangan_kinerja) * 7
+        WHEN J.nama_jabatan = 'Staff' THEN 0.25 * (J.gaji_pokok + J.tunjangan_jabatan + P.tunjangan_kinerja) * 5
+        ELSE 0.25 * (J.gaji_pokok + J.tunjangan_jabatan + P.tunjangan_kinerja) * 2
+    END AS bonus
+FROM tb_karyawan K
+INNER JOIN tb_pekerjaan P ON K.nip = P.nip
+INNER JOIN tb_jabatan J ON P.kd_jabatan = J.kd_jabatan
+INNER JOIN tb_divisi D ON P.kd_divisi = D.kd_divisi;
+
+-- 7
+ALTER TABLE tb_karyawan
+ADD CONSTRAINT unique_nip UNIQUE (nip);
+
+-- 8
+CREATE INDEX idx_nip ON tb_karyawan(nip);
+
+-- 9
+SELECT 
+    CONCAT(nama_depan, ' ', 
+           CASE 
+               WHEN nama_belakang LIKE 'W%' THEN UPPER(nama_belakang)
+               ELSE nama_belakang
+           END
+    ) AS nama_lengkap
+FROM tb_karyawan;	
+
+
