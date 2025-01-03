@@ -322,17 +322,12 @@ ALTER TABLE tb_karyawan ADD CONSTRAINT unique_nip UNIQUE (nip);
 CREATE INDEX idx_karyawan_nip ON tb_karyawan (nip);
 
 -- No 9
-SELECT
-    CONCAT (
-        k.nama_depan,
-        ' ',
+SELECT CONCAT ( k.nama_depan, ' ',
         CASE
             WHEN k.nama_belakang LIKE 'W%' THEN UPPER(k.nama_belakang)
             ELSE k.nama_belakang
-        END
-    ) AS nama_lengkap
-FROM
-    tb_karyawan k;
+        END) AS nama_lengkap
+FROM tb_karyawan k;
 
 -- No 10
 SELECT
@@ -341,29 +336,14 @@ SELECT
     k.tgl_masuk,
     j.nama_jabatan,
     d.nama_divisi,
-    (
-        j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja
-    ) AS total_gaji,
-    (
-        (
-            j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja
-        ) * 0.1
-    ) AS bonus,
-    EXTRACT(
-        YEAR
-        FROM
-            AGE ('2022-12-31', k.tgl_masuk)
-    ) AS lama_bekerja
+    (j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja) AS total_gaji,
+    ((j.gaji_pokok + j.tunjangan_jabatan + p.tunjangan_kinerja) * 0.1) AS bonus,
+    EXTRACT(YEAR FROM AGE ('2022-12-31', k.tgl_masuk)) AS lama_bekerja
 FROM
     tb_karyawan k
     JOIN tb_pekerjaan p ON k.nip = p.nip
     JOIN tb_jabatan j ON p.kd_jabatan = j.kd_jabatan
     JOIN tb_divisi d ON p.kd_divisi = d.kd_divisi
-WHERE
-    EXTRACT(
-        YEAR
-        FROM
-            AGE ('2022-12-31', k.tgl_masuk)
-    ) >= 8;
+WHERE EXTRACT(YEAR FROM AGE ('2022-12-31', k.tgl_masuk)) >= 8;
 
 CREATE DATABASE DB_Univ_XA;
