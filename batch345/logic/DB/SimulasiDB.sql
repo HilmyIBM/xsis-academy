@@ -85,6 +85,13 @@ VALUES(1,1,'2021-10-10','2021-10-12','Liburan'),
       (2,1,'2021-09-09','2021-09-13','Touring'),
       (2,1,'2021-12-20','2021-12-23','Acara Keluarga');
 
+CREATE VIEW vw_tgl_cuti 
+AS SELECT
+leave_request.employee_id,
+leave_request.start_date,
+leave_request.end_date
+FROM leave_request; 
+
 --No.1
 SELECT CONCAT(first_name,' ',last_name) as nama, dob,pob,join_date,nip,employee.status,salary
 from employee join biodata ON employee.biodata_id=biodata.id
@@ -106,12 +113,16 @@ HAVING COUNT(leave_request.leave_id) > 2;
 --No.4
 SELECT employee.nip,CONCAT(first_name,' ',last_name) as nama,
 employee_leave.regular_quota as "Quota Regular",
-COUNT(leave_request.leave_id) as "Cuti yg di ambil", 
-employee_leave.regular_quota-COUNT(leave_request.leave_id) as "Sisa Cuti"
-FROM employee  LEFT join biodata on employee.biodata_id=biodata.id
+CASE
+WHEN SUM(leave_request.end_date-leave_request.start_date) is NULL
+THEN '0'
+ELSE SUM(leave_request.end_date-leave_request.start_date)
+END as "Cuti yg di ambil", 
+employee_leave.regular_quota-SUM(leave_request.end_date-leave_request.start_date) as "Sisa Cuti"
+FROM employee LEFT join biodata on employee.biodata_id=biodata.id
 LEFT join leave_request on employee.id=leave_request.employee_id
 LEFT join  employee_leave on employee.id=employee_leave.employee_id
-WHERE leave_request.leave_id IS NULL 
+--WHERE leave_request.leave_id IS NULL 
 GROUP BY employee.nip,nama,employee_leave.regular_quota;
 
 --No.5
@@ -186,3 +197,13 @@ FROM leave_request
 INNER JOIN leave on leave_request.leave_id=leave.id
 GROUP BY leave.type,leave.nama
 ORDER BY jumlah_cuti DESC LIMIT 1;
+
+--
+SELECT CONCAT(biodata.first_name,' ',biodata.last_name) as "Nama Lengkap",
+SUM(leave_request.end_date-leave_request.start_date) as "Cuti yang telah di ambil",
+employee_leave.regular_quota - SUM(leave_request.end_date-leave_request.start_date) as "Sisa Cuti"
+FROM biodata LEFT JOIN employee on biodata.id=employee.biodata_id
+LEFT JOIN leave_request on employee.id=leave_request.employee_id
+LEFT JOIN employee_leave on employee.id=employee_leave.employee_id
+WHERE employee.id is not NULL
+GROUP BY first_name,biodata.last_name,employee_leave.regular_quota;

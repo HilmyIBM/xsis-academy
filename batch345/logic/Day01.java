@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Day01 {
     public static void main(String[] args) {
         Lingkaran(28);
@@ -38,6 +40,13 @@ public class Day01 {
         System.out.println("batang rokok yang dihasilkan sebanyak n puntung rokok hasilnya : "+n_rokok);
         System.out.println("Penghasilan jualan batang rokok : "+n_rokok*500);
         System.out.println("Sisa Puntung Rokok "+ sisa);
+    }
+
+    public static void x(ArrayList word){
+        ArrayList<String> result= new ArrayList<>();
+        Boolean contain_x=false;
+        
+
     }
 
 }
