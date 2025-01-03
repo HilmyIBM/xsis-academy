@@ -194,7 +194,8 @@ select * from vw_pengarang vp where vp.kota='Yogya';
 
 --//FUNCTION : Process Input(s) into Output(s)
 CREATE FUNCTION ufn_total_gaji(gapok NUMERIC, tunjangan_jabatan NUMERIC, tunjangan_kinerja NUMERIC)
-RETURNS NUMERIC AS $total$
+RETURNS NUMERIC
+AS $total$
 DECLARE total NUMERIC;
 BEGIN
     SELECT (gapok + tunjangan_jabatan + tunjangan_kinerja) INTO total; 
@@ -202,4 +203,4 @@ BEGIN
 END;
 $total$ LANGUAGE plpgsql;
 
-SELECT ufn_total_gaji(1000000, 500000, 100000) total_gaji;
+SELECT ufn_total_gaji(1000000, 500000, 100000) AS total_gaji;
