@@ -42,3 +42,86 @@ select * from coba_bak;
 SELECT * FROM "cobaPertama";
 select * from pelanggan;
 
+--1. Menampilkan jumlah pendapatan produser marvel secara keseluruhan											
+select * from produser;
+select * from film;
+
+SELECT P.nm_produser, SUM(f.pendapatan) jml_pedapatan
+from produser P INNER JOIN film F
+    on P.kd_produser = F.produser
+where lower(P.nm_produser)='marvel'
+group by P.nm_produser;
+
+--2. Menampilkan nama film dan nominasi yang tidak mendapatkan nominasi											
+SELECT nm_film, nominasi
+FROM film
+WHERE nominasi=0;
+
+--6. Menampilkan nama film dan artis						
+SELECT film.nm_film as nama_film, artis.nm_artis as nama_artis
+FROM artis INNER JOIN film
+    ON artis.kd_artis = film.artis;
+
+--7. Menampilkan nama film yang artisnya berasal dari negara hongkong
+select * from film;
+select * from artis;
+select * from negara;
+
+select * from produser;
+select * from genre;
+
+SELECT F.nm_film, A.negara
+FROM film F
+    INNER JOIN artis A ON F.artis=A.kd_artis
+    INNER JOIN negara N ON A.negara=N.kd_negara 
+WHERE
+    lower(N.nm_negara)='hongkong';
+
+--8. Menampilkan nama film yang artisnya bukan berasal dari negara yang mengandung huruf 'o'
+SELECT F.nm_film, N.nm_negara
+FROM film F
+    INNER JOIN artis A ON F.artis=A.kd_artis
+    INNER JOIN negara N ON A.negara=N.kd_negara
+WHERE lower(N.nm_negara) NOT LIKE '%o%';
+
+--9. Menampilkan nama artis yang tidak pernah bermain film
+SELECT A.nm_artis, F.kd_film
+FROM artis A
+    LEFT JOIN film F ON A.kd_artis=F.artis
+WHERE F.kd_film IS NULL;
+
+--10. Menampilkan nama artis yang bermain film dengan genre drama
+SELECT artis.nm_artis, genre.nm_genre
+FROM artis
+    INNER JOIN film ON artis.kd_artis=film.artis
+    INNER JOIN genre ON film.genre=genre.kd_genre
+WHERE genre.nm_genre='DRAMA';
+
+--11. Menampilkan nama artis yang bermain film dengan genre Action
+SELECT artis.nm_artis, genre.nm_genre
+FROM artis
+    INNER JOIN film ON artis.kd_artis=film.artis
+    INNER JOIN genre ON film.genre=genre.kd_genre
+WHERE genre.nm_genre='ACTION'
+GROUP BY artis.nm_artis, genre.nm_genre;
+
+--12. Menampilkan data negara dengan jumlah filmnya
+SELECT negara.kd_negara, negara.nm_negara, COUNT(film.*) as jumlah_film
+FROM artis
+    INNER JOIN film ON film.artis=artis.kd_artis
+    RIGHT OUTER JOIN negara ON artis.negara=negara.kd_negara
+GROUP BY negara.kd_negara
+ORDER BY negara.nm_negara;
+
+--13. Menampilkan nama film yang skala internasional
+SELECT film.nm_film
+FROM film 
+    INNER JOIN produser ON film.produser=produser.kd_produser
+WHERE produser.international='YA';
+
+--14. Menampilkan jumlah film dari masing2 produser
+SELECT P.nm_produser, COUNT(F.kd_film) as jml_film
+FROM produser P
+    LEFT JOIN film F ON P.kd_produser=F.produser
+GROUP BY P.nm_produser
+ORDER BY P.nm_produser;

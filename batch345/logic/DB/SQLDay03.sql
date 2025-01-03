@@ -222,57 +222,116 @@ WHERE kota != 'Yogya';
 SELECT * FROM tblPengarang
 WHERE kota <> 'Yogya';
 
---Pengarang dengan kota yg berawalan B
-SELECT * FROM tblPengarang
-WHERE kota IN (
-    SELECT kota FROM tblPengarang
-    where kota like 'B%' group by kota
-);
+--1. Tampilkan nama lengkap, nama jabatan, tunjangan jabatan + gaji , yang gaji + tunjangan kinerja dibawah 5juta
+SELECT
+    CONCAT(K.nama_depan, ' ', K.nama_belakang) nama_lengkap,
+    J.nama_jabatan, (J.tunjangan_jabatan + J.gaji_pokok) gaji_tunjangan
+FROM tb_karyawan K
+    INNER JOIN tb_pekerjaan P ON K.nip=P.nip
+    INNER JOIN tb_jabatan J ON P.kode_jabatan=J.kd_jabatan
+WHERE (J.tunjangan_jabatan + J.gaji_pokok) < 5000000
+ORDER BY gaji_tunjangan DESC
+LIMIT 1;
 
---13a. Pengarang namanya dimulai A
-SELECT nama FROM tblpengarang
-where nama like 'A%';
+SELECT CONCAT(K.nama_depan, ' ', K.nama_belakang) nama_lengkap,
+        J.nama_jabatan, (J.tunjangan_jabatan + J.gaji_pokok) gaji_tunjangan
+FROM tb_karyawan K
+    INNER JOIN tb_pekerjaan P ON K.nip=P.nip
+    INNER JOIN tb_jabatan J ON P.kode_jabatan=J.kd_jabatan
+WHERE
+    (J.tunjangan_jabatan + J.gaji_pokok) = (
+        SELECT MAX(J.tunjangan_jabatan + J.gaji_pokok) gaji_tunjangan
+        FROM tb_jabatan J
+        WHERE (J.tunjangan_jabatan + J.gaji_pokok) < 5000000
+    )
 
---13a. Pengarang namanya dimulai A
-SELECT nama FROM tblpengarang
-where nama like '%i';
+SELECT CONCAT(K.nama_depan, ' ', K.nama_belakang) nama_lengkap,
+    J.nama_jabatan, (J.tunjangan_jabatan + J.gaji_pokok) gaji_tunjangan
+FROM tb_karyawan K
+    INNER JOIN tb_pekerjaan P ON K.nip=P.nip
+    INNER JOIN tb_jabatan J ON P.kode_jabatan=J.kd_jabatan
+GROUP BY k.nama_depan, K.nama_belakang, J.nama_jabatan, J.tunjangan_jabatan, J.gaji_pokok
+HAVING (J.tunjangan_jabatan + J.gaji_pokok) = (
+    SELECT max(J.tunjangan_jabatan + J.gaji_pokok) gaji_tunjangan
+    FROM tb_jabatan J
+    WHERE (J.tunjangan_jabatan + J.gaji_pokok) < 5000000
+)
 
---14. tblPengarang dan Tbl gaji dengan kd_pengarang yg sama
-SELECT *
-FROM tblpengarang INNER JOIN tblgaji
-    ON tblpengarang.kd_pengarang = tblgaji.kd_pengarang;
+--2. Tampilkan nama lengkap, jabatan, nama divisi, total gaji, pajak, gaji bersih, yg gendernya pria dan penempatan kerjanya diluar sukabumi
+SELECT * FROM tb_divisi;
+SELECT
+    CONCAT(K.nama_depan, ' ', K.nama_belakang) nama_lengkap,
+    J.nama_jabatan, D.nama_divisi,
+    ufn_total_gaji(J.gaji_pokok, J.tunjangan_jabatan, P.tunjangan_kinerja) AS total_gaji,
+    ufn_pajak(ufn_total_gaji(J.gaji_pokok, J.tunjangan_jabatan, P.tunjangan_kinerja), 0.005) AS pajak,
+    ufn_total_gaji(J.gaji_pokok, J.tunjangan_jabatan, P.tunjangan_kinerja) - (ufn_total_gaji(J.gaji_pokok, J.tunjangan_jabatan, P.tunjangan_kinerja) * 0.005) AS gaji_bersih
+FROM
+    tb_karyawan K
+    INNER JOIN tb_pekerjaan P ON K.nip=P.nip
+    INNER JOIN tb_jabatan J ON P.kode_jabatan=J.kd_jabatan
+    INNER JOIN tb_divisi D ON P.kode_divisi=D.kd_divisi
+WHERE
+    K.jenis_kelamin='Pria'
+    AND P.kota_penempatan NOT IN ('Sukabumi');
 
-SELECT p.kd_pengarang, p.kelamin
-FROM tblpengarang as p INNER JOIN tblgaji as g
-    ON p.kd_pengarang = g.kd_pengarang;
+-- CREATE OR REPLACE FUNCTION ufn_gaji_pajak()
+-- RETURNS TABLE(
+--     nama_lengkap VARCHAR(100),
+--     nama_jabatan VARCHAR(100),
+--     nama_divisi VARCHAR(100),
+--     total_gaji NUMERIC,
+--     pajak NUMERIC,
+--     gaji_bersih NUMERIC
+-- )
+-- AS $$
+-- DECLARE persen_pajak NUMERIC := 0.005;
+-- BEGIN
+--     RETURN QUERY SELECT
+--         CONCAT(K.nama_depan, ' ', K.nama_belakang) nama_lengkap,
+--         J.nama_jabatan, D.nama_divisi,
+--         ufn_total_gaji(J.gaji_pokok, J.tunjangan_jabatan, P.tunjangan_kinerja) AS total_gaji,
+--         ufn_pajak(ufn_total_gaji(J.gaji_pokok, J.tunjangan_jabatan, P.tunjangan_kinerja), persen_pajak) AS pajak,
+--         ufn_total_gaji(J.gaji_pokok, J.tunjangan_jabatan, P.tunjangan_kinerja) - (ufn_total_gaji(J.gaji_pokok, J.tunjangan_jabatan, P.tunjangan_kinerja) * persen_pajak) AS gaji_bersih
+--     FROM
+--         tb_karyawan K
+--         INNER JOIN tb_pekerjaan P ON K.nip=P.nip
+--         INNER JOIN tb_jabatan J ON P.kode_jabatan=J.kd_jabatan
+--         INNER JOIN tb_divisi D ON P.kode_divisi=D.kd_divisi
+--     WHERE
+--         K.jenis_kelamin='Pria'
+--         AND P.kota_penempatan NOT IN ('Sukabumi');
+-- END;
+-- $$
+-- LANGUAGE plpgsql;
+-- SELECT * FROM ufn_gaji_pajak();
 
---16. Ubah panjang dari tipe kelamin menjadi 10
-ALTER TABLE tblpengarang
-    ALTER COLUMN kelamin TYPE VARCHAR(10);
+CREATE FUNCTION ufn_pajak(total_gaji NUMERIC, persen_pajak NUMERIC)
+RETURNS NUMERIC AS $pajak$
+DECLARE pajak NUMERIC;
+BEGIN
+    SELECT (total_gaji * persen_pajak) INTO pajak;
+    RETURN pajak;
+END;
+$pajak$ LANGUAGE plpgsql;
 
---Membuat Kolom menjadi NULLABLE
-ALTER TABLE tblpengarang
-    ALTER COLUMN alamat DROP NOT NULL;
+--5. Tampilkan nip, nama lengkap, nama jabatan, pendidikan terakhir, tunjangan pendidikan(2jt), dan total gaji(gapok+tjabatan+tpendidikan) dimana pendidikan akhirnya adalah S1
+SELECT
+    P.nip
+    , CONCAT(K.nama_depan, ' ', K.nama_belakang) nama_lengkap
+    , J.nama_jabatan, K.pendidikan_terakhir, 2000000 tunjangan_pendidikan
+    , ufn_total_gaji(J.gaji_pokok, J.tunjangan_jabatan, 2000000) AS total_gaji
+FROM tb_karyawan K
+    INNER JOIN tb_pekerjaan P ON K.nip=P.nip
+    INNER JOIN tb_jabatan J ON P.kode_jabatan=J.kd_jabatan
+WHERE LOWER(K.pendidikan_terakhir) NOT LIKE 's1%';
 
---17. Tambahkan kolom [Gelar] dengan tipe Varchar (12) pada tabel tblPengarang
-ALTER TABLE tblpengarang
-    ADD COLUMN gelar VARCHAR(12);
+--7. Buatlah kolom nip pada table karyawan sebagai kolom unique
+ALTER TABLE tb_karyawan
+    ADD CONSTRAINT uq_karyawan_nip UNIQUE(nip);
 
---18. Ubah alamat dan kota dari Rian di table tblPengarang menjadi, Jl. Cendrawasih 65 dan Pekanbaru
-SELECT * FROM tblpengarang WHERE nama='Rian';
+--8. buatlah kolom nip pada table karyawan sebagai index
+CREATE INDEX idx_tb_karyawan ON tb_karyawan(nip);
 
-UPDATE tblpengarang
-SET alamat='Jl. Cendrawasih 65', kota='Pekanbaru'
-WHERE id=2;
+--9. Tampilkan nama lengkap, nama belakangnya diubah menjadi huruf capital dengan kondisi nama belakang di awali dengan huruf W
 
---19. Buatlah view untuk attribute Kd_Pengarang, Nama, Kota, Gaji dengan nama vwPengarang
-create view vw_pengarang
-AS
-    select p.kd_pengarang, p.nama, p.kota, g.gaji
-    from tblpengarang as p inner join tblgaji as g
-        on p.kd_pengarang = g.kd_pengarang;
-
-select * from vw_pengarang vp right join tblgaji g
-    on vp.kd_pengarang = g.kd_pengarang;
-
-select * from vw_pengarang vp where vp.kota='Yogya';
+--10.  Perusahaan akan memberikan bonus sebanyak 10% dari total gaji bagi karyawan yg sudah join di perusahaan diatas sama dengan 8 tahun per 2022
