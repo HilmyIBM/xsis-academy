@@ -137,17 +137,5 @@ FROM karyawan K
     INNER JOIN divisi D ON P.kode_divisi = D.kd_divisi;
 
 
---3. Tampilkan nip, nama lengkap, jabatan, nama divisi, bonus (bonus=25% dari total gaji(gaji pokok+tunjangan_jabatan+tunajangan_kinerja * 7)
-
-SELECT
-    K.nip,
-    CONCAT(K.nama_depan, K.nama_belakang) nama_lengkap,
-    J.nama_jabatan,
-    D.nama_divisi,
-    ufn_total_gaji(P.tunjangan_kinerja, J.gaji_pokok, J.tunjangan_jabatan)*7/4 bonus
-FROM karyawan K 
-    INNER JOIN pekerjaan P ON K.nip = P.nip
-    INNER JOIN jabatan J ON P.kode_jabatan = J.kd_jabatan
-    INNER JOIN divisi D ON P.kode_divisi = D.kd_divisi;
 
 
