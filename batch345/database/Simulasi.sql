@@ -68,9 +68,43 @@ VALUES
 
 INSERT INTO contact_person (id, biodata_id, type, contact)
 VALUES
-(1,1,'MAIL','soraya.rahayu@gmail.com'),
-(2,1,'PHONE','085612345678'),
-(3,2,'MAIL','hanum.danuary@gmail.com'),
-(4,2,'PHONE','081312345678'),
-(5,2,'PHONE','087812345678'),
-(6,3,'MAIL','melati.marcelia.com');
+	(1, 1, 'MAIL', 'soraya.rahayu@gmail.com'),
+	(2, 1, 'PHONE', '085612345678'),
+	(3, 2, 'MAIL', 'hanum.danuary@gmail.com'),
+	(4, 2, 'PHONE', '081312345678'),
+	(5, 2, 'PHONE', '087812345678'),
+	(6, 3, 'MAIL', 'melati.marcelia.com');
+
+INSERT INTO leave (id, type, name)
+VALUES 
+(1, 'Regular', 'Cuti Tahunan'),
+(2, 'Khusus', 'Cuti Menikah'),
+(3, 'Khusus', 'Cuti Haji & Umroh'),
+(4, 'Khusus', 'Cuti Melahirkan');
+
+INSERT INTO employee_leave (id, employee_id, period, regular_quota)
+VALUES
+	(1, 1, '2021', 16),
+	(2, 2, '2021', 12),
+	(3, 3, '2021', 12);
+
+INSERT INTO leave_request (id, employee_id, leave_id, start_date, end_date, reason)
+VALUES
+	(1, 1, 1, '2021-10-10', '2021-10-12', 'Liburan'),
+	(2, 1, 1, '2021-11-12', '2021-11-15', 'Acara Keluarga'),
+	(3, 2, 2, '2021-05-05', '2021-05-07', 'Menikah'),
+	(4, 2, 1, '2021-09-09', '2021-09-13', 'Touring'),
+	(5, 2, 1, '2021-12-20', '2021-12-23', 'Acara Keluarga');
+
+-- No 1
+SELECT e.*
+FROM employee e
+ORDER BY e.join_date
+LIMIT 1;
+
+-- No 2 berisi nomor_induk, nama, tanggal_mulai, lama_cuti dan keterangan.
+SELECT e.nip, CONCAT(b.first_name,' ',b.last_name) AS nama_lengkap, e.join_date, lr.reason
+FROM employee e
+INNER JOIN biodata b ON e.biodata_id = b.id
+INNER JOIN leave_request lr ON b.id = lr.employee_id
+WHERE;
