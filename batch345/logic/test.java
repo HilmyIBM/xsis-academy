@@ -274,13 +274,11 @@ public class test {
     }
 
     public static String processSubstring(String s) {
-        // Loop untuk mengambil berbagai panjang substring
-        for (int i = 1; i <= s.length(); i++) { // Panjang substring
-            for (int j = 0; j <= s.length() - i; j++) { // Indeks awal substring
-                String sub = s.substring(j, j + i); // Ambil substring
-                System.out.println("Substring: " + sub); // Debug output
+        for (int i = 1; i <= s.length(); i++) {
+            for (int j = 0; j <= s.length() - i; j++) {
+                String sub = s.substring(j, j + i);
+                System.out.println("Substring: " + sub);
 
-                // Bandingkan substring dengan aturan
                 if (sub.equals("0")) {
                     return "A";
                 } else if (sub.equals("00")) {
@@ -294,20 +292,16 @@ public class test {
                 }
             }
         }
-
-        // Jika tidak ada substring yang cocok
         return "No match";
     }
 
     public static void processSubstring(String s, int length) {
         System.out.println("Mengambil substring dengan panjang " + length);
 
-        // Loop untuk mengambil substring
         for (int i = 0; i <= s.length() - length; i++) {
-            String sub = s.substring(i, i + length); // Ambil substring
+            String sub = s.substring(i, i + length);
             System.out.println("Substring: " + sub);
 
-            // Contoh penggunaan: Bandingkan substring
             if (sub.equals("00")) {
                 System.out.println("Substring ini cocok dengan aturan: B");
             } else if (sub.equals("11")) {
