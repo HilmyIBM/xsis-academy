@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SimulasiLogic {
     static Scanner sc = new Scanner(System.in);
@@ -126,9 +128,13 @@ public class SimulasiLogic {
             return;
         }
 
-        String templatePrinting = "XA-07082022-";
+        DateTimeFormatter dt = DateTimeFormatter.ofPattern("ddMMyyyy");
+        LocalDate date = LocalDate.of(2022, 8, 7);
+
         String invoice = "";
         for (int i = start; i <= end; i++) {
+            String formattedDate = date.format(dt);
+            String templatePrinting = "XA-" + formattedDate + "-";
             // %05d format 5 angka, jika tidak ada angka didepan, maka akan direplace dengan
             // angka '0'
             invoice = templatePrinting + String.format("%05d", i);

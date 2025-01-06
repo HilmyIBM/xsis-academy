@@ -1,0 +1,69 @@
+Syntaks = menggunakan notasi
+Semantics = bentuk dari program
+Pragmatics = penggunaan bahasa pemrograman dalam prakteknya
+
+-- Paradigma pemrograman
+Procedural = mengkombinasikan banyak perintah
+Fungsional = konsep matematika (rekursif) dan bersifat immutable
+Logic = Fokus dalam pemecahan masalah
+OOP = Terdiri dari interaksi objek
+
+--GIT
+Version Control yang terdistribusi
+
+-- Java Packages
+Built in packages dan user efince packages
+(build in seperti memakai 'import')
+(User define seperti menggunakan package diri sendiri)
+
+-- primitive data type
+boolean, numeric
+
+-- Arrays
+semua arrays adalah object
+object di java berasal dari class (setiap array) adalah objek
+mengurutkan array Arrays.sort()
+
+-- arrayList
+array yang bisa digunakan variable lengthnya
+ada beberapa method seperti get(index),set(index,value),remove(index),clear(),size()
+untuk sorting array memakai Collections.sort(arrayList)
+
+-- String
+untuk mengetahui panjangnya menggunakan length()
+method: 
+- equalsIgnoreCase(), equals(), isEmpty(), toUpperCase(), toLowerCase()
+- indexOf(kata), substring(index,index2), valueOf(), trim(), replace(before,after)
+- startsWith(kata), endsWith(kata), split(`regex`), join(kata1,kata2,kata...)
+- toCharArray()
+- indexOf(nomor), contains(target_kata)
+- replaceAll(regex,ubahKeHurufApa)
+- String.format("formatnya ", data, data, dataa...)
+
+-- Character
+dari char[] ke string menggunakan Arrays.toString()
+
+-- Recursion
+- method memanggil dirinya sendiri
+
+-- OOP
+procedural programming adalah prosedur untuk melakukan operasi data,
+sedangkan oop tentang membuat objek yang berisi keduanya data dan methods.
+- lebih cepat, dan mudah dieksekusi,
+- DRY (Don't repeat your self)
+- menyediakan struktur yang jelas untuk program
+- reusable
+- mudah dimaintain
+
+-- Class
+class di java terdiri dari fields, methods, constructors, static initializers, instance initializers
+
+
+reducedFraction
+(pembilang % penyebut == 0) 
+else 
+1. (for loop)
+    buat variable divisor
+ 1.1 if (pembilang % i == 0 && penyebut & i == 0)
+    divisor = i;
+2. dibagi dengan divisor setelah keluar looping
