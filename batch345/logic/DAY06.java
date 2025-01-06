@@ -28,18 +28,18 @@ public class DAY06 {
         String input_text=input.nextLine();
         pdf(input_panjang, input_text); */
 
-       /*  System.out.println("==================");
+        System.out.println("==================");
         System.out.print("Masukkan Text : ");
         String test_vokal=input.nextLine();
-        vokal(test_vokal); */
+        vokal(test_vokal); 
 
-        System.out.println("===========================");
+    /*     System.out.println("===========================");
         System.out.print("Masukkan Password : ");
         String pass=input.nextLine();
         boolean hasil=password(pass);
         if (hasil == true) {
             System.out.println("Password Strong");
-        }
+        } */
        
 
     }
@@ -109,6 +109,8 @@ public class DAY06 {
                 }
             }
         }
+        vokal=vokal.toLowerCase();
+        konsonan=konsonan.toLowerCase();
         char[] sort_vokal=vokal.toCharArray();
         char[] sort_konsonan=konsonan.toCharArray();
         Arrays.sort(sort_vokal);

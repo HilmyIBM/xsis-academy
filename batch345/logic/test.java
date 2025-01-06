@@ -3,7 +3,7 @@ import java.util.stream.Collectors;
 
 public class test {
     public static void main(String[] args) {
-        ArrayList<String> list = new ArrayList<>();
+/*         ArrayList<String> list = new ArrayList<>();
         list.add("example");
         list.add("hello");
         list.add("world");
@@ -19,7 +19,29 @@ public class test {
         }
 
         // Print the updated list
-        System.out.println("Updated list: " + list);
+        System.out.println("Updated list: " + list); */
+        String test="00110001";
+        String hasil="";
+        for(int i=0 ; i<test.length();i+=2){
+            String s=test.substring(i, i+2);
+            System.out.println(s);
+            if(s.equals("00")){
+                hasil+="A";
+            }else if(s.equals("01")){
+                hasil+="B";
+            }else{
+                hasil+="C";
+            }
+        }
+        System.out.println(hasil);
+
+        count_abc();
+        System.out.println();
+        gcd("12/6");
+
+        List<String> intList = Arrays.asList("1, 2, 3");
+        String x1=String.join(",", intList);
+        System.out.println("x1 ="+x1);
     }
 
     public static String kangaroo(int x1, int v1, int x2, int v2) {
@@ -103,11 +125,9 @@ public class test {
     public static void bonAppetit(List<Integer> bill, int k, int b) {
         // Write your code here
         int sum = 0;
-        int count = 0;
         for (int i = 0; i < bill.size(); i++) {
             if (i != k) {
                 sum += bill.get(i);
-                count++;
             }
         }
         if (sum / 2 == b) {
@@ -310,4 +330,46 @@ public class test {
         }
     }
 
+    public static void count_abc(){
+        String myStr = "Hello www123";
+        char[] test = new char[26];
+        int max=0;
+        int lokasi=0;
+        for (char c : myStr.toLowerCase().toCharArray()) {
+          if (Character.isLetter(c)) {
+            test[c - 'a']++;
+          }
+        }
+        for (int i = 0; i < test.length; i++) {
+            if(test[i] > max){
+                max=test[i];
+                lokasi=i;
+            }
+          System.out.println((char) (i + 'a') + ": " + (int) test[i]);
+        }
+        System.out.println();
+        System.out.print("Huruf Terbanyak : ");
+        System.out.print((char)(lokasi+'a') +":"+ max);
+      }
+
+    public static void gcd(String s){
+        String[] temp=s.split("/");
+        int x=Integer.parseInt(temp[0]);
+        int y=Integer.parseInt(temp[1]);
+        int gcd=0;
+
+        for(int i=1;i<= x && i<=y;i++ ){
+            if(x%i == 0 && y % i==0){
+                gcd=i;
+            }
+        }
+
+        x/=gcd;
+        y/=gcd;
+        if(y==1){
+            System.out.println(x);
+        }else{
+            System.out.println(x+"/"+y);
+        }
+    }
 }
