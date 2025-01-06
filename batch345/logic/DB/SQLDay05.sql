@@ -67,18 +67,18 @@ join orders on sales_person.id=orders.sales_person_id
 GROUP BY nama,salary
 HAVING COUNT(orders.sales_person_id) >2;
 
---No.6
+
 SELECT nama,bod,salary from sales_person LEFT JOIN orders 
 ON sales_person.id=orders.sales_person_id
 WHERE orders.sales_person_id is NULL;
 
---No.7
-SELECT nama,bod,salary,
+
+SELECT nama,salary,
 CASE 
-WHEN COUNT(cust_id) = 0 
-THEN SUM(salary) - (SUM(salary) * 0.02)
+WHEN COUNT(o.cust_id ) = 0 
+THEN SUM(S.salary) - (SUM(sales_person.salary) * 0.02)
 end as Gaji_setelah_dipotong
-from sales_person LEFT JOIN orders 
+from sales_person S LEFT JOIN orders o
 ON sales_person.id=orders.sales_person_id
 WHERE orders.sales_person_id is NULL
-GROUP BY nama,bod,salary;
+GROUP BY nama, salary;
