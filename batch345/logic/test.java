@@ -513,33 +513,33 @@ public class test {
     }
 
     public static int theLoveLetterMystery(String s) {
-/*         STDIN   Function
-           -----   --------
-           4       q = 4
-           abc     query 1 = 'abc'
-           abcba
-           abcd
-           cba
-           Sample Output
-           2
-           0
-           4
-           2 */
+        /*
+         * STDIN Function
+         * ----- --------
+         * 4 q = 4
+         * abc query 1 = 'abc'
+         * abcba
+         * abcd
+         * cba
+         * Sample Output
+         * 2
+         * 0
+         * 4
+         * 2
+         */
         // Write your code here
-         int count = 0;
-            StringBuilder sb = new StringBuilder(s);
-            String str = sb.reverse().toString();
-            if (s.contentEquals(str)) {
-                return count;
-            } else {
-                for (int i = 0; i < s.length() / 2; i++) {
-                    count += Math.abs(s.charAt(i) - s.charAt(s.length() - 1 - i));
-                }
-                return count;
+        int count = 0;
+        StringBuilder sb = new StringBuilder(s);
+        String str = sb.reverse().toString();
+        if (s.contentEquals(str)) {
+            return count;
+        } else {
+            for (int i = 0; i < s.length() / 2; i++) {
+                count += Math.abs(s.charAt(i) - s.charAt(s.length() - 1 - i));
             }
-    
+            return count;
         }
-    
+
     }
 
 }
