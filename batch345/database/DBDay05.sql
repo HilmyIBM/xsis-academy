@@ -38,14 +38,14 @@ VALUES
 SELECT * FROM ORDERS;
 
 --a
-SELECT s."name" 
+SELECT s."name", count(o.*) AS total_order
 FROM salesperson s
 INNER JOIN orders o ON s.id = o.salesperson_id 
 GROUP BY s."name" 
 HAVING count(o.*) > 1; 
 
 --b
-SELECT s."name"
+SELECT s."name", sum(o.amount) AS total_amount 
 FROM salesperson s 
 INNER JOIN orders o ON s.id = o.salesperson_id 
 GROUP BY s."name" 
