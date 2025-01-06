@@ -1,0 +1,104 @@
+public class TypeCastingExamples {
+    public static void main(String[] args) {
+        // Widening Casting (Implicit Casting)
+        int intVal = 100;
+        double doubleVal = intVal;
+        System.out.println("Widening Casting (int to double): " + doubleVal);
+
+        // Narrowing Casting (Explicit Casting)
+        double largeDouble = 100.99;
+        int narrowInt = (int) largeDouble;
+        System.out.println("Narrowing Casting (double to int): " + narrowInt);
+
+        // Casting between primitives
+        char charVal = 'A';
+        int charToInt = charVal; // Widening
+        System.out.println("Char to int: " + charToInt);
+
+        int intToChar = 66;
+        char newChar = (char) intToChar; // Narrowing
+        System.out.println("Int to char: " + newChar);
+
+        long longVal = 100L;
+        float longToFloat = longVal; // Widening
+        System.out.println("Long to float: " + longToFloat);
+
+        float floatVal = 100.5F;
+        short floatToShort = (short) floatVal; // Narrowing
+        System.out.println("Float to short: " + floatToShort);
+
+        // Type Casting in Expressions
+        int num1 = 5;
+        int num2 = 2;
+        double divisionResult = (double) num1 / num2;
+        System.out.println("Casting in expressions: " + divisionResult);
+
+        // String to Primitive
+        String numberString = "123";
+        int stringToInt = Integer.parseInt(numberString);
+        System.out.println("String to int: " + stringToInt);
+
+        String doubleString = "123.45";
+        double stringToDouble = Double.parseDouble(doubleString);
+        System.out.println("String to double: " + stringToDouble);
+
+        // Primitive to String
+        int num = 500;
+        String intToString = String.valueOf(num);
+        System.out.println("Int to String: " + intToString);
+
+        double doubleNumber = 123.45;
+        String doubleToString = Double.toString(doubleNumber);
+        System.out.println("Double to String: " + doubleToString);
+
+        // Type Casting in Arrays
+        Object[] objectArray = new Object[3];
+        objectArray[0] = "Hello";
+        objectArray[1] = 10; // Integer boxed
+        objectArray[2] = 20.5; // Double boxed
+        for (Object obj : objectArray) {
+            if (obj instanceof String) {
+                System.out.println("String value: " + (String) obj);
+            } else if (obj instanceof Integer) {
+                System.out.println("Integer value: " + (Integer) obj);
+            } else if (obj instanceof Double) {
+                System.out.println("Double value: " + (Double) obj);
+            }
+        }
+
+        // Casting with Inheritance
+        Parent parent = new Child();
+        System.out.println("Parent method call: " + parent.method());
+        if (parent instanceof Child) {
+            Child child = (Child) parent; // Downcasting
+            System.out.println("Child-specific method call: " + child.childMethod());
+        }
+
+        // Invalid Casting
+        try {
+            Object obj = "Test";
+            Integer invalidCast = (Integer) obj; // ClassCastException
+            System.out.println(invalidCast);
+        } catch (ClassCastException e) {
+            System.out.println("Invalid cast caught: " + e.getMessage());
+        }
+    }
+}
+
+// Example for inheritance-based casting
+class Parent {
+    public String method() {
+        return "Parent method";
+    }
+}
+
+class Child extends Parent {
+    @Override
+    public String method() {
+        return "Child method";
+    }
+
+    public String childMethod() {
+        return "Child-specific method";
+    }
+}
