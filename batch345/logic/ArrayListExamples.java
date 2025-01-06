@@ -1,9 +1,46 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Scanner;
 
 public class ArrayListExamples {
     public static void main(String[] args) {
+        // DNA Storage Problem
+        Scanner scanner = new Scanner(System.in);
+        int T = scanner.nextInt(); // Number of test cases
+        scanner.nextLine(); // Consume newline
+
+        for (int t = 0; t < T; t++) {
+            int N = scanner.nextInt(); // Length of binary string
+            scanner.nextLine(); // Consume newline
+            String S = scanner.nextLine(); // Binary string
+
+            StringBuilder encodedSequence = new StringBuilder();
+            for (int i = 0; i < N; i += 2) {
+                String pair = S.substring(i, i + 2);
+                switch (pair) {
+                    case "00":
+                        encodedSequence.append("A");
+                        break;
+                    case "01":
+                        encodedSequence.append("T");
+                        break;
+                    case "10":
+                        encodedSequence.append("C");
+                        break;
+                    case "11":
+                        encodedSequence.append("G");
+                        break;
+                }
+            }
+            System.out.println(encodedSequence);
+        }
+
+        scanner.close();
+
+        // ArrayList Examples
         // 1. Membuat dan Menambah Elemen
         ArrayList<String> fruits = new ArrayList<>();
         fruits.add("Apple");
@@ -69,5 +106,54 @@ public class ArrayListExamples {
         // 10. Sortir Elemen
         Collections.sort(fruits);
         System.out.println("Sorted Fruits: " + fruits);
+
+        // HashMap Examples
+        // 1. Membuat dan Menambah Elemen
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(1, "One");
+        map.put(2, "Two");
+        map.put(3, "Three");
+        System.out.println("HashMap: " + map);
+
+        // 2. Mengakses Elemen
+        System.out.println("Value for key 2: " + map.get(2));
+
+        // 3. Menghapus Elemen
+        map.remove(2);
+        System.out.println("After removal: " + map);
+
+        // 4. Iterasi HashMap
+        for (Integer key : map.keySet()) {
+            System.out.println("Key: " + key + ", Value: " + map.get(key));
+        }
+
+        // 5. Mengecek Elemen
+        System.out.println("Contains key 1? " + map.containsKey(1));
+        System.out.println("Contains value 'Three'? " + map.containsValue("Three"));
+
+        // HashSet Examples
+        // 1. Membuat dan Menambah Elemen
+        HashSet<String> set = new HashSet<>();
+        set.add("Apple");
+        set.add("Banana");
+        set.add("Cherry");
+        System.out.println("HashSet: " + set);
+
+        // 2. Mengecek Elemen
+        System.out.println("Contains 'Banana'? " + set.contains("Banana"));
+
+        // 3. Menghapus Elemen
+        set.remove("Banana");
+        System.out.println("After removal: " + set);
+
+        // 4. Iterasi HashSet
+        for (String item : set) {
+            System.out.println("Item: " + item);
+        }
+
+        // 5. Mengosongkan dan Mengecek Ukuran
+        System.out.println("Size: " + set.size());
+        set.clear();
+        System.out.println("Is empty? " + set.isEmpty());
     }
 }
