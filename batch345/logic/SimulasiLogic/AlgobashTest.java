@@ -44,7 +44,6 @@ class AlgobashTest {
         }
 
         // Your code starts here.
-        // return Arrays.asList("output");
         return Arrays.asList(arrInput);
     }
 
