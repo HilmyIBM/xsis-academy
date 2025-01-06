@@ -3,45 +3,50 @@ import java.util.stream.Collectors;
 
 public class test {
     public static void main(String[] args) {
-/*         ArrayList<String> list = new ArrayList<>();
-        list.add("example");
-        list.add("hello");
-        list.add("world");
-        list.add("xenon");
-        list.add("text");
-
-        for (int i = 0; i < list.size(); i++) {
-            String temp = list.get(i);
-            System.out.println(temp);
-            if (temp.contains("x")) {
-                list.remove(i);
-            }
-        }
-
-        // Print the updated list
-        System.out.println("Updated list: " + list); */
-        String test="00110001";
-        String hasil="";
-        for(int i=0 ; i<test.length();i+=2){
-            String s=test.substring(i, i+2);
-            System.out.println(s);
-            if(s.equals("00")){
-                hasil+="A";
-            }else if(s.equals("01")){
-                hasil+="B";
-            }else{
-                hasil+="C";
-            }
-        }
-        System.out.println(hasil);
-
-        count_abc();
-        System.out.println();
-        gcd("12/6");
+        /*
+         * ArrayList<String> list = new ArrayList<>();
+         * list.add("example");
+         * list.add("hello");
+         * list.add("world");
+         * list.add("xenon");
+         * list.add("text");
+         * 
+         * for (int i = 0; i < list.size(); i++) {
+         * String temp = list.get(i);
+         * System.out.println(temp);
+         * if (temp.contains("x")) {
+         * list.remove(i);
+         * }
+         * }
+         * 
+         * // Print the updated list
+         * System.out.println("Updated list: " + list);
+         */
+        /*
+         * String test = "00110001";
+         * String hasil = "";
+         * for (int i = 0; i < test.length(); i += 2) {
+         * String s = test.substring(i, i + 2);
+         * System.out.println(s);
+         * if (s.equals("00")) {
+         * hasil += "A";
+         * } else if (s.equals("01")) {
+         * hasil += "B";
+         * } else {
+         * hasil += "C";
+         * }
+         * }
+         * System.out.println(hasil);
+         * 
+         * count_abc();
+         * System.out.println();
+         * gcd("12/6");
+         */
+        kpk("10/45");
 
         List<String> intList = Arrays.asList("1, 2, 3");
-        String x1=String.join(",", intList);
-        System.out.println("x1 ="+x1);
+        String x1 = String.join(",", intList);
+        System.out.println("x1 =" + x1);
     }
 
     public static String kangaroo(int x1, int v1, int x2, int v2) {
@@ -330,46 +335,211 @@ public class test {
         }
     }
 
-    public static void count_abc(){
+    public static void count_abc() {
         String myStr = "Hello www123";
         char[] test = new char[26];
-        int max=0;
-        int lokasi=0;
+        int max = 0;
+        int lokasi = 0;
         for (char c : myStr.toLowerCase().toCharArray()) {
-          if (Character.isLetter(c)) {
-            test[c - 'a']++;
-          }
+            if (Character.isLetter(c)) {
+                test[c - 'a']++;
+            }
         }
         for (int i = 0; i < test.length; i++) {
-            if(test[i] > max){
-                max=test[i];
-                lokasi=i;
+            if (test[i] > max) {
+                max = test[i];
+                lokasi = i;
             }
-          System.out.println((char) (i + 'a') + ": " + (int) test[i]);
+            System.out.println((char) (i + 'a') + ": " + (int) test[i]);
         }
         System.out.println();
         System.out.print("Huruf Terbanyak : ");
-        System.out.print((char)(lokasi+'a') +":"+ max);
-      }
+        System.out.print((char) (lokasi + 'a') + ":" + max);
+    }
 
-    public static void gcd(String s){
-        String[] temp=s.split("/");
-        int x=Integer.parseInt(temp[0]);
-        int y=Integer.parseInt(temp[1]);
-        int gcd=0;
+    public static void gcd(String s) {
+        String[] temp = s.split("/");
+        int x = Integer.parseInt(temp[0]);
+        int y = Integer.parseInt(temp[1]);
+        int gcd = 0;
 
-        for(int i=1;i<= x && i<=y;i++ ){
-            if(x%i == 0 && y % i==0){
-                gcd=i;
+        for (int i = 1; i <= x && i <= y; i++) {
+            if (x % i == 0 && y % i == 0) {
+                gcd = i;
             }
         }
 
-        x/=gcd;
-        y/=gcd;
-        if(y==1){
+        x /= gcd;
+        y /= gcd;
+        if (y == 1) {
             System.out.println(x);
-        }else{
-            System.out.println(x+"/"+y);
+        } else {
+            System.out.println(x + "/" + y);
         }
     }
+
+    public static int pickingNumbers(List<Integer> a) {
+        // Write your code here
+        int[] angka = new int[101];
+        int max = 0;
+        for (int c : a) {
+            angka[c]++;
+        }
+        for (int i = 1; i < angka.length - 1; i++) {
+            if (angka[i] + angka[i + 1] > max) {
+                max = angka[i] + angka[i + 1];
+            }
+        }
+        return max;
+    }
+
+    public static List<Integer> permutationEquation(List<Integer> p) {
+        // Write your code here
+        List<Integer> result = new ArrayList<>();
+
+        int[] indexArr = new int[p.size()];
+
+        for (int i = 0; i < p.size(); i++) {
+            int val = p.get(i);
+            indexArr[val - 1] = i + 1;
+
+        }
+        for (int i = 0; i < p.size(); i++) {
+            result.add(indexArr[indexArr[i] - 1]);
+        }
+        return result;
+    }
+
+    // mencari kpk
+    public static void kpk(String s) {
+        String[] temp = s.split("/");
+        int x = Integer.parseInt(temp[0]);
+        int y = Integer.parseInt(temp[1]);
+        int gcd = 0;
+
+        for (int i = 1; i <= x && i <= y; i++) {
+            if (x % i == 0 && y % i == 0) {
+                gcd = i;
+            }
+        }
+        System.out.println(gcd);
+        int kpk = (x * y) / gcd;
+        System.out.println(kpk);
+
+        if (y == 1) {
+            System.out.println(x);
+        } else {
+            System.out.println(x + "/" + y);
+        }
+    }
+
+    public static int getTotalX(List<Integer> a, List<Integer> b) {
+        // Write your code here
+        int max = Collections.max(a);
+        int min = Collections.min(b);
+        int count = 0;
+        for (int j = max; j <= min; j++) {
+            boolean aArr = true;
+            boolean bArr = true;
+            for (int i = 0; i < a.size(); i++) {
+                if (j % a.get(i) != 0) {
+                    aArr = false;
+                    break;
+                }
+            }
+
+            for (int i = 0; i < b.size(); i++) {
+                if (b.get(i) % j != 0) {
+                    bArr = false;
+                    break;
+                }
+            }
+            if (aArr && bArr) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static int alternatingCharacters(String s) {
+        /*
+         * Sample Input
+         * 5
+         * AAAA
+         * BBBBB
+         * ABABABAB
+         * BABABA
+         * AAABBB
+         * 
+         * Sample Output
+         * 3
+         * 4
+         * 0
+         * 0
+         * 4
+         */
+        // Write your code here
+        int count = 0;
+        if (s.length() <= 1) {
+            return 0;
+        } else {
+            for (int i = 1; i < s.length(); i++) {
+                if (s.charAt(i) == s.charAt(i - 1)) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public static int beautifulBinaryString(String b) {
+        /*
+         * STDIN Function
+         * ----- --------
+         * 7 length of string n = 7
+         * 0101010 b = '0101010'
+         */
+        // Write your code here
+        int count = 0;
+        for (int i = 0; i <= b.length() - 3; i++) {
+            if (b.charAt(i) == '0' && b.charAt(i + 1) == '1' && b.charAt(i + 2) == '0') {
+                count++;
+                i += 2;
+            }
+        }
+
+        return count;
+    }
+
+    public static int theLoveLetterMystery(String s) {
+/*         STDIN   Function
+           -----   --------
+           4       q = 4
+           abc     query 1 = 'abc'
+           abcba
+           abcd
+           cba
+           Sample Output
+           2
+           0
+           4
+           2 */
+        // Write your code here
+         int count = 0;
+            StringBuilder sb = new StringBuilder(s);
+            String str = sb.reverse().toString();
+            if (s.contentEquals(str)) {
+                return count;
+            } else {
+                for (int i = 0; i < s.length() / 2; i++) {
+                    count += Math.abs(s.charAt(i) - s.charAt(s.length() - 1 - i));
+                }
+                return count;
+            }
+    
+        }
+    
+    }
+
 }

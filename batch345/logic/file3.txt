@@ -1,1 +1,61 @@
-SELECT * FROM pg_database;
+7. Menghitung Jumlah Kelipatan dalam Rentang Tertentu
+int awal = 10;
+int akhir = 50;
+int kelipatan = 6;
+int count = 0;
+
+for (int i = awal; i <= akhir; i++) {
+    if (i % kelipatan == 0) {
+        count++;
+    }
+}
+System.out.println("Jumlah kelipatan " + kelipatan + ": " + count);
+
+6. Filter Kelipatan dari Array
+int[] angkaArray = {10, 15, 20, 33, 40, 50};
+int kelipatan = 5;
+
+for (int angka : angkaArray) {
+    if (angka % kelipatan == 0) {
+        System.out.println(angka);
+    }
+}
+
+
+5. Kelipatan untuk Beberapa Angka (Misalnya 2, 3, 4, dll.)
+int[] kelipatanArray = {2, 3, 4, 5};
+int batas = 10;
+for (int kelipatan : kelipatanArray) {
+    System.out.println("Kelipatan " + kelipatan + ":");
+    for (int i = 1; i <= batas; i++) {
+        System.out.print(i * kelipatan + " ");
+    }
+    System.out.println();
+}
+
+4. Menyimpan Kelipatan ke dalam List
+List<Integer> kelipatanList = new ArrayList<>();
+for (int i = 1; i <= batas; i++) {
+    kelipatanList.add(i * kelipatan);
+}
+System.out.println(kelipatanList);
+
+
+--3. Mencetak Semua Kelipatan dalam Rentang Tertentu
+for (int i = awal; i <= akhir; i++) {
+    if (i % kelipatan == 0) {
+        System.out.println(i);
+    }
+}
+
+--2. Mencetak Daftar Kelipatan dalam Rentang Tertentu
+for (int i = 1; i <= batas; i++) {
+    System.out.println(i * kelipatan);
+}
+
+--1. Mengecek Apakah Suatu Angka adalah Kelipatan
+if (angka % kelipatan == 0) {
+    System.out.println(angka + " adalah kelipatan " + kelipatan);
+} else {
+    System.out.println(angka + " bukan kelipatan " + kelipatan);
+}

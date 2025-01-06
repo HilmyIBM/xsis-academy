@@ -1,0 +1,107 @@
+1. String ke Integer
+String str = "123";
+int num = Integer.parseInt(str); // Mengkonversi String ke Integer
+System.out.println(num); // Output: 123
+
+String ke Integer menggunakan Integer.valueOf():
+String str = "123";
+Integer num = Integer.valueOf(str); // Mengkonversi String ke Integer (Wrapper Class)
+System.out.println(num); // Output: 123
+
+2. Integer ke String
+Integer ke String menggunakan String.valueOf():
+int num = 123;
+String str = String.valueOf(num); // Mengkonversi Integer ke String
+System.out.println(str); // Output: "123"
+
+Integer ke String menggunakan Integer.toString():
+int num = 123;
+String str = Integer.toString(num); // Mengkonversi Integer ke String
+System.out.println(str); // Output: "123"
+
+3. String ke Character
+String ke Character menggunakan charAt():
+String str = "hello";
+char c = str.charAt(0); // Mengambil karakter pertama dari string
+System.out.println(c); // Output: 'h'
+
+String yang panjang 1 karakter ke Character:
+String str = "a";
+char c = str.charAt(0); // String hanya 1 karakter, ambil langsung
+System.out.println(c); // Output: 'a'
+
+4. Character ke String
+Character ke String menggunakan Character.toString():
+char c = 'a';
+String str = Character.toString(c); // Mengkonversi Character ke String
+System.out.println(str); // Output: "a"
+
+Character ke String menggunakan String.valueOf():
+char c = 'a';
+String str = String.valueOf(c); // Mengkonversi Character ke String
+System.out.println(str); // Output: "a"
+
+5. List ke Integer
+List<String> ke List<Integer> menggunakan Integer.parseInt():
+List<String> strList = Arrays.asList("1", "2", "3", "4");
+List<Integer> intList = strList.stream()
+                               .map(Integer::parseInt)
+                               .collect(Collectors.toList());
+System.out.println(intList); // Output: [1, 2, 3, 4]
+
+
+List<String> ke List<Integer> menggunakan Integer.valueOf():
+List<String> strList = Arrays.asList("1", "2", "3", "4");
+List<Integer> intList = strList.stream()
+                               .map(Integer::valueOf)
+                               .collect(Collectors.toList());
+System.out.println(intList); // Output: [1, 2, 3, 4]
+
+
+6. List ke Character
+List<String> ke List<Character> menggunakan charAt()
+List<String> strList = Arrays.asList("a", "b", "c", "d");
+List<Character> charList = strList.stream()
+                                 .map(s -> s.charAt(0))
+                                 .collect(Collectors.toList());
+System.out.println(charList); // Output: [a, b, c, d]
+
+7. Integer ke Character
+Integer ke Character (menggunakan casting)
+int num = 97; // ASCII code for 'a'
+char c = (char) num; // Mengkonversi integer ke karakter
+System.out.println(c); // Output: 'a'
+
+8. Character ke Integer
+Character ke Integer (menggunakan Character.getNumericValue()) untuk karakter numerik:
+char c = '9';
+int num = Character.getNumericValue(c); // Mengkonversi karakter ke angka
+System.out.println(num); // Output: 9
+
+Character ke Integer (menggunakan Character.codePointAt() untuk mendapatkan nilai Unicode):
+char c = 'a';
+int codePoint = Character.codePointAt(new char[]{c}, 0); // Mendapatkan code point dari karakter
+System.out.println(codePoint); // Output: 97 (Unicode untuk 'a')
+
+9. List ke String
+List<Integer> ke String (menggunakan StringBuilder):
+List<Integer> intList = Arrays.asList(1, 2, 3, 4);
+String result = intList.stream()
+                       .map(String::valueOf)
+                       .collect(Collectors.joining(", "));
+System.out.println(result); // Output: "1, 2, 3, 4"
+
+List<Character> ke String:
+List<Character> charList = Arrays.asList('a', 'b', 'c');
+String str = charList.stream()
+                     .map(String::valueOf)
+                     .collect(Collectors.joining());
+System.out.println(str); // Output: "abc"
+
+10. Integer ke Binary String
+Integer ke Binary String menggunakan Integer.toBinaryString()
+int num = 5;
+String binary = Integer.toBinaryString(num); // Mengkonversi Integer ke Binary String
+System.out.println(binary); // Output: "101"
+
+

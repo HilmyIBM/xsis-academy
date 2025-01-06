@@ -1,1 +1,148 @@
-test add file.
+--Mengambil Elemen Tertentu
+Mengambil angka dari array atau list:
+int[] arr = {1, 2, 3, 4, 5};
+int num = arr[index]; // Mengambil angka berdasarkan index
+List<Integer> list = Arrays.asList(1, 2, 3, 4);
+int numFromList = list.get(index); // Mengambil angka dari list
+
+Mengambil karakter dari string:
+String str = "hello";
+char c = str.charAt(index); // Mengambil karakter di index tertentu
+
+Mendapatkan substring:
+String str = "hello world";
+String subStr = str.substring(startIndex, endIndex); // Mengambil substring
+
+2. Memeriksa dan Membandingkan
+Memeriksa apakah array atau list kosong:
+if (arr.length == 0) { // Untuk array
+    // Array kosong
+}
+if (list.isEmpty()) { // Untuk List
+    // List kosong
+}
+
+Membandingkan dua string:
+String str1 = "abc";
+String str2 = "abc";
+if (str1.equals(str2)) {
+    // Sama
+}
+
+Perbandingan numerik:
+int a = 5;
+int b = 10;
+if (a < b) {
+    // a lebih kecil dari b
+}
+if (a == b) {
+    // a sama dengan b
+}
+
+3. Pengurutan
+Mengurutkan array:
+int[] arr = {5, 2, 8, 1, 4};
+Arrays.sort(arr); // Mengurutkan array secara ascending
+
+Mengurutkan List:
+List<Integer> list = Arrays.asList(5, 2, 8, 1, 4);
+Collections.sort(list); // Mengurutkan List secara ascending
+
+Mengurutkan dengan Comparator (Descending):
+List<Integer> list = Arrays.asList(5, 2, 8, 1, 4);
+Collections.sort(list, Collections.reverseOrder()); // Mengurutkan descending
+
+
+4. Mengambil Semua Angka atau Karakter
+Mengambil semua angka dari String:
+String str = "abc123def456";
+String numbers = str.replaceAll("[^0-9]", ""); // Mengambil angka saja
+System.out.println(numbers); // Output: 123456
+
+Mengambil semua huruf dari String:
+String str = "abc123def456";
+String letters = str.replaceAll("[^a-zA-Z]", ""); // Mengambil huruf saja
+System.out.println(letters); // Output: abcdef
+
+5. Melakukan Operasi dengan Angka
+Menjumlahkan semua elemen array:
+int[] arr = {1, 2, 3, 4, 5};
+int sum = 0;
+for (int num : arr) {
+    sum += num;
+}
+System.out.println(sum); // Output: 15
+
+Menjumlahkan semua elemen dalam List:
+List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
+int sum = list.stream().mapToInt(Integer::intValue).sum();
+System.out.println(sum); // Output: 15
+
+6. Menyaring Elemen
+Menyaring elemen berdasarkan kondisi:
+List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
+List<Integer> evenNumbers = list.stream()
+                                .filter(num -> num % 2 == 0)
+                                .collect(Collectors.toList());
+System.out.println(evenNumbers); // Output: [2, 4]
+
+7. Menggabungkan String
+Menggabungkan array atau list menjadi string:
+String[] arr = {"Hello", "World"};
+String result = String.join(" ", arr); // Menggabungkan dengan spasi
+System.out.println(result); // Output: Hello World
+
+Menggabungkan karakter atau angka menjadi string:
+String result = String.valueOf(123); // Mengkonversi angka ke string
+System.out.println(result); // Output: "123"
+
+8. Operasi Matematika
+Menghitung faktor dan kelipatan:
+int a = 10;
+int b = 5;
+int gcd = gcd(a, b); // Fungsi GCD untuk menghitung FPB
+int lcm = lcm(a, b); // Fungsi LCM untuk menghitung KPK
+
+public static int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+public static int lcm(int a, int b) {
+    return a * b / gcd(a, b);
+}
+
+9. Menemukan Elemen
+Menemukan elemen dalam array:
+int[] arr = {1, 2, 3, 4, 5};
+int index = -1;
+for (int i = 0; i < arr.length; i++) {
+    if (arr[i] == 3) {
+        index = i; // Menemukan index elemen
+        break;
+    }
+}
+System.out.println(index); // Output: 2
+
+Menemukan elemen dalam List:
+List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
+boolean found = list.contains(3); // Cek apakah 3 ada dalam list
+System.out.println(found); // Output: true
+
+
+10. Operasi String
+Membalikkan string:
+String str = "hello";
+String reversed = new StringBuilder(str).reverse().toString();
+System.out.println(reversed); // Output: "olleh"
+
+Memeriksa apakah string adalah palindrome:
+String str = "radar";
+boolean isPalindrome = new StringBuilder(str).reverse().toString().equals(str);
+System.out.println(isPalindrome); // Output: true
+
+
