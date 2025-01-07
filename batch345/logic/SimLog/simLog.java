@@ -15,7 +15,8 @@ public class simLog {
         // soal6();
         // soal7();
         // soal10();
-        soal11();
+        // soal11();
+        maxChar();
 
     }
 
@@ -375,6 +376,42 @@ public class simLog {
             }
 
         }
+
+        s.close();
+    }
+
+    public static void maxChar(){
+        Scanner s = new Scanner(System.in);
+
+        System.out.print("Masukan kata: ");
+        String string = s.nextLine();
+
+        String fixString = string.toLowerCase().replaceAll("[^a-zA-Z]", "");
+
+        int max = 0;
+        int currentChar = 0;
+
+        for(int i = 0; i<fixString.length(); i++){
+            int count = 0;
+
+            for(int j = 0; j < fixString.length(); j++){
+                if(fixString.charAt(i) == fixString.charAt(j)){
+                    count++;
+                }
+            }
+
+            if (count > max) {
+                max = count;
+                currentChar = fixString.charAt(i);
+            } else if (count == max){
+                if (fixString.charAt(i) < currentChar) {
+                    currentChar = fixString.charAt(i);
+                }
+            }
+
+        }
+
+        System.out.println((char)currentChar + " " + max);
 
         s.close();
     }

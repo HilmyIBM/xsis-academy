@@ -1,6 +1,7 @@
 package Day06;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class _Day06 {
@@ -49,19 +50,17 @@ public class _Day06 {
 
         int rotate = 0;
         for(char c : sentences.toCharArray()){
-            int ascii = (int) c;
-            System.out.println(ascii);
-            if(ascii >= 'A' && ascii <= 'Z' || ascii >= 'a' && ascii <= 'z'){
-                rotate = ascii + inputRotate;
-                if (rotate > 'Z' && rotate < 'a' || rotate > 'z') {
-                    rotate -= 26;
-                }
-                System.out.print((char)rotate);
-            } else {
-                System.out.print((char)c);
+            if (c >= 'A' && c <= 'Z') { // Untuk huruf besar
+                rotate = ((c - 'A' + inputRotate) % 26) + 'A';
+                System.out.print((char) rotate);
+            } else if (c >= 'a' && c <= 'z') { // Untuk huruf kecil
+                rotate = ((c - 'a' + inputRotate) % 26) + 'a';
+                System.out.print((char) rotate);
+            } else { // Untuk karakter selain huruf
+                rotate += c;
             }
-
         }
+
         System.out.print((char) rotate);
 
         s.close();
@@ -98,22 +97,29 @@ public class _Day06 {
         System.out.print("Input: ");
         String input = s.nextLine();
 
+        String fixInput = input.toLowerCase().replaceAll("[^a-z]", "");
+
         String vowels = "";
         String consonants = "";
 
-        for(int i = 0; i < input.length(); i++){
-            for(char j : vocal.toCharArray()){
-                if (input.charAt(i) == j) {
-                    vowels += input.charAt(i);
-                } //else {
-                //     
-                // }
+        for(char i : fixInput.toCharArray()){
+            if (vocal.indexOf(i) >= 0){
+                vowels += i;
+            } else {
+                consonants += i;
             }
-            consonants += input.charAt(i);
         }
 
-        System.out.println("Vokal: " + vowels);
-        System.out.println("Konsonan: " + consonants);
+        char[] sortedVowelsArray = vowels.toCharArray();
+        char[] sortedConsonantsArray = consonants.toCharArray();
+        Arrays.sort(sortedVowelsArray);
+        Arrays.sort(sortedConsonantsArray);
+
+        String sortedVowels = new String(sortedVowelsArray);
+        String sortedConsonants = new String(sortedConsonantsArray);
+
+        System.out.println("Vokal (sorted): " + sortedVowels);
+        System.out.println("Konsonan (sorted): " + sortedConsonants);
 
 
         s.close();

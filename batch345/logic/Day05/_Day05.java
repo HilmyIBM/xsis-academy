@@ -10,7 +10,7 @@ public class _Day05 {
         // convertTimeFormat();
         // theCost();
         // diagonalDifference();
-        candle();
+        // candle();
         // changePosition();
     }
 
@@ -33,13 +33,6 @@ public class _Day05 {
         System.out.print("Enter Total Menu: ");
         int totalMenu = s.nextInt();
         s.nextLine();
-        // System.out.print("Enter Price: ");
-        // String listPrice = s.nextLine();
-        // String[] splitPrice = listPrice.split(",");
-        // for (String price : splitPrice) {
-        //     menuPrice.add(Integer.parseInt(price));
-        // }
-
         ArrayList<Integer> menuPrice = new ArrayList<>();
         for(int i = 0; i<totalMenu; i++){
             if (i == 0){
