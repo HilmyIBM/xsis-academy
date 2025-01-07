@@ -51,20 +51,22 @@ public class Day03 {
     }
 
     public static void bintang(int n) {
-        for (int i = 1; i <= 1; i++) {
-            for (int j = 1; j <= n; j++) {
-                System.out.print(j + " ");
-            }
-            System.out.println();
-            for (int k = 2; k < n; k++) {
-                System.out.println("*" + "       " + "*");
-            }
-            for (int c = n; c > 0; c--) {
-                System.out.print(c + " ");
-            }
-            System.out.println();
+        // Print angka dari 1 hingga n
+        for (int j = 1; j <= n; j++) {
+            System.out.print(j + " ");
         }
+        System.out.println();
+        
+        for (int k = 2; k < n; k++) {
+            System.out.println("*" + "       " + "*");
+        }
+
+        for (int c = n; c > 0; c--) {
+            System.out.print(c + " ");
+        }
+        System.out.println();
     }
+    
 
     public static void pangkat_bintang(int n) {
         int rasio = 3;

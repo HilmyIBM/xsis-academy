@@ -9,7 +9,7 @@ public class Day04 {
 
     public static void main(String[] args) {
         
-          System.out.println("Masukkan kalimat : ");
+/*           System.out.println("Masukkan kalimat : ");
           String kalimat = input.nextLine();
           kata(kalimat);
           
@@ -26,7 +26,7 @@ public class Day04 {
          System.out.println("===============");
          System.out.println("Masukkan kalimat : ");
          String awal = input.nextLine();
-         awal_bintang(awal);
+         awal_bintang(awal); */
         
 
         System.out.println("===============");
