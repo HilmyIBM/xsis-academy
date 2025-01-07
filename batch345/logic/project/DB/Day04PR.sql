@@ -108,3 +108,5 @@ FROM
     orders o
         RIGHT JOIN sales_person sp on o.salesperson_id = sp.id
 WHERE o.salesperson_id is null;
+
+SELECT concat('a', null, 'c', ' ', 'a');
