@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Spring MVC Example</title>
+  </head>
+  <body>
+    <h1 id="par1" th:text="${message}">Default Message</h1>
+    <form action="/greet" method="post">
+      <label id="par2" for="name">Enter your name here  :</label>
+      <input type="text" id="name" name="name" />
+      <button type="submit">Greet</button>
+    </form>
+  </body>
+  <style>
+    #par1 {
+      color: aqua;
+    }
+    #par2 {
+      color: brown;
+    }
+  </style>
+</html>
