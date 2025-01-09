@@ -94,11 +94,33 @@ LocalTime.parse(time,DateTimeFormatter.ofPatter("HH:mm")).format(DateTimeFormatt
 \s is equivalent to [ \t\n\r\f] (matches any whitespace character).
 [^]
 
-reducedFraction
-(pembilang % penyebut == 0) 
-else 
-1. (for loop)
-    buat variable divisor
- 1.1 if (pembilang % i == 0 && penyebut & i == 0)
-    divisor = i;
-2. dibagi dengan divisor setelah keluar looping
+SQL
+
+column = attribute
+row = records / tuple
+view = menyimpan table temporare dari query (tidak sesuai dengan updatan data)
+DDL = hal yang berkaitan dengan pembuatan dan penghapusan object (create, drop)
+DML = select, update, delete, insert
+DCL = mengatur permission
+
+postgres memiliki - transactional, subselect, views, foreign ke, locking
+syarat untuk koneksi ke postgres adalah dengan jaringan tcp/ip
+
+create view {nama view} as {querynya};
+drop view {nama view}; 
+
+create index {nama index} on {nama table}(nama column);
+
+alter table {nama table};
+- add constraint {nama constraint} unique (nama column)
+- add constraint {nama constraint} foreign key (nama column) references {nama table} (nama column target)
+- drop constraint {nama constraint}
+- add primary key (nama column)
+- rename column {column lama} to {column baru}
+- alter column {nama column} type {tipe data}
+
+update {nama table}
+set (column) = 'value', (column) = 'value' where bla bla = bla bla returning *;
+
+delete from {nama table}
+where bla bla = bla bla;
