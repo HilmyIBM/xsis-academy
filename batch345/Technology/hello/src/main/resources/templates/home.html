@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Home</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+    <h1 th:text="${message}">Default Message</h1>
+    <form action="/greet" method="post">
+        <label for="name">Enter Your Name : </label>
+        <input type="text" id="name" name="name">
+        <button type="submit">Greet</button>
+    </form>
+    <p>Paragraph 1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem, assumenda voluptates voluptate cum earum repellat aliquam quibusdam fuga similique id consequuntur velit aperiam vel minima a saepe ab. Cum, fugiat?</p>
+    <p>Paragraph 2 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quibusdam eum vel repellat cumque ipsam sapiente laudantium, consequatur corrupti quo eaque ea, voluptate laboriosam magnam, ab labore natus iusto quidem minima?</p>
+
+    <div class="div1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas, culpa! Voluptate distinctio illo eligendi error architecto iusto tempora aperiam molestiae ducimus? Optio hic nemo quasi consequatur quo sequi eaque repellendus.</div>
+    <div class="div2">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Architecto distinctio explicabo quidem, harum iusto aperiam consequatur itaque aspernatur, repellat quae autem. Perferendis deserunt fugiat atque ipsum repellendus nemo optio esse.</div>
+</body>
+</html>

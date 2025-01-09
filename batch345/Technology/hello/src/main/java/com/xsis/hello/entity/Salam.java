@@ -1,0 +1,21 @@
+package com.xsis.hello.entity;
+
+public class Salam {
+    private final long id;
+    private final String content;
+
+    public Salam(long id,String content){
+        this.id=id;
+        this.content=content;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+
+}
