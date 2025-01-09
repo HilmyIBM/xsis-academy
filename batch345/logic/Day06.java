@@ -217,6 +217,7 @@ public class Day06 {
             if(text.length() >=6){
                 leng = true;
                 ctr++;
+                
             }
             for(int i = 0; i<text.length();i++){
                 Character ch = text.charAt(i);
