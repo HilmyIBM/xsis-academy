@@ -65,3 +65,121 @@ WHERE nama LIKE '__a%';
 SELECT *
 FROM tbl_pengarang
 WHERE nama NOT LIKE '%n';
+
+
+
+-- 1. Menambahkan Kolom Baru
+ALTER TABLE Customer ADD email VARCHAR(100);  -- Menambahkan kolom email
+
+-- 2. Menambah Beberapa Kolom Baru dalam Satu Perintah
+ALTER TABLE Customer ADD phone_number VARCHAR(15), address TEXT;
+
+-- 3. Menghapus Kolom
+ALTER TABLE Customer DROP COLUMN address;  -- Menghapus kolom address
+
+-- 4. Mengubah Nama Kolom
+ALTER TABLE Customer RENAME COLUMN phone_number TO contact_number;  -- Mengubah nama kolom phone_number menjadi contact_number
+
+-- 5. Mengubah Tipe Data Kolom
+-- Mengubah tipe data kolom phone_number (yang sudah diganti namanya menjadi contact_number) dari VARCHAR(15) menjadi VARCHAR(20)
+ALTER TABLE Customer MODIFY contact_number VARCHAR(20);  -- MySQL example
+-- ALTER TABLE Customer ALTER COLUMN contact_number TYPE VARCHAR(20);  -- PostgreSQL example
+
+-- 6. Menambahkan Primary Key
+ALTER TABLE Customer ADD PRIMARY KEY (id_customer);  -- Menambahkan PRIMARY KEY pada kolom id_customer
+
+-- 7. Menambahkan Foreign Key
+ALTER TABLE Customer ADD CONSTRAINT fk_customer_order FOREIGN KEY (order_id) REFERENCES Orders (id_order);  -- Menambahkan FOREIGN KEY yang mengacu pada id_order di tabel Orders
+
+-- 8. Mengubah Nama Tabel
+ALTER TABLE Customer RENAME TO Clients;  -- Mengubah nama tabel Customer menjadi Clients
+
+-- 9. Menambahkan Nilai Default pada Kolom
+ALTER TABLE Clients ALTER COLUMN balance SET DEFAULT 0;  -- Menambahkan nilai default 0 pada kolom balance
+
+-- 10. Menghapus Nilai Default pada Kolom
+ALTER TABLE Clients ALTER COLUMN balance DROP DEFAULT;  -- Menghapus nilai default dari kolom balance
+
+-- 11. Menghapus Primary Key
+ALTER TABLE Clients DROP PRIMARY KEY;  -- Menghapus PRIMARY KEY
+
+-- 12. Menghapus Foreign Key
+ALTER TABLE Clients DROP CONSTRAINT fk_customer_order;  -- Menghapus FOREIGN KEY constraint
+
+
+
+-- PostgreSQL DATE Cheatsheet
+
+-- 1. Ekstraksi Komponen dari Tanggal
+-- Ekstrak Tahun
+SELECT EXTRACT(YEAR FROM CURRENT_DATE) AS year;
+
+-- Ekstrak Bulan
+SELECT EXTRACT(MONTH FROM CURRENT_DATE) AS month;
+
+-- Ekstrak Hari
+SELECT EXTRACT(DAY FROM CURRENT_DATE) AS day;
+
+-- Ekstrak Hari dalam Minggu
+SELECT EXTRACT(DOW FROM CURRENT_DATE) AS day_of_week;
+
+-- Ekstrak Hari dalam Tahun
+SELECT EXTRACT(DOY FROM CURRENT_DATE) AS day_of_year;
+
+-- 2. Format Tanggal
+-- Format ke 'YYYY-MM-DD'
+SELECT TO_CHAR(CURRENT_DATE, 'YYYY-MM-DD') AS formatted_date;
+
+-- Format ke 'DD Month YYYY'
+SELECT TO_CHAR(CURRENT_DATE, 'DD Month YYYY') AS formatted_date_with_text;
+
+-- 3. Operasi Aritmatika pada Tanggal
+-- Tambah Hari
+SELECT CURRENT_DATE + INTERVAL '10 days' AS date_plus_10_days;
+
+-- Kurangi Hari
+SELECT CURRENT_DATE - INTERVAL '10 days' AS date_minus_10_days;
+
+-- Selisih Tanggal
+SELECT CURRENT_DATE - DATE '2025-01-01' AS days_difference;
+SELECT AGE(DATE '2025-01-01', CURRENT_DATE) AS age_difference;
+
+-- 4. Manipulasi Tanggal
+-- Set Tanggal ke Awal Bulan
+SELECT DATE_TRUNC('month', CURRENT_DATE) AS start_of_month;
+
+-- Set Tanggal ke Awal Tahun
+SELECT DATE_TRUNC('year', CURRENT_DATE) AS start_of_year;
+
+-- 5. Filter Berdasarkan Tanggal
+-- Filter Tanggal Spesifik
+SELECT * FROM table_name WHERE date_column = '2025-01-08';
+
+-- Filter Rentang Tanggal
+SELECT * FROM table_name 
+WHERE date_column BETWEEN '2025-01-01' AND '2025-01-31';
+
+-- Filter Lebih Baru atau Lebih Lama
+SELECT * FROM table_name WHERE date_column > '2025-01-01';
+SELECT * FROM table_name WHERE date_column < '2025-01-01';
+
+-- 6. Konversi ke Tanggal
+-- Konversi dari String ke DATE
+SELECT TO_DATE('08-01-2025', 'DD-MM-YYYY') AS converted_date;
+
+-- Konversi dari Timestamp ke DATE
+SELECT DATE(TIMESTAMP '2025-01-08 15:30:00') AS date_from_timestamp;
+
+-- 7. Operasi dengan Time Zone
+-- Current Date dengan Time Zone
+SELECT CURRENT_DATE AT TIME ZONE 'UTC' AS date_utc;
+
+-- Konversi Time Zone
+SELECT TIMESTAMP '2025-01-08 15:30:00' AT TIME ZONE 'Asia/Jakarta' AS jakarta_time;
+
+-- 8. Informasi Tambahan
+-- Apakah Tahun Kabisat
+SELECT EXTRACT(YEAR FROM CURRENT_DATE) % 4 = 0 AS is_leap_year;
+
+-- Hari dalam Bulan
+SELECT DATE_PART('days', DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '1 month' - INTERVAL '1 day') AS days_in_month;

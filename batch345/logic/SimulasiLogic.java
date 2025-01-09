@@ -7,7 +7,8 @@ import java.util.Scanner;
 public class SimulasiLogic {
   private static Scanner input = new Scanner(System.in);
   public static void main(String[] args) {
-    soalKetujuh();
+    // soalKetujuh();
+    System.out.println(Integer.toBinaryString());
   }
 
   public static void soalPertama() {

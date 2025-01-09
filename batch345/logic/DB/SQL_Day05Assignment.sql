@@ -33,3 +33,9 @@ insert into orders (order_date, cust_id, sales_person_id, amount)
     ('5/6/2021',9,4,150);
 
 select * from orders;
+
+select sales_name
+from sales_person S
+left join orders O on S.id = O.sales_person_id
+GROUP BY sales_name
+HAVING count(sales_person_id) > 1;

@@ -126,3 +126,5 @@ GROUP BY
     M.nim, M.nama
 HAVING 
     SUM(MK.sks) > 4 AND SUM(MK.sks) < 10;
+
+-- 6
