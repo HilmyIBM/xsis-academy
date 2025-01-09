@@ -76,9 +76,9 @@ WHERE orders.sales_person_id is NULL;
 SELECT nama,salary,
 CASE 
 WHEN COUNT(o.cust_id ) = 0 
-THEN SUM(S.salary) - (SUM(sales_person.salary) * 0.02)
+THEN S.salary - (S.salary * 0.02)
 end as Gaji_setelah_dipotong
 from sales_person S LEFT JOIN orders o
-ON sales_person.id=orders.sales_person_id
-WHERE orders.sales_person_id is NULL
+ON S.id=o.sales_person_id
+WHERE o.sales_person_id is NULL
 GROUP BY nama, salary;
