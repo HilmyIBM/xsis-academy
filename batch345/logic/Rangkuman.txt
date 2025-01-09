@@ -58,6 +58,41 @@ sedangkan oop tentang membuat objek yang berisi keduanya data dan methods.
 -- Class
 class di java terdiri dari fields, methods, constructors, static initializers, instance initializers
 
+-- Non Access Modifier
+Final (Class tidak bisa diextend oleh class lain)
+Abstract (Class tidak bisa dibuat objectnya)
+- atribute
+    Final(Atribute dan method tidak bisa di override/dirubah)
+    Static (Atribute dan method dimiliki oleh class, lebih tepatnya adalah object)
+    Abstract (hanya bia digunakan methodnya, tetapi method tidak memiliki body)
+
+kenapa harus enkapsulasi?
+dikarenakan memperkuat sekurity, class menjadi read-only/write-only
+
+Subclass(class yang diwariskan dari class lain) - Child
+Superclass(class yang mewariskan) - Parent
+
+Polymorphism (Inheritance, method sama tetapi beda tugas)
+
+Interface (tidak memiliki body, sepenuhnya adalah Abstract class)
+
+LocalDate - tanggal sekarang
+LocalTime - jam sekarang
+LocalDateTime - tanggal dan jam sekarang
+DateTimeFormatter - format tanggal/jam
+LocalDate.now() - ambil tanggal sekarang
+
+long digunakan saat menghitung ChronoUnit
+ChronoUnit.[...].between(start,end) -- menghitung selisih
+seconds,minutes,hours,days,months,years
+
+LocalTime.parse(time,DateTimeFormatter.ofPatter("HH:mm")).format(DateTimeFormatter.ofPatter("hh:mm a"))
+
+4. Predefined Character Classes
+\d is equivalent to [0-9] (matches any digit).
+\w is equivalent to [a-zA-Z0-9_] (matches any alphanumeric character or underscore).
+\s is equivalent to [ \t\n\r\f] (matches any whitespace character).
+[^]
 
 reducedFraction
 (pembilang % penyebut == 0) 

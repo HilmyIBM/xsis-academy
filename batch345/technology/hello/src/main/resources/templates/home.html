@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spring MVC Example</title>
+  </head>
+  <body>
+    <h1>Welcome to Springboot</h1>
+    <p>User Name: <span th:text="${user?.name}"></span></p>
+    <p>User Age: <span th:text="${user?.age}"></span></p>
+    <p th:text="${message}"></p>
+    <form action="/greet" method="post">
+      <label for="name">Name: </label>
+      <input type="text" name="name" id="name">
+      <button type="submit">Greet</button>
+    </form>
+  </body>
+</html>
