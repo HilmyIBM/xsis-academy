@@ -1,10 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Greeting Page</title>
-</head>
-<body>
-<h1>test</h1>
-<h1 th:text="${message}"></h1>
-</body>
+    <head>
+            <title>Greeting Page</title>
+            <link rel="stylesheet" href="home.css">
+            <script src="home.js"></script>
+            <script src:""></script>
+    </head>
+    <body>
+        <h1>test</h1>
+        <p>haloooooooooooooooooooooooooooooooooooo</p>
+        <h1 th:text="${message}"></h1>
+        <h6>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eum omnis dolor, a quia obcaecati, iste alias quibusdam, unde totam dolorum laudantium aperiam? Vero saepe suscipit mollitia culpa atque eius temporibus.</h6>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis vitae ut impedit nulla dolor amet, iure eius consequatur reprehenderit rem necessitatibus aliquam suscipit dolore ex mollitia quibusdam totam sunt expedita.</p>
+        <button onclick="halo()">hide </button>
+        <script type="text/javascript">
+            function hideTable(){
+                document.getElementById('table1').style.display='none';
+            }
+            function showTable(){
+                document.getElementById('table1').style.display='';
+            }
+        </script>
+    </body>
 </html>
