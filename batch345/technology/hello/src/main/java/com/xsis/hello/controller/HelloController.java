@@ -8,7 +8,7 @@ import com.xsis.hello.entity.HelloWorld;
 import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.web.bind.annotation.GetMapping;
 
-// Buat API
+// Creating API using @RestController not @Controller
 @RestController
 public class HelloController {
     private final AtomicLong counter = new AtomicLong();

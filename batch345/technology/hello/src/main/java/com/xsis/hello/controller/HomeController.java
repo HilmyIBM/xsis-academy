@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-// Buat Fullstack untuk FE juga di resources
+// Buat Fullstack untuk FE juga di resources (Showing the UI Also)
 @Controller
 public class HomeController {
     @GetMapping("/home")
