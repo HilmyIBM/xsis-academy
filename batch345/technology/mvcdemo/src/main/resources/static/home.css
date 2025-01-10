@@ -1,4 +1,49 @@
-div {
+div.div2 {
     margin: 5px;
-    background-color:darkgrey;
+    background-color:rgb(66, 65, 65);
+    width: 30%;
 }
+
+div.div1{
+    margin: 10px;
+    background-color:rgb(146, 32, 32);
+}
+
+table {
+    border: 1px solid black;
+    width: 75%;
+    margin: 3px auto;
+}
+
+td, th{
+    border: 1px solid black;
+
+}
+
+.th1 {
+    width: 10%;
+}
+
+.th2 {
+    width: "*";
+    text-align: left;
+}
+
+.th3 {
+    width: 20%;
+    text-align: right;
+}
+
+.text-footer {
+    font-style: italic;
+    text-align: center;
+}
+
+thead {
+    background-color: gray;
+}
+
+tfoot {
+    background-color: silver;
+}
+

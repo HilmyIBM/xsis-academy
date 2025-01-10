@@ -1,52 +1,107 @@
 <!DOCTYPE html>
 <html xlmns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <title>Spring MVC Example</title>
 
-    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="home.css" />
     <script src="home.js"></script>
-</head>
-<body>
-
+  </head>
+  <body>
     <h1>Welcome To Spring MVC</h1>
     <h2>Heading H2</h2>
     <h3>Heading H3</h3>
     <h4>Heading H4</h4>
     <h5>Heading H5</h5>
     <h6>Heading H6</h6>
-    <style> 
-        #opener {
-            color: white;
-            font-style: italic;
-            font-weight: bold;
-        }
+    <style>
+      #opener {
+        color: white;
+        font-style: italic;
+        font-weight: bold;
+      }
 
-        #par2{
-            color: white;
-            font-style: italic;
-            font-weight:300;
-        }
+      #par2 {
+        color: white;
+        font-style: italic;
+        font-weight: 300;
+      }
     </style>
-    <div>
-        <p> <span id="opener">Lorem ipsum is a text used to check written things</span>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pulvinar velit dolor, ut venenatis odio condimentum vitae. Duis tortor nunc, auctor vel luctus quis, lobortis eget quam. In viverra fringilla dignissim. Sed id mollis ligula, sed mollis lorem. Aenean lorem ipsum, accumsan ac tristique nec, rutrum a magna. Donec non feugiat ex. Morbi eu lacus ullamcorper, tincidunt quam in, lobortis quam.
+    <div class="div1">
+      <p>
+        <span id="opener"
+          >Lorem ipsum is a text used to check written things</span
+        >
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pulvinar
+        velit dolor, ut venenatis odio condimentum vitae. Duis tortor nunc,
+        auctor vel luctus quis, lobortis eget quam. In viverra fringilla
+        dignissim. Sed id mollis ligula, sed mollis lorem. Aenean lorem ipsum,
+        accumsan ac tristique nec, rutrum a magna. Donec non feugiat ex. Morbi
+        eu lacus ullamcorper, tincidunt quam in, lobortis quam. Quisque non
+        consectetur mauris, quis lobortis ligula. Nulla non placerat libero.
+        Integer ac consectetur lectus. Phasellus vitae dignissim sapien.
+        Suspendisse potenti. Aliquam nunc urna, tincidunt at mauris ac,
+        pellentesque ultrices nisi. Nulla orci magna, hendrerit a ligula et,
+        lobortis cursus leo. Integer id tortor ac ipsum iaculis venenatis quis
+        ut elit. Suspendisse luctus vehicula lectus quis aliquam. Nam consequat
+        enim vel libero vestibulum, non maximus ex condimentum. Suspendisse dui
+        felis, imperdiet nec diam nec, dignissim molestie mauris.
+      </p>
+    </div>
 
-Quisque non consectetur mauris, quis lobortis ligula. Nulla non placerat libero. Integer ac consectetur lectus. Phasellus vitae dignissim sapien. Suspendisse potenti. Aliquam nunc urna, tincidunt at mauris ac, pellentesque ultrices nisi. Nulla orci magna, hendrerit a ligula et, lobortis cursus leo. Integer id tortor ac ipsum iaculis venenatis quis ut elit. Suspendisse luctus vehicula lectus quis aliquam. Nam consequat enim vel libero vestibulum, non maximus ex condimentum. Suspendisse dui felis, imperdiet nec diam nec, dignissim molestie mauris.
-        </p></div>
-
-        <div>
-        <p id="par2">
-            freestar 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consequat elit nec nibh tincidunt, a fermentum ante laoreet. Phasellus ligula lorem, pharetra ac rhoncus vitae, ultricies non eros. Ut vitae pulvinar enim. In congue fringilla ante, ut tempus sem. Sed euismod posuere egestas. Pellentesque mattis sapien eget posuere aliquam. Vivamus sagittis dignissim maximus. Nulla facilisi. Phasellus tristique dolor feugiat dapibus lobortis. Phasellus pulvinar, odio ac luctus condimentum, lorem tortor aliquam est, consequat fringilla dui dui eu urna. Curabitur et viverra nisi. Duis cursus urna a tortor porttitor pellentesque. Cras vulputate quam ac condimentum pretium. Mauris consectetur elit ut nibh luctus, eu rhoncus tellus placerat.
-
-Pellentesque euismod orci vitae eleifend dapibus. Aliquam convallis purus eget magna faucibus auctor. Suspendisse non tellus at est feugiat iaculis. Integer fermentum finibus lectus feugiat rutrum. Vestibulum at leo vitae tellus elementum sagittis. Etiam tempor imperdiet urna non blandit. Duis in leo tellus.
-        </p>
+    <div class = "div2">
+      <p id="par2">
+        freestar Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
+        consequat elit nec nibh tincidunt, a fermentum ante laoreet. Phasellus
+        ligula lorem, pharetra ac rhoncus vitae, ultricies non eros. Ut vitae
+        pulvinar enim. In congue fringilla ante, ut tempus sem. Sed euismod
+        posuere egestas. Pellentesque mattis sapien eget posuere aliquam.
+        Vivamus sagittis dignissim maximus. Nulla facilisi. Phasellus tristique
+        dolor feugiat dapibus lobortis. Phasellus pulvinar, odio ac luctus
+        condimentum, lorem tortor aliquam est, consequat fringilla dui dui eu
+        urna. Curabitur et viverra nisi. Duis cursus urna a tortor porttitor
+        pellentesque. Cras vulputate quam ac condimentum pretium. Mauris
+        consectetur elit ut nibh luctus, eu rhoncus tellus placerat.
+        Pellentesque euismod orci vitae eleifend dapibus. Aliquam convallis
+        purus eget magna faucibus auctor. Suspendisse non tellus at est feugiat
+        iaculis. Integer fermentum finibus lectus feugiat rutrum. Vestibulum at
+        leo vitae tellus elementum sagittis. Etiam tempor imperdiet urna non
+        blandit. Duis in leo tellus.
+      </p>
     </div>
 
     <button onclick="halo()">Halo</button>
 
-
-
-</body>
-
-</html>    
+    <div>
+        <table id="table1">
+            <thead>
+              <tr>
+                <th class="th1">No.</th>
+                <th class="th2">Name</th>
+                <th class="th3">City</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th class="th1">1.</th>
+                <td>Ali</td>
+                <td>Jakarta</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td class="text-footer" colspan="3">Table User</td>
+              </tr>
+            </tfoot>
+          </table>
+      
+          <div>
+            <button onclick="document.getElementById('table1').style.display='none'">
+              Hide Table
+            </button>
+            <button onclick="document.getElementById('table1').style.display=''">
+              Show Table
+            </button>
+          </div>
+    </div>
+  </body>
+</html>
