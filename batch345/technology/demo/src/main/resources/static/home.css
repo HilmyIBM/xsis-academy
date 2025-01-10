@@ -1,13 +1,51 @@
-div {
-    display: flexbox;
+div.flex-div {
+    display: flex;
+    gap: 5px;
 }
 
 div.div1 {
-    width: 50%;
     background-color: aqua;
 }
 
 .div2 {
-    width: 50%;
     background-color: aquamarine;
+}
+
+table {
+    border: 1px solid black;
+    width: 75%;
+    margin: 3px auto;
+}
+
+tfoot {
+    background-color: silver;
+}
+
+thead{
+    background-color: gray;
+}
+
+td, th {
+    border: 1px solid black;
+}
+
+.th1 {
+    width: 10%;
+}
+
+.th2 {
+    text-align: left;
+}
+
+.th3 {
+    width: 20%;
+}
+
+.text-footer {
+    font-style: italic;
+    text-align: center;
+}
+
+input[name='text-input'] {
+    background-color: antiquewhite;
 }
