@@ -1,37 +1,39 @@
-div{
+#div-flex{
     display: flex;
+    gap: 10px;
 }
 
 p{
-    width: 50%;
     font-family: inherit;
+}
+
+.p1{
+    margin-top: 50px;
 }
 
 .div1{
     background-color: yellow;
     width: 50%;
+    color: black;
 }
 
 .div2{
     background-color: aqua;
     width: 50%;
+    color: black;
 }
 
 table{
-    border: 1px solid black;
-    border-radius: 5px;
     width: 50%;
-    background-color: silver;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
+    margin-top: 5px;
+}
 
+#div-nav{
+    width: 50%;
+    margin: 3px auto;
 }
 
 td,th{
     border: 1px solid black;
-    border-radius: 1px;
-    align-content: center;
-    align-items: center;
     text-align: center;
 }
