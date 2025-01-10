@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #fef9e1;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+main {
+  margin: 0 auto;
+  max-width: fit-content;
+}
+.pages {
+  gap: 10px;
+  margin: 20px 50px;
+}
+.container {
+  border-radius: 15px;
+  background-color: #e5d0ac;
+  margin: 20px 0;
+  padding: 20px;
+  width: 1024px;
+}
+.cards {
+  display: flex;
+  justify-content: center;
+  column-gap: 30px;
+}
+.card {
+  padding: 20px;
+  color: white;
+  min-width: 200px;
+  background-color: #a31d1d;
+  border-radius: 10px;
+}
+#par1 {
+  color: black;
+}
+#par2 {
+  color: black;
+}
+.text-secondary {
+  color: black;
+}
