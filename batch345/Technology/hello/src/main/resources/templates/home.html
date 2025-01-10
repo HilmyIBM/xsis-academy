@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Home</title>
     <link rel="stylesheet" href="home.css">
+    <Script src="home.js"></Script>
 </head>
 <body>
     <h1 th:text="${message}">Default Message</h1>
@@ -18,5 +19,28 @@
 
     <div class="div1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas, culpa! Voluptate distinctio illo eligendi error architecto iusto tempora aperiam molestiae ducimus? Optio hic nemo quasi consequatur quo sequi eaque repellendus.</div>
     <div class="div2">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Architecto distinctio explicabo quidem, harum iusto aperiam consequatur itaque aspernatur, repellat quae autem. Perferendis deserunt fugiat atque ipsum repellendus nemo optio esse.</div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Nama</th>
+                <th>City</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Ali</td>
+                <td>Jakarta</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3"> Table User</td>
+            </tr>
+        </tfoot>
+    </table>
+    <button type="button" onclick="halo()">Test</button>
 </body>
 </html>

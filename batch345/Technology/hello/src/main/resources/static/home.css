@@ -16,3 +16,22 @@ p{
     background-color: aqua;
     width: 50%;
 }
+
+table{
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 50%;
+    background-color: silver;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+
+}
+
+td,th{
+    border: 1px solid black;
+    border-radius: 1px;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+}
