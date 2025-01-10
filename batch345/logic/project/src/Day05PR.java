@@ -136,7 +136,7 @@ public class Day05PR {
 
         var res = bubbleSort(test[1]);
 
-//        System.out.println(Arrays.toString(res));
+        System.out.println(Arrays.toString(res));
 
     }
 }
