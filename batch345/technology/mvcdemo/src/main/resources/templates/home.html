@@ -4,6 +4,10 @@
     <title>Spring MVC Example</title>
 
     <link rel="stylesheet" href="home.css" />
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+      ;
+    ></script>
     <script src="home.js"></script>
   </head>
   <body>
@@ -26,6 +30,7 @@
         font-weight: 300;
       }
     </style>
+    <!-- bisa kasih class, id -->
     <div class="div1">
       <p>
         <span id="opener"
@@ -47,8 +52,8 @@
         felis, imperdiet nec diam nec, dignissim molestie mauris.
       </p>
     </div>
-
-    <div class = "div2">
+    
+    <div class="div2">
       <p id="par2">
         freestar Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
         consequat elit nec nibh tincidunt, a fermentum ante laoreet. Phasellus
@@ -72,36 +77,59 @@
     <button onclick="halo()">Halo</button>
 
     <div>
-        <table id="table1">
-            <thead>
-              <tr>
-                <th class="th1">No.</th>
-                <th class="th2">Name</th>
-                <th class="th3">City</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th class="th1">1.</th>
-                <td>Ali</td>
-                <td>Jakarta</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td class="text-footer" colspan="3">Table User</td>
-              </tr>
-            </tfoot>
-          </table>
-      
-          <div>
-            <button onclick="document.getElementById('table1').style.display='none'">
-              Hide Table
-            </button>
-            <button onclick="document.getElementById('table1').style.display=''">
-              Show Table
-            </button>
-          </div>
+      <table id="table1">
+        <thead>
+          <tr>
+            <th class="th1">No.</th>
+            <th class="th2">Name</th>
+            <th class="th3">City</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="th1">1.</th>
+            <td>Ali</td>
+            <td>Jakarta</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td class="text-footer" colspan="3">Table User</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div>
+        <button onclick="hideTable()">Hide Table</button>
+        <button onclick="showTable()">Show Table</button>
+
+        <button id="jq-button-hide">jq Hide Button</button>
+        <button id="jq-button-show">jq Show Button</button>
+      </div>
     </div>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $("#jq-button-hide").click(function () {
+          hideTable();
+        });
+      });
+
+      function hideTable() {
+        document.getElementById("table1").style.display = "none";
+      }
+
+      // jquery pake $ dulu sblm kasi apapun
+      $("#jq-button-show").click(function () {
+        $("#table1").toggle(1000, function () {
+          alert("table is back");
+        });
+      });
+
+      function showTable() {
+        document.getElementById("table1").style.display = "";
+      }
+    </script>
+    
   </body>
 </html>
