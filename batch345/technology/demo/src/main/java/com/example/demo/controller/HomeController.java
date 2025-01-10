@@ -18,7 +18,7 @@ public class HomeController {
   }
 
   @PostMapping("/greet")
-  public String greetUser(@RequestParam("name") String name, Model model) {
+  public String greetUser(@RequestParam(defaultValue = "Siapapun kamu") String name, Model model) {
       model.addAttribute("message", "Hello, " + name + "!");
       return "home";
       
