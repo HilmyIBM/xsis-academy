@@ -5,12 +5,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class AboutController {
-
-    @GetMapping("/about")
+public class VariantController {
+    
+    @GetMapping("/variant")
     public ModelAndView index() {
+        ModelAndView view = new ModelAndView("/variant/index");
 
-        ModelAndView view = new ModelAndView("/about");
         return view;
-    }
-}
+    }}
