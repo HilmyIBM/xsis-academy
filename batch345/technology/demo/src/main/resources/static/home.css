@@ -1,3 +1,12 @@
 p{
     color: darkgray;
 }
+.footer{
+    position: relative;
+}
+.address{
+    width: 30%;
+}
+.contact{
+    margin: 0;
+}
