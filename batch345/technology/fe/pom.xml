@@ -8,10 +8,10 @@
 		<version>3.3.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.examplemvc</groupId>
-	<artifactId>mvcdemo</artifactId>
+	<groupId>com.xsis.bc345</groupId>
+	<artifactId>fe</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>mvcdemo</name>
+	<name>fe</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -41,15 +41,20 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect -->
-	<dependency>
-   	 	<groupId>nz.net.ultraq.thymeleaf</groupId>
-   		 <artifactId>thymeleaf-layout-dialect</artifactId>
-	</dependency>
+		<dependency>
+   			 <groupId>nz.net.ultraq.thymeleaf</groupId>
+ 			   <artifactId>thymeleaf-layout-dialect</artifactId>
+		</dependency>
 
 	</dependencies>
 
