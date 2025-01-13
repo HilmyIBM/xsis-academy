@@ -35,29 +35,29 @@ VALUES
 ;
 
 -- 1
-SELECT b.name
-FROM orders a 
-    JOIN sales_person b ON a.sales_person_id = b.id 
-GROUP BY b.name
-HAVING COUNT(a.sales_person_id) > 1;
+SELECT sp.name
+FROM orders o 
+    JOIN sales_person sp ON o.sales_person_id = sp.id 
+GROUP BY sp.name
+HAVING COUNT(o.sales_person_id) > 1;
 
 -- 2
-SELECT b.name
-FROM orders a 
-    JOIN sales_person b ON a.sales_person_id = b.id 
-GROUP BY b.name
-HAVING SUM(a.amount) > 1000;
+SELECT sp.name
+FROM orders o 
+    JOIN sales_person sp ON o.sales_person_id = sp.id 
+GROUP BY sp.name
+HAVING SUM(o.amount) > 1000;
 
 -- 3
 SELECT 
-    b.name,
-    EXTRACT(YEAR FROM AGE('2024-12-31', b.bod)) AS umur,
-    b.salary,
-    SUM(a.amount) AS total_order
-FROM orders a 
-JOIN sales_person b ON a.sales_person_id = b.id 
-WHERE extract(year from a.order_date) >= '2020'  -- Assuming order_date is already in DATE format
-GROUP BY b.name, b.bod, b.salary
+    sp.name,
+    EXTRACT(YEAR FROM AGE('2024-12-31', sp.bod)) AS umur,
+    sp.salary,
+    SUM(o.amount) AS total_order
+FROM orders o 
+    JOIN sales_person sp ON o.sales_person_id = sp.id 
+WHERE extract(year from o.order_date) >= '2020'
+GROUP BY sp.name, sp.bod, sp.salary
 ORDER BY umur ASC;
 
 -- 4
@@ -78,7 +78,7 @@ select
 		else 0
 	end bonus
 from orders o 
-	join sales_person sp on o.sales_person_id = sp.id 
+	inner join sales_person sp on o.sales_person_id = sp.id 
 group by sp.name, sp.salary;
 
 -- 6
@@ -101,6 +101,7 @@ select
     end potong_gaji
 from orders o 
 	full outer join sales_person sp on o.sales_person_id = sp.id
+group by sp.id
 order by sp.id;
 
 
