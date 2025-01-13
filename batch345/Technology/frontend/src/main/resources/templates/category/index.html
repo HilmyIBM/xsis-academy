@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" 
+layout:decorate="~{fragments/layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="">
+            <h1>Category List</h1>
+            <button class="btn btn-success" type="button"><i class="fas fa-plus"></i>&nbsp;&nbsp;Add</button>
+            <hr style="opacity: 1;">
+        </div>
+        <div class="d-flex justify-content-between">
+            <div>
+                <span>Show : </span>
+                <input type="text">
+                <span>Entries</span>
+            </div>
+            <form>
+                <span>Search : </span>
+                <input type="text">
+                <a class="btn btn-primary"><i class="fas fa-search"></i>&nbsp;&nbsp;Find</a>
+            </form>
+        </div>
+        <div class="d-flex justify-content-between">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nama Category</th>
+                        <th>Description</th>
+                        <th>Is delete</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>appetizer</td>
+                        <td>kategori makanan</td>
+                        <td>false</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
