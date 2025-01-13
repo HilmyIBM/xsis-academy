@@ -1,21 +1,32 @@
 p {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   size: 1em;
-  color: red;
 }
 
 button:not(form button).btn-primary {
-    margin-top: 4px;
-    padding: 5px;
-    gap: 4px;
-    background-color: antiquewhite;
-    color: black;
-    outline-color: black;
-    outline-style: solid;
-    transition: font-size 0.2s ease-in-out;
+  margin-top: 4px;
+  padding: 5px;
+  gap: 4px;
+  background-color: antiquewhite;
+  color: black;
+  outline-color: black;
+  outline-style: solid;
+  transition: font-size 0.2s ease-in-out;
 }
 
-button:not(form button).btn-primary:hover{
-    background-color: red;
-    font-size: 18px;
+button:not(form button).btn-primary:hover {
+  background-color: red;
+  font-size: 18px;
+}
+
+form > button {
+  background-color: transparent;
+  border-radius: 5px;
+  border-style: double;
+  transition: color 0.5s, background-color 0.5s;
+}
+
+form > button:hover {
+  color: white;
+  background-color: black;
 }

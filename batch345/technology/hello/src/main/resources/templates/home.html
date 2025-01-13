@@ -1,48 +1,170 @@
 <!DOCTYPE html>
 <!-- Engine dari thymeleaf menggunakan :th -->
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{fragments/layout}"
+>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Spring MVC Example</title>
     <link rel="stylesheet" href="home.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <!-- Bootstrap JS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-      crossorigin="anonymous"
-    ></script>
   </head>
   <body>
-    <h1>Welcome to Springboot</h1>
-    <p>User Name: <span th:text="${user?.name}"></span></p>
-    <p>User Age: <span th:text="${user?.age}"></span></p>
-    <p th:text="${message}"></p>
-    <form action="/greet" method="post">
-      <label for="name">Name: </label>
-      <input type="text" name="name" id="name" />
-      <button type="submit">Greet</button>
-    </form>
-    <button type="button" class="btn btn-primary">Click me to hide paragraph</button>
-    <button id="bs" type="button" class="btn btn-primary">Click me to show paragraph</button>
-    <script src="home.js"></script>
-    <script>
-      $(document).ready(function () {
-        $("button").click(function () {
-          $("p").hide();
-        });
+    <!-- sesuai dengan nama yang ada didalam fragments/layout -->
+    <div layout:fragment="content">
+      <h1>This is home page</h1>
+      <p>User Name: <span th:text="${user?.name}"></span></p>
+      <p>User Age: <span th:text="${user?.age}"></span></p>
+      <p th:text="${message}"></p>
+      <form action="/greet" method="post">
+        <label for="name">Name: </label>
+        <input type="text" name="name" id="name" />
+        <button type="submit" id="submitButton">Greet</button>
+      </form>
+      <button type="button" class="btn btn-primary">
+        Click me to hide paragraph
+      </button>
+      <button id="bs" type="button" class="btn btn-primary">
+        Click me to show paragraph
+      </button>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti nobis
+        neque ut quae dolorum optio iste at excepturi ullam sit aspernatur,
+        voluptatum voluptates veniam mollitia magni saepe quis totam eius
+        voluptate cumque libero alias id velit accusantium. Temporibus quia quos
+        commodi corporis exercitationem. Consequuntur natus, fugit perferendis
+        porro amet ipsum numquam exercitationem reprehenderit similique
+        accusantium, doloremque accusamus vel consequatur beatae! Recusandae, ut
+        dolor architecto quasi exercitationem sit dolorem obcaecati consequatur,
+        tempore nobis adipisci earum quisquam dicta modi enim! Repudiandae,
+        dicta officia qui libero accusamus quas sed labore commodi expedita
+        delectus harum rem, est illo! Officiis fugiat maxime reiciendis et
+        doloribus molestiae blanditiis amet, hic excepturi quidem sed repellat
+        consectetur distinctio tempore inventore! Quae unde eligendi cupiditate,
+        totam sequi provident at libero repudiandae impedit molestias
+        consequuntur officiis nisi doloribus laborum minima amet suscipit, alias
+        quis a esse? Officiis ab illo suscipit perferendis, atque commodi
+        aliquid amet eum facere, debitis placeat perspiciatis ad voluptate vero
+        dicta, expedita distinctio et repellat reiciendis nobis libero ut? Eos
+        iure labore incidunt doloremque beatae porro, dolorem laudantium optio
+        omnis illo fuga unde dolorum commodi ex earum rem iusto! Delectus culpa
+        nulla voluptatibus esse illum non, nemo obcaecati eaque molestias
+        dolores at dicta cumque odit alias molestiae ut perferendis rerum
+        incidunt sit temporibus, porro laboriosam illo suscipit. Alias commodi
+        expedita, porro dolorum accusantium maiores assumenda a? Fuga molestias
+        corrupti est, fugit incidunt cum iste quod esse animi et maxime
+        praesentium perferendis placeat accusantium, aspernatur voluptatum magni
+        illo in ratione! Quis fugit quae nisi, dolor quas error aliquam?
+        Excepturi illo, dignissimos earum obcaecati placeat officiis nemo quis
+        numquam incidunt libero ipsum provident nulla similique recusandae vel
+        minima itaque tempora cum dicta. Labore impedit deserunt voluptatem quas
+        fugit? Sapiente veniam corrupti error facere nihil non inventore quasi
+        numquam. Magni, ea consequuntur totam iusto beatae, possimus ipsum aut
+        consectetur doloribus numquam accusantium accusamus! Explicabo
+        asperiores odio maiores commodi temporibus soluta quasi corporis
+        doloribus error minima consequatur vero praesentium facilis, quae
+        blanditiis similique enim aperiam beatae odit officiis deserunt fuga
+        illo, ab dolore! Explicabo sit vero illo voluptatibus provident dolores
+        earum error molestias, unde quod maxime ipsum labore debitis inventore
+        id perspiciatis itaque impedit placeat dignissimos iusto, veritatis
+        nostrum. Ipsam provident suscipit explicabo natus dignissimos dolore
+        temporibus labore, consectetur quasi, eum adipisci. Sit, voluptate.
+        Numquam officiis tenetur perferendis amet inventore. Voluptatem
+        molestias qui voluptatibus alias nulla molestiae vel, ducimus illum ex,
+        nobis omnis? Quis dolorem libero odio, nulla iure praesentium culpa
+        illum a illo voluptas molestiae officiis voluptatum nobis provident
+        laudantium dolores earum asperiores atque! Natus esse accusantium cum
+        velit optio. Quod alias error facilis quaerat soluta nostrum, quae ipsa
+        vel explicabo pariatur ipsam necessitatibus aperiam nihil quia
+        blanditiis voluptatem ullam dicta reprehenderit voluptates autem velit
+        nulla cupiditate! Optio possimus fugit saepe autem, rem tenetur numquam
+        rerum ipsa at, ad expedita quia officiis cumque aliquam consectetur
+        blanditiis magnam soluta! Nostrum necessitatibus quo placeat, atque
+        officiis velit harum dolore aliquid recusandae facilis esse impedit.
+        Iusto vero unde, doloremque assumenda in, molestias hic nisi facere
+        tempora porro minima possimus esse magnam eveniet minus excepturi saepe
+        amet veritatis dolorem fugit ab aperiam dicta odio fugiat? Pariatur
+        nulla, nemo distinctio nam esse similique fuga recusandae dignissimos
+        consequuntur qui, aliquid beatae asperiores omnis exercitationem
+        perspiciatis sapiente? Consequuntur, incidunt? Corrupti, atque.
+        Accusamus at nulla iusto id aut porro, tempora laboriosam beatae in ut,
+        excepturi quos repellendus, recusandae quis sunt iste natus maiores
+        saepe? Ut temporibus sed deserunt totam culpa illo maxime laboriosam.
+        Asperiores fugit delectus molestias cum nisi ab totam facere enim nemo
+        fugiat, nostrum eaque, voluptatem, similique necessitatibus sunt numquam
+        suscipit. Officia, fugiat nesciunt quod deserunt quidem, distinctio
+        veniam iusto voluptas facilis tempora architecto laudantium corrupti
+        cumque. Sunt odio laborum repudiandae nostrum eaque delectus quibusdam
+        esse officia, adipisci magni vel eveniet dolorum quos sed. Unde eaque
+        iste, possimus, adipisci nulla, temporibus pariatur voluptates
+        blanditiis voluptate dolore velit qui molestiae. Ipsam ipsum tempore
+        perspiciatis, consequatur dicta quasi eos veniam quae atque dignissimos!
+        Repellat ullam quod quo harum cupiditate magni itaque. Doloremque
+        aliquam nulla assumenda similique asperiores, voluptas ab minus soluta
+        ullam quod labore expedita voluptatem ad perspiciatis mollitia itaque.
+        Velit nesciunt nihil, eos minus ex suscipit error possimus tenetur
+        eveniet beatae natus nobis ad et sit soluta voluptatum magnam? Fuga
+        fugiat aliquid quidem optio accusantium assumenda autem sapiente aperiam
+        ratione cupiditate dolores dolore magnam, nobis aliquam voluptates.
+        Temporibus officiis nostrum, ex vitae alias omnis! Minus reiciendis
+        alias debitis id repellendus culpa corporis magni ea voluptatum,
+        quisquam impedit dolor error distinctio incidunt provident dolore
+        architecto rem voluptas, cum libero ab quis obcaecati, sequi iste.
+        Maxime consequuntur aliquid eaque voluptatum dolore nostrum magnam
+        labore ipsum harum rem laboriosam, minima odio ad expedita impedit est
+        obcaecati tempora debitis, repellat repudiandae? Ipsa, odit! Ex vitae
+        quo eius, distinctio similique totam quisquam, aliquam quaerat sit
+        repellendus dicta eos sint consequatur aliquid, animi corrupti
+        dignissimos perferendis eveniet optio libero sunt dolorum placeat? Ipsam
+        quos temporibus blanditiis alias odio impedit harum dicta itaque
+        delectus maxime, adipisci ad quod sunt accusamus fugiat illo numquam
+        fugit quas ut sequi officiis eaque doloribus obcaecati? Esse, fuga!
+        Soluta, excepturi repudiandae harum amet, ex eos necessitatibus expedita
+        dicta, sint asperiores facilis. In nihil blanditiis, laboriosam
+        asperiores maxime ipsum assumenda molestiae illo, laudantium et
+        recusandae voluptas! Est odit voluptate dolorum fuga magnam rem esse
+        assumenda eum sint porro, doloremque earum doloribus laboriosam tempore
+        dolor nostrum adipisci, quae, rerum delectus atque voluptatem
+        necessitatibus omnis! Excepturi inventore eligendi earum deleniti quidem
+        omnis praesentium odio quibusdam sapiente temporibus numquam ipsum,
+        explicabo alias, ut dolorum libero! Magnam fuga temporibus sapiente in
+        dolores culpa maxime vitae at quidem facilis blanditiis corporis
+        pariatur porro repudiandae perspiciatis voluptates possimus reiciendis
+        quasi molestias vel, eius voluptatibus. Deserunt dicta accusantium
+        impedit nam iste hic eos sit vero sapiente maxime omnis dignissimos
+        facere iure, molestias aut! Quasi eum beatae, doloribus ad officiis
+        recusandae itaque ipsa eos delectus tempora nam nulla maxime incidunt
+        laudantium reprehenderit pariatur quas! Repellendus cumque repellat a
+        cum eaque, voluptates dicta dolorem iste, vero autem amet quam inventore
+        ipsum at itaque aut veniam non vitae voluptatum deleniti nostrum
+        repudiandae modi quisquam explicabo! Cum corporis dolor modi
+        consequatur.
+      </p>
+      <script src="home.js"></script>
+      <script>
+        $(document).ready(function () {
+          $("button").click(function () {
+            $("p").hide();
+          });
 
-        $("#bs").click(function () {
-          $("p").show();
+          $("#bs").click(function () {
+            $("p").show();
+          });
+
+          $("#name").on("input", function () {
+            const nameInput = $(this).val.trim();
+            if (nameInput !== "") {
+              $("#submitButton").prop("disabled", false);
+            } else {
+              $("#submitButton").prop("disabled", true);
+            }
+          });
         });
-      });
-    </script>
+      </script>
+    </div>
   </body>
 </html>

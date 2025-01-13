@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.hello.model.User;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 // Buat Fullstack untuk FE juga di resources (Showing the UI Also)
 @Controller
 public class HomeController {
-    @GetMapping("/home")
-    public String displayHome(Model model) {
+    @GetMapping("home")
+    public ModelAndView displayHome(Model model) {
         // Create a User object and add it to the model
-        User user = new User("John Doe", 30);
+        User user = new User("Jane Doe", 30);
         model.addAttribute("user", user);
         // Return the name of the view (home.html)
-        return "home";
+        return new ModelAndView("home");
     }
 
     @GetMapping("/greet2")
@@ -38,4 +39,13 @@ public class HomeController {
         return "home";
     }
 
+    @GetMapping("/myHome")
+    public String getMethodName(Model model) {
+        return "myHome";
+    }
+
+    @GetMapping("about")
+    public ModelAndView about(Model model) {
+        return new ModelAndView("about");
+    }
 }
