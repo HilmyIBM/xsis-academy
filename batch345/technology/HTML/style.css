@@ -1,0 +1,13 @@
+div {
+    display: flexbox;
+}
+
+div.div1 {
+    width: 50%;
+    background-color: aqua;
+}
+
+.div2 {
+    width: 50%;
+    background-color: aquamarine;
+}
