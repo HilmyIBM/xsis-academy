@@ -8,11 +8,11 @@
         <version>3.4.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.laqqueta</groupId>
-    <artifactId>demo-thymeleaf</artifactId>
+    <groupId>com.xsis</groupId>
+    <artifactId>fe</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>demo-thymeleaf</name>
-    <description>demo-thymeleaf</description>
+    <name>fe</name>
+    <description>fe</description>
     <url/>
     <licenses>
         <license/>
@@ -30,6 +30,7 @@
         <java.version>17</java.version>
     </properties>
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect -->
         <dependency>
             <groupId>nz.net.ultraq.thymeleaf</groupId>
             <artifactId>thymeleaf-layout-dialect</artifactId>
