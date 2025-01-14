@@ -6,14 +6,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=h1, initial-scale=1.0">
-    <title>Category List</title>
+    <title>Variant List</title>
     <!-- <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.jqueryui.min.css">
     <script src="https://cdn.datatables.net/2.2.1/js/dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/2.2.1/js/dataTables.jqueryui.min.js"></script> -->
 </head>
 <body>
     <div layout:fragment="content" class="bg-light p-3">
-        <H2>Category List</H2>
+        <H2>Variant List</H2>
         <button 
         type="button" 
         class="btn" 
@@ -21,6 +21,8 @@
         data-bs-toggle="modal" 
         data-bs-target="#staticModal"
         id="btnAdd">Add</button>
+        <p class="m-0">Tanggal = </p>
+        <p class="m-0">9/26/2022 4:12:22 PM</p>
         <div class="p-3 bg-white">
             <div class="d-flex justify-content-between mb-3 w-100">
                 <div class="d-flex align-items-center gap-3">
@@ -59,18 +61,44 @@
                         </tr>
                     </thead>
                     <tbody class="" style="border-top: white;">
-                      <tr th:each="item:${category}">
-                        <td scope="row" th:text="${item.id}">1</th>
-                        <td th:text="${item.name}">Appetizer</td>
-                        <td th:text="${item.desc}">Category of appetizer</td>
-                        <td th:text="${item.deleted}">false</td>
+                      <tr>
+                        <td scope="row">5</th>
+                        <td>Appetizer</td>
+                        <td>Category of appetizer</td>
+                        <td>false</td>
                         <td class="">
                             <div class="">
-                                <button th:data-id="${item.id}" type="button" class="btn btn-success text-dark">Edit</button>
-                                <button th:data-id="${item.id}" type="button" class="btn btn-danger text-light">Delete</button>
-                                <button th:data-id="${item.id}" type="button" class="btn btn-warning text-light">Detail</button>
+                                <button type="button" class="btn btn-success text-dark">Edit</button>
+                                <button type="button" class="btn btn-warning text-light">Detail</button>
+                                <button type="button" class="btn btn-danger text-light">Delete</button>
                             </div>
                         </td>
+                      </tr>
+                      <tr>
+                        <td scope="row">4</th>
+                        <td>Dessert</td>
+                        <td>Category of dessert</td>
+                        <td>false</td>
+                        <td>
+                            <div>
+                              <button type="button" class="btn btn-success text-dark">Edit</button>
+                              <button type="button" class="btn btn-warning text-light">Detail</button>
+                              <button type="button" class="btn btn-danger text-light">Delete</button>
+                            </div>
+                        </td>
+                      </tr>
+                      <tr>
+                          <td scope="row">2</th>
+                          <td>Drink</td>
+                          <td>Category of drink</td>
+                          <td>false</td>
+                          <td>
+                              <div>
+                                  <button type="button" class="btn btn-success text-dark">Edit</button>
+                                  <button type="button" class="btn btn-warning text-light">Detail</button>
+                                  <button type="button" class="btn btn-danger text-light">Delete</button>
+                              </div>
+                          </td>
                       </tr>
                     </tbody>
                     
@@ -89,17 +117,7 @@
         <script>
             $("#btnAdd").click(function(e){
                 $("#staticModalBody").load("/category/add");
-            });
-            $(".btn-success").click(function(e){
-                let catID = $(this).data("id");
-                $("#staticModalBody").load("/category/edit/" + catID);
-                $("#staticModal").modal("show");
-            });
-            $(".btn-danger").click(function(e){
-                let catID = $(this).data("id");
-                $("#staticModalBody").load("/catergory/" + catID);
-                $("#staticModal").modal("show");
-            });
+            })
         </script>
     </div>
 </body>

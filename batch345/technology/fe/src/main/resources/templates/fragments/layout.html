@@ -19,7 +19,9 @@
             <section layout:fragment="content" class="container"></section>
         </div>
     <div th:replace="~{fragments/footer}"></div> -->
-    <div class="d-flex">
+    <div class="">
+        <!-- modal -->
+        <div class="" th:replace="~{fragments/modal}"></div>
         <!-- Navbar -->
         <div class="flex-shrink-0" th:replace="~{fragments/navbar}" style="min-width: 200px;"></div>
     
@@ -29,7 +31,7 @@
         </div>
     
         <!-- Footer -->
-        <div class="flex-shrink-0" th:replace="~{fragments/footer}" style="min-width: 200px;"></div>
+        <!-- <div class="flex-shrink-0" th:replace="~{fragments/footer}" style="min-width: 200px;"></div> -->
     </div>
     
 </body>
