@@ -7,72 +7,63 @@
   </head>
   <body>
     <div layout:fragment="content">
+      <style>
+        nav{
+            background-color: 	#6C757D;
+            color: white;
+        }
+    </style>
       <div class="">
         <h1>Category List</h1>
-        <button class="btn btn-success" type="button">
-          <i class="fas fa-plus"></i>&nbsp;&nbsp;Add
+        <button class="btn btn-success" type="button" id="btnAdd" data-bs-toggle="modal" data-bs-target="#staticModal">
+          <i class="fas fa-plus"></i> Add
         </button>
         <hr style="opacity: 1" />
       </div>
-      <div class="d-flex justify-content-between">
-        <div>
-          <span>Show : </span>
-          <input type="text" />
-          <span>Entries</span>
-        </div>
-        <form>
-          <span>Search : </span>
-          <input type="text" />
-          <a class="btn btn-primary"
-            ><i class="fas fa-search"></i>&nbsp;&nbsp;Find</a
-          >
-        </form>
-      </div>
       <div class="">
-        <table class="table table-bordered mt-2 table-hover text-center">
+        <table class="table table-bordered mt-2 table-hover text-center border-white" id="tblCategory">
           <thead>
             <tr>
-              <th>Id</th>
-              <th>Nama Category</th>
-              <th>Description</th>
-              <th>Is delete</th>
-              <th>Action</th>
+              <th class="col-1">Id</th>
+              <th class="col-4">Nama Category</th>
+              <th class="col-6">Description</th>
+              <th class="col-2">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>appetizer</td>
-              <td>kategori makanan</td>
-              <td>false</td>
+            <tr th:each="item:${category}">
+              <td th:text="${item.id}">1</td>
+              <td th:text="${item.name}">appetizer</td>
+              <td th:text="${item.deskripsi}">kategori makanan</td>
               <td>
                 <div
                   class="btn-group d-flex justify-content-center"
                   role="group"
                   aria-label="Basic mixed styles example"
                 >
-                  <button type="button" class="btn btn-success">Edit</button>
-                  <button type="button" class="btn btn-warning">Detail</button>
-                  <button type="button" class="btn btn-danger">Delete</button>
+                <button type="button" class="btn btn-info" title="Edit" th:data-id="${item.id}"><i class="fas fa-edit"></i></button>
+                <button type="button" class="btn btn-warning" title="Detail" th:data-id="${item.id}"><i class="fas fa-info"></i></button>
+                <button type="button" class="btn btn-danger" title="Delete" th:data-id="${item.id}"><i class="fas fa-trash"></i></button>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <nav aria-label="">
-        <ul class="pagination justify-content-start">
-          <li class="page-item disabled">
-            <a class="page-link"><i class="fas fa-arrow-left"></i></a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#"><i class="fas fa-arrow-right"></i></a>
-          </li>
-        </ul>
-      </nav>
+      <script>
+        new DataTable('#tblCategory');
+        $('#btnAdd').click(
+          function(e){
+            $('#staticModalBody').load("/category/add");
+          });
+
+        $(".btn-info").click(function(e){
+          let catId=$(this).data('id');
+
+          $('#staticModalBody').load("/category/edit/"+catId);
+          $('#staticModal').modal("show");
+        })
+      </script>
     </div>
   </body>
 </html>

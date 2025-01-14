@@ -8,8 +8,49 @@ layout:decorate="~{fragments/layout}">
 </head>
 <body>
     <div layout:fragment="content">
+        <style>
+            nav{
+                background-color: #6C757D;
+                color: white;
+            }
+        </style>
         <h1>Home User</h1>
         <hr style="opacity: 1;">
+        <div>
+            <table class="table table-bordered mt-2 table-hover text-center border-white" id="tblUser">
+              <thead>
+                <tr>
+                  <th class="col-1">Id</th>
+                  <th class="col-4">Nama user</th>
+                  <th class="col-2">Email</th>
+                  <th class="col-4">role</th>
+                  <th class="col-1">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Bread</td>
+                  <td>Appetizer</td>
+                  <td>Variant of bread</td>
+                  <td>
+                    <div
+                      class="btn-group d-flex justify-content-center"
+                      role="group"
+                      aria-label="Basic mixed styles example"
+                    >
+                    <button type="button" class="btn btn-success" title="Edit"><i class="fas fa-edit"></i></button>
+                    <button type="button" class="btn btn-warning" title="Detail"><i class="fas fa-info"></i></button>
+                    <button type="button" class="btn btn-danger" title="Delete"><i class="fas fa-trash"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+        <script>
+            new DataTable('#tblUser');
+        </script>
     </div>
 </body>
 </html>

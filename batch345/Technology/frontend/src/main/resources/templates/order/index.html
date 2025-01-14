@@ -8,8 +8,50 @@ layout:decorate="~{fragments/layout}">
 </head>
 <body>
     <div layout:fragment="content">
-        <h1>Home Order</h1>
+        <style>
+            nav{
+                background-color: #6C757D;
+                color: white;
+            }
+        </style>
+        <h1>Order Preview</h1>
         <hr style="opacity: 1;">
+        <div>
+            <table class="table table-hover" id="tblOrder">
+                <thead>
+                    <tr>
+                        <th>
+                            Nama Product
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>Qty</th>
+                        <th>
+                            Sum Price
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Puding Caramel</td>
+                        <td>12.000.00</td>
+                        <td>2</td>
+                        <td>24.000.00</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="bg-success">
+                        <td colspan="2">Total</td>
+                        <td>2</td>
+                        <td>24.000.00</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-success justify-content-end">Order</button>
+            </div>
+        </div>
     </div>
 </body>
 </html>
