@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Font awesome
+**/static/lib/fontawesome/
