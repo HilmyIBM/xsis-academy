@@ -17,14 +17,20 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/category")
 public class CategoryController {
 
+    private List<Category> data = new ArrayList<Category>();
+    
+    CategoryController(){
+      data.add(new Category(1, "Makanan", "Kategori Makanan", false, 1, LocalDateTime.now(), 1, LocalDateTime.now()));
+      data.add(new Category(2, "Obat", "Kategori Obat-Obatan", false, 1, LocalDateTime.now(), 1, LocalDateTime.now()));
+    }
+    
+
   @GetMapping("")
   public ModelAndView index() {
 
+    
       ModelAndView view = new ModelAndView("master/category/index");
-      List<Category> data = new ArrayList<Category>();
-      
-      data.add(new Category(1, "Makanan", "Kategori Makanan", false, 1, LocalDateTime.now(), 1, LocalDateTime.now()));
-      data.add(new Category(2, "Obat", "Kategori Obat-Obatan", false, 1, LocalDateTime.now(), 1, LocalDateTime.now()));
+     
       
       view.addObject("category", data);
       
