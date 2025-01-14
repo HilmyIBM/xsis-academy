@@ -2,7 +2,8 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{fragments/layout}">
+      layout:decorate="~{fragments/layout}"
+      class="dark">
 <head>
     <meta charset="UTF-8">
     <title>Category</title>
@@ -12,61 +13,58 @@
         <div class="container mt-5">
             <h2>Category List</h2>
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <button class="btn btn-primary">Add</button>
+                <button class="btn btn-primary" id="btnAddCategory" data-bs-toggle="modal" data-bs-target="#staticModal">Add</button>
             </div>
-
-            <table class="table table-bordered" id="item-table">
-                <thead>
-                <tr>
-                    <th>id</th>
-                    <th>nama category</th>
-                    <th>description</th>
-                    <th>is delete</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>5</td>
-                    <td>Appetizer</td>
-                    <td>Category of appetizer</td>
-                    <td>False</td>
-                    <td>
-                        <button class="btn btn-sm btn-warning">Edit</button>
-                        <button class="btn btn-sm btn-info">Detail</button>
-                        <button class="btn btn-sm btn-danger">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Dessert</td>
-                    <td>Category of dessert</td>
-                    <td>False</td>
-                    <td>
-                        <button class="btn btn-sm btn-warning">Edit</button>
-                        <button class="btn btn-sm btn-info">Detail</button>
-                        <button class="btn btn-sm btn-danger">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Drink</td>
-                    <td>Category of drink</td>
-                    <td>False</td>
-                    <td>
-                        <button class="btn btn-sm btn-warning">Edit</button>
-                        <button class="btn btn-sm btn-info">Detail</button>
-                        <button class="btn btn-sm btn-danger">Delete</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-sm" id="category-table">
+                    <thead>
+                    <tr>
+                        <th class="text-start">id</th>
+                        <th class="text-center">nama category</th>
+                        <th class="text-center">description</th>
+                        <th class="text-center">is delete</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                    <tr th:each="item:${category}">
+                        <td class="text-start" th:text="${item.getId()}"></td>
+                        <td class="text-center" th:text="${item.getName()}" ></td>
+                        <td class="text-center" th:text="${item.getDescription()}"></td>
+                        <td class="text-center" th:text="${item.isDeleted()}"></td>
+                        <td class="text-center">
+                            <button th:data-id="${item.getId()}" class="btn btn-info"><i class="fas fa-list-alt"></i></button>
+                            <button th:data-id="${item.getId()}" class="btn btn-warning"><i class="fas fa-edit"></i></button>
+                            <button th:data-id="${item.getId()}" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+        <script>
+            // $(document).before( function () {
+            //     $('#staticModalLabel').append("<span th:text='${add_title}'></span>");
+            // });
+
+            $(document).ready( function () {
+                $('#category-table').DataTable( {
+                    ordering: false,
+                    select: true
+                });
+
+                $('#btnAddCategory').click(function (e) {
+                    // $('#staticModalLabel').append("<span th:text='${add_title}'></span>")
+                    $('#staticModalBody').load("category/add");
+                });
+
+                $(".btn-warning").click(function(e) {
+                    let catId = $(this).data("id");
+                    $("#staticModalBody").load("category/edit/" + catId);
+                    $("#staticModal").modal("show");
+                });
+            } );
+        </script>
     </section>
-    <script>
-        $(document).ready( function () {
-            $('#item-table').DataTable();
-        } );
-    </script>
 </body>
 </html>
