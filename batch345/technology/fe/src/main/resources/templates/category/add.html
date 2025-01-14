@@ -1,0 +1,31 @@
+<span id="txtTitle" class="d-none" th:text="${title}"></span>
+<div class="card">
+  <div class="card-body">
+    <form th:action="@{~/category/save}" id="frmNewcategory" method="post">
+
+      <div class="form-group">
+        <label for="txtName" class="form-label"> Name </label>
+        <input type="text" class="form-control" id="txtName" name="name" />
+      </div>
+      <div class="form-group">
+        <label for="txtDescription" class="form-label"> Description </label>
+        <input
+          type="text"
+          class="form-control"
+          id="txtDescription"
+          name="description"
+        />
+      </div>
+      <div class="text-right">
+        <button class="btn btn-success mt-3"><i class="fas fa-save"></i>Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $("#staticModalLabel").text($("#txtTitle").text());
+    // $("#staticModalLabel").html();
+  });
+</script>

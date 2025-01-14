@@ -1,0 +1,32 @@
+<input type="hidden" id="txtTitle"  th:value="${title}"/>
+<div class="card">
+  <div class="card-body">
+    <form th:action="@{~/category/update}" id="frmEditcategory" method="post">
+      <input type="text" name="id" id="txtId" th:value="${category.id}"/>
+      <input type="hidden" name="updateBy" id="txtUpdateBy" value="2"/>
+      <div class="form-group">
+        <label for="txtName" class="form-label h6"> Name </label>
+        <input type="text" class="form-control" id="txtName" name="name" th:value="${category.name}" />
+      </div>
+      <div class="form-group">
+        <label for="txtDescription" class="form-label" th:value="${category.description}"> Description </label>
+        <input
+          type="text"
+          class="form-control"
+          id="txtDescription"
+          name="description"
+        />
+      </div>
+      <div class="text-right">
+        <button class="btn btn-success mt-3"><i class="fas fa-edit"></i>Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $("#staticModalLabel").text($("#txtTitle").val());
+    // $("#staticModalLabel").html();
+  });
+</script>
