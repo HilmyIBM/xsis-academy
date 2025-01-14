@@ -42,27 +42,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Makanan</td>
-                        <td>Kategori Makanan</td>
+                    <tr th:each="item:${category}">
+                        <td th:text="${item.id}">1</td>
+                        <td th:text="${item.name}">Makanan</td>
+                        <td th:text="${item.description}">Kategori Makanan</td>
                         <td>
                             <div class="btn-group">
-                                <button data-id="1" class="btn btn-info"><i class="fas fa-list-alt"></i></button>
-                                <button data-id="1" class="btn btn-warning"><i class="fas fa-edit"></i></button>
-                                <button data-id="1" class="btn btn-danger"><i class="fas fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Minuman</td>
-                        <td>Kategori Minuman</td>
-                        <td>
-                            <div class="btn-group">
-                                <button data-id="2" class="btn btn-info"><i class="fas fa-list-alt"></i></button>
-                                <button data-id="2" class="btn btn-warning"><i class="fas fa-edit"></i></button>
-                                <button data-id="2" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button th:data-id="${item.id}" class="btn btn-info"><i class="fas fa-list-alt"></i></button>
+                                <button th:data-id="${item.id}" class="btn btn-warning"><i class="fas fa-edit"></i></button>
+                                <button th:data-id="${item.id}" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                             </div>
                         </td>
                     </tr>
