@@ -1,0 +1,28 @@
+<input id="txtTitle" class="d-none" th:value="${title}"></input>
+<div class="card">
+    <div class="card-body">
+        <form th:action="@{~/category/update}" id="frmNewCategory" method="post">
+            <input name="id" type="hidden" id="txtId" th:value="${category.id}">
+            <input name="updatedBy" type="hidden" id="txtcreatedBy" value="2">
+            <input name="createdBy" type="hidden" id="txtcreatedBy" value="1">
+            <div class="form-group">
+                <label for="txtName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="txtName" name="name" th:value="${category.name}" />
+            </div>
+            <div class="form-group">
+                <label for="txtDescription" class="form-label">Description</label>
+                <input type="text" class="form-control" id="txtDescription" name="description"
+                    th:value="${category.description}" />
+            </div>
+            <div class="text-right mt-3 d-flex justify-content-end">
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#staticModalLabel").text($("#txtTitle").val())
+    })
+</script>
