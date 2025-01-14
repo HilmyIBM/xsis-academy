@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class VariantController {
     @GetMapping("/variant")
     public ModelAndView index() {
-        return new ModelAndView("/variant/index");
+        ModelAndView view = new ModelAndView("/variant/index");
+        return view;
     }
 }

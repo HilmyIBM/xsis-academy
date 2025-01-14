@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProductController {
     @GetMapping("/product")
     public ModelAndView index() {
-        return new ModelAndView("/product/index");
+        ModelAndView view = new ModelAndView("/product/index");
+        return view;
     }
 }
