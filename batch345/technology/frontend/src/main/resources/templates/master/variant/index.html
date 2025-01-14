@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"
+layout:decorate="~{fragments/layout}">
+<head>
+  <title>Variant</title>
+</head>
+<body>
+  <div layout:fragment="content">
+    <h1>Welcome to Variant</h1>
+    <hr style="opacity: 1;"/>
+
+    <table class="table table-striped" id="tb-category">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Category</th>
+          <th scope="col">Description</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>Bread</td>
+          <td>Appetizer</td>
+          <td>Variant of Bread</td>
+          <td>
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+              <button type="button" class="btn btn-success">Detail</button>
+              <button type="button" class="btn btn-warning">Edit</button>
+              <button type="button" class="btn btn-danger">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>Cake</td>
+          <td>Dessert</td>
+          <td>Variant of Cake</td>
+          <td>
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+              <button type="button" class="btn btn-success">Detail</button>
+              <button type="button" class="btn btn-warning">Edit</button>
+              <button type="button" class="btn btn-danger">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>Ice Cream</td>
+          <td>Dessert</td>
+          <td>Variant of Ice Cream</td>
+          <td>
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+              <button type="button" class="btn btn-success">Detail</button>
+              <button type="button" class="btn btn-warning">Edit</button>
+              <button type="button" class="btn btn-danger">Delete</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

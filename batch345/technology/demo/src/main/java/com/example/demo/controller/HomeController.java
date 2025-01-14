@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 
 
@@ -12,17 +13,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HomeController {
 
   @GetMapping("/")
-  public String home(Model model) {
-      model.addAttribute("message", "Welcome to Spring MVC!");
-      return "home";
+  public ModelAndView home() {
+      // model.addAttribute("message", "Welcome to Spring MVC!");
+      return new ModelAndView("/home");
   }
 
-  @PostMapping("/greet")
-  public String greetUser(@RequestParam(defaultValue = "Siapapun kamu") String name, Model model) {
-      model.addAttribute("message", "Hello, " + name + "!");
-      return "home";
-      
+  @GetMapping("/about")
+  public ModelAndView about() {
+      return new ModelAndView("/about");
   }
+  
   
   
 }

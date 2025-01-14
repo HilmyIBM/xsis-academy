@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Axel</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="home.css"> 
+</head>
+<body style="min-height: 100vh;">
+  
+  <div th:replace="~{fragments/navbar}">
+
+  </div>
+  <!-- Contents -->
+  <div id="content">
+    <section layout:fragment="content" class="container"></section>
+  </div>
+
+  <div  class="fixed-bottom" th:replace="~{fragments/footer}">
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
