@@ -1,5 +1,7 @@
 package com.xsis.bc345.fe.controller;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -16,32 +18,41 @@ import com.xsis.bc345.fe.models.Category;
 @Controller
 @RequestMapping("/category")
 public class CategoryController {
+    List<Category> data = new ArrayList<>();
+    CategoryController(){
+        data.add(new Category());
+        data.get(0).setId(1);
+        data.get(0).setName("Makanan");
+        data.get(0).setDescriptions("Kategori Makanan");
+        data.get(0).setCreateBy(1);
+        data.get(0).setDeleted(false);
+        data.get(0).setCreateDate(LocalDateTime.now());
+
+        data.add(new Category());
+        data.get(1).setId(2);
+        data.get(1).setName("Minuman");
+        data.get(1).setDescriptions("Kategori Minuman");
+        data.get(1).setCreateBy(1);
+        data.get(1).setDeleted(false);
+        data.get(1).setCreateDate(LocalDateTime.now());
+        data.add(new Category());
+        data.get(2).setId(2);
+        data.get(2).setName("Obat-obatan");
+        data.get(2).setDescriptions("Kategori Obat-obatan");
+        data.get(2).setCreateBy(1);
+        data.get(2).setDeleted(false);
+        data.get(2).setCreateDate(LocalDateTime.now());
+    }
+   
     @GetMapping("")
-    public ModelAndView index() {
+    ModelAndView index() {
         ModelAndView view = new ModelAndView("/category/index");
+
+        view.addObject("category", data);
+
         return view;
     }
-    List<Category> category = new ArrayList<Category>();
-    
-    category.add(new category(){
 
-        category.add(0).setId(1);
-        category.add(0).setName("Makanan");
-        category.add(0).setDescriptions("Kategori Makanan");
-        category.add(0).setDelated(false);
-        category.add(0).setCreateBy(1);
-        category.add(0).setCreateDate(LocalDateTime.now());
-        category.add(new category());
-        
-        category.add(new category());
-        category.add(1).setId(2);
-        category.add(1).setName("Obat");
-        category.add(1).setDescriptions("Kategori Obat-obatan");
-        category.add(1).setDelated(false);
-        category.add(1).setCreateBy(1);
-        category.add(1).setCreateDate(LocalDateTime.now());
-    });
-    
     @GetMapping("/add")
     public ModelAndView add() {
         ModelAndView view = new ModelAndView("/category/add");
@@ -51,7 +62,6 @@ public class CategoryController {
 
     @PostMapping("/save")
     public String save(@ModelAttribute Category category){
-        String result ="";
         if(category.getName() == ""){
             return "Gagal";
         }else{
@@ -62,16 +72,26 @@ public class CategoryController {
     @GetMapping("/edit/{id}")
     ModelAndView edit(@PathVariable int id){
         ModelAndView view = new ModelAndView("/category/edit");
+        Category category =  data.get(id-1);
 
-        Category category = new Category();
-        category.setId(id);
-        category.setName("Makanan");
-        category.setDescriptions("Kategory Makanan");
-        category.setDelated(false);
         view.addObject("title", "Edit Category");
-        view.addObject("id", id);
         view.addObject("category", category);
         return view;
+    }
+
+    @PostMapping("/update")
+    String update(@ModelAttribute Category category) {
+        try {
+            if (category.getName() == "") {
+                return "Gagal";
+            }
+            else {
+                return "Sukses";
+            }
+        }
+        catch(Exception e) {
+            return "Gagal";
+        }
     }
     
 }

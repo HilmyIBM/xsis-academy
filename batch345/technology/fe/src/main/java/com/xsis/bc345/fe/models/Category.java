@@ -6,7 +6,7 @@ public class Category {
     
     private String name; 
     private String descriptions;
-    private boolean delated;
+    private boolean deleted;
     private int id;
     
     private int createBy;
@@ -17,8 +17,8 @@ public class Category {
     public String getDescriptions() {
         return descriptions;
     }
-    public boolean isDelated() {
-        return delated;
+    public boolean isDeleted() {
+        return deleted;
     }
     public int getCreateBy() {
         return createBy;
@@ -36,8 +36,8 @@ public class Category {
     public void setDescriptions(String descriptions) {
         this.descriptions = descriptions;
     }
-    public void setDelated(boolean delated) {
-        this.delated = delated;
+    public void setDeleted(boolean Deleted) {
+        this.deleted = Deleted;
     }
     public void setCreateBy(int createBy) {
         this.createBy = createBy;

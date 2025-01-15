@@ -1,18 +1,18 @@
-<input type="hidden" id="txtTitle" th:value="${title}" />
+<span id="txtTitle" class="d-none" th:text="${title}"></span>
 <div class="card">
     <div class="card-body">
-        <form th:action="@{~/category/update}" id="frmEditCategory" method="post">
-            <input type="hidden" name="id" id="txtId" th:value="${category.id}" />
-            <input type="hidden" name="updateBy" id="txtUpdateby" value="2" />
+        <form th:action="@{~/category/update}" id="formNewCategory" method="post">
+            <input type="hidden" name="id" id="txtId" th:value="${category.id}">
+            <input type="hidden" name="updateBy" id="txtUpdateBy" value="2">
             <div class="form-group">
-                <label for="txtName" class="form-label h6">Name</label>
-                <input type="text" class="form-control" id="txtName" name="name" th:value="${category.name}" />
+                <label for="txtName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="txtName" name="name" th:value="${category.name}"/>
             </div>
             <div class="form-group">
-                <label for="txtDescription" class="form-label h6">Description</label>
-                <input type="text" class="form-control" id="txtDescription" name="description" th:value="${category.description}" />
+                <label for="txtDescriptions" class="form-label">Description</label>
+                <input type="text" class="form-control" id="txtDescriptions" name="descriptions" th:value="${category.descriptions}"/>
             </div>
-            <div class="d-flex justify-content-end mt-3">
+            <div class="text-right d-flex justify-content-end mt-3">
                 <button class="btn btn-success"><i class="fas fa-edit"></i> Update</button>
             </div>
         </form>
