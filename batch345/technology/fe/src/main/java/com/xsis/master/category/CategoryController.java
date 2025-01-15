@@ -73,7 +73,7 @@ public class CategoryController {
                 .orElseThrow();
 
         view.addObject("title", "Edit Category");
-        view.addObject("category", category);
+        view.addObject("categoryaasdasd", category);
 
         return view;
     }
