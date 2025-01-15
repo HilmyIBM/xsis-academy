@@ -1,1 +1,15 @@
 GET http://localhost:8080/api/category
+
+###
+
+GET http://localhost:8080/api/category/id/1
+
+###
+
+import example.http
+
+### Request with Include Support, run all requests from file
+run example.http
+
+### Request with Include Support by request name and override
+run #GET request (@status = 200)
