@@ -1,0 +1,13 @@
+CREATE TABLE Tbl_M_Order_Header(
+	id SERIAL PRIMARY KEY NOT NULL,
+	trx_code VARCHAR(100) NOT NULL,
+	customer_id INTEGER NOT NULL,
+	amount DECIMAL(18,2) DEFAULT 0,
+	total_qty INTEGER NOT NULL,
+	is_checkout BOOLEAN DEFAULT FALSE,
+	is_deleted BOOLEAN DEFAULT FALSE,
+	create_by INTEGER NOT NULL,
+	create_date TIMESTAMP DEFAULT NOW(),
+	update_by INTEGER NULL,
+	update_date TIMESTAMP NULL
+);
