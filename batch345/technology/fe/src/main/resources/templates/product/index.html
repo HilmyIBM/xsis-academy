@@ -1,14 +1,134 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{fragments/layout}">
-<head>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{fragments/layout}"
+>
+  <head>
     <title>Product</title>
-</head>
-<body>
+  </head>
+  <body>
     <div layout:fragment="content">
-        <h1>Product Index</h1>
-        <hr>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="h1">Product List</span>
+      </div>
+      <hr />
+
+      <div>
+        <div>
+          <button class="btn btn-success btn-sm" type="button" id="btnAdd">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+        <div class="text-black fst-italic mt-2 mb-2">
+          Tanggal = 9/26/2025 10:30:14 AM
+        </div>
+        <div class="d-flex justify-content-between mt-2 mb-2">
+          <div>
+            <span>Show</span>
+            <input type="text" value="10" />
+            <span>Entries</span>
+          </div>
+          <form action="#" id="frmFind" class="">
+            <div class="input-group">
+              <input type="text" id="txtFind" class="form-control" />
+              <a class="btn btn-secondary input-group-text">Find</a>
+            </div>
+          </form>
+        </div>
+        <table class="table table-light table-striped table-hover">
+          <thead>
+            <tr>
+                
+              <th>Image</th>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Variant</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+
+              <td>imageplaceholder</td>
+              <td>6</td>
+              <td>Carbonara</td>
+              <td>Main Course</td>
+              <td>Pasta</td>
+              <td>Rp 35000</td>
+              <td>1</td>
+              <td>
+                <div class="btn-group">
+                  <button class="btn btn-success">
+                    <span class="text-black">Edit</span>
+                  </button>
+                  <div class="mx-1"></div>
+                  <button class="btn btn-warning">
+                    <span class="text-white">Details</span>
+                  </button>
+                  <div class="mx-1"></div>
+                  <button class="btn btn-danger">
+                    <span class="text-white">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+
+                <td>imageplaceholder</td>
+                <td>3</td>
+                <td>Croissant</td>
+                <td>Appetizer</td>
+                <td>Bread</td>
+                <td>Rp 10000</td>
+                <td>98</td>
+                <td>
+                  <div class="btn-group">
+                    <button class="btn btn-success">
+                      <span class="text-black">Edit</span>
+                    </button>
+                    <div class="mx-1"></div>
+                    <button class="btn btn-warning">
+                      <span class="text-white">Details</span>
+                    </button>
+                    <div class="mx-1"></div>
+                    <button class="btn btn-danger">
+                      <span class="text-white">Delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+
+                <td>imageplaceholder</td>
+                <td>4</td>
+                <td>Garlic Bread</td>
+                <td>Appetizer</td>
+                <td>Bread</td>
+                <td>Rp 10000</td>
+                <td>100</td>
+                <td>
+                  <div class="btn-group">
+                    <button class="btn btn-success">
+                      <span class="text-black">Edit</span>
+                    </button>
+                    <div class="mx-1"></div>
+                    <button class="btn btn-warning">
+                      <span class="text-white">Details</span>
+                    </button>
+                    <div class="mx-1"></div>
+                    <button class="btn btn-danger">
+                      <span class="text-white">Delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-</body>
+  </body>
 </html>
