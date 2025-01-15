@@ -1,14 +1,14 @@
-package com.xsis.exercise2.controller;
+package com.xsis.frontend.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class OrderController {
-    @GetMapping("/order")
+public class VariantController {
+    @GetMapping("/variant")
     public ModelAndView index() {
-        ModelAndView view = new ModelAndView("/order/index");
+        ModelAndView view = new ModelAndView("/variant/index");
         return view;
     }
 }

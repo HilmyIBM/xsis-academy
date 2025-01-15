@@ -1,4 +1,4 @@
-package com.xsis.exercise2.model;
+package com.xsis.frontend.model;
 
 import java.time.LocalDateTime;
 

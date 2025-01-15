@@ -1,4 +1,4 @@
-package com.xsis.exercise2;
+package com.xsis.frontend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

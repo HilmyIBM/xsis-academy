@@ -1,4 +1,4 @@
-package com.xsis.exercise2.controller;
+package com.xsis.frontend.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

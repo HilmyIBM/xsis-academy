@@ -1,4 +1,4 @@
-package com.xsis.exercise2.controller;
+package com.xsis.frontend.controller;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.xsis.exercise2.model.Category;
+import com.xsis.frontend.model.Category;
 
 import org.springframework.web.bind.annotation.PostMapping;
 
