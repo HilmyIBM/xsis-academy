@@ -17,13 +17,14 @@ import com.xsis.bc345.fe.models.Category;
 @Controller
 @RequestMapping("/category")
 public class CategoryController {
-   private List<Category> data = new ArrayList<Category>();
+   private List<Category> data;
 
     @GetMapping("")
     public ModelAndView index(){
         ModelAndView view = new ModelAndView("/category/index");
-        
 
+        data = new ArrayList<Category>();
+        
         data.add(new Category());
         data.get(0).setId(1);
         data.get(0).setName("Makanan");
