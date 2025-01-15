@@ -1,7 +1,7 @@
 CREATE TABLE Tbl_M_Categories(
 	id SERIAL PRIMARY KEY NOT NULL,
 	category_name VARCHAR(100) NOT NULL,
-	description TEXT NOT NULL,
+	description TEXT NULL,
 	is_deleted BOOLEAN DEFAULT FALSE,
 	create_by int NOT NULL,
 	create_date TIMESTAMP DEFAULT NOW(),
@@ -77,3 +77,6 @@ CREATE TABLE Tbl_M_Order_Header(
 	update_date TIMESTAMP NULL
 );
 
+ALTER TABLE tbl_m_categories 
+ALTER COLUMN description 
+DROP NOT NULL;
