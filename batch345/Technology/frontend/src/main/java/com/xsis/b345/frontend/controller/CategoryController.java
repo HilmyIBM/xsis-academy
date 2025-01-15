@@ -41,7 +41,6 @@ public class CategoryController {
     @GetMapping("")
     public ModelAndView index(){
         ModelAndView view = new ModelAndView("/category/index");
-        List<category> data = new ArrayList<category>();
    
         view.addObject("category", data);
         return view;
@@ -72,6 +71,7 @@ public class CategoryController {
         ModelAndView view= new ModelAndView("/category/edit");
         category Category = data.get((int)id-1);
         view.addObject("category", Category);
+        view.addObject("title", "Edit Category");
         return view;
     }
 
