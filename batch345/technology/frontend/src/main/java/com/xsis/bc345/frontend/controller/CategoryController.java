@@ -56,14 +56,6 @@ public class CategoryController {
   @GetMapping("/edit/{id}") 
   ModelAndView edit(@PathVariable long id){
     ModelAndView view = new ModelAndView("master/category/edit");
-
-    // Category category = new Category();
-    // category.setId(id);
-    // category.setName("Makanan");
-    // category.setDescription("Kategori Makanan");
-    // category.setDeleted(false);
-    // view.addObject("title", "Edit Category");
-    // view.addObject("category", category);
   
     return view;
   }
