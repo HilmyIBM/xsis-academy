@@ -2,31 +2,32 @@ package com.xsis.bc345.fe.models;
 
 import java.time.LocalDateTime;
 
-public class Category {
-    // Tolong sesuaikan dengan attribute input 'name' di formnya
-    private long id;
-    private String name;
+// Harus sama dengan nama di backend
+public class CategoryView {
+    // Tolong sesuaikan dengan attribute input 'name' di formnya dan di BEnya
+    private int id;
+    private String categoryName;
     private String description;
     private boolean deleted;
-    private int createdBy;
+    private int createBy;
     private LocalDateTime createDate;
-    private int updatedBy;
+    private int updateBy;
     private LocalDateTime updateDate;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getDescription() {
@@ -45,14 +46,7 @@ public class Category {
         this.deleted = deleted;
     }
 
-    public int getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(int createdBy) {
-        this.createdBy = createdBy;
-    }
-
+   
     public LocalDateTime getCreateDate() {
         return createDate;
     }
@@ -60,13 +54,21 @@ public class Category {
     public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
-
-    public int getUpdatedBy() {
-        return updatedBy;
+  
+    public int getCreateBy() {
+        return createBy;
     }
 
-    public void setUpdatedBy(int updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setCreateBy(int createBy) {
+        this.createBy = createBy;
+    }
+
+    public int getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(int updateBy) {
+        this.updateBy = updateBy;
     }
 
     public LocalDateTime getUpdateDate() {
@@ -76,4 +78,5 @@ public class Category {
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
+
 }

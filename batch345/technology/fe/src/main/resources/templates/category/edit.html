@@ -1,13 +1,14 @@
 <input id="txtTitle" class="d-none" th:value="${title}"></input>
 <div class="card">
     <div class="card-body">
-        <form th:action="@{~/category/update}" id="frmNewCategory" method="post">
+        <form th:action="@{~/category/update}" id="frmEditCategory" method="post">
             <input name="id" type="hidden" id="txtId" th:value="${category.id}">
-            <input name="updatedBy" type="hidden" id="txtcreatedBy" value="2">
-            <input name="createdBy" type="hidden" id="txtcreatedBy" value="1">
+            <input name="createdBy" type="hidden" id="txtcreatedBy" th:value="${category.createBy}">
+            <input name="updatedBy" type="hidden" id="txtupdatedBy" th:value="${category.updateBy}">
             <div class="form-group">
                 <label for="txtName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="txtName" name="name" th:value="${category.name}" />
+                <input type="text" class="form-control" id="txtName" name="categoryName"
+                    th:value="${category.categoryName}" />
             </div>
             <div class="form-group">
                 <label for="txtDescription" class="form-label">Description</label>
@@ -24,5 +25,45 @@
 <script>
     $(document).ready(function () {
         $("#staticModalLabel").text($("#txtTitle").val())
+        $("#frmEditCategory").validate({
+            "rules": {
+                "categoryName": {
+                    required: true,
+                    maxlength: 100,
+                    minlength: 3
+                },
+                "description": {
+                    required: true,
+                    maxlength: 255
+                }
+            },
+            "errorClass": "text-danger mt-1"
+        })
+
+        // Handle update menggunakan AJAX
+        $("#frmEditCategory").submit(function (e) {
+            e.preventDefault();
+
+            // Mengecek menggunakan fungsi diatas
+            if ($("#frmEditCategory").valid()) {
+                $.ajax({
+                    url: "category/save",
+                    type: "post",
+                    data: $("#frmEditCategory").serialize(),
+                    dataType: "json",
+                    beforeSend: () => {
+
+                    },
+                    success: (response) => {
+                        alert("Category " + response.categoryName + " succesfully created")
+                        location.reload()
+                    },
+                    error: (errResponse) => {
+                        console.error("Create New Category Failed: " + errResponse.responseText);
+
+                    }
+                });
+            }
+        })
     })
 </script>

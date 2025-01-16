@@ -16,8 +16,9 @@
             <div class="d-flex flex-row justify-content-between mt-2">
                 <form action="#">
                     <div class="input-group container-fluid">
-                        <input type="text" class="form-control" placeholder="Total Entries" aria-label="Total Entries"
-                            aria-describedby="button-addon2">
+                        <input type="text" class="form-control" disabled placeholder="Total Entries"
+                            aria-label="Total Entries" aria-describedby="button-addon2"
+                            th:value="${#lists.size(category)}">
                         <button class="btn btn-outline-secondary" type="button" id="button-addon2">Enter</button>
                     </div>
                 </form>
@@ -44,17 +45,17 @@
                     <!-- Auto using getter -->
                     <tr th:each="item:${category}">
                         <th scope="row" th:text="${item.id}">1</th>
-                        <td th:text="${item.name}">Appetizer</td>
+                        <td th:text="${item.categoryName}">Appetizer</td>
                         <td th:text="${item.description}">Category of Appetizer</td>
                         <td th:text="${item.deleted}">False</td>
                         <td>
                             <div class="btn-group">
-                                <button th:data-id="${item.id}" type="button" class="btn btn-success"><i
-                                        class="fas fa-edit"></i></button>
-                                <button th:data-id="${item.id}" type="button" class="btn btn-warning"><i
+                                <button th:data-id="${item.id}" type="button" class="btn btn-success"
+                                    title="Edit..."><i class="fas fa-edit"></i></button>
+                                <button th:data-id="${item.id}" type="button" class="btn btn-warning" title="Detail..."><i
                                         class="fas fa-info-circle"></i></button>
-                                <button th:data-id="${item.id}" type="button" class="btn btn-danger"><i
-                                        class="fas fa-trash"></i></button>
+                                <button th:data-id="${item.id}" type="button" class="btn btn-danger"
+                                    title="Delete..."><i class="fas fa-trash"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -67,12 +68,18 @@
                 $("#staticModalBody").load("category/add")
             });
 
-            $(".btn-success").click(function (e) {
+            // Edit
+            $(".btn-success").click(function(e){
+                let catId = $(this).data("id")
+                $("#staticModalBody").load("category/edit/"+catId)
+                $("#staticModal").modal("show");
+            })
+
+            $(".btn-warning").click(function (e) {
                 let catId = $(this).data("id");
-                console.log(catId);
-                
+
                 // Sebagai path
-                $("#staticModalBody").load("category/edit/" + catId);
+                $("#staticModalBody").load("category/" + catId);
                 $("#staticModal").modal("show")
             })
         </script>
