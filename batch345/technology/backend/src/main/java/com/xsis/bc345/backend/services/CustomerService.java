@@ -23,4 +23,8 @@ public class CustomerService {
     }
   }
 
+  public Customer create(Customer data) throws Exception {
+    return customerRepo.save(data);
+  }
+
 }     

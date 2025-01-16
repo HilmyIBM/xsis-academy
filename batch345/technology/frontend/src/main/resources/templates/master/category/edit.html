@@ -6,7 +6,7 @@
       <input name="updateBy" id="txtUpdate" th:value="2" type="hidden">
       <div class="form-group">
         <label for="txtName" class="form-label">Name</label>
-        <input type="text" class="form-control" id="txtName" name="name" th:value="${category.name}"/>
+        <input type="text" class="form-control" id="txtName" name="categoryName" th:value="${category.categoryName}"/>
       </div>
       <div class="form-group">
         <label for="txtDescription" class="form-label">Description</label>
@@ -22,5 +22,44 @@
 <script>
   $(document).ready(function(){
     $("#staticModalLabel").text($("#txtTitle").text());
+    $(".btn-success").click(function(){
+
+    });
+    $("#frmEditCategory").validate({
+      "rules" : {
+        "categoryName": {
+          "required": true,
+          "maxlength": 100,
+          "minlength": 3
+        },
+        "description": {
+          "maxlength": 100
+        }
+      },
+      "errorClass": "text-danger"
+    });
+
+    $("#frmEditCategory").submit(function(e) {
+      e.preventDefault();
+
+      if($("#frmEditCategory").valid()) {
+        $.ajax({
+          url: "/category/update",
+          type: "post",
+          data: $("#frmEditCategory").serialize(),
+          dataType: "json",
+          beforeSend: () => {
+            // alert("mengirim data ke api");
+          },
+          success: function(response){
+            alert("Category " + response.categoryName + "successfully updated!");
+            location.reload();
+          },
+          error: function(errResponse){
+            console.error("Create Category  : " + errResponse.responseText);
+          } 
+        });
+      }
+    })
   })
 </script>
