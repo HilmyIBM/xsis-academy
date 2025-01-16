@@ -1,0 +1,33 @@
+<html lang="en" xmlns="http://www.thymeleaf.org">
+
+<form th:action="@{~/users/delete}" th:object="${getusers}" method="POST">
+
+<table class="table">
+<tr>
+	<td colspan="2">Yakin mau menghapus data ini?</td>
+</tr>
+<tr th:each="item:${getusers}">
+	<td>
+		<input type="hidden" th:field="*{Id}" th:value="${item.Id}">
+		User Name : <span th:text="${item.UserName}"></span><br>
+		Password : <span th:text="${item.Password}"></span><br>
+		Fullname : <span th:text="${item.FullName}"></span><br>
+		Active : <span th:text="${item.Active}"></span><br>
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+		<input type="button" class="btn btn-warning" value="Cancel" onclick="cancel()">
+		<input type="submit" class="btn btn-danger" value="Delete Data">
+	</td>
+</tr>
+</table>
+</form>
+
+<script>
+function cancel() {
+	$('#mymodal').modal('hide')
+}
+</script>
+
+</html>
