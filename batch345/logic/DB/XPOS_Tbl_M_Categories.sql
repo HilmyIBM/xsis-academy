@@ -16,7 +16,7 @@ CREATE TABLE Tbl_M_Categories(
 
 INSERT INTO Tbl_M_Categories (category_name, description, create_by)
 VALUES
-	('Minuman', 'Kategori kopi', 3);
+	('Black Forest', 'Kategori kue', 1);
 
 SELECT * FROM Tbl_M_Categories;
 

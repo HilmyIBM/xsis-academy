@@ -6,7 +6,7 @@
       <input type="hidden" name="updateBy" id="txtUpdateBy" value="2"/>
       <div class="form-group">
         <label for="txtName" class="form-label h6"> Name </label>
-        <input type="text" class="form-control" id="txtName" name="name" th:value="${category.categoryName}" />
+        <input type="text" class="form-control" id="txtName" name="categoryName" th:value="${category.categoryName}" />
       </div>
       <div class="form-group">
         <label for="txtDescription" class="form-label"> Description </label>
@@ -32,7 +32,7 @@
 
     $("#frmEditCategory").validate({
       "rules" : {
-        "name":{
+        "categoryName":{
           "required" : true,
           "maxlength" : 100,
           "minlength" : 3
