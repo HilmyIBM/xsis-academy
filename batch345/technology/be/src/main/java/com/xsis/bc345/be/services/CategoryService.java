@@ -13,6 +13,7 @@ import com.xsis.bc345.be.repositories.CategoryRepository;
 @Service
 public class CategoryService {
     private CategoryRepository categoryRepo;
+    private Optional<Category> existingCategory;
 
     public CategoryService(CategoryRepository categoryRepo){
         this.categoryRepo = categoryRepo;
@@ -45,15 +46,29 @@ public class CategoryService {
     }
 
     public Category update(Category data) throws Exception {
-        Optional <Category> categoryExisting = categoryRepo.findById(data.getId());
-        if(categoryExisting.isPresent()){
-            data.setCreateBy(categoryExisting.get().getCreateBy());
-            data.setCreateDate(categoryExisting.get().getCreateDate());
+        existingCategory = categoryRepo.findById(data.getId());
+        if(existingCategory.isPresent()){
+            data.setCreateBy(existingCategory.get().getCreateBy());
+            data.setCreateDate(existingCategory.get().getCreateDate());
             data.setUpdateDate(LocalDateTime.now());
 
             // Update
             return categoryRepo.save(data);
         }else{
+            throw new Exception("Category doesn't exist!");
+        }
+    }
+
+    public Category delete(int id, int userId) throws Exception {
+        existingCategory = categoryRepo.findById(id);
+
+        if (existingCategory.isPresent()) {
+            existingCategory.get().setDeleted(true);
+            existingCategory.get().setUpdateBy(userId);
+            existingCategory.get().setUpdateDate(LocalDateTime.now());
+
+            return categoryRepo.save(existingCategory.get());
+        } else {
             throw new Exception("Category doesn't exist!");
         }
     }

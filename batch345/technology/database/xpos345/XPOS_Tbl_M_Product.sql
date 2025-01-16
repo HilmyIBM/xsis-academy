@@ -13,6 +13,11 @@ create table TBL_M_Product(
 	update_date timestamp
 );
 
+INSERT INTO Tbl_M_Product (name, variant_id, create_by)
+VALUES
+	('Es Krim Coklat', 2, 1)
+;
+
 
 
 -- USE [XPOS329]

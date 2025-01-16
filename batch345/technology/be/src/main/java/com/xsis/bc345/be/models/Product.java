@@ -12,18 +12,27 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="tbl_m_categories")
-public class Category {
+@Table(name="tbl_m_product")
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name="id")
     private int id;
 
-    @Column(name="category_name", length = 100, nullable = false)
-    private String categoryName;
+    @Column(name="name", length = 100, nullable = false)
+    private String name;
 
-    @Column(name="description", nullable = true)
-    private String description;
+    @Column(name="price")
+    private Double price;
+
+    @Column(name="stock")
+    private int stock;
+
+    @Column(name="variant_id", nullable = false)
+    private int variantID;
+
+    @Column(name="image")
+    private String image;
 
     @Column(name="is_deleted")
     private boolean deleted;
@@ -49,20 +58,44 @@ public class Category {
         this.id = id;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getName() {
+        return name;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public int getVariantID() {
+        return variantID;
+    }
+
+    public void setVariantID(int variantID) {
+        this.variantID = variantID;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public boolean isDeleted() {
@@ -104,6 +137,5 @@ public class Category {
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
-
     
 }

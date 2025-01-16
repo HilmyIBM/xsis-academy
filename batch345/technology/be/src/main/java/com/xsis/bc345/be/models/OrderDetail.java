@@ -12,18 +12,24 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="tbl_m_categories")
-public class Category {
+@Table(name="tbl_t_order_detail")
+public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name="id")
     private int id;
 
-    @Column(name="category_name", length = 100, nullable = false)
-    private String categoryName;
-
-    @Column(name="description", nullable = true)
-    private String description;
+    @Column(name = "order_header_id", nullable = false)
+    private int orderHeaderId;
+    
+    @Column(name = "product_id", nullable = false)
+    private int productId;
+    
+    @Column(name = "qty", nullable = false)
+    private int qty;
+    
+    @Column(name = "price", nullable = false)
+    private Double price;
 
     @Column(name="is_deleted")
     private boolean deleted;
@@ -41,32 +47,53 @@ public class Category {
     @Column(name="update_date", nullable = true)
     private LocalDateTime updateDate;
 
+
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public int getOrderHeaderId() {
+        return this.orderHeaderId;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setOrderHeaderId(int orderHeaderId) {
+        this.orderHeaderId = orderHeaderId;
     }
 
-    public String getDescription() {
-        return description;
+    public int getProductId() {
+        return this.productId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public int getQty() {
+        return this.qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+    public Double getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public boolean isDeleted() {
-        return deleted;
+        return this.deleted;
+    }
+
+    public boolean getDeleted() {
+        return this.deleted;
     }
 
     public void setDeleted(boolean deleted) {
@@ -74,7 +101,7 @@ public class Category {
     }
 
     public int getCreateBy() {
-        return createBy;
+        return this.createBy;
     }
 
     public void setCreateBy(int createBy) {
@@ -82,7 +109,7 @@ public class Category {
     }
 
     public LocalDateTime getCreateDate() {
-        return createDate;
+        return this.createDate;
     }
 
     public void setCreateDate(LocalDateTime createDate) {
@@ -90,7 +117,7 @@ public class Category {
     }
 
     public Integer getUpdateBy() {
-        return updateBy;
+        return this.updateBy;
     }
 
     public void setUpdateBy(Integer updateBy) {
@@ -98,12 +125,11 @@ public class Category {
     }
 
     public LocalDateTime getUpdateDate() {
-        return updateDate;
+        return this.updateDate;
     }
 
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
 
-    
 }

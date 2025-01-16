@@ -1,4 +1,5 @@
 -- create TBL_M_Customer
+DROP TABLE IF EXISTS tbl_m_customer;
 create table TBL_M_Customer(
 	id serial primary key not null,
 	name varchar(50) not null,
@@ -7,12 +8,26 @@ create table TBL_M_Customer(
 	address text not null,
 	phone varchar(15) not null,
 	role_id int,
-	is_deleted boolean not null default (0::boolean),
+	is_deleted boolean not null default false,
 	create_by int not null,
 	create_date timestamp default now(),
 	update_by int,
 	update_date timestamp
 );
+
+UPDATE tbl_m_customer
+	SET is_deleted = FALSE
+where id=1;
+
+INSERT INTO Tbl_M_Customer (name, email, password, address, phone, create_by)
+VALUES
+	('coba', 'coba@gmail.com', 'coba123', 'jl.coba', '088877776666', 1)
+;
+
+SELECT * FROM tbl_m_customer;
+
+ALTER TABLE tbl_m_customer
+	ADD CONSTRAINT uq_tbl_m_customer UNIQUE(email, phone);
 
 -- USE [XPOS329]
 -- GO

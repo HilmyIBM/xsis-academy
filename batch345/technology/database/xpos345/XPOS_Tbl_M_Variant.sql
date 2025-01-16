@@ -1,17 +1,23 @@
 -- create table TBL_M_Variant
+DROP TABLE IF EXISTS Tbl_M_Variant;
 create table TBL_M_Variant(
 	id serial primary key,
 	category_id int not null,
 	name varchar(50) not null,
 	description varchar(255),
-	is_deleted boolean not null default false,
+	is_deleted boolean not null default FALSE,
 	create_by int not null,
 	create_date timestamp default now(),
 	update_by int,
 	update_date timestamp
 );
 
+INSERT INTO Tbl_M_Variant (category_id, name, description, create_by)
+VALUES
+	(3, 'Coklat', 'Variant Coklat', 1)
+;
 
+Delete from tbl_m_variant where id=1;
 
 -- USE [XPOS329]
 -- GO

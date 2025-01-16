@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -83,6 +84,21 @@ public class CategoryContoller {
     public ResponseEntity<?> update(@RequestBody final Category data) {
         try {
             return new ResponseEntity<Category>(categorySvc.update(data), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("delete/{id}/{userId}")
+    public ResponseEntity<?> delete(@PathVariable int id, int userId) {
+        try {
+            Category data = categorySvc.delete(id, userId);
+
+            if (data.isDeleted()) {
+                return new ResponseEntity<Category>(data, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<String>("Failed to delete category!", HttpStatus.BAD_REQUEST);
+            }
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

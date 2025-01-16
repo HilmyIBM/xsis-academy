@@ -13,6 +13,11 @@ create table TBL_T_Order_Header(
 	update_date timestamp
 );
 
+SELECT * FROM Tbl_T_Order_Header;
+
+ALTER TABLE tbl_t_order_header
+	ADD CONSTRAINT uq_trx_code UNIQUE(trx_code);
+
 
 -- USE [XPOS329]
 -- GO

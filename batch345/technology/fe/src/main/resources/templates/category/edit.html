@@ -7,8 +7,8 @@
         <div class="card-body">
             <div>
                 <div class="form-group mb-1">
-                    <label for="txtName" class="form-label">Name</label>
-                    <input type="text" class="form-control" name="name" id="txtName" th:value="${category.name}">
+                    <label for="txtcategoryName" class="form-label">Name</label>
+                    <input type="text" class="form-control" name="categoryName" id="txtcategoryName" th:value="${category.categoryName}">
                 </div>
                 <div class="form-group mb-1">
                     <label for="txtDesciption" class="form-label">Description</label>
@@ -18,14 +18,51 @@
          </div>
     </div>
     <div class="d-flex justify-content-end mt-3">
-        <button class="btn btn-dark"><i class="fas fa-edit"></i> Update</button>
+        <button type="submit" class="btn btn-dark"><i class="fas fa-edit"></i> Update</button>
     </div>
-    <input type="hidden" name="createdBy" value="1" />
+    <!-- <input type="hidden" name="createdBy" value="1" /> -->
 </form>
 
 
 <script>
     $(document).ready(function(){
         $('#staticModalLabel').text($("#txTitle").val());
+
+        $('#frmEditCategory').validate({
+            'rules': {
+                'categoryName': {
+                    'required': true,
+                    'maxlength': 100,
+                    'minlength': 3
+                },
+                'description': {
+                    'maxlength': 100
+                }
+            },
+            'errorClass': 'text-danger'
+        });
+
+        $('#frmEditCategory').submit(function(e){
+            e.preventDefault();
+
+            if($('#frmEditCategory').valid()){
+                $.ajax({
+                    url: '/category/update',
+                    type: 'post',
+                    data: $('#frmEditCategory').serialize(),
+                    dataType: 'json',
+                    beforeSend: () => {
+                        // alert("mengirim data ke API");
+                    },
+                    success: function(response){
+                        alert("Category " + response.categoryName + " succesfully updated!");
+                        location.reload();
+                    },
+                    error: function(errResponse){
+                        console.error("update category failed" + errResponse.responseText)
+                    },
+                });
+            }
+        });
     })
 </script>

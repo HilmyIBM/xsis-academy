@@ -12,18 +12,27 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="tbl_m_categories")
-public class Category {
+@Table(name="tbl_t_oder_header")
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name="id")
     private int id;
 
-    @Column(name="category_name", length = 100, nullable = false)
-    private String categoryName;
+    @Column(name="trx_code", length = 100, nullable = false, unique = true)
+    private String trxCode;
 
-    @Column(name="description", nullable = true)
-    private String description;
+    @Column(name = "customer_id", nullable = false)
+    private int cutomerId;
+
+    @Column(name = "amount", nullable = false)
+    private Double amount;
+    
+    @Column(name = "total_qty", nullable = false)
+    private int totalQty;
+    
+    @Column(name = "checkout", nullable = false)
+    private boolean checkout;
 
     @Column(name="is_deleted")
     private boolean deleted;
@@ -41,32 +50,65 @@ public class Category {
     @Column(name="update_date", nullable = true)
     private LocalDateTime updateDate;
 
+
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getTrxCode() {
+        return this.trxCode;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setTrxCode(String trxCode) {
+        this.trxCode = trxCode;
     }
 
-    public String getDescription() {
-        return description;
+    public int getCutomerId() {
+        return this.cutomerId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCutomerId(int cutomerId) {
+        this.cutomerId = cutomerId;
+    }
+
+    public Double getAmount() {
+        return this.amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public int getTotalQty() {
+        return this.totalQty;
+    }
+
+    public void setTotalQty(int totalQty) {
+        this.totalQty = totalQty;
+    }
+
+    public boolean isCheckout() {
+        return this.checkout;
+    }
+
+    public boolean getCheckout() {
+        return this.checkout;
+    }
+
+    public void setCheckout(boolean checkout) {
+        this.checkout = checkout;
     }
 
     public boolean isDeleted() {
-        return deleted;
+        return this.deleted;
+    }
+
+    public boolean getDeleted() {
+        return this.deleted;
     }
 
     public void setDeleted(boolean deleted) {
@@ -74,7 +116,7 @@ public class Category {
     }
 
     public int getCreateBy() {
-        return createBy;
+        return this.createBy;
     }
 
     public void setCreateBy(int createBy) {
@@ -82,7 +124,7 @@ public class Category {
     }
 
     public LocalDateTime getCreateDate() {
-        return createDate;
+        return this.createDate;
     }
 
     public void setCreateDate(LocalDateTime createDate) {
@@ -90,7 +132,7 @@ public class Category {
     }
 
     public Integer getUpdateBy() {
-        return updateBy;
+        return this.updateBy;
     }
 
     public void setUpdateBy(Integer updateBy) {
@@ -98,12 +140,11 @@ public class Category {
     }
 
     public LocalDateTime getUpdateDate() {
-        return updateDate;
+        return this.updateDate;
     }
 
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
-
     
 }

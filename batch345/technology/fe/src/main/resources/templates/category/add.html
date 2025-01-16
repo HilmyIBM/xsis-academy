@@ -5,8 +5,8 @@
         <div class="card-body">
             <div>
                 <div class="form-group mb-1">
-                    <label for="txtName" class="form-label">Name</label>
-                    <input type="text" class="form-control" name="name" id="txtName">
+                    <label for="txtcategoryName" class="form-label">Name</label>
+                    <input type="text" class="form-control" name="categoryName" id="txtcategoryName">
                 </div>
                 <div class="form-group mb-1">
                     <label for="txtDesciption" class="form-label">Description</label>
@@ -16,7 +16,7 @@
          </div>
     </div>
     <div class="d-flex justify-content-end mt-3">
-        <button class="btn btn-dark"><i class="fas fa-save"></i> Save</button>
+        <button type="submit" class="btn btn-dark"><i class="fas fa-save"></i> Save</button>
     </div>
 </form>
 
@@ -24,5 +24,44 @@
 <script>
     $(document).ready(function(){
         $('#staticModalLabel').text($("#txTitle").text());
+
+        $('#frmNewCategory').validate({
+            'rules': {
+                'categoryName': {
+                    'required': true,
+                    'maxlength': 100,
+                    'minlength': 3
+                },
+                'description': {
+                    'maxlength': 100
+                }
+            },
+            'errorClass': 'text-danger'
+        });
+
+        $('#frmNewCategory').submit(function(e){
+            e.preventDefault();
+
+            if($('#frmNewCategory').valid()){
+                $.ajax({
+                    url: '/category/create',
+                    type: 'post',
+                    data: $('#frmEditCategory').serialize(),
+                    dataType: 'json',
+                    beforeSend: () => {
+                        // alert("mengirim data ke API");
+                    },
+                    success: function(response){
+                        alert("Category " + response.categoryName + " succesfully created!");
+                        location.reload();
+                    },
+                    error: function(errResponse){
+                        console.error("create new category failed" + errResponse.responseText)
+                    },
+                });
+            }
+        });
+
+
     })
 </script>
