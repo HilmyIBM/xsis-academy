@@ -54,3 +54,6 @@ CREATE TABLE Tbl_T_Order_Header(
 	update_by INTEGER NULL,
 	update_date TIMESTAMP NULL
 );
+
+ALTER TABLE Tbl_T_Order_Header
+ADD CONSTRAINT unq_trx_code UNIQUE(trx_code);

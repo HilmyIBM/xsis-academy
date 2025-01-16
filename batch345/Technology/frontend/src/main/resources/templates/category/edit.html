@@ -1,19 +1,19 @@
 <span class="d-none" th:text="${title}" id="txtTitle"></span>
 <div class="card">
     <div class="card-body">
-        <form th:action="@{~/category/update}" id="formAddCategory" method="post">
+        <form th:action="@{~/category/update}" id="formEditCategory" method="post">
             <input name="id" id="txtId" th:value="${category.id}" type="hidden">
             <input name="updateBy" id="txtUpdate" value="2" type="hidden">
             <div class="form-group">
                 <label for="txtName" class="form-label">Name : </label>
-                <input type="text" class="form-control" id="txtName" name="name" th:value="${category.name}">
+                <input type="text" class="form-control" id="txtName" name="categoryName" th:value="${category.categoryName}">
             </div>
             <div class="form-group mt-4">
                 <label for="txtDeskripsi" class="form-label">Description : </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="deskripsi" th:value="${category.deskripsi}">
+                <input type="text" class="form-control" id="txtDeskripsi" name="description" th:value="${category.description}">
             <div class="form-group">
             <div class="d-flex justify-content-end mt-3">
-                <button class="btn btn-success"><i class="fas fa-edit"></i> Update</button>
+                <button type="submit" class="btn btn-success"><i class="fas fa-edit"></i> Update</button>
             </div>
         </form>
     </div>
@@ -22,5 +22,42 @@
 <script>
     $(document).ready(function(){
         $('#staticBackdropLabel').text($('#txtTitle').text());
+
+        $("#formEditCategory").validate({
+            "rules" :{
+                "categoryName" : {
+                    "required":true,
+                    "maxlength" : 100,
+                    "minlength" : 3
+                },
+                "description" : {
+                    "maxlength" : 255
+                }
+            },
+            "errorClass" : "text-danger"
+        });
+
+        $("#formEditCategory").submit(function(e){
+            e.preventDefault();
+
+            if($("#formEditCategory").valid()){
+                $.ajax({
+                    url :"/category/update",
+                    type : "post",
+                    data : $("#formEditCategory").serialize(),
+                    dataType : "json",
+                    beforeSend : () => {
+                        alert("Mengirim Data");
+                    },
+                    success:function(response){
+                        alert("Categori "+response.categoryName + " Berhasil di update");
+                        location.reload();
+                    },
+                    error:function(errResponse){
+                        console.error("Update Category Gagal : " + errResponse.responseText);
+                    }
+                });
+            }
+        });
     });
 </script>

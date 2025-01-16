@@ -15,4 +15,5 @@ public interface CategoryRepo extends JpaRepository<CategoryModel, Integer>{
     Optional<CategoryModel>findByIdAndIsDeleted(Integer id,boolean isDeleted);
     Optional<List<CategoryModel>>findByCategoryNameIgnoreCaseContainingOrDescriptionIgnoreCaseContainingAndIsDeleted(String categoryName, String description,boolean isDeleted);
     Optional<List<CategoryModel>>findByCategoryNameIgnoreCaseContaining(String categoryName);
+    
 } 

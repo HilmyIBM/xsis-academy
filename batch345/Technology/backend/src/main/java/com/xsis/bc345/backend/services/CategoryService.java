@@ -3,10 +3,8 @@ package com.xsis.bc345.backend.services;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.Locale.Category;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.xsis.bc345.backend.models.CategoryModel;
@@ -16,6 +14,7 @@ import com.xsis.bc345.backend.repositories.CategoryRepo;
 public class CategoryService {
     @Autowired
     private CategoryRepo categoryrepo;
+    private Optional<CategoryModel> categoryExist;
 
     public List<CategoryModel> getALL(){
         try {
@@ -42,15 +41,26 @@ public class CategoryService {
     }
 
     public CategoryModel update(CategoryModel data) throws Exception {
-        Optional<CategoryModel> categoryExist=categoryrepo.findById(data.getId());
+        categoryExist=categoryrepo.findById(data.getId());
         if(categoryExist.isPresent()){
             data.setCreateBy(categoryExist.get().getCreateBy());
             data.setCreateDate(categoryExist.get().getCreateDate());
             data.setUpdateDate(LocalDateTime.now());
-            
             return categoryrepo.save(data);
         }else{
             throw new Exception("Category Tidak Ada");
+        }
+    }
+
+    public CategoryModel delete(int id,int userId)throws Exception{
+        categoryExist=categoryrepo.findById(id);
+        if(categoryExist.isPresent()){
+            categoryExist.get().setIsDeleted(true);
+            categoryExist.get().setUpdateBy(userId);
+            categoryExist.get().setUpdateDate(LocalDateTime.now());
+            return categoryrepo.save(categoryExist.get());
+        }else{
+            throw new Exception("Data Tidak Adak");
         }
     }
 }

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorate="~{fragments/layout}">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Category</title>
   </head>
   <body>
@@ -33,8 +31,8 @@
           <tbody>
             <tr th:each="item:${category}">
               <td th:text="${item.id}">1</td>
-              <td th:text="${item.name}">appetizer</td>
-              <td th:text="${item.deskripsi}">kategori makanan</td>
+              <td th:text="${item.categoryName}">appetizer</td>
+              <td th:text="${item.description}" class="text-center">kategori makanan</td>
               <td>
                 <div
                   class="btn-group d-flex justify-content-center"
@@ -61,6 +59,13 @@
           let catId=$(this).data('id');
 
           $('#staticModalBody').load("/category/edit/"+catId);
+          $('#staticModal').modal("show");
+        })
+
+        $(".btn-warning").click(function(e){
+          let catId=$(this).data('id');
+
+          $('#staticModalBody').load("/category/"+catId);
           $('#staticModal').modal("show");
         })
       </script>
