@@ -2,35 +2,34 @@ package com.xsis.frontend.model;
 
 import java.time.LocalDateTime;
 
-public class Category {
-    private long id;
-    private String name;
+public class CategoryView {
+    private int id;
+    private String categoryName;
     private String description;
     private boolean deleted;
-
     private int createBy;
     private LocalDateTime createDate;
     private int updateBy;
     private LocalDateTime updateDate;
 
-    public long getId() {
-        return id;
+    public int getId() {
+        return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getCategoryName() {
+        return this.categoryName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
@@ -38,7 +37,7 @@ public class Category {
     }
 
     public boolean isDeleted() {
-        return deleted;
+        return this.deleted;
     }
 
     public void setDeleted(boolean deleted) {
@@ -46,7 +45,7 @@ public class Category {
     }
 
     public int getCreateBy() {
-        return createBy;
+        return this.createBy;
     }
 
     public void setCreateBy(int createBy) {
@@ -54,7 +53,7 @@ public class Category {
     }
 
     public LocalDateTime getCreateDate() {
-        return createDate;
+        return this.createDate;
     }
 
     public void setCreateDate(LocalDateTime createDate) {
@@ -62,7 +61,7 @@ public class Category {
     }
 
     public int getUpdateBy() {
-        return updateBy;
+        return this.updateBy;
     }
 
     public void setUpdateBy(int updateBy) {
@@ -70,7 +69,7 @@ public class Category {
     }
 
     public LocalDateTime getUpdateDate() {
-        return updateDate;
+        return this.updateDate;
     }
 
     public void setUpdateDate(LocalDateTime updateDate) {

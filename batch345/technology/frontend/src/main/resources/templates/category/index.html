@@ -25,14 +25,20 @@
       </div>
       <div class="container bg-light mt-3">
         <form action="" class="d-flex justify-content-between">
-          <div>
-            <label for="show">Show</label>
-            <input type="number" />
-            <span>Entries</span>
+          <div class="input-group mb-3 align-items-center w-25">
+            <label for="show" class="me-3">Show</label>
+            <input
+              type="number"
+              class="form-control"
+              th:value="${#lists.size(category)}"
+            />
+            <button class="btn btn-outline-secondary">Entries</button>
           </div>
-          <div>
-            <label for="search">Search</label>
-            <input type="text" />
+          <div
+            class="input-group mb-3 justify-content-end align-items-center w-25"
+          >
+            <label for="search" class="me-3">Search</label>
+            <input type="text" class="form-control" />
             <button class="btn btn-primary">
               <i class="fas fa-search"></i>
             </button>
@@ -51,7 +57,7 @@
           <tbody>
             <tr th:each="item:${category}">
               <th scope="row" th:text="${item.id}">1</th>
-              <td th:text="${item.name}">Appetizer</td>
+              <td th:text="${item.categoryName}">Appetizer</td>
               <td th:text="${item.description}">Category of appetizer</td>
               <td th:text="${item.deleted}">False</td>
               <td class="d-flex gap-3">
@@ -59,6 +65,7 @@
                   th:data-id="${item.id}"
                   type="button"
                   class="btn btn-success btn-edit"
+                  title="Edit..."
                 >
                   Edit
                 </button>
@@ -66,6 +73,7 @@
                   th:data-id="${item.id}"
                   type="button"
                   class="btn btn-warning btn-detail"
+                  title="Details..."
                 >
                   Detail
                 </button>
@@ -73,6 +81,7 @@
                   th:data-id="${item.id}"
                   type="button"
                   class="btn btn-danger btn-delete"
+                  title="Delete..."
                 >
                   Delete
                 </button>
@@ -100,6 +109,11 @@
           let catId = $(this).data("id");
 
           $("#staticModalBody").load("/category/edit/" + catId);
+          $("#staticModal").modal("show");
+        });
+        $(".btn-detail").click(function (e) {
+          let catId = $(this).data("id");
+          $("#staticModalBody").load("/category/" + catId);
           $("#staticModal").modal("show");
         });
       </script>

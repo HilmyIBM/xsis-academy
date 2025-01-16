@@ -2,8 +2,8 @@
 <div class="card">
   <div class="card-body">
     <form
-      th:action="@{~/category/save}"
-      id="formNewCategory"
+      th:action="@{~/category/update}"
+      id="formEditCategory"
       class="d-grid gap-3"
       method="post"
     >
@@ -15,8 +15,8 @@
           type="text"
           class="form-control"
           id="txtName"
-          name="name"
-          th:value="${category.name}"
+          name="categoryName"
+          th:value="${category.categoryName}"
         />
       </div>
       <div class="form-group">
@@ -41,5 +41,45 @@
 <script>
   $(document).ready(function () {
     $("#staticModalLabel").text($("#txtTitle").val());
+    $("#formEditCategory").validate({
+      rules: {
+        categoryName: {
+          required: true,
+          maxlength: 100,
+          minlength: 3,
+        },
+        description: {
+          maxlength: 100,
+        },
+      },
+      errorClass: "text-danger",
+    });
+
+    $("#formEditCategory").submit(function (e) {
+      e.preventDefault();
+
+      if ($("#formEditCategory").valid()) {
+        $.ajax({
+          url: "/category/update",
+          type: "post",
+          data: $("#formEditCategory").serialize(),
+          dataType: "json",
+          beforeSend: () => {
+            // alert("Mengirim data ke API");
+          },
+          success: function (response) {
+            alert(
+              "Category " + response.categoryName + " successfully update!"
+            );
+            location.reload();
+          },
+          error: function (errResponse) {
+            console.error(
+              "Update Category Failed: " + errResponse.responseText
+            );
+          },
+        });
+      }
+    });
   });
 </script>
