@@ -12,33 +12,37 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tbl_m_categories")
-public class Category {
-    @Id
+@Table(name = "tbl_m_variant")
+public class Variant {
+    
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     @Column(name="id")
     private Integer id;
 
-    @Column(name = "category_name",length = 100, nullable = false)
-    private String categoryName;
+    @Column(name = "category_id",nullable = false)
+    private Integer categoryId;
 
-    @Column(name="description",length = 255,nullable = true)
+    @Column(name = "name",length = 50,nullable = false)
+    private String name;
+
+    @Column(name = "description",length = 255,nullable = true)
     private String description;
 
-    @Column(name="is_deleted", nullable = false)
+    @Column(name = "is_deleted")
     private boolean deleted;
 
-    @Column(name="create_by", nullable = false)
+    @Column(name = "create_by",nullable = false)
     private Integer createBy;
 
-    @Column(name="create_date")
+    @Column(name = "create_date")
     @CreationTimestamp
     private LocalDateTime createDate;
 
-    @Column(name="update_by", nullable = true)
+    @Column(name = "update_by",nullable = true)
     private Integer updateBy;
 
-    @Column(name="update_date", nullable = true)
+    @Column(name = "update_date",nullable = true)
     private LocalDateTime updateDate;
 
     public Integer getId() {
@@ -49,12 +53,20 @@ public class Category {
         this.id = id;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {

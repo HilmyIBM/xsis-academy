@@ -12,33 +12,39 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tbl_m_categories")
-public class Category {
+@Table(name = "tbl_t_order_detail")
+public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name = "category_name",length = 100, nullable = false)
-    private String categoryName;
+    @Column(name = "order_header_id", nullable = false)
+    private Integer orderHeaderId;
 
-    @Column(name="description",length = 255,nullable = true)
-    private String description;
+    @Column(name = "product_id", nullable = false)
+    private Integer productId;
 
-    @Column(name="is_deleted", nullable = false)
+    @Column(name = "qty")
+    private Integer qty;
+
+    @Column(name = "price")
+    private Double price;
+
+    @Column(name = "is_deleted")
     private boolean deleted;
 
-    @Column(name="create_by", nullable = false)
+    @Column(name = "create_by", nullable = false)
     private Integer createBy;
 
-    @Column(name="create_date")
+    @Column(name = "create_date", nullable = false)
     @CreationTimestamp
     private LocalDateTime createDate;
 
-    @Column(name="update_by", nullable = true)
+    @Column(name = "update_by",nullable = true)
     private Integer updateBy;
 
-    @Column(name="update_date", nullable = true)
+    @Column(name = "update_date", nullable = true)
     private LocalDateTime updateDate;
 
     public Integer getId() {
@@ -49,20 +55,36 @@ public class Category {
         this.id = id;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public Integer getOrderHeaderId() {
+        return orderHeaderId;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setOrderHeaderId(Integer orderHeaderId) {
+        this.orderHeaderId = orderHeaderId;
     }
 
-    public String getDescription() {
-        return description;
+    public Integer getProductId() {
+        return productId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
+
+    public Integer getQty() {
+        return qty;
+    }
+
+    public void setQty(Integer qty) {
+        this.qty = qty;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public boolean isDeleted() {

@@ -1,12 +1,10 @@
 package com.xsis.bc345.be.services;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.xsis.bc345.be.models.Category;
 import com.xsis.bc345.be.repositories.CategoryRepository;
 
-import java.lang.StackWalker.Option;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -14,11 +12,13 @@ import java.util.Optional;
 @Service
 public class CategoryService {
     private CategoryRepository categoryRepo;
+    private Optional<Category> existingCategory;
 
     public CategoryService(CategoryRepository categoryRepo) {
         this.categoryRepo = categoryRepo;
     }
 
+    // using .get() for the returning the List
     public List<Category> getAll() throws Exception {
         return categoryRepo.findByDeleted(false).get();
     }
@@ -43,16 +43,29 @@ public class CategoryService {
     }
 
     public Category update(Category data) throws Exception {
-        Optional<Category> categoryExists = categoryRepo.findById(data.getId());
-        if(categoryExists.isPresent()) {
+        existingCategory = categoryRepo.findById(data.getId());
+        if(existingCategory.isPresent()) {
             // Update Fields
-            data.setCreateBy(categoryExists.get().getCreateBy());
-            data.setCreateDate(categoryExists.get().getCreateDate());
+            data.setCreateBy(existingCategory.get().getCreateBy());
+            data.setCreateDate(existingCategory.get().getCreateDate());
             data.setUpdateDate(LocalDateTime.now());
 
             // Update Table
             return categoryRepo.save(data);
         }
         throw new Exception("Category doesn't exists");
+    }
+
+    public Category delete(int id, int userId) throws Exception {
+        existingCategory = categoryRepo.findById(id);
+
+        if (existingCategory.isPresent()){
+            existingCategory.get().setDeleted(true);
+            existingCategory.get().setUpdateBy(userId);
+            existingCategory.get().setUpdateDate(LocalDateTime.now());
+            return categoryRepo.save(existingCategory.get());
+        } else {
+            throw new Exception("Category doesn't exists!");
+        }
     }
 }

@@ -12,33 +12,42 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tbl_m_categories")
-public class Category {
+@Table(name = "tbl_t_order_header")
+public class OrderHeader {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name = "category_name",length = 100, nullable = false)
-    private String categoryName;
+    @Column(name = "trx_code", length = 100, nullable = false)
+    private String trxCode;
 
-    @Column(name="description",length = 255,nullable = true)
-    private String description;
+    @Column(name = "customer_id", nullable = false)
+    private Integer customerId;
 
-    @Column(name="is_deleted", nullable = false)
+    @Column(name = "amount")
+    private Double amount;
+
+    @Column(name = "total_qty")
+    private Integer totalQty;
+
+    @Column(name = "is_checkout", nullable = false)
+    private boolean checkout;
+
+    @Column(name = "is_deleted")
     private boolean deleted;
 
-    @Column(name="create_by", nullable = false)
+    @Column(name = "create_by",nullable = false)
     private Integer createBy;
 
-    @Column(name="create_date")
+    @Column(name = "create_date")
     @CreationTimestamp
     private LocalDateTime createDate;
 
-    @Column(name="update_by", nullable = true)
+    @Column(name = "update_by",nullable = true)
     private Integer updateBy;
 
-    @Column(name="update_date", nullable = true)
+    @Column(name = "update_date", nullable = true)
     private LocalDateTime updateDate;
 
     public Integer getId() {
@@ -49,20 +58,44 @@ public class Category {
         this.id = id;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getTrxCode() {
+        return trxCode;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setTrxCode(String trxCode) {
+        this.trxCode = trxCode;
     }
 
-    public String getDescription() {
-        return description;
+    public Integer getCustomerId() {
+        return customerId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public Integer getTotalQty() {
+        return totalQty;
+    }
+
+    public void setTotalQty(Integer totalQty) {
+        this.totalQty = totalQty;
+    }
+
+    public boolean isCheckout() {
+        return checkout;
+    }
+
+    public void setCheckout(boolean checkout) {
+        this.checkout = checkout;
     }
 
     public boolean isDeleted() {
