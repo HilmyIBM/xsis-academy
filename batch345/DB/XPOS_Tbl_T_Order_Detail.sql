@@ -10,3 +10,5 @@ CREATE TABLE Tbl_M_Order_Detail(
 	update_by INTEGER NULL,
 	update_date TIMESTAMP NULL
 );
+
+SELECT * FROM Tbl_M_Order_Detail

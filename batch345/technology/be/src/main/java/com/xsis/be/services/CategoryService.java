@@ -12,6 +12,7 @@ import com.xsis.be.repositories.CategoryRepository;
 @Service
 public class CategoryService {
     private CategoryRepository categoryRepo;
+    private Optional<Category> exsistingCategory;
 
     public CategoryService(CategoryRepository categoryRepo){
         this.categoryRepo = categoryRepo;
@@ -36,11 +37,11 @@ public class CategoryService {
         return categoryRepo.save(data);
     }
     public Category update(Category data) throws Exception{
-        Optional<Category> catergoryExsist = categoryRepo.findById(data.getId());
-        if(catergoryExsist.isPresent()){
+        exsistingCategory = categoryRepo.findById(data.getId());
+        if(exsistingCategory.isPresent()){
             // update field
-            data.setCreateBy(catergoryExsist.get().getCreateBy());
-            data.setCreateDate(catergoryExsist.get().getCreateDate());
+            data.setCreateBy(exsistingCategory.get().getCreateBy());
+            data.setCreateDate(exsistingCategory.get().getCreateDate());
             data.setUpdateDate(LocalDateTime.now());
 
             // update table
@@ -48,10 +49,13 @@ public class CategoryService {
         }
         throw new Exception("Category doesn't exsist");
     }
-    public Category delete(Category data) throws Exception{
-        Optional<Category> catergoryExsist = categoryRepo.findById(data.getId());
-        if(catergoryExsist.isPresent()){
-            categoryRepo.deleteById(data.getId());
+    public Category delete(int id, int userId) throws Exception{
+        exsistingCategory = categoryRepo.findById(id);
+        if(exsistingCategory.isPresent()){
+            exsistingCategory.get().setDeleted(true);
+            exsistingCategory.get().setUpdateBy(userId);
+            exsistingCategory.get().setUpdateDate(LocalDateTime.now());
+            return categoryRepo.save(exsistingCategory.get());
         }
         throw new Exception("Category doesn't exsist");
     }

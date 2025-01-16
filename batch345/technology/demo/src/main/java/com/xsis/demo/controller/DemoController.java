@@ -29,7 +29,6 @@ public class DemoController {
     
     // @PostMapping("/greet")
     // public String greetUser(@RequestParam("name") String name, Model model) {
-    //     //TODO: process POST request
     //     model.addAttribute("message", "hello, " + name + "!");
     //     return "home";
     // }

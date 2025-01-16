@@ -61,14 +61,14 @@
                     <tbody class="" style="border-top: white;">
                       <tr th:each="item:${category}">
                         <td scope="row" th:text="${item.id}">1</th>
-                        <td th:text="${item.name}">Appetizer</td>
-                        <td th:text="${item.desc}">Category of appetizer</td>
+                        <td th:text="${item.categoryName}">Appetizer</td>
+                        <td th:text="${item.description}">Category of appetizer</td>
                         <td th:text="${item.deleted}">false</td>
                         <td class="">
                             <div class="">
-                                <button th:data-id="${item.id}" type="button" class="btn btn-success text-dark">Edit</button>
-                                <button th:data-id="${item.id}" type="button" class="btn btn-danger text-light">Delete</button>
-                                <button th:data-id="${item.id}" type="button" class="btn btn-warning text-light">Detail</button>
+                                <button th:data-id="${item.id}" type="button" title="edit" class="btn btn-success text-dark">Edit</button>
+                                <button th:data-id="${item.id}" type="button" title="delete" class="btn btn-danger text-light">Delete</button>
+                                <button th:data-id="${item.id}" type="button" id="btnDetail" title="detail" class="btn btn-warning text-light">Detail</button>
                             </div>
                         </td>
                       </tr>
@@ -95,9 +95,15 @@
                 $("#staticModalBody").load("/category/edit/" + catID);
                 $("#staticModal").modal("show");
             });
-            $(".btn-danger").click(function(e){
+            // $(".btn-danger").click(function(e){
+            //     let catID = $(this).data("id");
+            //     $("#staticModalBody").load("/catergory/" + catID);
+            //     $("#staticModal").modal("show");
+            // });
+            $("#btnDetail").click(function(e){
                 let catID = $(this).data("id");
-                $("#staticModalBody").load("/catergory/" + catID);
+
+                $("#staticModalBody").load("/category/" + catID);
                 $("#staticModal").modal("show");
             });
         </script>

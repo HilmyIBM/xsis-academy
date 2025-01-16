@@ -1,12 +1,19 @@
 <span id="txtTitle" class="d-none" th:text="${title}"></span>
 <div class="card">
     <div class="card-body">
-        <form th:action="@{~/category/update}" id="formNewCategory" method="post">
+        <form th:action="@{~/category/update}" id="formEditCategory" method="post">
             <input type="hidden" name="id" id="txtId" th:value="${category.id}">
             <input type="hidden" name="updateBy" id="txtUpdateBy" value="2">
             <div class="form-group">
                 <label for="txtName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="txtName" name="name" th:value="${category.name}"/>
+                <input type="text" class="form-control" id="txtName" name="categoryName" th:value="${category.categoryName}"/>
+            </div>
+            <div class="mt-3 form-group">
+                <label for="txtName" class="form-label">Description</label>
+                <input type="text" class="form-control" id="txtName" name="description" th:value="${category.description}"/>
+            </div>
+            <div class="d-flex justify-content-end mt-3">
+                <button type="submit" class="btn btn-success">Submit</button>
             </div>
             <!-- <div class="form-group">
                 <label for="txtDesc" class="form-label">Description</label>
@@ -21,6 +28,44 @@
 <script>
     $(document).ready(function(){
         $("#staticModalLabel").text($("#txtTitle").text());
-
+        $("#formEditCategory").validate({
+            "rules": {
+                "categoryName": {
+                    "required" : true,
+                    "maxlength" : 100,
+                    "minlength" : 3
+                },
+                "description":{
+                    "maxlength": 100
+                }
+            }
+        });
+        $("#formEditCategory").submit(function(e){
+            e.preventDefault();
+            if($("#formEditCategory").valid()){
+                alert("masuk");
+                $.ajax({
+                    url: "/category/update",
+                    type: "post",
+                    data: $("#formEditCategory").serialize(),
+                    dataType: "json",
+                    beforeSend: () => {
+                        alert("mengirim data ke api");
+                    },
+                    success: function(response){
+                        alert("Category " + response.categoryName + " succesfully updated!");
+                        location.reload();
+                    },
+                    error: function(errResponse){
+                        console.error("update Category failed " + errResponse.responseText);
+                    }
+                });
+            }
+        })
+        // $(".btn-success").click(function(e){
+        //         let catID = $(this).data("id");
+        //         $("#staticModalBody").load("/category/update");
+        //         $("#staticModal").modal("show");
+        // });
     });
 </script>
