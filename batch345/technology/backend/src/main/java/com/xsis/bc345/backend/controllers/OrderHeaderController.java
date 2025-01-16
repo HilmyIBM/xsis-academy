@@ -6,26 +6,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xsis.bc345.backend.models.Customer;
-import com.xsis.bc345.backend.services.CustomerService;
-import org.springframework.web.bind.annotation.GetMapping;
-
+import com.xsis.bc345.backend.models.OrderHeader;
+import com.xsis.bc345.backend.services.OrderHeaderService;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("api/customer")
-public class CustomerController {
+@RequestMapping("api/order-header")
+public class OrderHeaderController {
   @Autowired
-  private CustomerService customerSvc;
+  private OrderHeaderService orderHeaderSvc;
 
   @GetMapping("")
   public ResponseEntity<?> getAll() {
        try {
-        List<Customer> data = customerSvc.getAll();
-        return new ResponseEntity<List<Customer>>(
+        List<OrderHeader> data = orderHeaderSvc.getAll();
+        return new ResponseEntity<List<OrderHeader>>(
           data,
           data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT
         );
@@ -33,5 +32,4 @@ public class CustomerController {
         return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
       }
   }
-  
 }

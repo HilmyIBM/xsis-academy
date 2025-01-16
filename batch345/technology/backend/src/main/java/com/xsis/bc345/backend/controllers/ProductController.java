@@ -9,23 +9,25 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xsis.bc345.backend.models.Customer;
-import com.xsis.bc345.backend.services.CustomerService;
+import com.xsis.bc345.backend.models.Product;
+import com.xsis.bc345.backend.services.ProductService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("api/customer")
-public class CustomerController {
+@RequestMapping("api/product")
+public class ProductController {
+
   @Autowired
-  private CustomerService customerSvc;
+  private ProductService productSvc;
 
   @GetMapping("")
   public ResponseEntity<?> getAll() {
        try {
-        List<Customer> data = customerSvc.getAll();
-        return new ResponseEntity<List<Customer>>(
+        List<Product> data = productSvc.getAll();
+        return new ResponseEntity<List<Product>>(
           data,
           data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT
         );
@@ -34,4 +36,5 @@ public class CustomerController {
       }
   }
   
+
 }
