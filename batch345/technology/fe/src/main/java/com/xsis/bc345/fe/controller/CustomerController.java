@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class UserController {
+public class CustomerController {
 
-    @GetMapping("/user")
+    @GetMapping("/customer")
     public ModelAndView index() {
-        ModelAndView view = new ModelAndView("/user/index");
+        ModelAndView view = new ModelAndView("/customer/index");
 
         return view;
     }
