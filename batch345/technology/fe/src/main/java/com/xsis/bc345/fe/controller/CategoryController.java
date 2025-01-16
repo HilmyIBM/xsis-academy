@@ -1,12 +1,6 @@
 package com.xsis.bc345.fe.controller;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale.Category;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.function.EntityResponse;
 
 import com.xsis.bc345.fe.models.CategoryView;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -32,24 +24,6 @@ public class CategoryController {
     //API URL
     private final String apiUrl = "http://localhost:8080/api/category";
 
-    /*CategoryController() {
-        data.add(new Category());
-        data.get(0).setId(1);
-        data.get(0).setName("Makanan");
-        data.get(0).setDescription("Kategori Makanan");
-        data.get(0).setDeleted(false);
-        data.get(0).setCreateBy(1);
-        data.get(0).setCreateDate(LocalDateTime.now());
-
-        data.add(new Category());
-        data.get(1).setId(2);
-        data.get(1).setName("Obat");
-        data.get(1).setDescription("Kategori Obat-obatan");
-        data.get(1).setDeleted(false);
-        data.get(1).setCreateBy(1);
-        data.get(1).setCreateDate(LocalDateTime.now());
-    }*/
-    
     @GetMapping("")
     ModelAndView index() {
         ModelAndView view = new ModelAndView("/category/index");

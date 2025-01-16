@@ -1,7 +1,7 @@
 <span id="txtTitle" class="d-none" th:text="${title}"></span>
 <div class="card">
     <div class="card-body">
-        <form th:action="@{~/category/save}" id="frmNewCategory" method="post">
+        <form th:action="@{~/category/create}" id="frmNewCategory" method="post">
             <div class="form-group">
                 <label for="txtName" class="form-label h6">Name</label>
                 <input type="text" class="form-control" id="txtName" name="categoryName" />
@@ -40,6 +40,7 @@
             e.preventDefault();
 
             if ($("#frmNewCategory").valid()) {
+                debugger;
                 $.ajax({
                     url: "/category/create",
                     type: "post",
