@@ -29,7 +29,7 @@
                     <tbody class="table-group-divider">
                     <tr th:each="item:${category}">
                         <td class="text-start" th:text="${item.getId()}"></td>
-                        <td class="text-center" th:text="${item.getName()}" ></td>
+                        <td class="text-center" th:text="${item.getCategoryName()}" ></td>
                         <td class="text-center" th:text="${item.getDescription()}"></td>
                         <td class="text-center" th:text="${item.isDeleted()}"></td>
                         <td class="text-center">

@@ -7,44 +7,46 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class CategoryModel {
-    private long id;
-    private String name;
+    private Integer id;
+    private String categoryName;
     private String description;
-    private boolean isDeleted;
+    private boolean deleted;
 
     private long createBy;
     private LocalDateTime createDate;
     private long updateBy;
     private LocalDateTime updateDate;
 
-    public CategoryModel() {}
-
-    public CategoryModel(long id, String name, String description, boolean isDeleted, long createBy, LocalDateTime createDate, long updateBy, LocalDateTime updateDate) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.isDeleted = isDeleted;
-        this.createBy = createBy;
-        this.createDate = createDate;
-        this.updateBy = updateBy;
-        this.updateDate = updateDate;
-    }
-
-    public CategoryModel(long id, String name, String description, boolean isDeleted, long createBy, LocalDateTime createDate) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.isDeleted = isDeleted;
-        this.createBy = createBy;
-        this.createDate = createDate;
-    }
-
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     public long getCreateBy() {
@@ -79,52 +81,13 @@ public class CategoryModel {
         this.updateDate = updateDate;
     }
 
-    public CategoryModel(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof CategoryModel that)) return false;
-        return isDeleted == that.isDeleted && createBy == that.createBy && updateBy == that.updateBy && Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(createDate, that.createDate) && Objects.equals(updateDate, that.updateDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, description, isDeleted, createBy, createDate, updateBy, updateDate);
-    }
-
     @Override
     public String toString() {
         return "CategoryModel{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", categoryName='" + categoryName + '\'' +
                 ", description='" + description + '\'' +
-                ", isDeleted=" + isDeleted +
+                ", deleted=" + deleted +
                 ", createBy=" + createBy +
                 ", createDate=" + createDate +
                 ", updateBy=" + updateBy +

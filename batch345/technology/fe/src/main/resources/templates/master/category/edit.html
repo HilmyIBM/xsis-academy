@@ -2,7 +2,7 @@
 <div class="card">
     <div class="card-body">
         <form th:action="@{~/category/update}" id="frmEditCategory" method="post">
-            <input type="hidden" name="id" id="txtId" th:value="${category.id}" />
+            <input type="hidden" name="id" id="txtId" th:value="${category.}" />
             <input type="hidden" name="updateBy" id="txtUpdateby" value="2" />
             <div class="form-group">
                 <label for="txtName" class="form-label h6">Name</label>
