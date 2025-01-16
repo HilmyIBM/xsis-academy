@@ -12,7 +12,10 @@ CREATE TABLE Tbl_T_Order_Header(
 	create_date TIMESTAMP DEFAULT now(),
     update_by int NULL,
 	update_date TIMESTAMP NULL,
-    CONSTRAINT PK_Tbl_T_Order_Header PRIMARY KEY (id)
+    CONSTRAINT PK_Tbl_T_Order_Header PRIMARY KEY (id),
+	CONSTRAINT UQ_Tbl_T_Order_Header UNIQUE (trx_code)
 );
+
+drop table Tbl_T_Order_Header;
 
 select * from Tbl_T_Order_Header;

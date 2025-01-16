@@ -3,25 +3,36 @@ package com.xsis.bc345.fe.controller;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale.Category;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.function.EntityResponse;
 
-import com.xsis.bc345.fe.models.Category;
+import com.xsis.bc345.fe.models.CategoryView;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 
 @Controller
 @RequestMapping("/category")
 public class CategoryController {
-    private List<Category> data = new ArrayList<Category>();
+    //HTTP Client
+    private RestTemplate restTemplate = new RestTemplate();
 
-    CategoryController() {
+    //API URL
+    private final String apiUrl = "http://localhost:8080/api/category";
+
+    /*CategoryController() {
         data.add(new Category());
         data.get(0).setId(1);
         data.get(0).setName("Makanan");
@@ -37,13 +48,52 @@ public class CategoryController {
         data.get(1).setDeleted(false);
         data.get(1).setCreateBy(1);
         data.get(1).setCreateDate(LocalDateTime.now());
-    }
+    }*/
     
     @GetMapping("")
     ModelAndView index() {
         ModelAndView view = new ModelAndView("/category/index");
+        ResponseEntity<CategoryView[]> apiResponse = null;
 
-        view.addObject("category", data);
+        try {
+            apiResponse = restTemplate.getForEntity(apiUrl, CategoryView[].class);
+            
+            if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                // CategoryView[] data = apiResponse.getBody();
+                view.addObject("category", apiResponse.getBody());
+            }
+            else {
+                throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            view.addObject("errorMsg", e.getMessage());
+        }
+
+        return view;
+    }
+
+    @GetMapping("/{id}")
+    public ModelAndView detail(@PathVariable int id) {
+        ModelAndView view = new ModelAndView("/category/detail");
+        ResponseEntity<CategoryView> apiResponse = null;
+
+        try {
+            apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + id, CategoryView.class);
+
+            if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                // CategoryView[] data = apiResponse.getBody();
+                view.addObject("category", apiResponse.getBody());
+            }
+            else {
+                throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            view.addObject("errorMsg", e.getMessage());
+        }
+        
+        view.addObject("title", "Category Detail");
 
         return view;
     }
@@ -57,45 +107,67 @@ public class CategoryController {
         return view;
     }
     
-    @PostMapping("/save")
-    String save(@ModelAttribute Category category) {
+    @PostMapping("/create")
+    ResponseEntity<?> create(@ModelAttribute CategoryView category) {
+        ResponseEntity<CategoryView> apiResponse = null;
+
         try {
-            if (category.getName() == "") {
-                return "Gagal";
+            apiResponse = restTemplate.postForEntity(apiUrl, category, CategoryView.class);
+
+            if(apiResponse.getStatusCode() == HttpStatus.CREATED) {
+                return new ResponseEntity<CategoryView>(apiResponse.getBody(), HttpStatus.CREATED);
             }
-            else {
-                return "Sukses";
+            else{
+                throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
             }
         }
         catch(Exception e) {
-            return "Gagal";
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/edit/{id}")
-    ModelAndView edit(@PathVariable long id) {
+    ModelAndView edit(@PathVariable int id) {
         ModelAndView view = new ModelAndView("/category/edit");
-        // Get Category data by requested Category ID
-        Category category =  data.get((int)id-1);
+        ResponseEntity<CategoryView> apiResponse = null;
+
+        try {
+            // Get Category data by requested Category ID
+            apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + id, CategoryView.class);
+
+            if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                view.addObject("category", apiResponse.getBody());
+            }
+            else {
+                throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            view.addObject("errorMsg", e.getMessage());
+        }
 
         view.addObject("title", "Edit Category");
-        view.addObject("category", category);
 
         return view;
     }
 
     @PostMapping("/update")
-    String update(@ModelAttribute Category category) {
+    ResponseEntity<?> update(@ModelAttribute CategoryView category) {
+        ResponseEntity<CategoryView> apiResponse = null;
+
         try {
-            if (category.getName() == "") {
-                return "Gagal";
+            restTemplate.put(apiUrl, category);
+            apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + category.getId(), CategoryView.class);
+
+            if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                return new ResponseEntity<CategoryView>(apiResponse.getBody(), HttpStatus.OK);
             }
             else {
-                return "Sukses";
+                throw new Exception(apiResponse.getStatusCode().toString() + ": " +  apiResponse.getBody().toString());
             }
         }
         catch(Exception e) {
-            return "Gagal";
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

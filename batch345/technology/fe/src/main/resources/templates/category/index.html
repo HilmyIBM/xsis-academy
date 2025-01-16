@@ -18,7 +18,7 @@
             <div class="w-50">
                 <div class="input-group w-75">
                     <span class="input-group-text">Show</span>
-                    <input type="text" value="10" class="form-control" />
+                    <input type="text" th:value="${#lists.size(category)}" class="form-control bg-white" readonly />
                     <span class="input-group-text">Entries</span>
                 </div>
             </div>
@@ -44,13 +44,13 @@
                 <tbody>
                     <tr th:each="item:${category}">
                         <td th:text="${item.id}">1</td>
-                        <td th:text="${item.name}">Makanan</td>
+                        <td th:text="${item.categoryName}">Makanan</td>
                         <td th:text="${item.description}">Kategori Makanan</td>
                         <td>
                             <div class="btn-group">
-                                <button th:data-id="${item.id}" class="btn btn-info"><i class="fas fa-list-alt"></i></button>
-                                <button th:data-id="${item.id}" class="btn btn-warning"><i class="fas fa-edit"></i></button>
-                                <button th:data-id="${item.id}" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button th:data-id="${item.id}" class="btn btn-info" title="Details..."><i class="fas fa-list-alt"></i></button>
+                                <button th:data-id="${item.id}" class="btn btn-warning" title="Edit..."><i class="fas fa-edit"></i></button>
+                                <button th:data-id="${item.id}" class="btn btn-danger" title="Delete.."><i class="fas fa-trash"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -60,6 +60,13 @@
             <script>
                 $("#btnAdd").click(function(e){
                     $("#staticModalBody").load("/category/add");
+                });
+
+                $(".btn-info").click(function (e) {
+                    let catId = $(this).data("id");
+
+                    $("#staticModalBody").load("/category/" + catId);
+                    $("#staticModal").modal("show");
                 });
 
                 $(".btn-warning").click(function(e) {

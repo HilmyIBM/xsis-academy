@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.xsis.bc345.be.models.Category;
@@ -13,6 +12,7 @@ import com.xsis.bc345.be.repositories.CategoryRepository;
 @Service
 public class CategoryService {
     private CategoryRepository categoryRepo;
+    private Optional<Category> existingCategory;
     
     public CategoryService(CategoryRepository categoryRepo) {
         this.categoryRepo = categoryRepo;
@@ -44,12 +44,12 @@ public class CategoryService {
     }
 
     public Category update(Category data) throws Exception {
-        Optional<Category> categoryExisting = categoryRepo.findById(data.getId());
+        existingCategory = categoryRepo.findById(data.getId());
 
-        if (categoryExisting.isPresent()) {
+        if (existingCategory.isPresent()) {
             //Update Fields
-            data.setCreateBy(categoryExisting.get().getCreateBy());
-            data.setCreateDate(categoryExisting.get().getCreateDate());
+            data.setCreateBy(existingCategory.get().getCreateBy());
+            data.setCreateDate(existingCategory.get().getCreateDate());
             data.setUpdateDate(LocalDateTime.now());
 
             //Update Table
@@ -58,6 +58,20 @@ public class CategoryService {
         else {
             throw new Exception("Category doesn't exist!");
         }
-        // TODO Auto-generated method stub
+    }
+
+    public Category delete(int id, int userId) throws Exception {
+        existingCategory = categoryRepo.findById(id);
+
+        if (existingCategory.isPresent()) {
+            existingCategory.get().setDeleted(true);
+            existingCategory.get().setUpdateBy(userId);
+            existingCategory.get().setUpdateDate(LocalDateTime.now());
+
+            return categoryRepo.save(existingCategory.get());
+        }
+        else {
+            throw new Exception("Category doesn't exist!");
+        }
     }
 }

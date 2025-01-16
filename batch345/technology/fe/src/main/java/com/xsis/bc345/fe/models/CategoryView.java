@@ -2,9 +2,9 @@ package com.xsis.bc345.fe.models;
 
 import java.time.LocalDateTime;
 
-public class Category {
-    private long id;
-    private String name;
+public class CategoryView {
+    private int id;
+    private String categoryName;
     private String description;
 
     private boolean deleted;
@@ -14,53 +14,71 @@ public class Category {
     private int updateBy;
     private LocalDateTime updateDate;    
 
-    public long getId() {
-        return id;
+    public int getId() {
+        return this.id;
     }
-    public void setId(long id) {
+
+    public void setId(int id) {
         this.id = id;
     }
-    public String getDescription() {
-        return description;
+
+    public String getCategoryName() {
+        return this.categoryName;
     }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public boolean isDeleted() {
-        return deleted;
+        return this.deleted;
     }
+
+    public boolean getDeleted() {
+        return this.deleted;
+    }
+
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
+
     public int getCreateBy() {
-        return createBy;
+        return this.createBy;
     }
+
     public void setCreateBy(int createBy) {
         this.createBy = createBy;
     }
+
     public LocalDateTime getCreateDate() {
-        return createDate;
+        return this.createDate;
     }
+
     public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
+
     public int getUpdateBy() {
-        return updateBy;
+        return this.updateBy;
     }
+
     public void setUpdateBy(int updateBy) {
         this.updateBy = updateBy;
     }
+
     public LocalDateTime getUpdateDate() {
-        return updateDate;
+        return this.updateDate;
     }
+
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    
 }
