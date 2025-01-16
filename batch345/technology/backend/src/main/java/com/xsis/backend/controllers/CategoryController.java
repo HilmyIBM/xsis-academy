@@ -20,7 +20,7 @@ import com.xsis.backend.services.CategoryService;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("api/category")
+@RequestMapping("api/categories")
 public class CategoryController {
     @Autowired
     private CategoryService categorySvc;
