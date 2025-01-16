@@ -107,24 +107,33 @@ public class CategoryController {
         return view;
     }
 
-    @PostMapping("/save")
-    public String create(@ModelAttribute CategoryView category){
-        String result = "";
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@ModelAttribute CategoryView category){
+        ModelAndView view = new ModelAndView("/category/create");
+
+        ResponseEntity<CategoryView> apiResponse = null;
 
         try {
-            if (category.getCategoryName() == "") {
-                System.out.println("gagal");
-                return "Gagal";
+            apiResponse = restTemplate.postForEntity(apiUrl, category ,CategoryView.class);
+            
+            if (apiResponse.getStatusCode() == HttpStatus.OK){
+                CategoryView data = apiResponse.getBody();
+                view.addObject("category", data);
+                // view.addObject("data", apiResponse.getBody());  ---ini juga bisa
+            return new ResponseEntity<CategoryView>(data,HttpStatus.CREATED);
+
             } else {
-                System.out.println("sukses");
-                return "Sukses";
-                
+                throw new Exception(apiResponse.getStatusCode().toString()+": "+apiResponse.getBody());
             }
             
         } catch (Exception e) {
             // TODO: handle exception
-            return "Gagal";
+            view.addObject("errorMsg", e.getMessage());
+            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        
+        // view.addObject("Category Detail");
+
 
         
     }
