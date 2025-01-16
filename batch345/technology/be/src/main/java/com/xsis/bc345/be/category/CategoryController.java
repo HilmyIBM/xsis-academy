@@ -30,6 +30,23 @@ public class CategoryController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
+    @PostMapping("")
+    public ResponseEntity<?> create(@RequestBody CategoryModel category) {
+        return new ResponseEntity<>(categoryService.createCategory(category), HttpStatus.CREATED);
+    }
+
+    @PutMapping("")
+    public ResponseEntity<?> update(@RequestBody CategoryModel categoryModel) {
+        return new ResponseEntity<>(categoryService.updateCategory(categoryModel), HttpStatus.OK);
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<?> delete(@RequestBody CategoryModel model) {
+        categoryService.deleteCategory(model);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("/id/{id}")
     public ResponseEntity<?> getById(@PathVariable int id) {
         return request.process(
@@ -56,19 +73,5 @@ public class CategoryController {
         return request.process(
                 categoryService.getByNameOrDescription(filter),
                 HttpStatus.OK, HttpStatus.NO_CONTENT);
-    }
-
-    @PostMapping("")
-    public ResponseEntity<?> create(@RequestBody CategoryModel category) {
-        return request.process(
-                categoryService.createCategory(category),
-                HttpStatus.CREATED, HttpStatus.BAD_REQUEST);
-    }
-
-    @PutMapping("")
-    public ResponseEntity<?> update(@RequestBody CategoryModel categoryModel) {
-        return request.process(
-                categoryService.updateCategory(categoryModel),
-                HttpStatus.OK, HttpStatus.BAD_REQUEST);
     }
 }

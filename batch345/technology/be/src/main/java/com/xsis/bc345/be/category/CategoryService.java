@@ -54,17 +54,34 @@ public class CategoryService {
         return Optional.of(categoryRepository.save(categoryModel));
     }
 
-    public Optional<CategoryModel> updateCategory(CategoryModel categoryModel) {
-        Optional<CategoryModel> category = categoryRepository.findByIdAndDeleted(categoryModel.getId(), false);
+    public CategoryModel updateCategory(CategoryModel categoryModel) {
+        var data = categoryRepository.findByIdAndDeleted(categoryModel.getId(), false);
 
-        if (category.isEmpty())
-            throw new EntityNotFoundException("Category with id " + categoryModel.getId() + " doesnt exists");
+        if (data.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category with id %s doesn't exists".formatted(categoryModel.getId()));
 
-        categoryModel.setCreateBy(category.get().getCreateBy());
-        categoryModel.setCreateDate(category.get().getCreateDate());
+        var existingData = data.get();
+
+        categoryModel.setCreateBy(existingData.getCreateBy());
+        categoryModel.setCreateDate(existingData.getCreateDate());
         categoryModel.setUpdateDate(LocalDateTime.now());
 
-        return Optional.of(categoryRepository.save(categoryModel));
+        return categoryRepository.save(categoryModel);
+    }
+
+    public void deleteCategory(CategoryModel model) {
+        var data = categoryRepository.findByIdAndDeleted(model.getId(), false);
+
+        if (data.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category with id %s doesn't exists".formatted(model.getId()));
+
+        var existingData = data.get();
+
+        existingData.setUpdateBy(model.getUpdateBy());
+        existingData.setUpdateDate(LocalDateTime.now());
+        existingData.setDeleted(true);
+
+        categoryRepository.save(existingData);
     }
 
 
