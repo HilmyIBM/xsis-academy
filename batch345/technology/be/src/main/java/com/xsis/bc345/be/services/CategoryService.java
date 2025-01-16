@@ -1,14 +1,19 @@
 package com.xsis.bc345.be.services;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import com.xsis.bc345.be.models.Category;
+
+import com.xsis.bc345.be.repositories.CategoryRepositori;
 
 @Service
 public class CategoryService {
-    private CategoryRepository categoryRepo;
+    private CategoryRepositori categoryRepo;
 
-    public CategoryService(CategoryRepository categoryRepo){
+    public CategoryService(CategoryRepositori categoryRepo){
         this.categoryRepo = categoryRepo;
 
     }
