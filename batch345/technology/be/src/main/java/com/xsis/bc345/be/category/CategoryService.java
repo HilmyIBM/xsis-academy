@@ -2,9 +2,10 @@ package com.xsis.bc345.be.category;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -19,8 +20,14 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public Optional<List<CategoryModel>> getAll() {
-        return categoryRepository.findAllByDeleted(false);
+    public List<CategoryModel> getAll() {
+        try {
+            var data = categoryRepository.findAllByDeleted(false);
+
+            return data.orElse(List.of());
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
     }
 
     public Optional<CategoryModel> getById(int id) {
@@ -59,4 +66,6 @@ public class CategoryService {
 
         return Optional.of(categoryRepository.save(categoryModel));
     }
+
+
 }

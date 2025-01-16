@@ -22,9 +22,12 @@ public class CategoryController {
 
     @GetMapping("")
     public ResponseEntity<?> getAll() {
-        return request.process(
-                categoryService.getAll(),
-                HttpStatus.OK, HttpStatus.NO_CONTENT);
+        var data = categoryService.getAll();
+
+        if (data.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
     @GetMapping("/id/{id}")
