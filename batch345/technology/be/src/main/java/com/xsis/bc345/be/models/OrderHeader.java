@@ -12,22 +12,28 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="tbl_m_categories")
-public class Category {
-    @Id
+@Table(name = "tbl_t_order_header")
+public class OrderHeader {
+      @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private int id;
+    
+    @Column(name="trx_code", length = 100, nullable=false)
+    private String trxCode;
 
-    @Column(name="category_name", length=100, nullable=false)
-    private String categoryName;
-
-    @Column(name="description", nullable=true)
-    private String description;
-
+    @Column(name="customer_id", nullable=false)
+    private int customerId;
+    
+    @Column(name="amount", nullable=false)
+    private double amount;
+    
+    @Column(name="is_checkout", nullable = false)
+    private boolean checkout;
+    
     @Column(name="is_deleted", nullable = false)
     private boolean deleted;
-
+    
     @Column(name="create_by", nullable = false)
     private int createBy;
 
@@ -38,35 +44,59 @@ public class Category {
     @Column(name="update_by", nullable = true)
     private Integer updateBy;
 
-    @Column(name="update_date")
+    @Column(name="update_date", nullable=true)
     private LocalDateTime updateDate;
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getTrxCode() {
+        return this.trxCode;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setTrxCode(String trxCode) {
+        this.trxCode = trxCode;
     }
 
-    public String getDescription() {
-        return description;
+    public int getCustomerId() {
+        return this.customerId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public double getAmount() {
+        return this.amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public boolean isCheckout() {
+        return this.checkout;
+    }
+
+    public boolean getCheckout() {
+        return this.checkout;
+    }
+
+    public void setCheckout(boolean checkout) {
+        this.checkout = checkout;
     }
 
     public boolean isDeleted() {
-        return deleted;
+        return this.deleted;
+    }
+
+    public boolean getDeleted() {
+        return this.deleted;
     }
 
     public void setDeleted(boolean deleted) {
@@ -74,7 +104,7 @@ public class Category {
     }
 
     public int getCreateBy() {
-        return createBy;
+        return this.createBy;
     }
 
     public void setCreateBy(int createBy) {
@@ -82,7 +112,7 @@ public class Category {
     }
 
     public LocalDateTime getCreateDate() {
-        return createDate;
+        return this.createDate;
     }
 
     public void setCreateDate(LocalDateTime createDate) {
@@ -90,7 +120,7 @@ public class Category {
     }
 
     public Integer getUpdateBy() {
-        return updateBy;
+        return this.updateBy;
     }
 
     public void setUpdateBy(Integer updateBy) {
@@ -98,11 +128,12 @@ public class Category {
     }
 
     public LocalDateTime getUpdateDate() {
-        return updateDate;
+        return this.updateDate;
     }
 
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
-    
+
+
 }

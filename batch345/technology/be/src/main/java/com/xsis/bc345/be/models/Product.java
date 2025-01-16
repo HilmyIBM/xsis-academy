@@ -12,22 +12,31 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="tbl_m_categories")
-public class Category {
-    @Id
+@Table(name = "tbl_m_product")
+public class Product {
+     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private int id;
 
-    @Column(name="category_name", length=100, nullable=false)
-    private String categoryName;
+    @Column(name="name", length=100, nullable=false)
+    private String name;
 
-    @Column(name="description", nullable=true)
-    private String description;
+    @Column(name="price", nullable=false)
+    private double price;
 
+    @Column(name="stock" ,length = 100, nullable=true)
+    private int stock;
+
+    @Column(name="variant_id", nullable = false)
+    private int variantId;
+  
+    @Column(name="image", nullable = true)
+    private String image;
+    
     @Column(name="is_deleted", nullable = false)
     private boolean deleted;
-
+    
     @Column(name="create_by", nullable = false)
     private int createBy;
 
@@ -49,20 +58,44 @@ public class Category {
         this.id = id;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getName() {
+        return name;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public double getPrice() {
+        return price;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public int getVariantId() {
+        return variantId;
+    }
+
+    public void setVariantId(int variantId) {
+        this.variantId = variantId;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public boolean isDeleted() {
@@ -104,5 +137,5 @@ public class Category {
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
-    
+
 }

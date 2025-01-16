@@ -12,22 +12,25 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="tbl_m_categories")
-public class Category {
-    @Id
+@Table(name = "tbl_m_variant")
+public class Variant {
+     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private int id;
+    
+    @Column(name="category_id", nullable=false)
+    private int categoryId;
 
-    @Column(name="category_name", length=100, nullable=false)
-    private String categoryName;
-
-    @Column(name="description", nullable=true)
+    @Column(name="name", length=50, nullable=false)
+    private String name;
+    
+    @Column(name="description", length = 255, nullable=true)
     private String description;
-
+    
     @Column(name="is_deleted", nullable = false)
     private boolean deleted;
-
+    
     @Column(name="create_by", nullable = false)
     private int createBy;
 
@@ -42,23 +45,31 @@ public class Category {
     private LocalDateTime updateDate;
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public int getCategoryId() {
+        return this.categoryId;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
@@ -66,7 +77,11 @@ public class Category {
     }
 
     public boolean isDeleted() {
-        return deleted;
+        return this.deleted;
+    }
+
+    public boolean getDeleted() {
+        return this.deleted;
     }
 
     public void setDeleted(boolean deleted) {
@@ -74,7 +89,7 @@ public class Category {
     }
 
     public int getCreateBy() {
-        return createBy;
+        return this.createBy;
     }
 
     public void setCreateBy(int createBy) {
@@ -82,7 +97,7 @@ public class Category {
     }
 
     public LocalDateTime getCreateDate() {
-        return createDate;
+        return this.createDate;
     }
 
     public void setCreateDate(LocalDateTime createDate) {
@@ -90,7 +105,7 @@ public class Category {
     }
 
     public Integer getUpdateBy() {
-        return updateBy;
+        return this.updateBy;
     }
 
     public void setUpdateBy(Integer updateBy) {
@@ -98,11 +113,11 @@ public class Category {
     }
 
     public LocalDateTime getUpdateDate() {
-        return updateDate;
+        return this.updateDate;
     }
 
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
-    
+ 
 }

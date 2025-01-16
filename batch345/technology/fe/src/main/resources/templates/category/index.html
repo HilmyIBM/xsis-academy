@@ -16,9 +16,9 @@
         <hr>
         <div class="d-flex justify-content-between">
             <div>
-                <span>Show</span>
-                <input type="text" value="10"/>
-                <span>Entries</span>
+                <span class="input-group-text">Show</span>
+                <input type="number" th:value="${#lists.size(category)}" class="form-control"/>
+                <span class="input-group-text">Entries</span>
             </div>
             <form action="#" id="frmFind">
                 <input type="text" id="txtFind" />
@@ -38,7 +38,7 @@
                 <tbody>
                     <tr th:each="item:${category}">
                         <td th:text="${item.id}">1</td>
-                        <td th:text="${item.name}">Makanan</td>
+                        <td th:text="${item.categoryName}">Makanan</td>
                         <td th:text="${item.description}">Kategori Makanan</td>
                         <td>
                             <div class="btn-group">
@@ -79,7 +79,15 @@
             $("#staticModalBody").load("category/edit/" + catId);
             $("#staticModal").modal("show");
 
-        })
+        });
+
+        $(".btn-warning").click(function(e){
+            let catId = $(this).data("id");
+
+            $("#staticModalBody").load("category/" + catId);
+            $("#staticModal").modal("show");
+
+        });
     </script>
     </div>
 </body>
