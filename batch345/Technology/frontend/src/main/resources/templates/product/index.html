@@ -16,7 +16,7 @@
       </style>
       <div class="">
         <h1>Product List</h1>
-        <button class="btn btn-success" type="button">
+        <button class="btn btn-success" type="button" id="btnAdd" data-bs-toggle="modal" data-bs-target="#staticModal">
           <i class="fas fa-plus"></i>&nbsp;&nbsp;Add
         </button>
         <hr style="opacity: 1" />
@@ -28,38 +28,34 @@
               <th class="col-1 text-center">Image</th>
               <th class="col-1 text-center">Id</th>
               <th class="col-4 text-center">Nama Product</th>
-              <th class="col-2 text-center">Category</th>
-              <th class="col-1 text-center">Variant</th>
               <th class="col-1 text-center">Price</th>
               <th class="col-1 text-center">Stock</th>
-              <th class="col-2 text-center">Action</th>
+              <th class="col-1 text-center">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
+            <tr th:each="item:${product}" class="text-center">
+              <td >
                 <img
-                  src="https://media.istockphoto.com/id/1256689274/id/vektor/ilustrasi-spaghetti-carbonara-pasta.jpg?s=612x612&w=0&k=20&c=1y2wMd9n0xWU-sJjl7odEBdEDFfBu0DZJHLojF3tQCE="
+                  th:src=${item.image}
                   alt="product"
                   class="img-thumbnail rounded-circle"
+                  style="width: 70px;"
                 />
               </td>
-
-              <td>1</td>
-              <td>Carbonara</td>
-              <td>Main Course</td>
-              <td>Pasta</td>
-              <td>50000</td>
-              <td>10</td>
+              <td th:text="${item.id}" class="text-center">1</td>
+              <td th:text="${item.name}" class="text-center">Carbonara</td>
+              <td th:text="${item.price}"class="text-center">50000</td>
+              <td th:text="${item.stock}"class="text-center">10</td>
               <td>
                 <div
                   class="btn-group d-flex justify-content-center"
                   role="group"
                   aria-label="Basic mixed styles example"
                 >
-                <button type="button" class="btn btn-success" title="Edit"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-warning" title="Detail"><i class="fas fa-info"></i></button>
-                <button type="button" class="btn btn-danger" title="Delete"><i class="fas fa-trash"></i></button>
+                <button th:data-id="${item.id}" type="button" class="btn btn-success" title="Edit"><i class="fas fa-edit"></i></button>
+                <button th:data-id="${item.id}" type="button" class="btn btn-warning" title="Detail"><i class="fas fa-info"></i></button>
+                <button th:data-id="${item.id}" type="button" class="btn btn-danger" title="Delete"><i class="fas fa-trash"></i></button>
                 </div>
               </td>
             </tr>
@@ -68,6 +64,10 @@
       </div>
       <script>
         new DataTable('#tblProduct');
+        $('#btnAdd').click(
+          function(e){
+            $('#staticModalBody').load("/product/add");
+          });
       </script>
     </div>
   </body>

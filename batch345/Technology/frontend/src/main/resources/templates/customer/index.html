@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" 
+layout:decorate="~{fragments/layout}">
+<head>
+    <title>Customer</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <style>
+            nav{
+                background-color: #6C757D;
+                color: white;
+            }
+        </style>
+        <h1>Home Customer</h1>
+        <hr style="opacity: 1;">
+        <div>
+            <table class="table table-bordered mt-2 table-hover border-white" id="tblCustomer">
+              <thead>
+                <tr>
+                  <th class="col-1 text-center">Id</th>
+                  <th class="col-2 text-center">Nama user</th>
+                  <th class="col-2 text-center">Email</th>
+                  <th class="col-3 text-center">Address</th>
+                  <th class="col-2 text-center">phone</th>
+                  <th class="col-1 text-center">role</th>
+                  <th class="col-1 text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="item:${customer}">
+                  <td th:text="${item.id}" class="text-center">1</td>
+                  <td th:text="${item.name}" class="text-center">Bread</td>
+                  <td th:text="${item.email}" class="text-center">Appetizer</td>
+                  <td th:text="${item.address}" class="text-center">Appetizer</td>
+                  <td th:text="${item.phone}" class="text-center">Appetizer</td>
+                  <td th:text="${item.roleId}" class="text-center">Variant of bread</td>
+                  <td>
+                    <div
+                      class="btn-group d-flex justify-content-center"
+                      role="group"
+                      aria-label="Basic mixed styles example"
+                    >
+                    <button th:data-id="${item.id}" type="button" class="btn btn-success" title="Edit"><i class="fas fa-edit"></i></button>
+                    <button th:data-id="${item.id}" type="button" class="btn btn-warning" title="Detail"><i class="fas fa-info"></i></button>
+                    <button th:data-id="${item.id}" type="button" class="btn btn-danger" title="Delete"><i class="fas fa-trash"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+        <script>
+            new DataTable('#tblCustomer');
+        </script>
+    </div>
+</body>
+</html>

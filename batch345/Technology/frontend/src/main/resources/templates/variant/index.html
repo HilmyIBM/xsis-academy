@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorate="~{fragments/layout}">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Variant</title>
   </head>
   <body>
@@ -15,36 +13,42 @@
     </style>
       <div>
         <h1>Variant List</h1>
-        <button class="btn btn-success" type="button" id="btnAdd">
+        <button class="btn btn-success" type="button" id="btnAdd" data-bs-toggle="modal" data-bs-target="#staticModal">
           <i class="fas fa-plus"></i>&nbsp;&nbsp;Add
         </button>
         <hr style="opacity: 1" />
       </div>
       <div>
-        <table class="table table-bordered mt-2 table-hover text-center border-white" id="tblVariant">
+        <table class="table table-bordered mt-2 table-hover text-center border-white" id="tblVariant" >
           <thead>
             <tr>
               <th class="col-1">Id</th>
               <th class="col-4">Nama Variant</th>
-              <th class="col-2">Category</th>
+              <th class="col-1">Categories</th>
               <th class="col-4">Description</th>
               <th class="col-1">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Bread</td>
-              <td>Appetizer</td>
-              <td>Variant of bread</td>
+            <tr th:each="item:${variant}">
+              <td th:text="${item.id}">1</td>
+              <td th:text="${item.name}">Bread</td>
+              <td>
+                <p th:each="itemC : ${category}"
+                   th:if="${item.categoryId} == ${itemC.id}"
+                   th:text="${itemC.categoryName}">
+                </p>
+            </td>
+            
+              <td th:text="${item.description}">Variant of bread</td>
               <td>
                 <div
                   class="btn-group d-flex justify-content-center"
                   role="group"
                   aria-label="Basic mixed styles example">
-                <button type="button" class="btn btn-success" title="Edit"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-warning" title="Detail"><i class="fas fa-info"></i></button>
-                <button type="button" class="btn btn-danger" title="Delete"><i class="fas fa-trash"></i></button>
+                <button th:data-id="${item.id}" type="button" class="btn btn-success" title="Edit"><i class="fas fa-edit"></i></button>
+                <button th:data-id="${item.id}" type="button" class="btn btn-warning" title="Detail"><i class="fas fa-info"></i></button>
+                <button th:data-id="${item.id}" type="button" class="btn btn-danger" title="Delete"><i class="fas fa-trash"></i></button>
                 </div>
               </td>
             </tr>
@@ -53,6 +57,10 @@
       </div>
       <script>
         new DataTable('#tblVariant');
+        $('#btnAdd').click(
+          function(e){
+            $('#staticModalBody').load("/variant/add");
+          });
       </script>
     </div>
   </body>

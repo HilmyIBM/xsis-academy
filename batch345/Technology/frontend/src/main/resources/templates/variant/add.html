@@ -1,14 +1,21 @@
 <span class="d-none" th:text="${title}" id="txtTitle"></span>
 <div class="card">
     <div class="card-body">
-        <form th:action="@{~/category/save}" id="formAddCategory" method="post">
+        <form th:action="@{~/variant/save}" id="formAddVariant" method="post">
             <div class="form-group">
                 <label for="txtName" class="form-label">Name : </label>
-                <input type="text" class="form-control" id="txtName" name="categoryName">
+                <input type="text" class="form-control" id="txtName" name="name">
             </div>
             <div class="form-group mt-4">
+                <div class="mt-3"></div>
                 <label for="txtDeskripsi" class="form-label">Description : </label>
                 <input type="text" class="form-control" id="txtDeskripsi" name="description">
+                <div class="mt-3"></div>
+                <label for="txtDeskripsi" class="form-label">Pilih Category : </label><br>
+                <select name="categoryId">
+                    <option value="">--Select Category--</option>
+                    <option th:if="${category != null}" th:each="item:${category}" th:value="${item.id}" th:text="${item.categoryName}"></option>
+                </select>
             <div class="form-group">
             <div class="d-flex justify-content-end mt-3">
                 <input type="hidden" name="createBy" value="1">
@@ -22,39 +29,35 @@
     $(document).ready(function(){
         $('#staticBackdropLabel').text($('#txtTitle').text());
 
-        
-        $("#formAddCategory").validate({
+        $("#formAddVariant").validate({
             "rules" :{
-                "categoryName" : {
+                "name" : {
                     "required":true,
                     "maxlength" : 100,
                     "minlength" : 3
-                },
-                "description" : {
-                    "maxlength" : 255
                 }
             },
             "errorClass" : "text-danger"
         });
 
-        $("#formAddCategory").submit(function(e){
+        $("#formAddVariant").submit(function(e){
             e.preventDefault();
 
-            if($("#formAddCategory").valid()){
+            if($("#formAddVariant").valid()){
                 $.ajax({
-                    url :"/category/save",
+                    url :"/variant/save",
                     type : "post",
-                    data : $("#formAddCategory").serialize(),
+                    data : $("#formAddVariant").serialize(),
                     dataType : "json",
                     beforeSend : () => {
                         alert("Mengirim Data");
                     },
                     success:function(response){
-                        alert("Categori "+response.categoryName + " Berhasil di Tambah");
+                        alert("Variant "+response.name + " Berhasil di Tambah");
                         location.reload();
                     },
                     error:function(errResponse){
-                        console.error("Tambah Category Gagal : " + errResponse.responseText);
+                        console.error("Tambah Variant Gagal : " + errResponse.responseText);
                     }
                 });
             }
