@@ -127,7 +127,7 @@ public class CategoryController {
     public ResponseEntity <?> create(@RequestBody final Category data){
         try {
             Category newCategory = categorySvc.create(data);
-                return new ResponseEntity <Category> (categorySvc.create(data), HttpStatus.CREATED);
+                return new ResponseEntity <Category> (newCategory, HttpStatus.CREATED);
             
         } catch (Exception e) {
             // TODO: handle exception

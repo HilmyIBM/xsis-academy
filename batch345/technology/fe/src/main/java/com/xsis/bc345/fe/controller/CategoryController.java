@@ -29,39 +29,21 @@ public class CategoryController {
     
     // API Url
     private final String apiUrl = "http://localhost:8080/api/category";
-    
-    // private List <Category> data = new ArrayList<Category>();
-
-
-    // CategoryController(){
-        
-                // data.add(new Category());
-                // data.get(0).setId(1);
-                // data.get(0).setName("Makanan");
-                // data.get(0).setDescription("Kategori Makanan");
-                // data.get(0).setDeleted(false);
-                // data.get(0).setCreateBy(1);
-                // data.get(0).setCreateDate(LocalDateTime.now());
-                
-                
-                // data.add(new Category());
-                // data.get(1).setId(2);
-                // data.get(1).setName("Obat");
-                // data.get(1).setDescription("Kategori Obat");
-                // data.get(1).setDeleted(false);
-                // data.get(1).setCreateBy(2);
-                // data.get(1).setCreateDate(LocalDateTime.now());
-
-    // }
 
     @GetMapping("")
-    public ModelAndView index() {
+    public ModelAndView index(String filter) {
         ModelAndView view = new ModelAndView("/category/index");
 
         ResponseEntity<CategoryView[]> apiResponse = null;
 
         try {
-            apiResponse = restTemplate.getForEntity(apiUrl, CategoryView[].class);
+            if (filter == null || filter.isEmpty()) {
+
+                apiResponse = restTemplate.getForEntity(apiUrl, CategoryView[].class);
+            } else {
+                apiResponse = restTemplate.getForEntity(apiUrl+"/filter/" +filter, CategoryView[].class);
+                
+            }
             
             if (apiResponse.getStatusCode() == HttpStatus.OK){
                 CategoryView[] data = apiResponse.getBody();
@@ -108,34 +90,22 @@ public class CategoryController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@ModelAttribute CategoryView category){
-        ModelAndView view = new ModelAndView("/category/create");
-
+    ResponseEntity<?> create(@ModelAttribute CategoryView category) {
         ResponseEntity<CategoryView> apiResponse = null;
 
         try {
-            apiResponse = restTemplate.postForEntity(apiUrl, category ,CategoryView.class);
-            
-            if (apiResponse.getStatusCode() == HttpStatus.OK){
-                CategoryView data = apiResponse.getBody();
-                view.addObject("category", data);
-                // view.addObject("data", apiResponse.getBody());  ---ini juga bisa
-            return new ResponseEntity<CategoryView>(data,HttpStatus.CREATED);
+            apiResponse = restTemplate.postForEntity(apiUrl, category, CategoryView.class);
 
-            } else {
-                throw new Exception(apiResponse.getStatusCode().toString()+": "+apiResponse.getBody());
+            if(apiResponse.getStatusCode() == HttpStatus.CREATED) {
+                return new ResponseEntity<CategoryView>(apiResponse.getBody(), HttpStatus.CREATED);
             }
-            
-        } catch (Exception e) {
-            // TODO: handle exception
-            view.addObject("errorMsg", e.getMessage());
-            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            else{
+                throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
+            }
         }
-        
-        // view.addObject("Category Detail");
-
-
-        
+        catch(Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/edit/{id}")
@@ -211,5 +181,14 @@ public class CategoryController {
         }
 
     }
-    
+
+    @GetMapping("/delete/{id}")
+    public ModelAndView delete(@PathVariable int id){
+        ModelAndView view = new ModelAndView("/category/delete");
+
+        view.addObject("id", id);
+        view.addObject("title", "Delete Category");
+
+        return view;
+    }
 }

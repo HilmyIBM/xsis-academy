@@ -1,0 +1,69 @@
+<input type="hidden" id="txtTitle"  th:value="${title}"/>
+<div class="card">
+  <div class="card-body">
+    <form th:action="@{~/category/update}" id="frmEditCategory" method="post">
+      <input type="text" name="id" id="txtId" th:value="${category.id}"/>
+      <input type="hidden" name="updateBy" id="txtUpdateBy" value="2"/>
+      <div class="form-group">
+        <label for="txtName" class="form-label h6"> Name </label>
+        <input type="text" class="form-control" id="txtName" name="name" th:value="${variant.name}" />
+      </div>
+      <div class="form-group">
+        <label for="txtDescription" class="form-label"> Description </label>
+        <input
+          type="text"
+          class="form-control"
+          id="txtDescription"
+          name="description"
+          th:value="${variant.description}"
+        />
+      </div>
+      <div class="text-right">
+        <button class="btn btn-success mt-3"><i class="fas fa-edit"></i>Update</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $("#staticModalLabel").text($("#txtTitle").val());
+    // $("#staticModalLabel").html();
+
+    $("#frmEditCategory").validate({
+      "rules" : {
+        "categoryName":{
+          "required" : true,
+          "maxlength" : 100,
+          "minlength" : 3
+        }, 
+        "description":{
+          "maxlength":100
+        }
+      }
+    });
+    $("#frmEditCategory").submit(function(e){
+      e.preventDefault();
+
+      if( $("#frmEditCategory").valid()){
+        $.ajax({
+          url: "/category/update",
+          type: "post",
+          data:  $("#frmEditCategory").serialize(),
+          dataType: "json",
+          beforeSend: ()=>{
+            // alert("mengirim data ke api");
+          },
+          success: function(response){
+            alert("Category "+ response.categoryName + " succesfully updated!");
+            location.reload();
+          },
+          error: function(errResponse){
+            console.error("Update category failed: " + errResponse.responseText);
+          }
+
+        })
+      }
+    })
+  });
+</script>
