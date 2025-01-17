@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale.Category;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,7 +32,7 @@ public class CategoryController {
     // private List<CategoryView> data;
 
     @GetMapping("")
-    public ModelAndView index(){
+    public ModelAndView index(String filter){
         ModelAndView view = new ModelAndView("/category/index");
         ResponseEntity<CategoryView[]> apiResponse = null; 
 
@@ -55,7 +57,11 @@ public class CategoryController {
         view.addObject("category", data);*/ 
         
         try {
-            apiResponse = restTemplate.getForEntity(apiUrl, CategoryView[].class);
+            if (filter == null || filter.isBlank()) {
+                apiResponse = restTemplate.getForEntity(apiUrl, CategoryView[].class);
+            }else {
+                apiResponse = restTemplate.getForEntity(apiUrl + "/filter/" + filter, CategoryView[].class);
+            }
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 CategoryView[] data = apiResponse.getBody();
@@ -66,7 +72,8 @@ public class CategoryController {
         } catch (Exception e) {
             view.addObject("errorMsg", e.getMessage());
         }
-
+        view.addObject("filter", filter);
+        
         return view;
     }
 
@@ -155,8 +162,43 @@ public class CategoryController {
         }
     }
 
+    @GetMapping("/delete/{id}")
+    public ModelAndView delete(@PathVariable int id){
+        ModelAndView view = new ModelAndView("/category/delete");
+        view.addObject("id", id);
+        view.addObject("title", "Delete Confirmation");
+        return view;
+    }
 
+    @SuppressWarnings("null")
+    @PostMapping("/delete/{id}/{userId}")
+    ModelAndView delete(@PathVariable int id, @PathVariable int userId) {
+        ModelAndView view = new ModelAndView("/category/delete");
+        ResponseEntity<CategoryView> apiResponse = null;
+        CategoryView category = new CategoryView();
 
+        category.setId(id);
+        category.setUpdateBy(userId);
 
-    
+        try {
+            apiResponse = restTemplate.exchange(
+                apiUrl + "/delete/" + id + "/" + userId, 
+                HttpMethod.DELETE, new HttpEntity<CategoryView>(category), 
+                CategoryView.class
+            );
+            if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                CategoryView data = apiResponse.getBody();
+                view.addObject("category", data);
+            } else {
+                throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
+            }
+
+        } catch (Exception e) {
+            view.addObject("errorMsg", e.getMessage());
+        }
+        
+        view.addObject("title", "Delete Confirmation");
+        
+        return view;
+    }
 }

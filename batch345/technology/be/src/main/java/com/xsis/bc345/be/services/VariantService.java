@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xsis.bc345.be.models.Category;
 import com.xsis.bc345.be.models.Variant;
 import com.xsis.bc345.be.repositories.VariantRepository;
 
@@ -19,6 +20,10 @@ public class VariantService {
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    public Variant create(Variant data) throws Exception{
+        return variantRepo.save(data);
     }
 
 }

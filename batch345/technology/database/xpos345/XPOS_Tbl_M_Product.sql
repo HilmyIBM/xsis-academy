@@ -18,6 +18,8 @@ VALUES
 	('Es Krim Coklat', 2, 1)
 ;
 
+SELECT * FROM Tbl_M_Product;
+
 
 
 -- USE [XPOS329]

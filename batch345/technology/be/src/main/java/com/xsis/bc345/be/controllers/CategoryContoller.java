@@ -90,7 +90,7 @@ public class CategoryContoller {
     }
 
     @DeleteMapping("delete/{id}/{userId}")
-    public ResponseEntity<?> delete(@PathVariable int id, int userId) {
+    public ResponseEntity<?> delete(@PathVariable int id, @PathVariable int userId) {
         try {
             Category data = categorySvc.delete(id, userId);
 

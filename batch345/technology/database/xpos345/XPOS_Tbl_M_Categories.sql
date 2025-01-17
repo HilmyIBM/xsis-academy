@@ -1,4 +1,5 @@
 -- create TBL_M_Categories
+DROP TABLE IF EXISTS Tbl_M_Categories;
 create table TBL_M_Categories  (
 	id serial not null,
 	category_name varchar(100) not null,

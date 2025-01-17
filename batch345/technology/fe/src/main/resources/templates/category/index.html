@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome!</title>
+    <title>Category</title>
 </head>
 <body>
     <div layout:fragment="content">
@@ -22,15 +22,19 @@
             <div>
                 <div class="input-group flex-nowrap input-group-sm">
                     <span class="input-group-text" id="addon-wrapping">Show</span>
-                    <input type="text" class="form-control" th:value="${#lists.size(category)}">
+                    <input th:if="${category != null}" type="text" class="form-control" th:value="${#lists.size(category)}">
+                    <input th:unless="${category != null}" type="text" class="form-control" th:value=0>
                     <span class="input-group-text" id="addon-wrapping">Entries</span>
                 </div>
             </div>
             <div style="width: 40%;">
-                <div class="input-group input-group-sm mb-3">
-                    <input type="text" class="form-control" placeholder="Search Categories"  aria-describedby="button-addon2">
-                    <button class="btn btn-outline-dark" type="button" id="button-addon2"><i class="fas fa-search"></i></button>
-                </div>
+                <form id="frmFilter">
+                    <div class="input-group input-group-sm mb-3">
+                        <input th:if="${filter!=null}" th:value="${filter}" name="filter" id="txtFilter" type="text" class="form-control" placeholder="Search Categories"  aria-describedby="button-addon2">
+                        <input th:unless="${filter!=null}" name="filter" id="txtFilter" type="text" class="form-control" placeholder="Search Categories"  aria-describedby="button-addon2">
+                        <button class="btn btn-outline-dark" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -46,7 +50,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="item:${category}">
+                <tr th:each="item:${category}" th:if="${category != null}">
                     <th scope="row" th:text="${item.id}">1</th>
                     <td th:text="${item.categoryName}">Dessert</td>
                     <td th:text="${item.description}">Category of Dessert</td>
@@ -62,6 +66,8 @@
             </tbody>
         </table>
         <!-- TABLE END -->
+        
+        <div th:unless="${category != null}" th:text="${'Data Tidak Ditemukan'}" class="text-danger text-center text fst-italic border-bottom pb-3"></div>
     
 
         <script>
@@ -81,6 +87,29 @@
 
                 $("#staticModalBody").load("/category/" + catId);
                 $("#staticModal").modal("show");
+            })
+
+            $(".btn-danger").click(function() {
+                let catId = $(this).data("id");
+
+                $("#staticModalBody").load("/category/delete/" + catId);
+                $("#staticModal").modal("show");
+                // if (confirm("Are you sure you want to DELETE?")) {
+                //     $.ajax({
+                //         url: `http://localhost:8080/api/category/delete/${catId}/3`,
+                //         type: 'delete',
+                //         success: function(response) {
+                //             alert(`Category ${catId} successfully Deleted!`);
+                //             location.reload();
+                //         },
+                //         error: function(errResponse) {
+                //             alert("Failed to Deleted");
+                //             console.error(errResponse.responseText);
+                //         }
+                //     })
+                // } else {
+                //     alert("You clicked Cancel");
+                // }
             })
         </script>
     </div>
