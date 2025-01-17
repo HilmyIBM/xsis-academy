@@ -4,14 +4,18 @@
         <form th:action="@{~/category/save}" id="formNewCategory" method="post">
             <div class="form-group">
                 <label for="txtName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="txtName" name="name"/>
+                <input type="text" class="form-control" id="txtName" name="categoryName"/>
+<!-- 
+                <label for="txtName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="txtName" name="categoryName" th:value="${category.categoryName}"/> -->
             </div>
             <div class="form-group">
                 <label for="txtDesc" class="form-label">Description</label>
-                <input type="text" class="form-control" id="txtDesc" name="desc"/>
+                <input type="text" class="form-control" id="txtDesc" name="description"/>
             </div>
+            <input type="hidden" class="form-control" id="txtDesc" name="createBy" value="2"/>
             <div class="text-right d-flex justify-content-end mt-3">
-                <button class="btn btn-success"><i class="fas fa-save"></i> Save</button>
+                <button class="btn btn-success" type="submit"><i class="fas fa-save"></i> Save</button>
             </div>
         </form>
     </div>
@@ -19,5 +23,38 @@
 <script>
     $(document).ready(function(){
         $("#staticModalLabel").text($("#txtTitle").text());
+        $("#formEditCategory").validate({
+            "rules": {
+                "categoryName": {
+                    "required" : true,
+                    "maxlength" : 100,
+                    "minlength" : 3
+                },
+                "description":{
+                    "maxlength": 100
+                }
+            }
+        });
+        $("#formNewCategory").submit(function(e){
+            e.preventDefault();
+            if($("#formNewCategory").valid()){
+                $.ajax({
+                    url: "/category/create",
+                    type: "post",
+                    data: $("#formNewCategory").serialize(),
+                    dataType: "json",
+                    beforeSend: () => {
+                        alert("mengirim data ke api");
+                    },
+                    success: function(response){
+                        alert("Category " + response.categoryName + " succesfully updated!");
+                        location.reload();
+                    },
+                    error: function(errResponse){
+                        console.error("update Category failed " + errResponse.responseText);
+                    }
+                });
+            }
+        });
     })
 </script>

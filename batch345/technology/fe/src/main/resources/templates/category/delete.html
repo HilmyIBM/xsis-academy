@@ -1,0 +1,42 @@
+<span id="txtTitle" class="d-none" th:text="${title}"></span>
+<div class="card">
+    <div class="card-body">
+        <div>Delete form</div>
+        <div th:text="${category.id}"></div>
+        <form th:action="@{~/category/delete-confirm}" id="formDeleteCategory" method="post">
+            <input type="hidden" name="id" id="txtId" th:value="${category.id}">
+            <input type="hidden" name="updateBy" id="txtId" value="2">
+            <div class="d-flex justify-content-end mt-3">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#staticModalLabel").text($("#txtTitle").text());
+        $("#formDeleteCategory").submit(
+            function(e){
+                e.preventDefault();
+                if($("#formDeleteCategory").valid()){
+                    $.ajax({
+                        url: "/category/delete-confirm",
+                        type: "post",
+                        data: $("#formDeleteCategory").serialize(),
+                        dataType: "json",
+                        beforeSend: () => {
+                            alert("mengirim data ke apinya");
+                        },
+                        success: function(response){
+                            alert("Category " + response.categoryName + " succesfully updated!");
+                            location.reload();
+                        },
+                        error: function(errResponse){
+                            alert("update Category failed " + errResponse.responseText);
+                            console.error("update Category failed " + errResponse.responseText);
+                        }
+                    });
+                }
+            });
+    });
+</script>

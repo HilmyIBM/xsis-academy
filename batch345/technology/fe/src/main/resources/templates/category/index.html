@@ -41,9 +41,9 @@
                 </div>
                 <div class="gap-3 d-flex align-items-center">
                     <p class="m-0">Search:</p>
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    <form class="d-flex" id="frmFilter">
+                        <input name="filter" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button type="submit" class="btn btn-outline-success">Search</button>
                       </form>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                             <td scope="col">action</th>
                         </tr>
                     </thead>
-                    <tbody class="" style="border-top: white;">
+                    <tbody class="" style="border-top: white;" th:if="${category!=null}">
                       <tr th:each="item:${category}">
                         <td scope="row" th:text="${item.id}">1</th>
                         <td th:text="${item.categoryName}">Appetizer</td>
@@ -67,15 +67,15 @@
                         <td class="">
                             <div class="">
                                 <button th:data-id="${item.id}" type="button" title="edit" class="btn btn-success text-dark">Edit</button>
-                                <button th:data-id="${item.id}" type="button" title="delete" class="btn btn-danger text-light">Delete</button>
+                                <button th:data-id="${item.id}" type="button" id= "btnDelete" title="delete" class="btn btn-danger text-light">Delete</button>
                                 <button th:data-id="${item.id}" type="button" id="btnDetail" title="detail" class="btn btn-warning text-light">Detail</button>
                             </div>
                         </td>
                       </tr>
                     </tbody>
-                    
                 </table>
             </div>
+            <div th:unless="${category != null}" class="text-center text-danger" th:text="${errorMsg}">Error</div>
             <div class="d-flex justify-content-between">
                 <div>
                     <p class="m-0">Page 1 of 2</p>
@@ -95,14 +95,13 @@
                 $("#staticModalBody").load("/category/edit/" + catID);
                 $("#staticModal").modal("show");
             });
-            // $(".btn-danger").click(function(e){
-            //     let catID = $(this).data("id");
-            //     $("#staticModalBody").load("/catergory/" + catID);
-            //     $("#staticModal").modal("show");
-            // });
+            $("#btnDelete").click(function(e){
+                let catID = $(this).data("id");
+                $("#staticModalBody").load("/category/delete/" + catID);
+                $("#staticModal").modal("show");
+            });
             $("#btnDetail").click(function(e){
                 let catID = $(this).data("id");
-
                 $("#staticModalBody").load("/category/" + catID);
                 $("#staticModal").modal("show");
             });

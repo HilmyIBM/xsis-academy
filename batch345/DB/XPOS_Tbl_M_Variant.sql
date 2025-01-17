@@ -10,7 +10,7 @@ CREATE TABLE Tbl_M_Variant(
 	create_date TIMESTAMP DEFAULT NOW(),
 	update_by int NULL,
 	update_date TIMESTAMP NULL,
- CONSTRAINT PK_Tbl_M_Variant PRIMARY KEY(id)
+ 	CONSTRAINT PK_Tbl_M_Variant PRIMARY KEY(id)
 )
 INSERT INTO tbl_m_variant(category_id,name, description, create_by) 
 VALUES

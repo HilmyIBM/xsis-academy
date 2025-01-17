@@ -1,27 +1,23 @@
 <span id="txtTitle" class="d-none" th:text="${title}"></span>
 <div class="card">
     <div class="card-body">
-        <form th:action="@{~/category/update}" id="formEditCategory" method="post">
-            <input type="hidden" name="id" id="txtId" th:value="${category.id}">
-            <input type="hidden" name="updateBy" id="txtUpdateBy" value="2">
+        <form th:action="@{~/category/save}" id="formNewCategory" method="post">
             <div class="form-group">
                 <label for="txtName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="txtName" name="categoryName" th:value="${category.categoryName}"/>
+                <input type="text" class="form-control" id="txtName" name="categoryName"/>
             </div>
-            <div class="mt-3 form-group">
-                <label for="txtName" class="form-label">Description</label>
-                <input type="text" class="form-control" id="txtName" name="description" th:value="${category.description}"/>
-            </div>
-            <div class="d-flex justify-content-end mt-3">
-                <button type="submit" class="btn btn-success">Submit</button>
-            </div>
-            <!-- <div class="form-group">
+            <div class="form-group">
                 <label for="txtDesc" class="form-label">Description</label>
-                <input type="text" class="form-control" id="txtDesc" name="desc" th:value="${category.desc}"/>
+                <input type="text" class="form-control" id="txtDesc" name="description"/>
             </div>
+            <div class="form-group">
+                <label for="txtDesc" class="form-label">Select Category</label>
+                <input type="text" class="form-control" id="txtDesc" name="description"/>
+            </div>
+            <input type="hidden" class="form-control" id="txtDesc" name="createBy" value="2"/>
             <div class="text-right d-flex justify-content-end mt-3">
-                <button class="btn btn-success"><i class="fas fa-edit"></i> Update</button>
-            </div> -->
+                <button class="btn btn-success" type="submit"><i class="fas fa-save"></i> Save</button>
+            </div>
         </form>
     </div>
 </div>
@@ -40,13 +36,13 @@
                 }
             }
         });
-        $("#formEditCategory").submit(function(e){
+        $("#formNewCategory").submit(function(e){
             e.preventDefault();
-            if($("#formEditCategory").valid()){
+            if($("#formNewCategory").valid()){
                 $.ajax({
-                    url: "/category/update",
+                    url: "/category/create",
                     type: "post",
-                    data: $("#formEditCategory").serialize(),
+                    data: $("#formNewCategory").serialize(),
                     dataType: "json",
                     beforeSend: () => {
                         alert("mengirim data ke api");
@@ -61,5 +57,5 @@
                 });
             }
         });
-    });
+    })
 </script>
