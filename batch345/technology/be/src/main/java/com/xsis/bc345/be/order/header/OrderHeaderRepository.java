@@ -12,5 +12,5 @@ public interface OrderHeaderRepository extends JpaRepository<OrderHeaderModel, L
     Optional<List<OrderHeaderModel>> findAllByDeleted(boolean deleted);
 
     Optional<OrderHeaderModel> findByIdAndDeleted(Long id, boolean deleted);
-    
+
 }

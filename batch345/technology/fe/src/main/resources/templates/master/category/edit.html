@@ -1,19 +1,19 @@
 <input type="hidden" id="txtTitle" th:value="${title}" />
 <div class="card">
     <div class="card-body">
-        <form th:action="@{~/category/update}" id="frmEditCategory" method="post">
-            <input type="hidden" name="id" id="txtId" th:value="${category.}" />
+        <form id="frmEditCategory">
+            <input type="hidden" name="id" id="txtId" th:value="${category.getId()}" />
             <input type="hidden" name="updateBy" id="txtUpdateby" value="2" />
             <div class="form-group">
                 <label for="txtName" class="form-label h6">Name</label>
-                <input type="text" class="form-control" id="txtName" name="name" th:value="${category.name}" />
+                <input type="text" class="form-control" id="txtName" name="categoryName" th:value="${category.getCategoryName()}" />
             </div>
             <div class="form-group">
                 <label for="txtDescription" class="form-label h6">Description</label>
-                <input type="text" class="form-control" id="txtDescription" name="description" th:value="${category.description}" />
+                <input type="text" class="form-control" id="txtDescription" name="description" th:value="${category.getDescription()}" />
             </div>
             <div class="d-flex justify-content-end mt-3">
-                <button class="btn btn-success"><i class="fas fa-edit"></i> Update</button>
+                <button type="submit" class="btn btn-success"><i class="fas fa-edit"></i> Update</button>
             </div>
         </form>
     </div>
@@ -21,5 +21,40 @@
 <script>
     $(document).ready(function(){
         $("#staticModalLabel").text($("#txtTitle").val());
+
+        $("#frmEditCategory").validate({
+            "rules" : {
+                "categoryName": {
+                    "required": true,
+                    "maxlength": 100,
+                    "minlength": 3
+                },
+                "description": {
+                    "maxlength": 100
+                }
+            },
+            "errorClass": "text-danger"
+        });
+        $("#frmEditCategory").submit(function(e) {
+            e.preventDefault();
+            if ($("#frmEditCategory").valid()) {
+                $.ajax({
+                    url: "/category/update",
+                    type: "post",
+                    data: $("#frmEditCategory").serialize(),
+                    dataType: "json",
+                    beforeSend: () => {
+                        // alert("mengirim data ke api");
+                    },
+                    success: function(response) {
+                        alert("Category " + response.categoryName + " succesfully updated!");
+                        location.reload();
+                    },
+                    error: function(errResponse) {
+                        console.error("Update Category Failed: " + errResponse.responseText);
+                    }
+                });
+            }
+        });
     });
 </script>

@@ -45,12 +45,12 @@ public class OrderHeaderModel {
     @Column(name = "update_date")
     private LocalDateTime updateDate;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTrxCode() {

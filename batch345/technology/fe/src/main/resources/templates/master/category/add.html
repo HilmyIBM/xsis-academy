@@ -1,10 +1,10 @@
 <span class="d-none" th:text="${title}" id="titleAttr"></span>
 <div class="card">
     <div class="card-body">
-        <form th:action="@{~/category/add}" id="formAddCategory" method="post">
+        <form id="formAddCategory" method="post">
             <div class="form-group">
                 <label for="txtName" class="form-label">Name</label>
-                <input type="text" name="name" id="txtName" class="form-control" />
+                <input type="text" name="categoryName" id="txtName" class="form-control" />
                 <label for="txtDescription" class="form-label">Description</label>
                 <input type="text" name="description" id="txtDescription" class="form-control" />
                 <div class="d-flex justify-content-end">
@@ -19,5 +19,41 @@
 <script>
     $(document).ready(function () {
         $('#titleModalSpan').text($('#titleAttr').text());
+
+        $("#formAddCategory").validate({
+            "rules" : {
+                "categoryName": {
+                    "required": true,
+                    "maxlength": 100,
+                    "minlength": 3
+                },
+                "description": {
+                    "maxlength": 100
+                }
+            },
+            "errorClass": "text-danger"
+        });
+
+        $("#formAddCategory").submit(function(e) {
+            e.preventDefault();
+            if ($("#formAddCategory").valid()) {
+                $.ajax({
+                    url: "/category/create",
+                    type: "post",
+                    data: $("#formAddCategory").serialize(),
+                    dataType: "json",
+                    beforeSend: () => {
+                        // alert("mengirim data ke api");
+                    },
+                    success: function(response) {
+                        alert("Category " + response.categoryName + " succesfully updated!");
+                        location.reload();
+                    },
+                    error: function(errResponse) {
+                        console.error("Create new Category Failed: " + errResponse.responseText);
+                    }
+                });
+            }
+        });
     });
 </script>

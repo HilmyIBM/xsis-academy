@@ -1,6 +1,5 @@
 package com.xsis.bc345.be.category;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -30,9 +29,9 @@ public class CategoryService {
         }
     }
 
-    public Optional<CategoryModel> getById(int id) {
+    public Optional<CategoryModel> getById(int id, boolean deleted) {
         return categoryRepository
-                .findByIdAndDeleted(id, false);
+                .findByIdAndDeleted(id, deleted);
     }
 
     public Optional<List<CategoryModel>> getByNameOrDescription(String filter) {
@@ -50,8 +49,12 @@ public class CategoryService {
                 findAllByDescriptionLikeIgnoreCase(description);
     }
 
-    public Optional<CategoryModel> createCategory(CategoryModel categoryModel) {
-        return Optional.of(categoryRepository.save(categoryModel));
+    public CategoryModel createCategory(CategoryModel categoryModel) {
+        try {
+            return categoryRepository.save(categoryModel);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
     }
 
     public CategoryModel updateCategory(CategoryModel categoryModel) {

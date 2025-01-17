@@ -17,6 +17,11 @@ public class CategoryModel {
     private long updateBy;
     private LocalDateTime updateDate;
 
+    // Error
+    private String error;
+    private String message;
+    private int status;
+
     public Integer getId() {
         return id;
     }
@@ -79,6 +84,30 @@ public class CategoryModel {
 
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     @Override
