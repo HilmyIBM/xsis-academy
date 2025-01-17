@@ -1,19 +1,55 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorate="~{fragments/layout}" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragments/layout}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catalog</title>
 </head>
+
 <body>
     <div layout:fragment="content">
         <h1>Catalog</h1>
-        <div class="container d-flex flex-column">
-            <div class="menu"></div>
-            <div class="listMenu"></div>
+        <div class="container d-flex flex-column bg-secondary p-1" style="--bs-bg-opacity:.25">
+            <div class="menu d-flex flex-row justify-content-between gap-1">
+                <div
+                    class="totalProduct d-flex justify-content-center align-items-center bg-primary container-fluid flex-column">
+                    <p class="mb-0 text-white">4</p>
+                    <p class="text-white">Total Product</p>
+                </div>
+                <div
+                    class="estimatedPrice d-flex justify-content-center align-items-center bg-success container-fluid flex-column">
+                    <p class="mb-0 text-white">54000</p>
+                    <p class="text-white">Estimate Price</p>
+                </div>
+                <div
+                    class="addToCard d-flex justify-content-center align-items-center bg-warning container-fluid flex-column">
+                    <p class="mb-0 text-white"><i class="fas fa-shopping-basket"></i></p>
+                    <p class="text-white">Total Product</p>
+                </div>
+
+            </div>
+            <div class="listMenu d-flex flex-row gap-1 mt-2">
+                <div class="item d-flex flex-column container-fluid">
+                    <img src="https://www.justonecookbook.com/wp-content/uploads/2022/11/Japanese-Custard-Pudding-1211-I-2.jpg"
+                        alt="pudding" class="img-fluid">
+                </div>
+                <div class="item d-flex flex-column container-fluid">
+                    <img src="https://www.justonecookbook.com/wp-content/uploads/2022/11/Japanese-Custard-Pudding-1211-I-2.jpg"
+                        alt="pudding" class="img-fluid">
+                </div>
+                <div class="item d-flex flex-column container-fluid">
+                    <img src="https://www.justonecookbook.com/wp-content/uploads/2022/11/Japanese-Custard-Pudding-1211-I-2.jpg"
+                        alt="pudding" class="img-fluid">
+                </div>
+                <div class="item d-flex flex-column container-fluid">
+                    <img src="https://www.justonecookbook.com/wp-content/uploads/2022/11/Japanese-Custard-Pudding-1211-I-2.jpg"
+                        alt="pudding" class="img-fluid">
+                </div>
+            </div>
         </div>
     </div>
 </body>
+
 </html>

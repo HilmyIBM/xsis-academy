@@ -14,53 +14,61 @@
         <div class="d-flex flex-row justify-content-between mt-2">
             <form action="#">
                 <div class="input-group container-fluid">
-                    <input type="text" class="form-control" placeholder="Total Entries"
-                        aria-label="Total Entries" aria-describedby="button-addon2">
+                    <input type="text" class="form-control" placeholder="Total Entries" aria-label="Total Entries"
+                        aria-describedby="button-addon2">
                     <button class="btn btn-outline-secondary" type="button" id="button-addon2">Enter</button>
                 </div>
             </form>
             <form action="#">
                 <div class="input-group container-fluid">
-                    <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fas fa-search"></i></button>
+                    <input type="text" class="form-control" placeholder="Search" aria-label="Search"
+                        aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i
+                            class="fas fa-search"></i></button>
                 </div>
             </form>
         </div>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Image</th>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nama Product</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Variant</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Stock</th>
-                    <th scope="col">Is Delete</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><img src="https://images2.minutemediacdn.com/image/upload/c_crop,w_1458,h_820,x_0,y_0/c_fill,w_1440,ar_16:9,f_auto,q_auto,g_auto/images/voltaxMediaLibrary/mmsport/video_games/01j6sekt06zwfkneznn5.jpg"
-                            alt="Jane Doe" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;"></td>
-                    <th scope="row">1</th>
-                    <td>Carbonara</td>
-                    <td>Main Course</td>
-                    <td>Pasta</td>
-                    <td>RP. 35000</td>
-                    <td>1</td>
-                    <td>False</td>
-                    <td>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
-                            <button type="button" class="btn btn-warning"><i class="fas fa-info-circle"></i></button>
-                            <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- Make the table center horizontally -->
+        <div class="text-center">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Image</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nama Product</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Variant</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">Is Delete</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="align-middle">
+                    <tr th:each="item:${product}">
+                        <td><img src="https://images2.minutemediacdn.com/image/upload/c_crop,w_1458,h_820,x_0,y_0/c_fill,w_1440,ar_16:9,f_auto,q_auto,g_auto/images/voltaxMediaLibrary/mmsport/video_games/01j6sekt06zwfkneznn5.jpg"
+                                alt="Jane Doe"
+                                style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+                        </td>
+                        <th scope="row" th:text="${item.id}">1</th>
+                        <td th:text="${item.name}">Carbonara</td>
+                        <td th:text="${}">Main Course</td>
+                        <td th:text="${item.variantId}">Pasta</td>
+                        <td>RP. 35000</td>
+                        <td>1</td>
+                        <td>False</td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
+                                <button type="button" class="btn btn-warning"><i
+                                        class="fas fa-info-circle"></i></button>
+                                <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 
