@@ -14,73 +14,110 @@
                     data-bs-toggle="modal" data-bs-target="#staticModal"><i class="fas fa-plus"></i></button>
             </div>
         </div>
-        <div class="d-flex justify-content-between" th:if="${errorMsg == null}">
-            <div class="w-50">
-                <div class="input-group w-75">
-                    <span class="input-group-text">Show</span>
-                    <input type="text" th:value="${#lists.size(category)}" class="form-control bg-white" readonly />
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div class="input-group d-flex justify-content-start w-25 text-center text-lg-start">
                     <span class="input-group-text">Entries</span>
+                    <input type="text" th:if="${category != null}" th:value="${#lists.size(category)}" class="form-control bg-white" readonly />
+                    <input type="text" th:unless="${category != null}" value="0" class="form-control bg-white" readonly />
                 </div>
             </div>
-            <div class="w-50">
-                <form action="#" id="frmFind">
+            <!-- <div class="w-25">&nbsp;</div> -->
+            <div class="col-12 col-lg-6">
+                <form id="frmFilter">
                     <div class="input-group">
-                        <input type="text" id="txtFind" class="form-control" />
-                        <a class="btn btn-secondary input-group-text">Find</a>
+                        <input th:if="${filter != null}" th:value="${filter}" name="filter" type="text" id="txtFilter" class="form-control" placeholder="Name or Description..." />
+                        <input th:unless="${filter != null}" name="filter" type="text" id="txtFilter" class="form-control" placeholder="Name or Description..." />
+                        <button type="submit" class="input-group-text"><i class="fas fa-filter" title="Filter by Name or Description..."></i></button>
                     </div>
                 </form>
             </div>
         </div>
-       <div>
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th class="col-1">ID</th>
-                        <th class="col-3">Name</th>
-                        <th class="col-6">Description</th>
-                        <th class="col-2">Action</th>
-                    </tr>
-                </thead>
-                <tbody th:if="${category != null and !#lists.isEmpty(category)}">
-                    <tr th:each="item : ${category}">
-                        <td th:text="${item.id}">1</td>
-                        <td th:text="${item.categoryName}">Makanan</td>
-                        <td th:text="${item.description}">Kategori Makanan</td>
-                        <td>
-                            <div class="btn-group">
-                                <button th:data-id="${item.id}" class="btn btn-info" title="Details..."><i class="fas fa-list-alt"></i></button>
-                                <button th:data-id="${item.id}" class="btn btn-warning" title="Edit..."><i class="fas fa-edit"></i></button>
-                                <button th:data-id="${item.id}" class="btn btn-danger" title="Delete.."><i class="fas fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th class="col-1">ID</th>
+                    <th class="col-3">Name</th>
+                    <th class="col-6">Description</th>
+                    <th class="col-2">Action</th>
+                </tr>
+            </thead>
+            <tbody th:if="${category != null}">
+                <tr th:each="item : ${category}">
+                    <td th:text="${item.id}">1</td>
+                    <td th:text="${item.categoryName}">Makanan</td>
+                    <td th:text="${item.description}">Kategori Makanan</td>
+                    <td>
+                        <div class="btn-group">
+                            <button th:data-id="${item.id}" class="btn btn-info" title="Details..."><i class="fas fa-list-alt"></i></button>
+                            <button th:data-id="${item.id}" class="btn btn-warning" title="Edit..."><i class="fas fa-edit"></i></button>
+                            <button th:data-id="${item.id}" class="btn btn-danger" title="Delete.."><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-            <div th:unless="${errorMsg == null}" class="text-center text-danger h6 fst-italic border-bottom pb-3" th:text="${errorMsg}">
-                Category doesn't exist!
-            </div>
+        <div th:unless="${category != null}" class="text-center text-danger h6 fst-italic border-bottom pb-3" th:text="${errorMsg}">
+        </div>
 
-            <script>
-                $("#btnAdd").click(function(e){
-                    $("#staticModalBody").load("/category/add");
+        <script>
+            $("#btnAdd").click(function(e){
+                $("#staticModalBody").load("/category/add");
+            });
+
+            $(".btn-info").click(function (e) {
+                let catId = $(this).data("id");
+
+                $("#staticModalBody").load("/category/" + catId);
+                $("#staticModal").modal("show");
+            });
+
+            $(".btn-warning").click(function(e) {
+                let catId = $(this).data("id");
+
+                $("#staticModalBody").load("/category/edit/" + catId);
+                $("#staticModal").modal("show");
+            });
+
+            $(".btn-danger").click(function(e) {
+                let catId = $(this).data("id");
+
+                $("#staticModalBody").load("/category/delete/" + catId);
+                $("#staticModal").modal("show");
+                // if (confirm("Are sure to delete Category with ID " + catId + "?")) {
+                //     $.ajax({
+                //         url: `http://localhost:8080/api/category/delete/${catId}/3`,
+                //         type: 'delete',
+                //         success: function(response) {
+                //             alert(`Category ${catId} successfully Deleted!`);
+                //             location.reload();
+                //         },
+                //         error: function(errResponse) {
+                //             alert(`Failed to delete Category ${catId}!`);
+                //             console.error(errResponse);
+                //         }
+                //     });
+                // }
+            });
+
+            $(document).ready(function(e) {
+                $.ajax({
+                    url:'',
+                    dataType:'json',
+                    beforeSend: function(e){
+                        $("#dataTable").html(
+                            `<div class="spinner-border" role="status">`
+                            + '<span class="visually-hidden">Loading...</span>'
+                            + '</div>'
+                        );
+                    },
+                    success: function(response) {
+                        $("#dataTable").html(response); 
+                    }
                 });
-
-                $(".btn-info").click(function (e) {
-                    let catId = $(this).data("id");
-
-                    $("#staticModalBody").load("/category/" + catId);
-                    $("#staticModal").modal("show");
-                });
-
-                $(".btn-warning").click(function(e) {
-                    let catId = $(this).data("id");
-
-                    $("#staticModalBody").load("/category/edit/" + catId);
-                    $("#staticModal").modal("show");
-                });
-            </script>
-       </div> 
+            });
+        </script>
     </div>
 </body>
 </html>

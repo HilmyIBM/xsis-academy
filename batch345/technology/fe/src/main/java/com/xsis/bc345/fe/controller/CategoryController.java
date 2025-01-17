@@ -1,5 +1,7 @@
 package com.xsis.bc345.fe.controller;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,17 +23,22 @@ import com.xsis.bc345.fe.models.CategoryView;
 public class CategoryController {
     //HTTP Client
     private RestTemplate restTemplate = new RestTemplate();
-
+    
     //API URL
     private final String apiUrl = "http://localhost:8080/api/category";
 
     @GetMapping("")
-    ModelAndView index() {
+    ModelAndView index(String filter) {
         ModelAndView view = new ModelAndView("/category/index");
         ResponseEntity<CategoryView[]> apiResponse = null;
 
         try {
-            apiResponse = restTemplate.getForEntity(apiUrl, CategoryView[].class);
+            if (filter == null || filter.isBlank()) {
+                apiResponse = restTemplate.getForEntity(apiUrl, CategoryView[].class);
+            }
+            else {
+                apiResponse = restTemplate.getForEntity(apiUrl + "/filter/" + filter.trim(), CategoryView[].class);
+            }
             
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 // CategoryView[] data = apiResponse.getBody();
@@ -44,6 +52,8 @@ public class CategoryController {
             view.addObject("errorMsg", e.getMessage());
         }
 
+        view.addObject("filter", filter);
+        
         return view;
     }
 
@@ -130,8 +140,9 @@ public class CategoryController {
         ResponseEntity<CategoryView> apiResponse = null;
 
         try {
-            restTemplate.put(apiUrl, category);
-            apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + category.getId(), CategoryView.class);
+            // restTemplate.put(apiUrl, category);
+            // apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + category.getId(), CategoryView.class);
+            apiResponse = restTemplate.exchange(apiUrl, HttpMethod.PUT, new HttpEntity<CategoryView>(category), CategoryView.class);
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 return new ResponseEntity<CategoryView>(apiResponse.getBody(), HttpStatus.OK);
@@ -141,6 +152,45 @@ public class CategoryController {
             }
         }
         catch(Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/delete/{id}")
+    public ModelAndView delete(@PathVariable int id) {
+        ModelAndView view = new ModelAndView("/category/delete");
+
+        view.addObject("id", id);
+        view.addObject("title", "Delete Category");
+
+        return view;
+    }
+
+    @PostMapping("/delete/{id}/{userId}")
+    public ResponseEntity<?> delete(@PathVariable int id, @PathVariable int userId) {
+        ResponseEntity<CategoryView> apiResponse = null;
+        CategoryView category = new CategoryView();
+
+        category.setId(id);
+        category.setUpdateBy(userId);
+
+        try {
+            // restTemplate.delete(apiUrl + "/delete/" + id + "/" + userId);
+            apiResponse = restTemplate.exchange(
+                apiUrl + "/delete/" + id + "/" + userId,
+                HttpMethod.DELETE,
+                new HttpEntity<CategoryView>(category),
+                CategoryView.class
+            );
+
+            if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                return new ResponseEntity<CategoryView>(apiResponse.getBody(), HttpStatus.OK);
+            }
+            else {
+                throw new Exception(apiResponse.getStatusCode().toString() + ": " +  apiResponse.getBody().toString());
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
