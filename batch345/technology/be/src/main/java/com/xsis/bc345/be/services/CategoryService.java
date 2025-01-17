@@ -33,7 +33,7 @@ public class CategoryService {
 
     public List<Category> getByNameOrDescription(String filter) throws Exception {
         return categoryRepo
-                .findByCategoryNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseAndDeleted(filter, filter,
+                .findByCategoryNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(filter, filter,
                         false)
                 .get();
     }

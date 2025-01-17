@@ -27,7 +27,7 @@ public class VariantController {
         try {
             List<Variant> data = variantSvc.getAll();
             if (data.isEmpty()) {
-                return new ResponseEntity<List<Variant>>(new ArrayList<Variant>(), HttpStatus.OK);
+                return new ResponseEntity<List<Variant>>(new ArrayList<Variant>(), HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<List<Variant>>(data, HttpStatus.OK);
         } catch (Exception e) {

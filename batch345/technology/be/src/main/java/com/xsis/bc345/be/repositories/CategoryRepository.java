@@ -22,7 +22,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     Optional<List<Category>> findByCategoryNameContainsIgnoreCase(String categoryName);
 
     // Filtering the 2 column
-    Optional<List<Category>> findByCategoryNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseAndDeleted(String categoryName,
+    Optional<List<Category>> findByCategoryNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(String categoryName,
             String description, boolean deleted);
 
     // 'like clause' using 'Containing'

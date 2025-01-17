@@ -35,7 +35,7 @@ public class CategoryController {
             List<Category> data = categorySvc.getAll();
 
             if (data.size() == 0) {
-                return new ResponseEntity<List<Category>>(new ArrayList<Category>(), HttpStatus.OK); // returning array
+                return new ResponseEntity<List<Category>>(new ArrayList<Category>(), HttpStatus.NO_CONTENT); // returning array
                                                                                                      // []
             }
             return new ResponseEntity<List<Category>>(data, HttpStatus.OK);
@@ -99,7 +99,7 @@ public class CategoryController {
         }
     }
 
-    @DeleteMapping("/delete/{id}/{userId}")
+    @DeleteMapping("delete/{id}/{userId}")
     public ResponseEntity<?> delete(@PathVariable int id, @PathVariable int userId) {
         try {
             Category data = categorySvc.delete(id, userId);
