@@ -31,7 +31,7 @@ public class OrderHeader {
     @Column(name = "total_qty", nullable = false)
     private int totalQty;
 
-    @Column(name = "is_checkedout")
+    @Column(name = "is_checkout")
     private boolean checkedout;
 
     @Column(name = "is_deleted")

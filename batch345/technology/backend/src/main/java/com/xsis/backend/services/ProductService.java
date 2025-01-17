@@ -18,4 +18,8 @@ public class ProductService {
     public List<Product> getAll() throws Exception {
         return productRepository.findByDeleted(false).get();
     }
+
+    public Product create(Product data) throws Exception {
+        return productRepository.save(data);
+    }
 }

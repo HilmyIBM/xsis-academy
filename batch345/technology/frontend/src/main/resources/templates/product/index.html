@@ -17,14 +17,20 @@
       </div>
       <div class="container bg-light mt-3">
         <form action="" class="d-flex justify-content-between">
-          <div>
-            <label for="show">Show</label>
-            <input type="number" />
-            <span>Entries</span>
+          <div class="input-group mb-3 align-items-center w-25">
+            <label for="show" class="me-3">Show</label>
+            <input
+              type="number"
+              class="form-control"
+              th:value="${#lists.size(product)}"
+            />
+            <button class="btn btn-outline-secondary">Entries</button>
           </div>
-          <div>
-            <label for="search">Search</label>
-            <input type="text" />
+          <div
+            class="input-group mb-3 justify-content-end align-items-center w-50"
+          >
+            <label for="search" class="me-3">Search</label>
+            <input type="text" class="form-control" />
             <button class="btn btn-primary">
               <i class="fas fa-search"></i>
             </button>
@@ -45,49 +51,40 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Image</td>
-              <th scope="row">6</th>
-              <td>Carbonara</td>
-              <td>Main Course</td>
+            <tr th:each="item : ${product}">
+              <td th:text="${item.image}">Image</td>
+              <th scope="row" th:text="${item.id}">6</th>
+              <td th:text="${item.name}">Carbonara</td>
+              <td th:text="${item.variantId}">Main Course</td>
               <td>Pasta</td>
-              <td>Rp 35000</td>
-              <td>1</td>
-              <td>False</td>
+              <td th:text="${item.price}">Rp 35000</td>
+              <td th:text="${item.stock}">1</td>
+              <td th:text="${item.deleted}">False</td>
               <td class="d-flex gap-2">
-                <button type="button" class="btn btn-success">Edit</button>
-                <button type="button" class="btn btn-warning">Detail</button>
-                <button type="button" class="btn btn-danger">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Image</td>
-              <th scope="row">3</th>
-              <td>Croissant</td>
-              <td>Appetizer</td>
-              <td>Bread</td>
-              <td>Rp 10000</td>
-              <td>98</td>
-              <td>False</td>
-              <td class="d-flex gap-2">
-                <button type="button" class="btn btn-success">Edit</button>
-                <button type="button" class="btn btn-warning">Detail</button>
-                <button type="button" class="btn btn-danger">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Image</td>
-              <th scope="row">4</th>
-              <td>Garlic Bread</td>
-              <td>Appetizer</td>
-              <td>Bread</td>
-              <td>Rp 10000</td>
-              <td>100</td>
-              <td>False</td>
-              <td class="d-flex gap-2">
-                <button type="button" class="btn btn-success">Edit</button>
-                <button type="button" class="btn btn-warning">Detail</button>
-                <button type="button" class="btn btn-danger">Delete</button>
+                <button
+                  th:data-id="${item.id}"
+                  type="button"
+                  class="btn btn-success btn-edit"
+                  title="Edit..."
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button
+                  th:data-id="${item.id}"
+                  type="button"
+                  class="btn btn-warning btn-detail"
+                  title="Details..."
+                >
+                  <i class="fas fa-list"></i>
+                </button>
+                <button
+                  th:data-id="${item.id}"
+                  type="button"
+                  class="btn btn-danger btn-delete"
+                  title="Delete..."
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -104,6 +101,11 @@
           </ul>
         </div>
       </div>
+      <script>
+        $("#btnAdd").click(function (e) {
+          $("#staticModalBody").load("/product/add");
+        });
+      </script>
     </div>
   </body>
 </html>

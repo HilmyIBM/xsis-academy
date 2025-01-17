@@ -17,14 +17,20 @@
       </div>
       <div class="container bg-light mt-3">
         <form action="" class="d-flex justify-content-between">
-          <div>
-            <label for="show">Show</label>
-            <input type="number" />
-            <span>Entries</span>
+          <div class="input-group mb-3 align-items-center w-25">
+            <label for="show" class="me-3">Show</label>
+            <input
+              type="number"
+              class="form-control"
+              th:value="${#lists.size(product)}"
+            />
+            <button class="btn btn-outline-secondary">Entries</button>
           </div>
-          <div>
-            <label for="search">Search</label>
-            <input type="text" />
+          <div
+            class="input-group mb-3 justify-content-end align-items-center w-50"
+          >
+            <label for="search" class="me-3">Search</label>
+            <input type="text" class="form-control" />
             <button class="btn btn-primary">
               <i class="fas fa-search"></i>
             </button>

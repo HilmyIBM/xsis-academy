@@ -19,4 +19,8 @@ public class VariantService {
         return variantRepository.findByDeleted(false).get();
     }
 
+    public Variant create(Variant data) throws Exception {
+        return variantRepository.save(data);
+    }
+
 }

@@ -1,3 +1,10 @@
+DROP TABLE Tbl_M_Categories;
+DROP TABLE Tbl_M_Customer;
+DROP TABLE Tbl_M_Product;
+DROP TABLE Tbl_M_Variant;
+DROP TABLE Tbl_T_Order_Detail;
+DROP TABLE Tbl_T_Order_Header;
+
 CREATE TABLE
 Tbl_M_Categories (
 id SERIAL PRIMARY KEY NOT NULL,
