@@ -12,31 +12,28 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tbl_m_customer")
-public class Customer {
+@Table(name = "tbl_m_product")
+public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 	
-	@Column(name = "name", length = 50, nullable = false)
+	@Column(name = "variant_id")
+	private int variantId;
+
+	@Column(name = "name", length = 100, nullable = false)
 	private String name;
-	
-	@Column(name = "email", length = 50, unique = true, nullable = false)
-	private String email;
 
-	@Column(name = "password", length = 100, nullable = false)
-	private String password;
-
-	@Column(name = "address")
-	private String address;
-
-	@Column(name = "phone", length = 15, nullable = false)
-	private String phone;
+	@Column(name = "price")
+	private double price;
 	
-	@Column(name = "role_id", nullable = false)
-	private int roleId;
+	@Column(name = "stock")
+	private int stock;
 	
+	@Column(name = "image")
+	private String image;
+
 	@Column(name = "is_deleted")
 	private boolean deleted;
 
@@ -62,6 +59,14 @@ public class Customer {
         this.id = id;
     }
 
+    public int getVariantId() {
+        return this.variantId;
+    }
+
+    public void setVariantId(int variantId) {
+        this.variantId = variantId;
+    }
+
     public String getName() {
         return this.name;
     }
@@ -70,44 +75,28 @@ public class Customer {
         this.name = name;
     }
 
-    public String getEmail() {
-        return this.email;
+    public double getPrice() {
+        return this.price;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public String getPassword() {
-        return this.password;
+    public int getStock() {
+        return this.stock;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
-    public String getAddress() {
-        return this.address;
+    public String getImage() {
+        return this.image;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return this.phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public int getRoleId() {
-        return this.roleId;
-    }
-
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public boolean isDeleted() {

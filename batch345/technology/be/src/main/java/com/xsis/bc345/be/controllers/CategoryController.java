@@ -56,11 +56,14 @@ public class CategoryController {
     @GetMapping("/name/{categoryName}")
     public ResponseEntity<?> getBy(@PathVariable String categoryName) {
         try {
-            Optional<List<Category>> data = categorySvc.getByCategoryName(categoryName);
+            List<Category> data = categorySvc.getByName(categoryName);
+
             return new ResponseEntity<List<Category>>(
-                data.get(), data.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT
+                data,
+                data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT
             );
         } catch (Exception e) {
+            // TODO: handle exception
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -68,11 +71,14 @@ public class CategoryController {
     @GetMapping("/filter/{filter}")
     public ResponseEntity<?> getByFilter(@PathVariable String filter) {
         try {
-            Optional<List<Category>> data = categorySvc.getByNameOrDescription(filter);
+            List<Category> data = categorySvc.getByNameOrDescription(filter);
+
             return new ResponseEntity<List<Category>>(
-                data.get(), data.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT
+                data,
+                data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT
             );
         } catch (Exception e) {
+            // TODO: handle exception
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -93,11 +99,19 @@ public class CategoryController {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @DeleteMapping("")
-    public ResponseEntity<?> delete(@RequestBody final Category data) {
+    @DeleteMapping("/delete/{id}/{userId}")
+    public ResponseEntity<?> delete(@PathVariable int id, @PathVariable int userId) {
         try {
-            return new ResponseEntity<Category>(categorySvc.delete(data), HttpStatus.OK);
+            Category data = categorySvc.delete(id, userId);
+
+            if (data.isDeleted()) {
+                return new ResponseEntity<Category>(data, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<String>("Failed to delete category!", HttpStatus.BAD_REQUEST);
+            }
         } catch (Exception e) {
+            // TODO: handle exception
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

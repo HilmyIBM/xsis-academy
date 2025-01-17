@@ -2,10 +2,10 @@ package com.xsis.bc345.fe.models;
 
 import java.time.LocalDateTime;
 
-public class Category {
+public class CategoryView {
     
-    private String name; 
-    private String descriptions;
+    private String categoryName; 
+    private String description;
     private boolean deleted;
     private int id;
     
@@ -14,8 +14,8 @@ public class Category {
     private int updateBy;
     private LocalDateTime updateDate;
 
-    public String getDescriptions() {
-        return descriptions;
+    public String getDescription() {
+        return description;
     }
     public boolean isDeleted() {
         return deleted;
@@ -33,8 +33,8 @@ public class Category {
         return updateDate;
     }
     
-    public void setDescriptions(String descriptions) {
-        this.descriptions = descriptions;
+    public void setDescription(String description) {
+        this.description = description;
     }
     public void setDeleted(boolean Deleted) {
         this.deleted = Deleted;
@@ -51,11 +51,11 @@ public class Category {
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
-    public String getName() {
-        return name;
+    public String getCategoryName() {
+        return categoryName;
     }
     public int getId() {
         return id;

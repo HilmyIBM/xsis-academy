@@ -6,9 +6,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.xsis.bc345.be.models.Variant;
+import com.xsis.bc345.be.models.Customer;
 
 @Repository
-public interface VariantRepositori extends JpaRepository<Variant, Integer> {
-    Optional<List<Variant>> findByDeleted(boolean deleted);
+public interface CustomerRepository extends JpaRepository<Customer, Integer>{
+     Optional<List<Customer>> findByDeleted(boolean deleted);
 }

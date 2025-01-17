@@ -28,26 +28,40 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody class="text-center">
+                    <tbody class="text-center" th:if="${category != null and !#lists.isEmpty(category)}">
                         <tr th:each="item : ${category}">
-                            <td th:text="${item.id}">1</td>
-                            <td th:text="${item.name}">test</td>
-                            <td th:text="${item.descriptions}">test</td>
+                            <td th:text="${item.id}"></td>
+                            <td th:text="${item.categoryName}"></td>
+                            <td th:text="${item.description}"></td>
                             <td>
-                                <button th:value="${item.id}" class="btn btn-success btn-sm">Edit</button>
-                                <button th:value="${item.id}" class="btn btn-warning btn-sm">Detail</button>
-                                <button th:value="${item.id}" class="btn btn-danger btn-sm">Delete</button>
+                                <button th:data-id="${item.id}" class="btn btn-success btn-sm">Detail</button>
+                                <button th:data-id="${item.id}" class="btn btn-warning btn-sm">Edit</button>
+                                <button th:data-id="${item.id}" class="btn btn-danger btn-sm">Delete</button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+
+                <div th:unless="${errorMsg == null}" class="text-center text-danger h6 fst-italic border-bottom pb-3" th:text="${errorMsg}">
+                    Category doesn't exist!
+                </div>
+    
                 <script>
-                    $("#btnAdd").click(function (e) {
+                    $("#btnAdd").click(function(e){
                         $("#staticModalBody").load("/category/add");
                     });
+    
                     $(".btn-success").click(function (e) {
                         let catId = $(this).data("id");
-                        $("#staticModalBody").load("/category/edit" + catId);
+    
+                        $("#staticModalBody").load("/category/" + catId);
+                        $("#staticModal").modal("show");
+                    });
+    
+                    $(".btn-warning").click(function(e) {
+                        let catId = $(this).data("id");
+    
+                        $("#staticModalBody").load("/category/edit/" + catId);
                         $("#staticModal").modal("show");
                     });
                 </script>
