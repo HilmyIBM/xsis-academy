@@ -1,0 +1,148 @@
+<html lang="en" xmlns="http://www.thymeleaf.org">
+
+<form action="#" method="post">
+<table class="table">
+<tr>
+	<td colspan="2">Product Form</td>
+</tr>
+<tr>
+	<td>Category</td>
+	<td>
+		<select id="category" onclick="getvariant(this.value)" class="form-control">
+		</select>
+	</td>
+</tr>
+<tr>
+	<td>Variant</td>
+	<td>
+		<input type="hidden" id="variantIdtext">
+		<select class="variant" id="variantId" onclick="setvariant(this.value)">
+		</select>
+	</td>
+</tr>
+<tr>
+	<td>Initial</td>
+	<td><input type="text" id="initial"></td>
+</tr>
+<tr>
+	<td>Name</td>
+	<td><input type="text" id="name"></td>
+</tr>
+<tr>
+	<td>Description</td>
+	<td><input type="text" id="description"></td>
+</tr>
+<tr>
+	<td>Price</td>
+	<td><input type="text" id="price"></td>
+</tr>
+<tr>
+	<td>Stock</td>
+	<td><input type="text" id="stock"></td>
+</tr>
+<tr>
+	<td>Active</td>
+	<td>
+		<input type="checkbox" id="active" value="true"> <label for="act">Active?</label><br>
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+		<input type="button" class="btn btn-primary" value="Simpan Data" onclick="savedata()">
+	</td>
+</tr>
+</table>
+</form>
+
+<script>
+$.ajax({
+	url:'/api/product/'+$('#dataid').val(),
+	type:'get',
+	contentType:'application/json',
+	success:function(result) {
+		$('#variantIdtext').val(result.variantId);
+		$('#initial').val(result.initial);
+		$('#name').val(result.name);
+		$('#description').val(result.description);
+		$('#price').val(result.price);
+		$('#stock').val(result.stock);
+		if(result.active) {
+			$('#active').attr('checked','checked')
+		}
+	}
+})
+
+$.ajax({
+	url:'/api/product/getcategory',
+	type:'get',
+	contentType:'application/json',
+	success:function(result) {
+		console.log(result)
+		var str = "<option>-- Pilih category --</option>";
+		for(i=0; i<result.length; i++) {
+			str += '<option value="'+result[i].id+'">'+result[i].name+'</option>'
+		}
+		console.log(str)
+		$('#category').html(str);
+	}
+})
+
+function setvariant(id) {
+	$('#variantIdtext').val(id)
+}
+
+function getvariant(catid) {
+	$.ajax({
+		url:'/api/product/getvariantbycategory/'+catid,
+		type:'get',
+		contentType:'application/json',
+		success:function(result) {
+			console.log(result)
+			var str = "";
+			for(i=0; i<result.length; i++) {
+				str += '<option value="'+result[i].id+'">'+result[i].name+'</option>'
+			}
+			console.log(str)
+			$('.variant').html(str);
+		}
+	})
+}
+
+function savedata() {
+	var active = ""
+	if(document.getElementById("active").checked == false) {
+		active = "false"
+	} else {
+		active = "true"
+	}
+
+	var datas = "{";
+	datas += '"variantId":'+$('#variantIdtext').val()+','
+	datas += '"initial":"'+$('#initial').val()+'",'
+	datas += '"name":"'+$('#name').val()+'",'
+	datas += '"description":"'+$('#description').val()+'",'
+	datas += '"price":'+$('#price').val()+','
+	datas += '"stock":'+$('#stock').val()+','
+	datas += '"active":'+active
+	datas += "}"
+	console.log(datas)
+	$.ajax({
+		url:'/api/product/'+$('#dataid').val(),
+		type:'patch',
+		data:datas,
+		contentType:'application/json',
+		success:function(result) {
+			console.log(result)
+			Swal.fire({
+			  icon: 'success',
+			  title: 'Your work has been saved',
+			  showConfirmButton: false,
+			  timer: 2000
+			})
+			location.replace('/product/index')
+		}
+	})
+}
+</script>
+
+</html>

@@ -1,0 +1,84 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<head>
+	<title>POS289::User</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+<h1>User Page</h1>
+
+<p align="right">
+	<button class="btn btn-success" onclick="userform()">+</button>
+</p>
+
+<table class="table">
+<thead>
+	<tr>
+		<th>#</th>
+		<th>Email</th>
+		<th>Username</th>
+		<th>Password</th>
+		<th>Full Name</th>
+		<th>Photo</th>
+		<th>Action</th>
+	</tr>
+</thead>
+<tbody>
+	<tr th:each="item, iter : ${listuser}">
+		<td th:text="${iter.Count}"></td>
+		<td th:text="${item.Email}"></td>
+		<td th:text="${item.UserName}"></td>
+		<td th:text="${item.Password}"></td>
+		<td th:text="${item.FullName}"></td>
+		<td>
+			<!-- a th:href="@{${'/images/' + item.Photo}}" target="_blank" -->
+			<img th:src="@{${'/images/' + item.Photo}}" height="50"><br>
+			<button class="btn btn-sm btn-primary" onclick="openimage(this.value)" th:value="${item.id}">show</button>
+			<!-- a -->
+		</td>
+		<td>
+		<button th:value="${item.Id}" onclick="editform(this.value)" class="btn btn-labeled btn-primary">
+			<span class="btn-label"><i class="fa fa-pencil"></i></span>
+		</button >
+		<button th:value="${item.Id}" onclick="deleteform(this.value)" class="btn btn-labeled btn-danger">
+			<span class="btn-label"><i class="fa fa-trash"></i></span>
+		</button>
+		</td>
+	</tr>
+</tbody>
+</table>
+
+<script>
+function userform() {
+	$.ajax({
+		url : '/user/form',
+		type : 'get',
+		contentType : 'html',
+		success : function(result) {
+			$('#mymodal').modal('show')
+			$('.modal-title').html('Form Tambah User')
+			$('.modal-body').html(result)
+		}
+	})
+}
+
+function openimage(id) {
+	$.ajax({
+		url : '/user/getuser/'+id,
+		type : 'get',
+		contentType : 'html',
+		success : function(result) {
+			$('#mymodal').modal('show')
+			$('.modal-title').html('Show photo')
+			$('.modal-body').html(result)
+		}
+	})
+}
+</script>
+
+</div>
+
+</body>
+</html>

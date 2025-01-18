@@ -1,0 +1,67 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<head>
+	<title>POS289::Variant</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+<h1>Variant Page</h1>
+
+<p align="right">
+	<button onclick="addform()" class="btn btn-success">+ Tambah Variant</button>
+</p>
+
+<table class="table">
+<thead>
+	<tr>
+		<th>#</th>
+		<th>Category</th>
+		<th>Initial</th>
+		<th>Name</th>
+		<th>Active</th>
+		<th>Create By</th>
+		<th>Action</th>
+	</tr>
+</thead>
+<tbody>
+	<tr th:each="item, iter : ${variant}">
+		<td th:text="${iter.count}"></td>
+		<td th:text="${item.category.Name}"></td>
+		<td th:text="${item.Initial}"></td>
+		<td th:text="${item.Name}"></td>
+		<td><input type="checkbox" th:checked="${item.Active}" disabled></td>
+		<td th:text="${item.Create_by}"></td>
+		<td>
+		<button th:value="${item.Id}" onclick="editform(this.value)" class="btn btn-labeled btn-primary">
+			<span class="btn-label"><i class="fa fa-pencil"></i></span>
+		</button >
+		<button th:value="${item.Id}" onclick="deleteform(this.value)" class="btn btn-labeled btn-danger">
+			<span class="btn-label"><i class="fa fa-trash"></i></span>
+		</button>
+		</td>
+	</tr>
+</tbody>
+</table>
+
+<script>
+function addform() {
+	$.ajax({
+		url:'/variant/form',
+		type:'get',
+		contentType:'html',
+		success:function(result) {
+			$("#mymodal").modal('show')
+			$(".modal-title").html('Tambah data variant')
+			$(".modal-body").html(result)
+		}
+	})	
+}
+</script>
+
+</div>
+
+</body>
+</html>
+	

@@ -1,0 +1,294 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<head>
+	<title>POS289::Order</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+<h1>Order Page</h1>
+
+<table width="100%" cellpadding="10">
+<thead>
+<tr>
+	<td bgcolor="lightblue">
+	<button class="btn btn-primary" id="neworder" onclick="neworder()">New Order</button>
+	<button class="btn btn-danger" id="payment" onclick="payment()">Payment</button>
+	<button class="btn btn-success" id="newtrans" onclick="newtrans()">New Trans.</button>
+	<input type="hidden" id="orderheaderid"><input type="text" id="reference" style="float:right" disabled size="10">
+	</td>
+</tr>
+</thead>
+<tbody>
+	<tr>
+		<td id="datadetail"></td>
+	</tr>
+</tbody>
+</table>
+
+<script>
+
+if($('#orderheaderid').val()=="") {
+	$('#neworder').prop('disabled', true)
+	$('#payment').prop('disabled', true)
+} else {
+	datadetail();
+}
+
+function datadetail() {
+	$.ajax({
+		url : '/api/orderdetail/get/'+$('#orderheaderid').val(),
+		type : 'get',
+		contentType : 'application/json',
+		success : function(result) {
+			var total = 0;
+			var str = '<table class="table">';
+			str += '<tr>'
+			str += '<th>Product Name</th>'
+			str += '<th>Price</th>'
+			str += '<th>Quantity</th>'
+			str += '<th>Subtotal</th>'
+			str += '<th>Remove</th>'
+			str += '</tr>'
+			for(i=0; i<result.length; i++) {
+				str += '<tr>'
+				str += '<td>'+result[i].product.name+'</td>'
+				str += '<td align="right">'+result[i].price+'</td>'
+				str += '<td align="right">'+result[i].quantity+'</td>'
+				str += '<td align="right">'+(result[i].price * result[i].quantity)+'</td>'
+				str += '<td></td>'
+				str += '</tr>'
+				total += (result[i].price * result[i].quantity)
+			}
+			str += '<tr>'
+			str += '<td><b>Total</b></td>'
+			str += '<td></td>'
+			str += '<td></td>'
+			str += '<td align="right"><input type="text" id="totalamount" value="'+total+'" readonly size="10" style="text-align:right;font-weight:bold;border:0px;"></td>'
+			str += '<td></td>'
+			str += '</tr>'
+			str += '</table>'
+			$('#datadetail').html(str)
+		}
+	})	
+}
+
+function newtrans() {
+	var dnow = Date.now()
+	console.log(dnow)
+
+	var data = '{'
+	data += '"reference":"'+dnow+'",'
+	data += '"amount":0'
+	data += '}'
+	
+	$.ajax({
+		url : '/api/orderheader',
+		type : 'post',
+		data : data,
+		contentType : 'application/json',
+		success : function(result) {
+			console.log(result)
+			$('#reference').val(result.reference)
+			$('#orderheaderid').val(result.id)
+			$('#neworder').prop('disabled', false)
+			$('#payment').prop('disabled', true)
+			$('#newtrans').prop('disabled',true)
+		}
+	}) 
+}
+
+
+function neworder() {
+	var form = '<table class="table">'
+	form += '<tr>'
+	form += '<td>Product</td>'
+	form += '<td><input type="hidden" id="productid" size="3"><input type="text" id="product" onclick="searchproduct()"></td>'
+	form += '</tr>'
+	form += '<tr>'
+	form += '<td>Price</td>'
+	form += '<td><input type="text" id="price" size="10"></td>'
+	form += '</tr>'
+	form += '<tr>'
+	form += '<td>Quantity</td>'
+	form += '<td><input type="text" id="quantity" size="10" onchange="subtotal()"></td>'
+	form += '</tr>'
+	form += '<tr>'
+	form += '<td>Subtotal</td>'
+	form += '<td id="subtotal"></td>'
+	form += '</tr>'
+	form += '<tr>'
+	form += '<td colspan="2"><button class="btn btn-primary" onclick="simpan()">Simpan</button></td>'
+	form += '</tr>'
+	form += '</table>'
+	
+	$('#mymodal').modal('show')
+	$('.modal-title').html('New Order')
+	$('.modal-body').html(form)
+}
+
+function searchproduct() {
+	var form = '<table class="table">'
+	form += '<tr>'
+	form += '<td width="90%"><input type="text" id="searchtext" style="width:100%;"></td>'
+	form += '<td width="10%"><button class="btn btn-warning" onclick="search()"><i class="fa fa-search"></i></button></td>'
+	form += '</tr>'
+	form += '<tr>'
+	form += '<td colspan="2" id="searchdata"></td>'
+	form += '</tr>'
+	form += '</table>'
+
+	$('#mymodal2').modal('show')
+	$('.modal-title2').html('Search product')
+	$('.modal-body2').html(form)
+}
+
+function search() {
+	var data = '<table class="table">'
+	data += '<thead>'
+	data += '<tr>'
+	data += '<td>Select</td>'
+	data += '<td>Initial</td>'
+	data += '<td>Name/Desc</td>'
+	data += '<td>Price</td>'
+	data += '<td>Stock</td>'
+	data += '</tr>'
+	data += '</thead>'
+	data += '<tbody id="pdata">'
+	data += '</tbody>'
+	data += '</table>'
+	
+	$('#searchdata').html(data);
+	
+	var ts = $('#searchtext').val()
+	
+	$.ajax({
+		url : '/api/product/search/' + ts.toLowerCase(),
+		type : 'get',
+		contentType : 'application/json',
+		success : function(result) {
+			console.log(result)
+			var str = '';
+			for(i=0; i<result.length; i++) {
+				str += '<tr>'
+				str += '<td><button class="btn btn-warning" value="'+result[i].id+'" onclick="getproduct(this.value)"><i class="fa fa-star-o"></i></button></td>'
+				str += '<td>'+result[i].initial+'</td>'
+				str += '<td>'+result[i].name+'<br>'+result[i].description+'</td>'
+				str += '<td>'+result[i].price+'</td>'
+				str += '<td>'+result[i].stock+'</td>'
+				str += '</tr>'
+			}
+			$('#pdata').html(str)
+		}
+	})
+	
+}
+
+function getproduct(id) {
+	$.ajax({
+		url : '/api/product/' +id,
+		type : 'get',
+		contentType : 'application/json',
+		success : function(result) {
+			$('#mymodal2').modal('hide')
+			$('#product').val(result.name)
+			$('#productid').val(result.id)
+			$('#price').val(result.price)
+		}
+	})
+}
+
+function subtotal() {
+	var st = $('#price').val() * $('#quantity').val()
+	$('#subtotal').html(st)
+}
+
+function simpan() {
+	var data = '{'
+	data += '"orderHeaderId":'+$('#orderheaderid').val()+','
+	data += '"productId":'+$('#productid').val()+','
+	data += '"quantity":'+$('#quantity').val()+','
+	data += '"price":'+$('#price').val()
+	data += '}'
+	
+	$.ajax({
+		url : '/api/orderdetail',
+		type : 'post',
+		data : data,
+		contentType : 'application/json',
+		success : function(result) {
+			console.log(result)
+			$('#mymodal').modal('hide')
+			datadetail();
+			$('#payment').prop('disabled', false)
+		}
+	})
+}
+
+function payment() {
+	var form = '<table>'
+	form += '<tr>'
+	form += '<td>Reference #</td>'
+	form += '<td><input type="text" id="refno" readonly></td>'
+	form += '</tr>'
+	form += '<tr>'
+	form += '<td>Amount</td>'
+	form += '<td><input type="text" id="amount" readonly></td>'
+	form += '</tr>'
+	form += '<tr>'
+	form += '<td>Cash</td>'
+	form += '<td><input type="text" id="cash" onchange="getchange(this.value)"></td>'
+	form += '</tr>'
+	form += '<tr>'
+	form += '<td>Change</td>'
+	form += '<td id="change" style="font-weight:bold;color:red;"></td>'
+	form += '</tr>'
+	form += '<tr>'
+	form += '<td colspan="2"><button onclick="pay()" class="btn btn-danger">Pay!</button></td>'
+	form += '</tr>'
+	form += '</table>'
+	
+	$('#mymodal').modal('show')
+	$('.modal-title').html('Payment')
+	$('.modal-body').html(form)
+	
+	var ref = $('#reference').val()
+	$('#refno').val(ref)
+	var tot = $('#totalamount').val()
+	$('#amount').val(tot)
+}
+
+function getchange(val) {
+	var change = val - $('#amount').val()
+	$('#change').html(change)
+}
+
+function pay() {
+	var data = '{'
+	data += '"reference":"'+$('#refno').val()+'",'
+	data += '"amount":'+$('#amount').val()
+	data += '}'
+	
+	$.ajax({
+		url : '/api/orderheader/'+$('#orderheaderid').val(),
+		type : 'put',
+		data : data,
+		contentType : 'application/json',
+		success : function(result) {
+			console.log(result)
+			$('#mymodal').modal('hide')
+			$('#newtrans').prop('disabled', false)
+			$('#payment').prop('disabled', true)
+			$('#neworder').prop('disabled', true)
+			$('#reference').val('')
+			$('#orderheaderid').val('')
+			$('#datadetail').html('')
+		}
+	})
+}
+</script>
+
+</div>
+</body>
+</html>

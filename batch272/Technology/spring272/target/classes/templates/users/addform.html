@@ -1,0 +1,107 @@
+<!Doctype html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+
+<form name="myform" th:action="@{~/users/save}" th:object="${users}" method="POST" enctype="multipart/form-data" onsubmit="return validate()">
+<input type="hidden" th:field="*{Id}" value="${Id}">
+<table class="table">
+<tr>
+	<td colspan="2">User Form</td>
+</tr>
+<tr>
+	<td class="required">Email</td>
+	<td>
+		<input type="email" th:field="*{Email}" size="40" class="form-control" value="${Email}" onchange="hidemessage()">
+		<span class="valid" id="validateemail"></span>
+	</td>
+</tr>
+<tr>
+	<td class="required">User Name</td>
+	<td>
+		<input type="text" th:field="*{UserName}" size="40" class="form-control" value="${UserName}" onchange="hidemessage()">
+		<span class="valid" id="validatename"></span>
+	</td>
+</tr>
+<tr>
+	<td class="required">Password</td>
+	<td>
+		<input type="password" th:field="*{Password}" size="40" class="form-control" value="${Password}" onchange="hidemessage()">
+		<span class="valid" id="validatepass"></span>
+	</td>
+</tr>
+<tr>
+	<td class="required">Full Name</td>
+	<td>
+		<input type="text" th:field="*{FullName}" size="40" class="form-control" value="${FullName}" onchange="hidemessage()">
+		<span class="valid" id="validatefullname"></span>
+	</td>
+</tr>
+<tr>
+	<td class="required">Active</td>
+	<td>
+		<input type="checkbox" th:field="*{Active}" id="act" value="${Active}"> <label for="act">Active?</label><br>
+	</td>
+</tr>
+<tr>
+	<td>Photo</td>
+	<td>
+		<input type="text" th:field="*{Photo}" id="phototext" class="form-control" th:value="${Photo}">
+		<input type="file" id="filename" name="photofile" onchange="readurl(this)" class="form-control">
+		<br><img src="#" id="avatar" alt="Photo" height="80">
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+		<input type="submit" class="btn btn-primary" value="Simpan Data">
+	</td>
+</tr>
+</table>
+</form>
+
+<script>
+function readurl(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#avatar').attr('src', e.target.result);
+			$('#phototext').val($('input[type=file]').val().replace(/C:\\fakepath\\/i,''))
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function validate() {
+	var email = document.forms["myform"]["Email"].value;
+	console.log(email.length)
+	if(email == "" || email.length < 3 || email.length > 200 ) {
+		$('#validateemail').html("Email harus diisi... min 3 max 200 karakter")
+		return false;
+	}
+	var username = document.forms["myform"]["UserName"].value;
+	console.log(username.length)
+	if(username == "" || username.length < 3 || username.length > 200 ) {
+		$('#validatename').html("Username harus diisi... min 3 max 200 karakter")
+		return false;
+	}
+	var password = document.forms["myform"]["Password"].value;
+	if(password == "" || password.length < 8) {
+		$('#validatepass').html("Password min 8 karakter")
+		return false;
+	}
+	var fullname = document.forms["myform"]["FullName"].value;
+	if(fullname == "" || fullname.length < 3) {
+		$('#validatefullname').html("Fullname min 3 karakter")
+		return false;
+	}
+}
+
+function hidemessage() {
+	$('#validateemail').html("")
+	$('#validatename').html("")
+	$('#validatepass').html("")
+	$('#validatefullname').html("")
+}
+</script>
+
+</html>

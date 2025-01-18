@@ -1,0 +1,100 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<head>
+	<title>POS272::User</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+<h1>Variant Page</h1>
+
+<button class="btn btn-success" style="float:right;" onclick="formtambah()">+ Tambah Data</button>
+
+<table class="table" id="tableuser">
+<thead>
+	<tr>
+		<th>Category</th>
+		<th>Initial</th>
+		<th>Name</th>
+		<th>Active</th>
+		<th style="text-align:center;">Action</th>
+	</tr>
+</thead>
+<tbody>
+	<tr th:each="item:${listvariant}">
+		<td th:text="${item.category.Name}"></td>
+		<td th:text="${item.Initial}"></td>
+		<td th:text="${item.Name}"></td>
+		<td th:text="${item.Active}"></td>
+		<td align="center">
+			<button class="btn btn-primary" onclick="editform(this.value)" th:value="${item.Id}">
+				<i class="bi bi-pencil-fill"></i>
+			</button>
+			<button class="btn btn-danger" onclick="_delete(this.value)" th:value="${item.Id}">
+				<i class="bi bi-trash-fill"></i>
+			</button>
+		</td>
+	</tr>
+</tbody>
+</table>
+
+<script>
+
+$(document).ready( function () {
+    $('#tableuser').DataTable();
+});
+
+function formtambah() {
+	//window.open("/users/addform","_self");
+	
+	$.ajax({
+		url:'/variant/addform',
+		type:'get',
+		contentType:'html',
+		success:function(result) {
+			$('#mymodal').modal('show')
+			$('.modal-title').html('Form tambah data')
+			$('.modal-body').html(result)
+		}
+	})
+}
+
+function editform(id) {
+	$.ajax({
+		url:'/variant/edit/'+id,
+		type:'get',
+		contentType:'html',
+		success:function(result) {
+			$('#mymodal').modal('show')
+			$('.modal-title').html('Form edit data')
+			$('.modal-body').html(result)
+		}
+	})
+}
+
+function _delete(id) {
+	/*
+	var conf = window.confirm("Yakin mau menghapus data ini?");
+	if(conf) {
+		window.open('/users/delete/'+id, '_self');
+	}
+	*/
+	$.ajax({
+		url:'/users/deleteform/'+id,
+		type:'get',
+		contentType:'html',
+		success:function(result) {
+			$('#mymodal').modal('show')
+			$('.modal-title').html('Form delete data')
+			$('.modal-body').html(result)
+		}
+	})	
+	
+}
+</script>
+
+</div>
+
+</body>
+</html>
