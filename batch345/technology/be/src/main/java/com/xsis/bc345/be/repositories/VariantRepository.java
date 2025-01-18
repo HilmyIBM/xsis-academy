@@ -9,5 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface VariantRepository extends JpaRepository<Variant, Integer> {
-    Optional<List<Variant>> findByDeleted(boolean deleted);
+    Optional<Variant> findByIdAndDeleted(int id, boolean isDeleted);
+    Optional<List<Variant>> findByDeleted(boolean isDeleted);
+    Optional<List<Variant>> findByNameContainsIgnoreCaseAndDeleted(String variantName, boolean isDeleted);
+    Optional<List<Variant>> findByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(String variantName, String description, boolean isDeleted);
 }

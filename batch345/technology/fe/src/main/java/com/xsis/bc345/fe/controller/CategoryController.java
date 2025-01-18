@@ -1,5 +1,8 @@
 package com.xsis.bc345.fe.controller;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -25,7 +28,9 @@ public class CategoryController {
     private RestTemplate restTemplate = new RestTemplate();
     
     //API URL
-    private final String apiUrl = "http://localhost:8080/api/category";
+    @Value("${application.api.url}")
+    // private final String apiUrl = "http://localhost:8080/api/category";
+    private String apiUrl;
 
     @GetMapping("")
     ModelAndView index(String filter) {
@@ -34,10 +39,10 @@ public class CategoryController {
 
         try {
             if (filter == null || filter.isBlank()) {
-                apiResponse = restTemplate.getForEntity(apiUrl, CategoryView[].class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/category", CategoryView[].class);
             }
             else {
-                apiResponse = restTemplate.getForEntity(apiUrl + "/filter/" + filter.trim(), CategoryView[].class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/category/filter/" + filter.trim(), CategoryView[].class);
             }
             
             if (apiResponse.getStatusCode() == HttpStatus.OK) {

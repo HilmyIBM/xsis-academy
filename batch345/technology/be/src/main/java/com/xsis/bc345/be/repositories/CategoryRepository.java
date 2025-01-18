@@ -10,10 +10,10 @@ import com.xsis.bc345.be.models.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
-    Optional<Category> findByIdAndDeleted(int id, boolean deleted);
-    Optional<List<Category>> findByDeleted(boolean deleted);
+    Optional<Category> findByIdAndDeleted(int id, boolean isDeleted);
+    Optional<List<Category>> findByDeleted(boolean isDeleted);
     Optional<List<Category>> findByCategoryNameIgnoreCase(String categoryName);
     Optional<List<Category>> findByCategoryNameContainsIgnoreCase(String categoryName);
     Optional<List<Category>> findByCategoryNameIgnoreCaseOrDescriptionIgnoreCase(String categoryName, String description);
-    Optional<List<Category>> findByCategoryNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(String categoryName, String description, boolean deleted);
+    Optional<List<Category>> findByCategoryNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(String categoryName, String description, boolean isDeleted);
 }

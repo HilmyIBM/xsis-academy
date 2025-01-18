@@ -27,11 +27,11 @@ public class CategoryService {
         }
     }
 
-    public Optional<Category> getById(int id) throws Exception {
+    public Optional<Category> getBy(int id) throws Exception {
         return categoryRepo.findByIdAndDeleted(id, false);
     }
 
-    public List<Category> getByNameOrDescription(String filter) throws Exception {
+    public List<Category> getBy(String filter) throws Exception {
         return categoryRepo.findByCategoryNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(filter, filter, false).get();
     }
 

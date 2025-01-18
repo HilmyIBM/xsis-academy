@@ -22,7 +22,7 @@
 
         $(".card-footer > .btn-danger").click(function(e) {
             let catId = $("#categoryId").val();
-debugger;
+            
             $.ajax({
                 url: `/category/delete/${catId}/3`,
                 type: "post",

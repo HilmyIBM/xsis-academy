@@ -29,7 +29,7 @@ public class CategoryController {
     @GetMapping("")
     public ResponseEntity<?> getAll() {
         try {
-            List<Category> data = categorySvc.getAll();
+            final List<Category> data = categorySvc.getAll();
 
             return new ResponseEntity<List<Category>>(
                 data,
@@ -44,7 +44,7 @@ public class CategoryController {
     @GetMapping("/id/{id}")
     public ResponseEntity<?> getBy(@PathVariable int id) {
         try {
-            Optional<Category> data = categorySvc.getById(id);
+            final Optional<Category> data = categorySvc.getBy(id);
 
             return new ResponseEntity<Category>(
                 data.get(),
@@ -59,7 +59,7 @@ public class CategoryController {
     @GetMapping("/name/{categoryName}")
     public ResponseEntity<?> getBy(@PathVariable String categoryName) {
         try {
-            List<Category> data = categorySvc.getByName(categoryName);
+            final List<Category> data = categorySvc.getByName(categoryName);
 
             return new ResponseEntity<List<Category>>(
                 data,
@@ -74,7 +74,7 @@ public class CategoryController {
     @GetMapping("/filter/{filter}")
     public ResponseEntity<?> getByFilter(@PathVariable String filter) {
         try {
-            List<Category> data = categorySvc.getByNameOrDescription(filter);
+            final List<Category> data = categorySvc.getBy(filter);
 
             return new ResponseEntity<List<Category>>(
                 data,
@@ -109,7 +109,7 @@ public class CategoryController {
     @DeleteMapping("/delete/{id}/{userId}")
     public ResponseEntity<?> delete(@PathVariable int id, @PathVariable int userId) {
         try {
-            Category data = categorySvc.delete(id, userId);
+            final Category data = categorySvc.delete(id, userId);
 
             if (data.isDeleted()) {
                 return new ResponseEntity<Category>(data, HttpStatus.OK);
