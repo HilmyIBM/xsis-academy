@@ -1,0 +1,59 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/layout}">
+	<head>
+		<title>Customer::Index</title>
+	</head>
+	<body>
+		<div layout:fragment="content">
+			<div class="h2">Customer Index</div>
+			<div>
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th class="col-1">ID</th>
+							<th class="col-2">Name</th>
+							<th class="col-3">Address</th>
+							<th class="col-2">E-Mail</th>
+							<th class="col-2">Phone</th>
+							<th class="col-1">Role</th>
+							<th class="col-1 text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>Suparman</td>
+							<td>Krypton</td>
+							<td>superman@krypton.planet</td>
+							<td>xxx-xxxx-xxxx</td>
+							<td>1</td>
+							<td class="d-flex justify-content-center">
+								<div class="btn-group">
+									<a class="btn btn-sm btn-primary" title="Details..." href="/category/1"><i class="fas fa-list-alt"></i></a>
+									<button class="btn btn-sm btn-success" title="Edit..."><i class="fas fa-edit"></i></button>
+									<button class="btn btn-sm btn-danger" title="Delete..."><i class="fas fa-trash"></i></button>
+								</div>
+							</td>
+						</tr>						
+						<tr>
+							<td>2</td>
+							<td>Dakocan</td>
+							<td>Negeri Dongeng</td>
+							<td>Dakoc@n.net</td>
+							<td>ddd-dddd-dddd</td>
+							<td>2</td>
+							<td class="d-flex justify-content-center">
+								<div class="btn-group">
+									<a class="btn btn-sm btn-primary" title="Details..." href="/category/2"><i class="fas fa-list-alt"></i></a>
+									<button class="btn btn-sm btn-success"><i class="fas fa-edit"></i></button>
+									<button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+								</div>
+							</td>
+						</tr>						
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>
