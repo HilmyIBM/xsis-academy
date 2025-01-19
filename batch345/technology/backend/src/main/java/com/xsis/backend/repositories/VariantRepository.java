@@ -11,4 +11,6 @@ import com.xsis.backend.models.Variant;
 @Repository
 public interface VariantRepository extends JpaRepository<Variant, Integer> {
     Optional<List<Variant>> findByDeleted(boolean deleted);
+
+    Optional<Variant> findByIdAndDelete(int id, boolean deleted);
 }

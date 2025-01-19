@@ -59,7 +59,7 @@
             <tr th:each="item:${variant}">
               <th scope="row" th:text="${item.id}">1</th>
               <td th:text="${item.name}">Bread</td>
-              <td>Appetizer</td>
+              <td th:text="${item.categoryName}">Appetizer</td>
               <td th:text="${item.description}">Varian of bread</td>
               <td th:text="${item.deleted}">False</td>
               <td class="d-flex gap-2">

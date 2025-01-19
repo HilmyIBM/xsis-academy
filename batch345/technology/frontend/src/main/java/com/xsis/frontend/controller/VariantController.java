@@ -1,5 +1,9 @@
 package com.xsis.frontend.controller;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,19 +24,30 @@ public class VariantController {
 
     private final String apiUrl = "http://localhost:8080/api";
 
+    @SuppressWarnings("null")
     @GetMapping("")
     public ModelAndView index() {
         ModelAndView view = new ModelAndView("variant/index");
-        ResponseEntity<VariantView[]> response = null;
-
+        ResponseEntity<VariantView[]> variantResponse = null;
+        ResponseEntity<CategoryView[]> categoryResponse = null;
         try {
-            response = restTemplate.getForEntity(apiUrl + "/variants", VariantView[].class);
+            variantResponse = restTemplate.getForEntity(apiUrl + "/variants", VariantView[].class);
+            categoryResponse = restTemplate.getForEntity(apiUrl + "/categories", CategoryView[].class);
 
-            if (response.getStatusCode() == HttpStatus.OK) {
-                VariantView[] data = response.getBody();
-                view.addObject("variant", data);
+            if (variantResponse.getStatusCode() == HttpStatus.OK && categoryResponse.getStatusCode() == HttpStatus.OK) {
+                VariantView[] variants = variantResponse.getBody();
+                CategoryView[] categories = categoryResponse.getBody();
+
+                Map<Integer, String> categoryMap = Arrays.stream(categories)
+                        .collect(Collectors.toMap(CategoryView::getId, CategoryView::getCategoryName));
+
+                for (VariantView variant : variants) {
+                    variant.setCategoryName(categoryMap.get(variant.getCategoryId()));
+                }
+
+                view.addObject("variant", variants);
             } else {
-                throw new Exception(response.getStatusCode().toString() + ": " + response.getBody());
+                throw new Exception(variantResponse.getStatusCode().toString() + ": " + variantResponse.getBody());
             }
         } catch (Exception e) {
             view.addObject("errorMsg", e.getMessage());

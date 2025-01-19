@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public class VariantView {
     private int id;
     private int categoryId;
+    private String categoryName;
     private String name;
     private String description;
     private boolean deleted;
@@ -27,6 +28,14 @@ public class VariantView {
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getDescription() {
