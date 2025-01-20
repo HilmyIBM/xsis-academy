@@ -2,32 +2,32 @@
 <div class="card">
     <div class="card-body">
         <div class="form-group">
-            <label for="txtName" class="form-label h6">Name</label>
+            <label for="txtName" class="form-label h6 fw-bold">Name</label>
             <input type="text" class="form-control" id="txtName" name="name" th:value="${category.categoryName}" readonly />
         </div>
         <div class="form-group">
-            <label for="txtDescription" class="form-label h6">Description</label>
+            <label for="txtDescription" class="form-label h6 fw-bold">Description</label>
             <input type="text" class="form-control" id="txtDescription" name="description" th:value="${category.description}" readonly />
         </div>
 
         <div class="mt-3 border-top row">
             <div class="col">
-                <label for="txtDescription" class="form-label h6">Create By</label>
+                <label for="txtDescription" class="form-label h6 fst-italic">Create By</label>
                 <input type="text" class="form-control" id="txtDescription" name="description" th:value="${category.createBy}" readonly />
             </div>
             <div class="col">
-                <label for="txtDescription" class="form-label h6">Update By</label>
+                <label for="txtDescription" class="form-label h6 fst-italic">Update By</label>
                 <input type="text" class="form-control" id="txtDescription" name="description" th:value="${category.updateBy}" readonly />
             </div>
         </div>
         <div class="mt-3 row">
             <div class="col">
-                <label for="txtDescription" class="form-label h6">Create Date</label>
-                <input type="text" class="form-control" id="txtDescription" name="description" th:value="${category.createDate}" readonly />
+                <label for="txtDescription" class="form-label h6 fst-italic">Create Date</label>
+                <input type="text" class="form-control" id="txtDescription" name="description" th:value="${#dates.format(category.createDate, 'dd-MMM-yyyy HH:mm:ss')}" readonly />
             </div>
             <div class="col">
-                <label for="txtDescription" class="form-label h6">Update Date</label>
-                <input type="text" class="form-control" id="txtDescription" name="description" th:value="${category.updateDate}" readonly />
+                <label for="txtDescription" class="form-label h6 fst-italic">Update Date</label>
+                <input type="text" class="form-control" id="txtDescription" name="description" th:value="${#dates.format(category.updateDate, 'dd-MMM-yyyy HH:mm:ss')}" readonly />
             </div>
         </div>
     </div>

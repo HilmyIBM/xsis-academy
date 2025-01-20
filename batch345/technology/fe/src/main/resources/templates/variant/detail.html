@@ -1,0 +1,92 @@
+<span id="txtTitle" class="d-none" th:text="${title}"></span>
+<div class="card">
+    <div th:if="${errorMsg == null}" class="card-body">
+        <div id="variantSpinner" class="spinner-border d-none" role="status" aria-hidden="true">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="form-group">
+            <label for="txtName" class="form-label h6 fw-bold">Name</label>
+            <input type="text" class="form-control" id="txtName" name="name" readonly th:value="${variant.name}" />
+        </div>
+        <div class="form-group">
+            <label for="txtDescription" class="form-label h6 fw-bold">Description</label>
+            <input type="text" class="form-control" id="txtDescription" name="description" readonly th:value="${variant.description}" />
+        </div>
+        <div class="form-group">
+            <label for="txtCategory" class="form-label h6 fw-bold">Category</label>
+            <input type="text" class="form-control" id="txtCategory" name="categoryName" readonly th:value="${variant.categoryName}" />
+        </div>
+        <div class="row mt-3 border-top">
+            <div class="col">
+                <label for="txtCreateBy" class="form-label h6 fst-italic">Create By</label>
+                <input type="text" class="form-control" id="txtCreateBy" name="createBy" readonly th:value="${variant.createBy}" />
+                </div>
+            <div class="col">
+                <label for="txtUpdateBy" class="form-label h6 fst-italic">Update By</label>
+                <input type="text" class="form-control" id="txtUpdateBy" name="updateBy" readonly th:value="${variant.updateBy}" />
+                </div>
+        </div>
+        <div class="row mt-3 border-top">
+            <div class="col">
+                <label for="txtCreateBy" class="form-label h6 fst-italic">Create Date</label>
+                <input type="text" class="form-control" id="txtCreateDate" name="createDate" readonly th:value="${#dates.format(variant.createDate, 'dd-MMM-yyyy HH:mm:ss')}" />
+                </div>
+            <div class="col">
+                <label for="txtUpdateBy" class="form-label h6 fst-italic">Update Date</label>
+                <input type="text" class="form-control" id="txtUpdateDate" name="updateDate" readonly th:value="${#dates.format(variant.updateDate, 'dd-MMM-yyyy HH:mm:ss')}" />
+                </div>
+        </div>
+    </div>
+
+    <div th:unless="${errorMsg == null}" th:text="${errorMsg}"
+        class="text-center text-danger h6 fst-italic border-bottom pb-3">
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $("#staticModalLabel").text($("#txtTitle").text());
+
+        $("#frmEditVariant").validate({
+            "rules" : {
+                "name": {
+                    "required": true,
+                    "maxlength": 100,
+                    "minlength": 3
+                },
+                "description": {
+                    "maxlength": 100
+                },
+                "categoryId": "required"
+            },
+            "errorClass": "text-danger"
+        });
+
+        $("#frmEditVariant").submit(function(e) {
+            e.preventDefault();
+
+            if ($("#frmEditVariant").valid()) {
+                debugger;
+                $.ajax({
+                    url: "/variant/update",
+                    type: "post",
+                    data: $("#frmEditVariant").serialize(),
+                    dataType: "json",
+                    beforeSend: () => {
+                        $("#variantSpinner").show();
+                        // alert("mengirim data ke api");
+                    },
+                    success: function(response) {
+                        setTimeout(()=>{}, 1000);
+                        $("#variantSpinner").hide();
+                        alert("Variant " + response.variantName + " succesfully updated!");
+                        // location.reload();
+                    },
+                    error: function(errResponse) {
+                        console.error("Create new variant Failed: " + errResponse.responseText);
+                    }
+                });
+            }
+        });
+    });
+</script>

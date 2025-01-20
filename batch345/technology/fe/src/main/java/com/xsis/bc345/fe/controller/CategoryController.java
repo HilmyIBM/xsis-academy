@@ -52,7 +52,7 @@ public class CategoryController {
             view.addObject("errorMsg", e.getMessage());
         }
 
-        view.addObject("filter", filter);
+        view.addObject("filter", filter!=null ? filter : "");
         
         return view;
     }

@@ -1,5 +1,6 @@
 package com.xsis.bc345.be.services;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -50,7 +51,8 @@ public class CategoryService {
             //Update Fields
             data.setCreateBy(existingCategory.get().getCreateBy());
             data.setCreateDate(existingCategory.get().getCreateDate());
-            data.setUpdateDate(LocalDateTime.now());
+            // data.setUpdateDate(LocalDateTime.now());
+            data.setUpdateDate(Timestamp.valueOf(LocalDateTime.now()));
 
             //Update Table
             return categoryRepo.save(data);
@@ -66,7 +68,8 @@ public class CategoryService {
         if (existingCategory.isPresent()) {
             existingCategory.get().setDeleted(true);
             existingCategory.get().setUpdateBy(userId);
-            existingCategory.get().setUpdateDate(LocalDateTime.now());
+            // existingCategory.get().setUpdateDate(LocalDateTime.now());
+            existingCategory.get().setUpdateDate(Timestamp.valueOf(LocalDateTime.now()));
 
             return categoryRepo.save(existingCategory.get());
         }

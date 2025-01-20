@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xsis.bc345.be.models.Variant;
 import com.xsis.bc345.be.services.VariantService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -84,7 +83,7 @@ public class VariantController {
             return new ResponseEntity<Variant>(variantSvc.create(data), HttpStatus.CREATED);
         } catch (Exception e) {
             // TODO: handle exception
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

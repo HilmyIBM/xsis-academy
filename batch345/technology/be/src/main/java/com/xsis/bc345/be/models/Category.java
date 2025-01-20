@@ -1,5 +1,6 @@
 package com.xsis.bc345.be.models;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -33,16 +34,16 @@ public class Category {
 
     @Column(name="create_date")
     @CreationTimestamp
-    private LocalDateTime createDate;
+    private Timestamp createDate;
 
     @Column(name="update_by", nullable = true)
     private Integer updateBy;
 
     @Column(name="update_date", nullable = true)
-    private LocalDateTime updateDate;
+    private Timestamp updateDate;
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -50,7 +51,7 @@ public class Category {
     }
 
     public String getCategoryName() {
-        return categoryName;
+        return this.categoryName;
     }
 
     public void setCategoryName(String categoryName) {
@@ -58,7 +59,7 @@ public class Category {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
@@ -66,7 +67,11 @@ public class Category {
     }
 
     public boolean isDeleted() {
-        return deleted;
+        return this.deleted;
+    }
+
+    public boolean getDeleted() {
+        return this.deleted;
     }
 
     public void setDeleted(boolean deleted) {
@@ -74,36 +79,35 @@ public class Category {
     }
 
     public int getCreateBy() {
-        return createBy;
+        return this.createBy;
     }
 
     public void setCreateBy(int createBy) {
         this.createBy = createBy;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
+    public Timestamp getCreateDate() {
+        return this.createDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 
     public Integer getUpdateBy() {
-        return updateBy;
+        return this.updateBy;
     }
 
     public void setUpdateBy(Integer updateBy) {
         this.updateBy = updateBy;
     }
 
-    public LocalDateTime getUpdateDate() {
-        return updateDate;
+    public Timestamp getUpdateDate() {
+        return this.updateDate;
     }
 
-    public void setUpdateDate(LocalDateTime updateDate) {
+    public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
     }
-
-    
+   
 }

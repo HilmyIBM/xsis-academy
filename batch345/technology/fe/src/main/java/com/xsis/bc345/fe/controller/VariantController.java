@@ -29,12 +29,15 @@ public class VariantController {
     private String apiUrl;
     
     @GetMapping("")
-    public ModelAndView index() {
+    public ModelAndView index(String filter) {
         ModelAndView view = new ModelAndView("/variant/index");
         ResponseEntity<VariantView[]> apiResponse = null;
 
         try {
-            apiResponse = restTemplate.getForEntity(apiUrl + "/variant", VariantView[].class);
+            apiResponse = restTemplate.getForEntity(
+                apiUrl + "/variant" + (filter == null  || filter.isBlank() ? "" : "/filter/" + filter),
+                VariantView[].class
+            );
             
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 view.addObject("variant", apiResponse.getBody());
@@ -48,9 +51,35 @@ public class VariantController {
             view.addObject("errorMsg", e.getMessage());
         }
 
+        view.addObject("filter", filter!=null ? filter : "");
+
         return view;
     }
  
+    @GetMapping("/id/{id}")
+    public ModelAndView detail(@PathVariable int id) {
+        ModelAndView view = new ModelAndView("/variant/detail");
+        ResponseEntity<VariantView> apiResponse = null;
+
+        try {
+            //Get the selected Variant
+            apiResponse = restTemplate.getForEntity(apiUrl + "/variant/id/" + id, VariantView.class);
+            if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                view.addObject("variant", apiResponse.getBody());
+            }
+            else {
+                throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            view.addObject("errorMsg", e.getMessage());
+        }
+
+        view.addObject("title", "Variant Details");
+
+        return view;
+    }
+
     @GetMapping("/add")
     public ModelAndView add() {
         ModelAndView view = new ModelAndView("/variant/add");
@@ -76,19 +105,13 @@ public class VariantController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(Map<String, Object> variant) {
+    // public ResponseEntity<?> create(Map<String, Object> variant) {
+    public ResponseEntity<?> create(VariantView variant) {
         ResponseEntity<VariantView> apiResponse = null;
 
-        //Mapping Form Data to VariantView
-        VariantView data = new VariantView();
-        data.setId((int)variant.get("id"));
-        data.setName((String)variant.get("name"));
-        data.setDescription((String)variant.get("description"));
-        data.setCategoryId((int)variant.get("categoryId"));
-        data.setCreateBy((int)variant.get("createBy"));
-
         try {
-            apiResponse = restTemplate.postForEntity(apiUrl + "/variant", data, VariantView.class);
+            apiResponse = restTemplate.postForEntity(apiUrl + "/variant", variant, VariantView.class);
+            // apiResponse = restTemplate.postForEntity(apiUrl + "/variant", variant, Variant.class);
 
             if(apiResponse.getStatusCode() == HttpStatus.CREATED) {
                 return new ResponseEntity<VariantView>(apiResponse.getBody(), HttpStatus.CREATED);

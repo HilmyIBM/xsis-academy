@@ -4,18 +4,17 @@
         <div id="variantSpinner" class="spinner-border d-none" role="status" aria-hidden="true">
             <span class="visually-hidden">Loading...</span>
         </div>
-        <form th:action="@{~/variant/create}" id="frmEditVariant" method="post">
+        <form id="frmEditVariant">
             <div class="form-group">
-                <label for="txtName" class="form-label h6">Name</label>
-                <input type="text" class="form-control" id="txtName" name="name" />
+                <label for="txtName" class="form-label h6 fw-bold">Name</label>
+                <input type="text" class="form-control" id="txtName" name="name" th:value="${variant.name}" />
             </div>
             <div class="form-group">
-                <label for="txtDescription" class="form-label h6">Description</label>
-                <input type="text" class="form-control" id="txtDescription" name="description" />
+                <label for="txtDescription" class="form-label h6 fw-bold">Description</label>
+                <input type="text" class="form-control" id="txtDescription" name="description" th:value="${variant.description}" />
             </div>
             <div class="form-group">
-                <label for="selCategory" class="form-label h6">Category</label>
-                <!-- <input type="text" class="form-control" id="txtDescription" name="description" /> -->
+                <label for="selCategory" class="form-label h6 fw-bold">Category</label>
                 <select name="categoryId" id="selCategory" class="form-select">
                     <option value="">--Select Category--</option>
                     <option
@@ -32,9 +31,7 @@
         </form>
     </div>
 
-    <div th:unless="${errorMsg == null}" th:text="${errorMsg}"
-        class="text-center text-danger h6 fst-italic border-bottom pb-3">
-    </div>
+    <div th:unless="${errorMsg == null}" th:text="${errorMsg}" class="text-center text-danger h6 fst-italic border-bottom pb-3"></div>
 </div>
 
 <script>
