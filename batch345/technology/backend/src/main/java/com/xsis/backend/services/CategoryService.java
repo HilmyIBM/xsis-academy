@@ -28,8 +28,7 @@ public class CategoryService {
 
     public List<Category> getByNameOrDescription(String filter) throws Exception {
         return categoryRepo
-                .findByCategoryNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(filter, filter,
-                        false)
+                .findCategoryNameOrDescription(filter)
                 .get();
 
     }
