@@ -77,7 +77,6 @@
               <th scope="col">ID</th>
               <th scope="col">Nama Category</th>
               <th scope="col">Description</th>
-              <th scope="col">Is Delete</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -86,7 +85,6 @@
               <th scope="row" th:text="${item.id}">1</th>
               <td th:text="${item.categoryName}">Appetizer</td>
               <td th:text="${item.description}">Category of appetizer</td>
-              <td th:text="${item.deleted}">False</td>
               <td class="d-flex gap-3">
                 <button
                   th:data-id="${item.id}"

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.xsis.frontend.model.CategoryView;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @Controller
 @RequestMapping("/category")
@@ -118,7 +119,7 @@ public class CategoryController {
     }
 
     @SuppressWarnings("null")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<?> update(@ModelAttribute CategoryView category) {
         ResponseEntity<CategoryView> apiResponse = null;
 
@@ -126,7 +127,8 @@ public class CategoryController {
             // restTemplate.put(apiUrl, category);
             // apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + category.getId(),
             // CategoryView.class);
-            apiResponse = restTemplate.exchange(apiUrl, HttpMethod.PUT, new HttpEntity<CategoryView>(category),
+            apiResponse = restTemplate.exchange(apiUrl + "/id/" + category.getId(), HttpMethod.PUT,
+                    new HttpEntity<CategoryView>(category),
                     CategoryView.class);
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
