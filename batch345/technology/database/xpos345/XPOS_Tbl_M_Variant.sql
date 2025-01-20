@@ -19,6 +19,8 @@ VALUES
 
 Delete from tbl_m_variant where id=1;
 
+select * from Tbl_M_Variant;
+
 -- USE [XPOS329]
 -- GO
 

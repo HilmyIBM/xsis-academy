@@ -79,7 +79,7 @@ public class CategoryContoller {
         }
     }
 
-    // CREATE NEW DATA
+    // UPDATE DATA
     @PutMapping("")
     public ResponseEntity<?> update(@RequestBody final Category data) {
         try {
@@ -89,6 +89,7 @@ public class CategoryContoller {
         }
     }
 
+    // DELETE DATA
     @DeleteMapping("delete/{id}/{userId}")
     public ResponseEntity<?> delete(@PathVariable int id, @PathVariable int userId) {
         try {

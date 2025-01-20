@@ -1,14 +1,18 @@
 package com.xsis.bc345.be.models;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -41,8 +45,13 @@ public class Category {
     @Column(name="update_date", nullable = true)
     private LocalDateTime updateDate;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "category")
+    private Set<Variant> variant;  // If using bidirectional relation
+
+
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -50,7 +59,7 @@ public class Category {
     }
 
     public String getCategoryName() {
-        return categoryName;
+        return this.categoryName;
     }
 
     public void setCategoryName(String categoryName) {
@@ -58,7 +67,7 @@ public class Category {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
@@ -66,7 +75,11 @@ public class Category {
     }
 
     public boolean isDeleted() {
-        return deleted;
+        return this.deleted;
+    }
+
+    public boolean getDeleted() {
+        return this.deleted;
     }
 
     public void setDeleted(boolean deleted) {
@@ -74,7 +87,7 @@ public class Category {
     }
 
     public int getCreateBy() {
-        return createBy;
+        return this.createBy;
     }
 
     public void setCreateBy(int createBy) {
@@ -82,7 +95,7 @@ public class Category {
     }
 
     public LocalDateTime getCreateDate() {
-        return createDate;
+        return this.createDate;
     }
 
     public void setCreateDate(LocalDateTime createDate) {
@@ -90,7 +103,7 @@ public class Category {
     }
 
     public Integer getUpdateBy() {
-        return updateBy;
+        return this.updateBy;
     }
 
     public void setUpdateBy(Integer updateBy) {
@@ -98,12 +111,19 @@ public class Category {
     }
 
     public LocalDateTime getUpdateDate() {
-        return updateDate;
+        return this.updateDate;
     }
 
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
 
+    public Set<Variant> getVariant() {
+        return this.variant;
+    }
+
+    public void setVariant(Set<Variant> variant) {
+        this.variant = variant;
+    }    
     
 }

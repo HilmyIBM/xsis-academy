@@ -50,7 +50,7 @@
                 <tr th:each="item:${variant}" th:if="${variant != null}">
                     <th scope="row" th:text="${item.id}">1</th>
                     <td th:text="${item.name}">Ice Cream</td>
-                    <td th:text="${item.categoryId}">Dessert</td>
+                    <td th:text="${item.categoryName}">Dessert</td>                    
                     <td th:text="${item.description}">Variant of Ice Cream</td>
                     <td th:text="${item.deleted}">False</td>
                     <td>
@@ -64,10 +64,48 @@
             </tbody>
         </table>
         <!-- TABLE END -->
-        <div th:unless="${variant != null}" th:text="${errorMsg}" class="text-danger text-center text fst-italic border-bottom pb-3"></div>
+        <div th:unless="${variant != null}" th:text="${'Data Tidak Ditemukan'}" class="text-danger text-center text fst-italic border-bottom pb-3"></div>
         <script>
             $("#btnAdd").click(function(e){
                 $("#staticModalBody").load("/variant/add");
+
+            })
+
+            $(".btn-info").click(function(e){
+                let catId = $(this).data("id");
+
+                $("#staticModalBody").load("/variant/" + catId);
+                $("#staticModal").modal("show");
+            })
+
+            $(".btn-warning").click(function(e){
+                let catId = $(this).data("id");
+
+                $("#staticModalBody").load("/variant/edit/" + catId);
+                $("#staticModal").modal("show");
+            })
+
+            $(".btn-danger").click(function() {
+            let catId = $(this).data("id");
+
+            $("#staticModalBody").load("/variant/delete/" + catId);
+            $("#staticModal").modal("show");
+            // if (confirm("Are you sure you want to DELETE?")) {
+            //     $.ajax({
+            //         url: `http://localhost:8080/api/category/delete/${catId}/3`,
+            //         type: 'delete',
+            //         success: function(response) {
+            //             alert(`Category ${catId} successfully Deleted!`);
+            //             location.reload();
+            //         },
+            //         error: function(errResponse) {
+            //             alert("Failed to Deleted");
+            //             console.error(errResponse.responseText);
+            //         }
+            //     })
+            // } else {
+            //     alert("You clicked Cancel");
+            // }
             });
         </script>
     </div>

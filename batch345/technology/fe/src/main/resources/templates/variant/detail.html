@@ -1,0 +1,41 @@
+<input type="hidden" id="txTitle" th:value="${title}">
+<div class="card">
+    <div class="card-body">
+        <div>
+            <div class="form-group mb-1">
+                <label for="txtName" class="form-label">Name</label>
+                <input type="text" class="form-control" name="name" id="txtName" th:value="${variant.name}" disabled>
+            </div>
+            <div class="form-group mb-1">
+                <label for="txtDesciption" class="form-label">Description</label>
+                <input type="text" class="form-control" name="description" id="txtDescription" th:value="${variant.description}" disabled>
+            </div>
+            <div class="form-group mb-1">
+                <label for="categoryId" class="form-label">Category</label>
+                <input th:each="item : ${category}" th:if="${item.id == variant.categoryId}" th:value="${item.categoryName}" type="text" class="form-control" name="categoryId" id="categoryId" disabled>
+            </div>            
+            <div class="form-group mb-1">
+                <label for="txtCreateBy" class="form-label">Created By</label>
+                <input type="text" class="form-control" name="createBy" id="txtCreateBy" th:value="${variant.createBy}" disabled>
+            </div>
+            <div class="form-group mb-1">
+                <label for="txtCreateDate" class="form-label">Created Date</label>
+                <input type="text" class="form-control" name="createDate" id="txtCreateDate" th:value="${variant.createDate}" disabled>
+            </div>
+            <div class="form-group mb-1">
+                <label for="txtUpdateBy" class="form-label">Update By</label>
+                <input type="text" class="form-control" name="updateBy" id="txtUpdateBy" th:value="${variant.updateBy}" disabled>
+            </div>
+            <div class="form-group mb-1">
+                <label for="txtUpdateDate" class="form-label">Update Date</label>
+                <input type="text" class="form-control" name="updateDate" id="txtUpdateDate" th:value="${variant.updateDate}" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#staticModalLabel').text($("#txTitle").val());
+    })
+</script>

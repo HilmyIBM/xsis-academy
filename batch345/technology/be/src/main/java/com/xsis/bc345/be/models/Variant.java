@@ -4,11 +4,15 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,6 +24,11 @@ public class Variant {
 
     @Column(name="category_id", nullable = false)
     private int categoryId;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "id", insertable=false, updatable=false)
+    private Category category;  // Relasi ke entitas Category
 
     @Column(name = "name", length = 50, nullable = false)
     private String name;
@@ -43,8 +52,9 @@ public class Variant {
     @Column(name="update_date", nullable = true)
     private LocalDateTime updateDate;
 
+
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -52,15 +62,23 @@ public class Variant {
     }
 
     public int getCategoryId() {
-        return categoryId;
+        return this.categoryId;
     }
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 
+    public Category getCategory() {
+        return this.category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -68,7 +86,7 @@ public class Variant {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
@@ -76,7 +94,11 @@ public class Variant {
     }
 
     public boolean isDeleted() {
-        return deleted;
+        return this.deleted;
+    }
+
+    public boolean getDeleted() {
+        return this.deleted;
     }
 
     public void setDeleted(boolean deleted) {
@@ -84,7 +106,7 @@ public class Variant {
     }
 
     public int getCreateBy() {
-        return createBy;
+        return this.createBy;
     }
 
     public void setCreateBy(int createBy) {
@@ -92,7 +114,7 @@ public class Variant {
     }
 
     public LocalDateTime getCreateDate() {
-        return createDate;
+        return this.createDate;
     }
 
     public void setCreateDate(LocalDateTime createDate) {
@@ -100,7 +122,7 @@ public class Variant {
     }
 
     public Integer getUpdateBy() {
-        return updateBy;
+        return this.updateBy;
     }
 
     public void setUpdateBy(Integer updateBy) {
@@ -108,11 +130,12 @@ public class Variant {
     }
 
     public LocalDateTime getUpdateDate() {
-        return updateDate;
+        return this.updateDate;
     }
 
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
+    
     
 }
