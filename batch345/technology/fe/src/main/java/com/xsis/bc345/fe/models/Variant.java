@@ -2,12 +2,11 @@ package com.xsis.bc345.fe.models;
 
 import java.time.LocalDateTime;
 
-public class VariantView {
+public class Variant {
 	private int id;
 	private String name;
 	private String description;
 	private int categoryId;
-	private String categoryName;
 	private boolean deleted;
 	private int createBy;
 	private LocalDateTime createDate;
@@ -44,14 +43,6 @@ public class VariantView {
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
-    }
-
-    public String getCategoryName() {
-        return this.categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
     }
 
     public boolean isDeleted() {
@@ -97,5 +88,4 @@ public class VariantView {
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
-
 }

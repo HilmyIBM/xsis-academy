@@ -1,7 +1,10 @@
 <span id="txtTitle" class="d-none" th:text="${title}"></span>
 <div class="card">
-    <div class="card-body">
-        <form id="frmNewVariant" method="post" th:action="@{~/variant/create}">
+    <div th:if="${errorMsg == null}" class="card-body">
+        <div id="variantSpinner" class="spinner-border d-none" role="status" aria-hidden="true">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <form th:action="@{~/variant/create}" id="frmEditVariant" method="post">
             <div class="form-group">
                 <label for="txtName" class="form-label h6">Name</label>
                 <input type="text" class="form-control" id="txtName" name="name" />
@@ -28,15 +31,17 @@
             <input type="hidden" name="createBy" value="1" />
         </form>
     </div>
+
+    <div th:unless="${errorMsg == null}" th:text="${errorMsg}"
+        class="text-center text-danger h6 fst-italic border-bottom pb-3">
+    </div>
 </div>
-<!-- <div id="spinner" class="spinner-border d-none" role="status" aria-hidden="true">
-    <span class="visually-hidden">Loading...</span>
-</div> -->
+
 <script>
     $(document).ready(function(){
         $("#staticModalLabel").text($("#txtTitle").text());
 
-        $("#frmNewVariant").validate({
+        $("#frmEditVariant").validate({
             "rules" : {
                 "name": {
                     "required": true,
@@ -51,27 +56,24 @@
             "errorClass": "text-danger"
         });
 
-        $("#frmNewVariant").submit(function(e) {
+        $("#frmEditVariant").submit(function(e) {
             e.preventDefault();
-            // let frmVariant = $("#frmNewvariant").serialize();
-            let frmVariant = $("#frmNewVariant").serialize();
 
-            debugger;
-            if ($("#frmNewVariant").valid()) {
+            if ($("#frmEditVariant").valid()) {
+                debugger;
                 $.ajax({
-                    url: "/variant/create",
+                    url: "/variant/update",
                     type: "post",
-                    data: frmVariant,
+                    data: $("#frmEditVariant").serialize(),
                     dataType: "json",
                     beforeSend: () => {
-                        // $("#spinner").show();
+                        $("#variantSpinner").show();
                         // alert("mengirim data ke api");
                     },
                     success: function(response) {
-                        // setTimeout(()=>{}, 1000);
-                        debugger;
-                        // $("#spinner").hide();
-                        alert("variant " + response.variantName + " succesfully updated!");
+                        setTimeout(()=>{}, 1000);
+                        $("#variantSpinner").hide();
+                        alert("Variant " + response.variantName + " succesfully updated!");
                         // location.reload();
                     },
                     error: function(errResponse) {
