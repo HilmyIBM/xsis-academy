@@ -35,6 +35,11 @@ public class VariantService {
         return variantRepository.findByIdAndDeleted(id, false);
     }
 
+    public List<Variant> getByNameOrDescription(String filter) throws Exception {
+        return variantRepository
+                .findByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(filter, filter, false).get();
+    }
+
     public Variant update(Variant data) throws Exception {
         existingData = variantRepository.findById(data.getId());
         if (existingData.isPresent()) {

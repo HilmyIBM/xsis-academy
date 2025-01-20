@@ -1,5 +1,6 @@
 package com.xsis.frontend.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,9 @@ import com.xsis.frontend.model.ProductView;
 @RequestMapping("/product")
 public class ProductController {
     private RestTemplate restTemplate = new RestTemplate();
-    private final String apiUrl = "http://localhost:8080/api";
+
+    @Value("${application.api.url}")
+    private String apiUrl;
 
     @GetMapping("")
     public ModelAndView index() {

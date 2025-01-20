@@ -1,5 +1,6 @@
 package com.xsis.frontend.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -21,26 +22,32 @@ import com.xsis.frontend.model.VariantView;
 public class VariantController {
     private RestTemplate restTemplate = new RestTemplate();
 
-    private final String apiUrl = "http://localhost:8080/api";
+    @Value("${application.api.url}")
+    private String apiUrl;
+
+    // private final String apiUrl = "http://localhost:8080/api";
 
     @GetMapping("")
-    public ModelAndView index() {
+    public ModelAndView index(String filter) {
         ModelAndView view = new ModelAndView("variant/index");
         ResponseEntity<VariantView[]> variantResponse = null;
         try {
-            variantResponse = restTemplate.getForEntity(apiUrl + "/variants", VariantView[].class);
+            if (filter == null || filter.isBlank()) {
+                variantResponse = restTemplate.getForEntity(apiUrl + "/variants", VariantView[].class);
+            } else {
+                variantResponse = restTemplate.getForEntity(apiUrl + "/variants/filter/" + filter, VariantView[].class);
+            }
 
             if (variantResponse.getStatusCode() == HttpStatus.OK) {
-                VariantView[] variants = variantResponse.getBody();
-
-                view.addObject("variant", variants);
+                VariantView[] data = variantResponse.getBody();
+                view.addObject("variant", data);
             } else {
                 throw new Exception(variantResponse.getStatusCode().toString() + ": " + variantResponse.getBody());
             }
         } catch (Exception e) {
             view.addObject("errorMsg", e.getMessage());
         }
-
+        view.addObject("filter", filter);
         return view;
     }
 
@@ -143,7 +150,39 @@ public class VariantController {
     public ResponseEntity<?> update(@ModelAttribute VariantView variant) {
         ResponseEntity<VariantView> response = null;
         try {
-            response = restTemplate.exchange(apiUrl + "/variants/id/" + variant.getId(), HttpMethod.PUT,
+            restTemplate.put(apiUrl + "/variants", variant);
+            response = restTemplate.getForEntity(apiUrl + "/variants/id/" + variant.getId(), VariantView.class);
+
+            if (response.getStatusCode() == HttpStatus.OK) {
+                return new ResponseEntity<VariantView>(response.getBody(), HttpStatus.OK);
+            } else {
+                throw new Exception(response.getStatusCode().toString() + ": " + response.getBody().toString());
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/delete/{id}")
+    public ModelAndView delete(@PathVariable int id) {
+        ModelAndView view = new ModelAndView("variant/delete");
+
+        view.addObject("id", id);
+        view.addObject("title", "Delete Variant");
+        return view;
+    }
+
+    @SuppressWarnings("null")
+    @PostMapping("/delete/{id}/{userId}")
+    public ResponseEntity<?> deleteVariant(@PathVariable int id, @PathVariable int userId) {
+        ResponseEntity<VariantView> response = null;
+        VariantView variant = new VariantView();
+
+        variant.setId(id);
+        variant.setUpdateBy(userId);
+        try {
+            restTemplate.delete(apiUrl + "/variants/delete/" + id + "/" + userId);
+            response = restTemplate.exchange(apiUrl + "/variants/delete/" + id + "/" + userId, HttpMethod.DELETE,
                     new HttpEntity<VariantView>(variant), VariantView.class);
 
             if (response.getStatusCode() == HttpStatus.OK) {
@@ -152,6 +191,7 @@ public class VariantController {
                 throw new Exception(response.getStatusCode().toString() + ": " + response.getBody().toString());
             }
         } catch (Exception e) {
+            System.out.println("catch");
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -1,6 +1,6 @@
 package com.xsis.frontend.model;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 public class ProductView {
     private int id;
@@ -11,9 +11,9 @@ public class ProductView {
     private String image;
     private boolean deleted;
     private int createBy;
-    private LocalDateTime createDate;
+    private Timestamp createDate;
     private Integer updateBy;
-    private LocalDateTime updateDate;
+    private Timestamp updateDate;
 
     public int getId() {
         return this.id;
@@ -79,11 +79,11 @@ public class ProductView {
         this.createBy = createBy;
     }
 
-    public LocalDateTime getCreateDate() {
+    public Timestamp getCreateDate() {
         return this.createDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 
@@ -95,11 +95,11 @@ public class ProductView {
         this.updateBy = updateBy;
     }
 
-    public LocalDateTime getUpdateDate() {
+    public Timestamp getUpdateDate() {
         return this.updateDate;
     }
 
-    public void setUpdateDate(LocalDateTime updateDate) {
+    public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
     }
 

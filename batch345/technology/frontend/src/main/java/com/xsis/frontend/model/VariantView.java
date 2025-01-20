@@ -1,18 +1,19 @@
 package com.xsis.frontend.model;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class VariantView {
     private int id;
     private int categoryId;
-    private String categoryName;
     private String name;
+    private String categoryName;
     private String description;
     private boolean deleted;
     private int createBy;
-    private LocalDateTime createDate;
-    private int updateBy;
-    private LocalDateTime updateDate;
+    private Timestamp createDate;
+    private Integer updateBy;
+    private Timestamp updateDate;
 
     public int getId() {
         return this.id;
@@ -70,27 +71,27 @@ public class VariantView {
         this.createBy = createBy;
     }
 
-    public LocalDateTime getCreateDate() {
+    public Date getCreateDate() {
         return this.createDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 
-    public int getUpdateBy() {
-        return this.updateBy;
+    public Integer getUpdateBy() {
+        return updateBy;
     }
 
-    public void setUpdateBy(int updateBy) {
+    public void setUpdateBy(Integer updateBy) {
         this.updateBy = updateBy;
     }
 
-    public LocalDateTime getUpdateDate() {
+    public Date getUpdateDate() {
         return this.updateDate;
     }
 
-    public void setUpdateDate(LocalDateTime updateDate) {
+    public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
     }
 }
