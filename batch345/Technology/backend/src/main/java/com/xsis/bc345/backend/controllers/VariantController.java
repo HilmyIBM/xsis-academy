@@ -1,18 +1,21 @@
 package com.xsis.bc345.backend.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.xsis.bc345.backend.models.CategoryModel;
 import com.xsis.bc345.backend.models.CustomerModel;
 import com.xsis.bc345.backend.models.ProductModel;
 import com.xsis.bc345.backend.models.VariantModel;
@@ -58,6 +61,21 @@ public class VariantController {
         }
     }
     
+    @GetMapping("/id/{id}")
+    public ResponseEntity<?> getbyId(@PathVariable int id){
+        try {
+            Optional<VariantModel> data=variantSVC.getbyId(id);
+
+            if (data.isPresent()) {
+                return new ResponseEntity<VariantModel>(data.get(),HttpStatus.OK);   
+            }else{
+                return new ResponseEntity<VariantModel>(data.get(),HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            
+        }
+    }
     
 
 }

@@ -41,4 +41,8 @@ public class VariantService {
             throw new Exception("Data Tidak Ada");
         }
     }
+
+    public Optional<VariantModel> getbyId(Integer id){
+        return variantrepo.findByIdAndIsDeleted(id,false);
+    }
 }

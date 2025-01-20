@@ -11,5 +11,7 @@ import java.util.Optional;
 @Repository
 public interface VariantRepo extends JpaRepository<VariantModel,Integer> {
     Optional<List<VariantModel>> findByIsDeleted(boolean isDeleted);
+    Optional<VariantModel>findByIdAndIsDeleted(Integer id,boolean isDeleted);
+    
     
 }

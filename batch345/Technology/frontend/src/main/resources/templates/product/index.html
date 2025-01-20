@@ -27,7 +27,8 @@
             <tr>
               <th class="col-1 text-center">Image</th>
               <th class="col-1 text-center">Id</th>
-              <th class="col-4 text-center">Nama Product</th>
+              <th class="col-3 text-center">Nama Product</th>
+              <th class="col-2 text-center">Variant</th>
               <th class="col-1 text-center">Price</th>
               <th class="col-1 text-center">Stock</th>
               <th class="col-1 text-center">Action</th>
@@ -45,6 +46,7 @@
               </td>
               <td th:text="${item.id}" class="text-center">1</td>
               <td th:text="${item.name}" class="text-center">Carbonara</td>
+              <td><p th:each="variants:${variant}" th:if="${item.variantId}==${variants.id}" th:text="${variants.name}"></p></td>
               <td th:text="${item.price}"class="text-center">50000</td>
               <td th:text="${item.stock}"class="text-center">10</td>
               <td>

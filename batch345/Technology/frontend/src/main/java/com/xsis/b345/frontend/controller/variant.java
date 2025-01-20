@@ -1,16 +1,20 @@
 package com.xsis.b345.frontend.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.b345.frontend.models.categoryView;
 import com.xsis.b345.frontend.models.variantView;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 public class variant {
@@ -70,4 +74,62 @@ public class variant {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("variant/edit/{id}")
+    public ModelAndView edit(@PathVariable int id){
+        ModelAndView view = new ModelAndView("variant/edit");
+        ResponseEntity<variantView> apiResponse=null;
+        ResponseEntity<categoryView[]> apiResponseCategory=null;
+        try{
+            apiResponse=restTemplate.getForEntity(apiUrl+"/id/"+id, variantView.class);
+            apiResponseCategory=restTemplate.getForEntity(apiCategory, categoryView[].class);
+            if (apiResponse.getStatusCode()==HttpStatus.OK) {
+                view.addObject("variant",apiResponse.getBody());
+                view.addObject("category", apiResponseCategory.getBody());    
+            }else{
+                throw new Exception(apiResponse.getStatusCode().toString()+" : "+apiResponse.getBody());
+            }
+        }catch(Exception e){
+            view.addObject("errorMSG", e.getMessage());
+        }
+        view.addObject("title", "Edit Variant");
+        return view;
+    }
+
+    @PostMapping("/variant/update")
+    public ResponseEntity<?> update(@ModelAttribute variantView variant) {
+        ResponseEntity<variantView> apiResponse=null;
+        try {
+            restTemplate.put(apiUrl, variant);
+            apiResponse=restTemplate.getForEntity(apiUrl+"/id/"+variant.getId(), variantView.class);
+            if (apiResponse.getStatusCode()==HttpStatus.OK) {
+                return new ResponseEntity<variantView>(apiResponse.getBody(),HttpStatus.OK);
+           } else {
+                throw new Exception(apiResponse.getStatusCode().toString()+" : "+apiResponse.getBody().toString());
+           }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/variant/detail")
+    public ModelAndView detail(@PathVariable int id){
+        ModelAndView view = new ModelAndView("/variant/detail");
+        ResponseEntity<variantView> apiResponse=null;
+        try {
+            apiResponse=restTemplate.getForEntity(apiUrl+"/id"+id, variantView.class);
+            if (apiResponse.getStatusCode()==HttpStatus.OK) {
+                view.addObject("variant", apiResponse.getBody());
+            } else {
+                throw new Exception(apiResponse.getStatusCode().toString()+" : "+apiResponse.getBody());
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            view.addObject("errorMSG", e.getMessage());
+        }
+        view.addObject("title", "Detail Variant");
+        return view;
+    }
+    
 }

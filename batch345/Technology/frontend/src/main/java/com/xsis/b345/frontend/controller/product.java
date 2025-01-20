@@ -16,15 +16,22 @@ public class product {
     private RestTemplate restTemplate = new RestTemplate();
     private final String apiUrl="http://localhost:8080/api/product";
     private final String apiVariant="http://localhost:8080/api/variant";
+    private final String apiCategory="http://localhost:8080/api/category";
 
     @GetMapping("/product")
     public ModelAndView product(){
         ModelAndView view = new ModelAndView("/product/index");
         ResponseEntity<productView[]> apiResponse=null;
+        ResponseEntity<variantView[]> apiResponseVariant=null;
+        ResponseEntity<categoryView[]> apiResponseCategory=null;
         try {
             apiResponse = restTemplate.getForEntity(apiUrl,productView[].class);
+            apiResponseVariant=restTemplate.getForEntity(apiVariant, variantView[].class);
+            apiResponseCategory=restTemplate.getForEntity(apiCategory, categoryView[].class);
             if (apiResponse.getStatusCode()==HttpStatus.OK) {
                 view.addObject("product", apiResponse.getBody());
+                view.addObject("variant",apiResponseVariant.getBody());
+                view.addObject("category", apiResponseCategory.getBody());
             } else {
                 throw new Exception(apiResponse.getStatusCode().toString()+" : "+apiResponse.getBody());
             }
