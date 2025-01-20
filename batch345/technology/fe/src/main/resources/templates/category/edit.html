@@ -47,7 +47,7 @@
             // Mengecek menggunakan fungsi diatas
             if ($("#frmEditCategory").valid()) {
                 $.ajax({
-                    url: "category/save",
+                    url: "category/update",
                     type: "post",
                     data: $("#frmEditCategory").serialize(),
                     dataType: "json",
@@ -55,7 +55,7 @@
 
                     },
                     success: (response) => {
-                        alert("Category " + response.categoryName + " succesfully created")
+                        alert("Category " + response.categoryName + " succesfully updated")
                         location.reload()
                     },
                     error: (errResponse) => {

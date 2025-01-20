@@ -1,17 +1,22 @@
 package com.xsis.bc345.fe.models;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 public class VariantView {
     private Integer id;
     private Integer categoryId;
+    // nambah tabel join
+    private String categoryName;
     private String name;
     private String description;
     private boolean deleted;
     private Integer createBy;
-    private LocalDateTime createDate;
+
+    private Timestamp createDate;
+
     private Integer updateBy;
-    private LocalDateTime updateDate;
+
+    private Timestamp updateDate;
 
     public Integer getId() {
         return id;
@@ -61,14 +66,6 @@ public class VariantView {
         this.createBy = createBy;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-
     public Integer getUpdateBy() {
         return updateBy;
     }
@@ -77,12 +74,27 @@ public class VariantView {
         this.updateBy = updateBy;
     }
 
-    public LocalDateTime getUpdateDate() {
+    public Timestamp getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
+    }
+
+    public Timestamp getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(LocalDateTime updateDate) {
+    public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
     }
 
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
 }

@@ -1,0 +1,65 @@
+<!-- for sending the data to the Ajax -->
+<input id="deleteTitle" type="hidden" th:value="${title}"></input>
+<input id="variantId" type="hidden" th:value="${id}"></input>
+<div class="card">
+    <div class="card-body d-flex flex-column text-center">
+        <div class="col  h4">
+            <i class="fas fa-exclamation"></i>
+        </div>
+        <div class="col-11">
+            Are you sure want to delete Variant with ID <span th:text="${id}"></span>
+        </div>
+        <div class="card-footer d-flex justify-content-end">
+            <button class="btn btn-danger me-2">Confirm</button>
+            <!-- Spasi -->
+            <span>&nbsp;</span>
+            <button class="btn btn-primary" id="abortCancelAdd">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function (e) {
+        // Get the data from hidden
+        $("#staticModalLabel").text($("#deleteTitle").val())
+
+        // Preventing double click with the parent of category/index.html
+        $(".card-footer > .btn-danger").click(function (e) {
+            let variantId = $("#variantId").val()
+            $.ajax({
+                url: `variant/delete/${variantId}/3`,
+                type: "post",
+                success: function (response) {
+                    Swal.fire({
+                        title: "Success",
+                        text: `Variant with id ${variantId} sucessfully deleted`,
+                        icon: "success",
+                        confirmButtonText: "OK",
+                        customClass: {
+                            confirmButton: "btn btn-success"
+                        }
+                    }).then(() => {
+                        location.reload()
+                    })
+                },
+                error: function (errResponse) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: `Variant with id ${variantId} failed to delete`,
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            confirmButton: 'btn btn-danger' // Bootstrap button class
+                        }
+                    });
+                    console.error(errResponse.responseText)
+                }
+            })
+        })
+
+        $(".card-footer > .btn-primary").click(function (e) {
+            alert("cancel")
+            $("#staticModal").modal("hide")
+        })
+    })
+</script>

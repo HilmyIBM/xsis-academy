@@ -1,5 +1,6 @@
 package com.xsis.bc345.fe.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -25,14 +26,17 @@ public class CategoryController {
     private RestTemplate restTemplate = new RestTemplate();
 
     // API URL
-    private final String apiUrl = "http://localhost:8080/api/category";
+    // private final String apiUrl = "http://localhost:8080/api/category";
+    @Value("${application.api.url}")
+    private String apiUrl;
 
     @GetMapping("")
     public ModelAndView index(String filter) {
         ModelAndView view = new ModelAndView("category/index");
         ResponseEntity<CategoryView[]> apiResponse = null;
         try {
-            // must null first and then is empty --> if it's isEmpty() first it will showing the console
+            // must null first and then is empty --> if it's isEmpty() first it will showing
+            // the console
             if (filter == null || filter.isBlank()) {
                 apiResponse = restTemplate.getForEntity(apiUrl, CategoryView[].class);
 
@@ -73,18 +77,18 @@ public class CategoryController {
         return view;
     }
 
-    // 
+    //
     @GetMapping("add")
     public String add(Model model, HttpServletRequest request) {
-    // Check if the request is AJAX
-    if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
-        model.addAttribute("title", "Add New Category");
-        return "category/add :: #formAddContent"; // Return only the form fragment
-    } else {
-        // Redirect to the index page if accessed directly
-        return "redirect:/category";
+        // Check if the request is AJAX
+        if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+            model.addAttribute("title", "Add New Category");
+            return "category/add :: #formAddContent"; // Return only the form fragment
+        } else {
+            // Redirect to the index page if accessed directly
+            return "redirect:/category";
+        }
     }
-}
 
     @PostMapping("save")
     public ResponseEntity<?> save(@ModelAttribute CategoryView category) {
