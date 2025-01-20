@@ -1,10 +1,10 @@
-package com.xsis.exercise2;
+package com.xsis.frontend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Exercise2ApplicationTests {
+class FrontendApplicationTests {
 
 	@Test
 	void contextLoads() {

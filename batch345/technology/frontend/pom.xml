@@ -10,9 +10,9 @@
 		<!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.xsis</groupId>
-	<artifactId>exercise2</artifactId>
+	<artifactId>frontend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>exercise2</name>
+	<name>frontend</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
