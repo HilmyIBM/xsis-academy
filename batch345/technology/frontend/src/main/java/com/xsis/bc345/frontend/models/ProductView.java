@@ -2,12 +2,14 @@ package com.xsis.bc345.frontend.models;
 
 import java.time.LocalDateTime;
 
-public class CategoryView {
+public class ProductView {
   private int id;
-  private String categoryName;
-  private String description;
-
-  private boolean deleted;
+  private String name;
+  private int price;
+  private int stock;
+  private int variantId;
+  private String image;
+  private boolean is_deleted;
   private int createBy;
   private LocalDateTime createDate;
   private int updateBy;
@@ -19,23 +21,41 @@ public class CategoryView {
   public void setId(int id) {
     this.id = id;
   }
-  public String getCategoryName() {
-    return categoryName;
+  public String getName() {
+    return name;
   }
-  public void setCategoryName(String categoryName) {
-    this.categoryName = categoryName;
+  public void setName(String name) {
+    this.name = name;
   }
-  public String getDescription() {
-    return description;
+  public int getPrice() {
+    return price;
   }
-  public void setDescription(String description) {
-    this.description = description;
+  public void setPrice(int price) {
+    this.price = price;
   }
-  public boolean isDeleted() {
-    return deleted;
+  public int getStock() {
+    return stock;
   }
-  public void setDeleted(boolean deleted) {
-    this.deleted = deleted;
+  public void setStock(int stock) {
+    this.stock = stock;
+  }
+  public int getVariantId() {
+    return variantId;
+  }
+  public void setVariantId(int variantId) {
+    this.variantId = variantId;
+  }
+  public String getImage() {
+    return image;
+  }
+  public void setImage(String image) {
+    this.image = image;
+  }
+  public boolean isIs_deleted() {
+    return is_deleted;
+  }
+  public void setIs_deleted(boolean is_deleted) {
+    this.is_deleted = is_deleted;
   }
   public int getCreateBy() {
     return createBy;

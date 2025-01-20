@@ -2,6 +2,7 @@ package com.xsis.bc345.frontend.controller;
 
 
 
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.bc345.frontend.models.CategoryView;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -139,5 +142,31 @@ public class CategoryController {
         return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
       }
   }
+
+  @GetMapping("/delete/{id}")
+  public ModelAndView delete(@PathVariable int id) {
+      ModelAndView view = new ModelAndView("master/category/delete");
+      view.addObject("id", id);
+      view.addObject("title", "Delete Category");
+      return view;
+  }
+
+  @PostMapping("/delete/{id}/{userId}")
+  public ResponseEntity<?> delete(@PathVariable int id, @PathVariable int userId) {
+    ResponseEntity<CategoryView> apiResponse = null;
+
+      try {
+        apiResponse = restTemplate.exchange(apiUrl + "/delete/" + id + "/" + userId, HttpMethod.DELETE, null, CategoryView.class);
+        if (apiResponse.getStatusCode() == HttpStatus.OK){
+          return new ResponseEntity<CategoryView>(apiResponse.getBody(), HttpStatus.OK);
+        }else{
+          throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
+        }
+      } catch (Exception e) {
+        // TODO: handle exception
+        return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+  }
+  
   
 }

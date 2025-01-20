@@ -50,6 +50,11 @@ layout:decorate="~{fragments/layout}">
         $("#staticModalBody").load("/category/" + catId);
         $("#staticModal").modal("show");
       })
+      $(".btn-danger").click(function(e) {
+        let catId = $(this).data("id");
+        $('#staticModalBody').load("/category/delete/"+catId);
+        $('#staticModal').modal("show");
+      });
     </script>
   </div>
 </body>

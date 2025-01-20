@@ -23,42 +23,22 @@ layout:decorate="~{fragments/layout}">
           <th scope="col">Image</th>
           <th scope="col">ID</th>
           <th scope="col">Name</th>
-          <th scope="col">Category</th>
-          <th scope="col">Variant</th>
           <th scope="col">Price</th>
           <th scope="col">Stock</th>
+          <th scope="col">Variant ID</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr th:each="item:${product}">
           <td>
-            <img src="img/carbonara.jpg" alt="product "class="img-thumbnail rounded-circle">
+            <img th:src="@{'/img/' + ${item.image}}" alt="product "class="img-thumbnail rounded-circle">
           </td>
-          <td>1</td>
-          <td>Carbonara</td>
-          <td>Main Course</td>
-          <td>Pasta</td>
-          <td>Rp 35000</td>
-          <td>1</td>
-          <td>
-            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-              <button type="button" class="btn btn-success">Detail</button>
-              <button type="button" class="btn btn-warning">Edit</button>
-              <button type="button" class="btn btn-danger">Delete</button>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img src="img/kwaso.jpg" alt="product "class="img-thumbnail rounded-circle">
-          </td>
-          <td>2</td>
-          <td>Croissant</td>
-          <td>Appetizer</td>
-          <td>Bread</td>
-          <td>Rp 10000</td>
-          <td>98</td>
+          <td th:text="${item.id}">1</td>
+          <td th:text="${item.name}">Carbonara</td>
+          <td th:text="${item.price}">Main Course</td>
+          <td th:text="${item.stock}">Pasta</td>
+          <td th:text="${item.variantId}">Rp 35000</td>
           <td>
             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
               <button type="button" class="btn btn-success">Detail</button>
@@ -67,24 +47,7 @@ layout:decorate="~{fragments/layout}">
             </div>
           </td>
         </tr>
-        <tr>
-          <td>
-            <img src="img/garlicbred.jpg" alt="product "class="img-thumbnail rounded-circle">
-          </td>
-          <td>3</td>
-          <td>Garlic Bread</td>
-          <td>Appetizer</td>
-          <td>Bread</td>
-          <td>Rp 10000</td>
-          <td>100</td>
-          <td>
-            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-              <button type="button" class="btn btn-success">Detail</button>
-              <button type="button" class="btn btn-warning">Edit</button>
-              <button type="button" class="btn btn-danger">Delete</button>
-            </div>
-          </td>
-        </tr>
+        
       </tbody>
     </table>
     <script>

@@ -9,20 +9,26 @@ layout:decorate="~{fragments/layout}">
     <h1>Welcome to Category</h1>
     <hr style="opacity: 1;"/>
     <button type="button" class="btn btn-success" id="btnAdd" data-bs-toggle="modal" data-bs-target="#staticModal"><i class="fas fa-plus"></i> Add</button>
-    <table class="table table-striped" id="tb-category">
+    <table class="table table-striped" id="tb-customer">
       <thead>
         <tr>
           <th scope="col">ID</th>
           <th scope="col">Name</th>
-          <th scope="col">Description</th>
+          <th scope="col">Email</th>
+          <th scope="col">Address</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Role ID</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr th:each="item:${category}">
+        <tr th:each="item:${customer}">
           <td th:text="${item.id}"></td>
           <td th:text="${item.name}">Appetizer</td>
-          <td th:text="${item.description}">Category of Appetizer</td>
+          <td th:text="${item.email}">Category of Appetizer</td>
+          <td th:text="${item.address}">Category of Appetizer</td>
+          <td th:text="${item.phone}">Category of Appetizer</td>
+          <td th:text="${item.roleId}">Category of Appetizer</td>
           <td>
             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
               <button type="button" class="btn btn-success" th:data-id="${item.id}">Detail</button>
@@ -34,16 +40,7 @@ layout:decorate="~{fragments/layout}">
       </tbody>
     </table>
     <script>
-      new DataTable('#tb-category');
-      $("#btnAdd").click(function(e) {
-        $("#staticModalBody").load("category/add");
-      });
-      $(".btn-warning").click(function(e) {
-        let catId = $(this).data('id');
-
-        $("#staticModalBody").load("/category/edit/" + catId);
-        $("#staticModal").modal("show");
-      });
+      new DataTable('#tb-customer');
     </script>
   </div>
 </body>

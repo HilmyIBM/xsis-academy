@@ -1,9 +1,13 @@
 package com.xsis.bc345.backend.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.xsis.bc345.backend.models.Category;
 import com.xsis.bc345.backend.models.Variant;
 import com.xsis.bc345.backend.repositories.VariantRepository;
 
@@ -16,6 +20,10 @@ public class VariantService {
     this.variantRepo = variantRepo;
   }
 
+  public List<Map<String, Object>> getAllNative() throws Exception {
+    return variantRepo.findAllByNativeQuery().get();
+  }
+
   public List<Variant> getAll() {
     try {
       return variantRepo.findByDeleted(false).get();
@@ -23,4 +31,27 @@ public class VariantService {
       throw e;
     }
   }
+
+  public Optional<Variant> getById(int id) throws Exception{
+    return variantRepo.findByIdAndDeleted(id, false);
+  }
+
+  public Variant create(Variant data) throws Exception {
+    return variantRepo.save(data);
+  }
+
+  public Variant update(Variant data) throws Exception {
+    Optional<Variant> existingVariant = variantRepo.findById(data.getId());
+    if(existingVariant.isPresent()) {
+      data.setCreateBy(existingVariant.get().getCreateBy());
+      data.setCreateDate(existingVariant.get().getCreateDate());
+      data.setUpdateDate(LocalDateTime.now());
+
+      return variantRepo.save(data);
+    } else {
+      throw new Exception("Variant tidak ada");
+    }
+  }
+
+  
 }

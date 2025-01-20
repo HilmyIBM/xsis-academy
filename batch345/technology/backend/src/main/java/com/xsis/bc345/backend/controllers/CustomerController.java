@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xsis.bc345.backend.models.Category;
 import com.xsis.bc345.backend.models.Customer;
 import com.xsis.bc345.backend.services.CustomerService;
 import org.springframework.web.bind.annotation.GetMapping;

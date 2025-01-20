@@ -2,11 +2,14 @@ package com.xsis.bc345.frontend.models;
 
 import java.time.LocalDateTime;
 
-public class CategoryView {
+public class CustomerView {
   private int id;
-  private String categoryName;
-  private String description;
-
+  private String name;
+  private String email;
+  private String password;
+  private String address;
+  private String phone;
+  private int roleId;
   private boolean deleted;
   private int createBy;
   private LocalDateTime createDate;
@@ -19,17 +22,41 @@ public class CategoryView {
   public void setId(int id) {
     this.id = id;
   }
-  public String getCategoryName() {
-    return categoryName;
+  public String getName() {
+    return name;
   }
-  public void setCategoryName(String categoryName) {
-    this.categoryName = categoryName;
+  public void setName(String name) {
+    this.name = name;
   }
-  public String getDescription() {
-    return description;
+  public String getEmail() {
+    return email;
   }
-  public void setDescription(String description) {
-    this.description = description;
+  public void setEmail(String email) {
+    this.email = email;
+  }
+  public String getPassword() {
+    return password;
+  }
+  public void setPassword(String password) {
+    this.password = password;
+  }
+  public String getAddress() {
+    return address;
+  }
+  public void setAddress(String address) {
+    this.address = address;
+  }
+  public String getPhone() {
+    return phone;
+  }
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+  public int getRoleId() {
+    return roleId;
+  }
+  public void setRoleId(int roleId) {
+    this.roleId = roleId;
   }
   public boolean isDeleted() {
     return deleted;
@@ -61,6 +88,5 @@ public class CategoryView {
   public void setUpdateDate(LocalDateTime updateDate) {
     this.updateDate = updateDate;
   }
-
   
 }

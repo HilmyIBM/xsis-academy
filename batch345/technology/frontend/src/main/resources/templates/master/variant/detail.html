@@ -1,0 +1,36 @@
+<span id="txtTitle" class="d-none" th:text="${title}"></span>
+<div class="card">
+  <div class="card-body">
+      <input name="id" id="txtId" th:value="${variant.id}" type="hidden">
+      <input name="updateBy" id="txtUpdate" th:value="2" type="hidden">
+      <div class="form-group">
+        <label for="txtName" class="form-label">Name</label>
+        <input type="text" class="form-control" id="txtName" name="name" th:value="${variant.name}"/>
+      </div>
+      <div class="form-group">
+        <label for="txtDescription" class="form-label">Description</label>
+        <input type="text" class="form-control" id="txtDescription" name="description" th:value="${variant.description}"/>
+      </div>
+      <div class="form-group">
+        <label for="txtCategoryName" class="form-label">Category</label>
+        <input th:each="item:${category}" th:if="${variant.categoryId}==${item.id}" type="text" class="form-control" id="txtCategoryName" name="categoryName" th:value="${item.categoryName}"/>
+      </div>
+      <div class="col">
+        <label for="txtDescription" class="form-label h6">Create By</label>
+        <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${variant.createBy}"/>
+        <label for="txtDescription" class="form-label h6">Update By</label>
+        <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${variant.updateBy}"/>
+        <label for="txtDescription" class="form-label h6">Create Date</label>
+        <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${variant.createDate}"/>
+        <label for="txtDescription" class="form-label h6">Update Date</label>
+        <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${variant.updateDate}"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $("#staticModalLabel").text($("#txtTitle").text());
+  })
+</script>

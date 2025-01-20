@@ -1,17 +1,22 @@
 package com.xsis.bc345.frontend.models;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
-public class CategoryView {
+public class VariantView {
+  
   private int id;
+  private int categoryId;
   private String categoryName;
+  private String name;
   private String description;
-
   private boolean deleted;
   private int createBy;
-  private LocalDateTime createDate;
+  private Timestamp createDate;
   private int updateBy;
-  private LocalDateTime updateDate;
+  private Timestamp updateDate;
+
   
   public int getId() {
     return id;
@@ -19,11 +24,23 @@ public class CategoryView {
   public void setId(int id) {
     this.id = id;
   }
+  public int getCategoryId() {
+    return categoryId;
+  }
+  public void setCategoryId(int categoryId) {
+    this.categoryId = categoryId;
+  }
   public String getCategoryName() {
     return categoryName;
   }
   public void setCategoryName(String categoryName) {
     this.categoryName = categoryName;
+  }
+  public String getName() {
+    return name;
+  }
+  public void setName(String name) {
+    this.name = name;
   }
   public String getDescription() {
     return description;
@@ -43,10 +60,10 @@ public class CategoryView {
   public void setCreateBy(int createBy) {
     this.createBy = createBy;
   }
-  public LocalDateTime getCreateDate() {
+  public Timestamp getCreateDate() {
     return createDate;
   }
-  public void setCreateDate(LocalDateTime createDate) {
+  public void setCreateDate(Timestamp createDate) {
     this.createDate = createDate;
   }
   public int getUpdateBy() {
@@ -55,12 +72,13 @@ public class CategoryView {
   public void setUpdateBy(int updateBy) {
     this.updateBy = updateBy;
   }
-  public LocalDateTime getUpdateDate() {
+  public Timestamp getUpdateDate() {
     return updateDate;
   }
-  public void setUpdateDate(LocalDateTime updateDate) {
+  public void setUpdateDate(Timestamp updateDate) {
     this.updateDate = updateDate;
   }
 
   
+
 }
