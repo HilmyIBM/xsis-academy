@@ -2,6 +2,7 @@ package com.xsis.bc345.be.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,10 @@ public class VariantService {
 
     public List<Variant> getAll() throws Exception {
         return variantRepo.findByDeleted(false).get();
+    }
+
+    public List<Map<String, Object>> getAllNative() throws Exception {
+        return variantRepo.findAllNative().get();
     }
 
     public Variant create(Variant data) {

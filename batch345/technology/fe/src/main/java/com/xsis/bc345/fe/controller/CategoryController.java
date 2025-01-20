@@ -1,6 +1,9 @@
 package com.xsis.bc345.fe.controller;
 
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,7 +25,8 @@ public class CategoryController {
     private RestTemplate restTemplate =new RestTemplate();
 
     //API URL
-    private final String apiUrl = "http://localhost:8080/api/category";
+    @Value("${application.api.url}")
+    private  String apiUrl;
 
     @GetMapping("")
     ModelAndView index() {
@@ -30,7 +34,7 @@ public class CategoryController {
         ResponseEntity<CategoryView[]> apiResponse = null;
 
         try {
-            apiResponse = restTemplate.getForEntity(apiUrl, CategoryView[].class);
+            apiResponse = restTemplate.getForEntity(apiUrl + "/category", CategoryView[].class);
             
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 // CategoryView[] data = apiResponse.getBody();
@@ -76,11 +80,11 @@ public class CategoryController {
 
         return view;
     }
+
     @GetMapping("/add")
     ModelAndView add() {
         ModelAndView view = new ModelAndView("/category/add");
         view.addObject("title", "Add New Category");
-        view.addObject("nama", "Nama Saya Budi");
 
         return view;
     }
@@ -145,6 +149,44 @@ public class CategoryController {
             }
         }
         catch(Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/delete/{id}")
+    public ModelAndView delete(@PathVariable int id) {
+        ModelAndView view = new ModelAndView("/category/delete");
+
+        view.addObject("id", id);
+        view.addObject("title", "Delete Category");
+
+        return view;
+    }
+
+    @PostMapping("/delete/{id}/{userId}")
+    public ResponseEntity<?> delete(@PathVariable int id, @PathVariable int userId) {
+        ResponseEntity<CategoryView> apiResponse = null;
+        CategoryView category = new CategoryView();
+
+        category.setId(id);
+        category.setUpdateBy(userId);
+
+        try {
+            apiResponse = restTemplate.exchange(
+                apiUrl + "/delete/" + id + "/" + userId,
+                HttpMethod.DELETE,
+                new HttpEntity<CategoryView>(category),
+                CategoryView.class
+            );
+
+            if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                return new ResponseEntity<CategoryView>(apiResponse.getBody(), HttpStatus.OK);
+            }
+            else {
+                throw new Exception(apiResponse.getStatusCode().toString() + ": " +  apiResponse.getBody().toString());
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -4,11 +4,10 @@ import java.time.LocalDateTime;
 
 public class CategoryView {
     
+    private int id;
     private String categoryName; 
     private String description;
     private boolean deleted;
-    private int id;
-    
     private int createBy;
     private LocalDateTime createDate;
     private int updateBy;
