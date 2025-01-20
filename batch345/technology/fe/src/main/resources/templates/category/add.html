@@ -39,21 +39,24 @@
         $("#frmNewCategory").submit(function(e) {
             e.preventDefault();
 
+            let data = $("#frmNewCategory").serialize();
+
             if ($("#frmNewCategory").valid()) {
-                debugger;
                 $.ajax({
                     url: "/category/create",
                     type: "post",
-                    data: $("#frmNewCategory").serialize(),
+                    data: data,
                     dataType: "json",
                     beforeSend: () => {
                         // alert("mengirim data ke api");
                     },
                     success: function(response) {
+                        debugger;
                         alert("Category " + response.categoryName + " succesfully Added!");
                         location.reload();
                     },
                     error: function(errResponse) {
+                        debugger;
                         console.error("Create new Category Failed: " + errResponse.responseText);
                     }
                 });
