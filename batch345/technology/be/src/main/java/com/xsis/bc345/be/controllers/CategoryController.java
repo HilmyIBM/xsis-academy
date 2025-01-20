@@ -35,8 +35,7 @@ public class CategoryController {
             List<Category> data = categorySvc.getAll();
 
             if (data.size() == 0) {
-                return new ResponseEntity<List<Category>>(new ArrayList<Category>(), HttpStatus.NO_CONTENT); // returning array
-                                                                                                     // []
+                return new ResponseEntity<List<Category>>(new ArrayList<Category>(), HttpStatus.NO_CONTENT); // returning array                                                                               // []
             }
             return new ResponseEntity<List<Category>>(data, HttpStatus.OK);
 
@@ -49,7 +48,6 @@ public class CategoryController {
     public ResponseEntity<?> getById(@PathVariable int id) {
         try {
             Optional<Category> data = categorySvc.getById(id);
-            System.out.println(data);
             if (data.isEmpty()) {
                 return new ResponseEntity<Category>(HttpStatus.NO_CONTENT);
             }
