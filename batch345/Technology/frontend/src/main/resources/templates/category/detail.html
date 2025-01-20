@@ -9,25 +9,30 @@
                 <label for="txtDeskripsi" class="form-label">Description : </label>
                 <input type="text" class="form-control" id="txtDeskripsi" name="deskripsi" th:value="${category.description}" readonly>
             </div>
-
-            <div class="form-group mt-4">
-                <label for="txtDeskripsi" class="form-label">Create By : </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="createBy" th:value="${category.createBy}" readonly>
-            </div>
-
-            <div class="form-group mt-4">
-                <label for="txtDeskripsi" class="form-label">Create Date : </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="createDate" th:value="${category.createDate}" readonly>
-            </div>
-
-            <div class="form-group mt-4">
-                <label for="txtDeskripsi" class="form-label">Update By : </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="updateby" th:value="${category.updateBy}" readonly>
-            </div>
-
-            <div class="form-group mt-4">
-                <label for="txtDeskripsi" class="form-label">Update Date : </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="updateDate" th:value="${category.updateDate}" readonly>
+            <br>
+            <div class="grid border-top border-white">
+                <div class=" row">
+                    <div class="col-3">
+                        <label for="txtDeskripsi" class="form-label">Create By : </label>
+                        <input type="text" class="form-control" id="txtDeskripsi" name="createBy" th:value="${category.createBy}" readonly>
+                    </div>
+        
+                    <div class="col-9">
+                        <label for="txtDeskripsi" class="form-label">Create Date : </label>
+                        <input type="text" class="form-control" id="txtDeskripsi" name="createDate" th:value="${category.createDate}" readonly>
+                    </div>
+                </div>  
+                <div class="row">
+                    <div class="col-3">
+                        <label for="txtDeskripsi" class="form-label">Update By : </label>
+                        <input type="text" class="form-control" id="txtDeskripsi" name="updateby" th:value="${category.updateBy}" readonly>
+                    </div>
+        
+                    <div class="col-9">
+                        <label for="txtDeskripsi" class="form-label">Update Date : </label>
+                        <input type="text" class="form-control" id="txtDeskripsi" name="updateDate" th:value="${category.updateDate}" readonly>
+                    </div>
+                </div>
             </div>
     </div>
 </div>

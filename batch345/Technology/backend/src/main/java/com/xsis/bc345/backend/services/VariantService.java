@@ -2,6 +2,7 @@ package com.xsis.bc345.backend.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import com.xsis.bc345.backend.repositories.VariantRepo;
 public class VariantService {
     @Autowired
     private VariantRepo variantrepo;
-
+    private Optional<VariantModel> variantExist;
     
     public List<VariantModel> getAll(){
         try {
@@ -24,6 +25,10 @@ public class VariantService {
         } catch (Exception e) {
             throw e;
         }   
+    }
+
+    public List<Map<String,Object>> getNative() throws Exception{
+        return variantrepo.findByNativeQuery().get();
     }
 
     public VariantModel create(VariantModel data) throws Exception{
@@ -44,5 +49,17 @@ public class VariantService {
 
     public Optional<VariantModel> getbyId(Integer id){
         return variantrepo.findByIdAndIsDeleted(id,false);
+    }
+
+    public VariantModel delete(int id,int userId) throws Exception{
+        variantExist=variantrepo.findById(id);
+        if (variantExist.isPresent()) {
+            variantExist.get().setIsDeleted(true);
+            variantExist.get().setUpdateBy(userId);
+            variantExist.get().setUpdateDate(LocalDateTime.now());
+            return variantrepo.save(variantExist.get());   
+        }else{
+            throw new Exception("Data Tidak Adak");
+        }
     }
 }

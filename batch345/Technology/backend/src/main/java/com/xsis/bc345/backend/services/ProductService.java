@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xsis.bc345.backend.models.CustomerModel;
 import com.xsis.bc345.backend.models.ProductModel;
 import com.xsis.bc345.backend.repositories.ProductRepo;
 
@@ -15,6 +14,7 @@ import com.xsis.bc345.backend.repositories.ProductRepo;
 public class ProductService {
     @Autowired
     private ProductRepo productrepo;
+    private Optional<ProductModel> productExist;
 
     public List<ProductModel> getAll(){
         try {
@@ -40,5 +40,24 @@ public class ProductService {
             throw new Exception("Data Tidak Ada");
         }
     }
+
+    public Optional<ProductModel> getbyId(Integer id){
+        return productrepo.findByIdAndIsDeleted(id,false);
+    }
+
+
+    public ProductModel delete(int id, int userId) throws Exception {
+        // TODO Auto-generated method stub
+        productExist=productrepo.findById(id);
+        if (productExist.isPresent()) {
+            productExist.get().setIsDeleted(true);
+            productExist.get().setUpdateBy(userId);
+            productExist.get().setUpdateDate(LocalDateTime.now());
+            return productrepo.save(productExist.get());
+        } else {
+            throw new Exception("Data Tidak Ada");
+        }
+    }
+
 
 }

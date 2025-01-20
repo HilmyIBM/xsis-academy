@@ -22,22 +22,19 @@
         <table class="table table-bordered mt-2 table-hover text-center border-white" id="tblVariant" >
           <thead>
             <tr>
-              <th class="col-1">Id</th>
-              <th class="col-4">Nama Variant</th>
-              <th class="col-1">Categories</th>
-              <th class="col-4">Description</th>
-              <th class="col-1">Action</th>
+              <th class="col-1 text-center">Id</th>
+              <th class="col-4 text-center">Nama Variant</th>
+              <th class="col-1 text-center">Categories</th>
+              <th class="col-4 text-center">Description</th>
+              <th class="col-1 text-center">Action</th>
             </tr>
           </thead>
           <tbody>
             <tr th:each="item:${variant}">
-              <td th:text="${item.id}">1</td>
-              <td th:text="${item.name}">Bread</td>
-              <td>
-                <p th:each="itemC : ${category}"
-                   th:if="${item.categoryId} == ${itemC.id}"
-                   th:text="${itemC.categoryName}">
-                </p>
+              <td th:text="${item.id}" class="text-center">1</td>
+              <td th:text="${item.name}" class="text-center">Bread</td>
+              <td th:text="${item.categoryName}"
+              class="text-center">
             </td>
             
               <td th:text="${item.description}">Variant of bread</td>
@@ -46,7 +43,7 @@
                   class="btn-group d-flex justify-content-center"
                   role="group"
                   aria-label="Basic mixed styles example">
-                <button th:data-id="${item.id}" type="button" class="btn btn-success" title="Edit"><i class="fas fa-edit"></i></button>
+                <button th:data-id="${item.id}" type="button" class="btn btn-info" title="Edit"><i class="fas fa-edit"></i></button>
                 <button th:data-id="${item.id}" type="button" class="btn btn-warning" title="Detail"><i class="fas fa-info"></i></button>
                 <button th:data-id="${item.id}" type="button" class="btn btn-danger" title="Delete"><i class="fas fa-trash"></i></button>
                 </div>
@@ -62,10 +59,23 @@
             $('#staticModalBody').load("/variant/add");
           });
         
-        $(".btn-success").click(function(e){
+        $(".btn-info").click(function(e){
           let catId=$(this).data('id');
 
           $('#staticModalBody').load("/variant/edit/"+catId);
+          $('#staticModal').modal("show");
+        })
+
+        $(".btn-warning").click(function(e){
+          let catId=$(this).data('id');
+
+          $('#staticModalBody').load("/variant/detail/"+catId);
+          $('#staticModal').modal("show");
+        })
+
+        $(".btn-danger").click(function(e){
+          let catId=$(this).data('id');
+          $('#staticModalBody').load("/variant/delete/"+catId);
           $('#staticModal').modal("show");
         })
       </script>

@@ -1,27 +1,27 @@
 <span class="d-none" th:text="${title}" id="txtTitle"></span>
 <div class="card">
     <div class="card-body">
-        <form th:action="@{~/product/save}" id="formAddProduct" method="post">
+        <form th:action="@{~/product/update}" id="formEditProduct" method="post">
             <div class="form-group">
                 <label for="txtName" class="form-label">Name : </label>
-                <input type="text" class="form-control" id="txtName" name="name">
+                <input type="text" class="form-control" id="txtName" name="name" th:value="${product.name}">
             </div>
             <div class="form-group mt-4">
                 <div class="mt-3"></div>
                 <label for="txtDeskripsi" class="form-label">Price : </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="price">
+                <input type="text" class="form-control" id="txtDeskripsi" name="price" th:value="${product.price}">
                 <div class="mt-3"></div>
                 <label for="txtDeskripsi" class="form-label">Stock : </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="stock">
+                <input type="text" class="form-control" id="txtDeskripsi" name="stock" th:value="${product.stock}">
                 <div class="mt-3"></div>
                 <label for="txtDeskripsi" class="form-label">Pilih variant : </label><br>
                 <select name="variantId">
-                    <option value="">--Select variant--</option>
-                    <option th:if="${variant != null}" th:each="item:${variant}" th:value="${item.id}" th:text="${item.name}"></option>
+                    <option th:each="itemC:${variant}" th:if="${product.variantId} == ${itemC.id}" th:text="${itemC.name}" th:value="${product.variantId}"></option>
+                    <option th:each="item:${variant}" th:if="${product.variantId != item.id}" th:value="${item.id}" th:text="${item.name}"></option>
                 </select>
                 <div class="mt-3">
                 <label for="txtDeskripsi" class="form-label">image : </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="image">
+                <input type="text" class="form-control" id="txtDeskripsi" name="image" th:value="${product.image}">
             <div class="form-group">
             <div class="d-flex justify-content-end mt-3">
                 <input type="hidden" name="createBy" value="1">
@@ -35,7 +35,7 @@
     $(document).ready(function(){
         $('#staticBackdropLabel').text($('#txtTitle').text());
 
-        $("#formAddProduct").validate({
+        $("#formEditProduct").validate({
             "rules" :{
                 "name" : {
                     "required":true,
@@ -58,12 +58,12 @@
             "errorClass" : "text-danger"
         });
 
-        $("#formAddProduct").submit(function(e){
+        $("#formEditProduct").submit(function(e){
             e.preventDefault();
 
-            if($("#formAddProduct").valid()){
+            if($("#formEditProduct").valid()){
                 $.ajax({
-                    url :"/product/save",
+                    url :"/product/update",
                     type : "post",
                     data : $("#formAddProduct").serialize(),
                     dataType : "json",

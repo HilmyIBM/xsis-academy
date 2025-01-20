@@ -41,8 +41,7 @@
                   th:src=${item.image}
                   alt="product"
                   class="img-thumbnail rounded-circle"
-                  style="width: 70px;"
-                />
+                  style="width: 70px;">
               </td>
               <td th:text="${item.id}" class="text-center">1</td>
               <td th:text="${item.name}" class="text-center">Carbonara</td>
@@ -55,7 +54,7 @@
                   role="group"
                   aria-label="Basic mixed styles example"
                 >
-                <button th:data-id="${item.id}" type="button" class="btn btn-success" title="Edit"><i class="fas fa-edit"></i></button>
+                <button th:data-id="${item.id}" type="button" class="btn btn-info" title="Edit"><i class="fas fa-edit"></i></button>
                 <button th:data-id="${item.id}" type="button" class="btn btn-warning" title="Detail"><i class="fas fa-info"></i></button>
                 <button th:data-id="${item.id}" type="button" class="btn btn-danger" title="Delete"><i class="fas fa-trash"></i></button>
                 </div>
@@ -70,6 +69,13 @@
           function(e){
             $('#staticModalBody').load("/product/add");
           });
+        
+          $(".btn-info").click(function(e){
+          let catId=$(this).data('id');
+
+          $('#staticModalBody').load("/product/edit/"+catId);
+          $('#staticModal').modal("show");
+        })
       </script>
     </div>
   </body>
