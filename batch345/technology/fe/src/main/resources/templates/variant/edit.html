@@ -1,8 +1,8 @@
 <input type="hidden" id="txtTitle"  th:value="${title}"/>
 <div class="card">
   <div class="card-body">
-    <form th:action="@{~/category/update}" id="frmEditCategory" method="post">
-      <input type="text" name="id" id="txtId" th:value="${category.id}"/>
+    <form th:action="@{~/variant/update}" id="frmEditVariant" method="post">
+      <input type="text" name="id" id="txtId" th:value="${variant.id}"/>
       <input type="hidden" name="updateBy" id="txtUpdateBy" value="2"/>
       <div class="form-group">
         <label for="txtName" class="form-label h6"> Name </label>
@@ -30,9 +30,9 @@
     $("#staticModalLabel").text($("#txtTitle").val());
     // $("#staticModalLabel").html();
 
-    $("#frmEditCategory").validate({
+    $("#frmEditVariant").validate({
       "rules" : {
-        "categoryName":{
+        "name":{
           "required" : true,
           "maxlength" : 100,
           "minlength" : 3
@@ -42,24 +42,24 @@
         }
       }
     });
-    $("#frmEditCategory").submit(function(e){
+    $("#frmEditVariant").submit(function(e){
       e.preventDefault();
 
-      if( $("#frmEditCategory").valid()){
+      if( $("#frmEditVariant").valid()){
         $.ajax({
-          url: "/category/update",
+          url: "/variant/update",
           type: "post",
-          data:  $("#frmEditCategory").serialize(),
+          data:  $("#frmEditVariant").serialize(),
           dataType: "json",
           beforeSend: ()=>{
             // alert("mengirim data ke api");
           },
           success: function(response){
-            alert("Category "+ response.categoryName + " succesfully updated!");
+            alert("Variant "+ response.name + " succesfully updated!");
             location.reload();
           },
           error: function(errResponse){
-            console.error("Update category failed: " + errResponse.responseText);
+            console.error("Update variant failed: " + errResponse.responseText);
           }
 
         })

@@ -2,15 +2,12 @@ package com.xsis.bc345.be.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.xsis.bc345.be.models.Variant;
-import com.xsis.bc345.be.models.Variant;
-import com.xsis.bc345.be.models.Product;
-import com.xsis.bc345.be.models.Variant;
-import com.xsis.bc345.be.repositories.VariantRepository;
 import com.xsis.bc345.be.repositories.VariantRepository;
 
 @Service
@@ -69,4 +66,31 @@ public class VariantService {
        }
     }
 
+    public List<Variant> getByDescriptionContainsIgnoreCaseAndDeleted(String description, boolean deleted) {
+        // TODO Auto-generated method stub
+        return variantRepo.findByDescriptionContainsIgnoreCaseAndDeleted(description, false).get();
+    }
+
+    public List<Variant> getByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(String filter,
+            boolean deleted) {
+        // TODO Auto-generated method stub
+        return variantRepo.findByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(filter, filter, deleted).get();
+    }
+
+    public List<Variant> getByNameIgnoreCaseAndDeleted(String name, boolean deleted) {
+        // TODO Auto-generated method stub
+        return variantRepo.findByNameIgnoreCaseAndDeleted(name, false).get();
+    }
+
+    public Optional<Variant> getById(int id, boolean deleted) {
+        // TODO Auto-generated method stub
+        return variantRepo.findByIdAndDeleted(id, deleted);    }
+
+    public List<Map<String, Object>> getAllNative() throws Exception {
+        // TODO Auto-generated method stub
+        return variantRepo.findAllNative().get();   }
+    
+    
+
+    
 }

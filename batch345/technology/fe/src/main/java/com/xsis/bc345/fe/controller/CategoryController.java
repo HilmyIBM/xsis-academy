@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -190,5 +192,35 @@ public class CategoryController {
         view.addObject("title", "Delete Category");
 
         return view;
+    }
+
+    
+     @PostMapping("/delete/{id}/{userId}")
+    public ResponseEntity<?> delete(@PathVariable int id, @PathVariable int userId) {
+        ResponseEntity<CategoryView> apiResponse = null;
+        CategoryView category = new CategoryView();
+
+        category.setId(id);
+        category.setUpdateBy(userId);
+
+        try {
+            // restTemplate.delete(apiUrl + "/delete/" + id + "/" + userId);
+            apiResponse = restTemplate.exchange(
+                apiUrl + "/delete/" + id + "/" + userId,
+                HttpMethod.DELETE,
+                new HttpEntity<CategoryView>(category),
+                CategoryView.class
+            );
+
+            if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                return new ResponseEntity<CategoryView>(apiResponse.getBody(), HttpStatus.OK);
+            }
+            else {
+                throw new Exception(apiResponse.getStatusCode().toString() + ": " +  apiResponse.getBody().toString());
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

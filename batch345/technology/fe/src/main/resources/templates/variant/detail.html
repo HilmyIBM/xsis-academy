@@ -1,11 +1,11 @@
 <input type="hidden" id="txtTitle"  th:value="${title}"/>
 <div class="card">
   <div class="card-body">
-      <input type="text" name="id" id="txtId" th:value="${category.id}"/>
+      <input type="text" name="id" id="txtId" th:value="${variant.id}"/>
       <input type="hidden" name="updateBy" id="txtUpdateBy" value="2"/>
       <div class="form-group">
         <label for="txtName" class="form-label h6"> Name </label>
-        <input type="text" class="form-control" id="txtName" name="categoryName" th:value="${category.categoryName}" />
+        <input type="text" class="form-control" id="txtName" name="name" th:value="${variant.name}" />
       </div>
       <div class="form-group">
         <label for="txtDescription" class="form-label h6" > Description </label>
@@ -14,20 +14,20 @@
           class="form-control"
           id="txtDescription"
           name="description"
-          th:value="${category.description}"
+          th:value="${variant.description}"
         />
       </div>
       <div class="form-group">
         <label for="txtName" class="form-label h6"> Create By </label>
-        <input type="text" class="form-control" id="txtCreateBy" name="createBy" th:value="${category.createBy}" />
+        <input type="text" class="form-control" id="txtCreateBy" name="createBy" th:value="${variant.createBy}" />
         <label for="txtName" class="form-label h6"> Update By </label>
-        <input type="text" class="form-control" id="txtUpdateBy" name="updateBy" th:value="${category.updateBy}" />
+        <input type="text" class="form-control" id="txtUpdateBy" name="updateBy" th:value="${variant.updateBy}" />
       </div>
       <div class="form-group">
         <label for="txtName" class="form-label h6"> Create Date </label>
-        <input type="text" class="form-control" id="txtCreateDate" name="createDate" th:value="${category.createDate}" />
+        <input type="text" class="form-control" id="txtCreateDate" name="createDate" th:value="${variant.createDate}" />
         <label for="txtName" class="form-label h6"> Update Date </label>
-        <input type="text" class="form-control" id="txtUpdateDate" name="updateDate" th:value="${category.updateDate}" />
+        <input type="text" class="form-control" id="txtUpdateDate" name="updateDate" th:value="${variant.updateDate}" />
       </div>
       <div class="text-right">
         <div></div>

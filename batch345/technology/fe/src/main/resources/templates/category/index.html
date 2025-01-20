@@ -23,13 +23,22 @@
                 </div>
             </div>
             <span class="w-50">&nbsp;</span>
-            <div class="input-group ">
+            <!-- <div class="input-group ">
                 <form action="/category" id="frmFilter">
                     <input th:if="${filter != null}" type="text" id="txtFilter" th:value="${filter}" />
                     <input th:unless="${filter != null}" type="text" id="txtFilter" th:value="${filter}" />
                     <button class="btn btn-secondary" title="filter"  type="submit">Find</button>
                 </form>
 
+            </div> -->
+            <div class="col-12 col-lg-6">
+                <form id="frmFilter">
+                    <div class="input-group">
+                        <input th:if="${filter != null}" th:value="${filter}" name="filter" type="text" id="txtFilter" class="form-control" placeholder="Name or Description..." />
+                        <input th:unless="${filter != null}" name="filter" type="text" id="txtFilter" class="form-control" placeholder="Name or Description..." />
+                        <button type="submit" class="input-group-text"><i class="fas fa-filter" title="Filter by Name or Description..."></i></button>
+                    </div>
+                </form>
             </div>
         </div>
        <div>
@@ -57,20 +66,6 @@
                             </div>
                         </td>
                     </tr>
-                    <!-- <tr>
-                        <td>2</td>
-                        <td>Minuman</td>
-                        <td>Kategori Minuman</td>
-                        <td>
-                            <div class="btn-group">
-                                <button data-id="2" class="btn btn-success">Edit</button>
-                                <div class="mx-1"></div>
-                                <button data-id="2" class="btn btn-warning">Details</button>
-                                <div class="mx-1"></div>
-                                <button data-id="2" class="btn btn-danger">Delete</button>
-                            </div>
-                        </td>
-                    </tr> -->
                 </tbody>
             </table>
             <div th:unless="${category != null}" th:text="${errorMsg}" class="text h6 text-danger text-center"></div>
