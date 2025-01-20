@@ -1,6 +1,6 @@
 package com.xsis.bc345.fe.models;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 public class VariantView {
 	private int id;
@@ -10,9 +10,9 @@ public class VariantView {
 	private String categoryName;
 	private boolean deleted;
 	private int createBy;
-	private LocalDateTime createDate;
+	private Timestamp createDate;
 	private int updateBy;
-	private LocalDateTime updateDate;
+	private Timestamp updateDate;
 
     public int getId() {
         return this.id;
@@ -74,13 +74,14 @@ public class VariantView {
         this.createBy = createBy;
     }
 
-    public LocalDateTime getCreateDate() {
+    public Timestamp getCreateDate() {
         return this.createDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
+
 
     public int getUpdateBy() {
         return this.updateBy;
@@ -90,11 +91,11 @@ public class VariantView {
         this.updateBy = updateBy;
     }
 
-    public LocalDateTime getUpdateDate() {
+    public Timestamp getUpdateDate() {
         return this.updateDate;
     }
 
-    public void setUpdateDate(LocalDateTime updateDate) {
+    public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
     }
 

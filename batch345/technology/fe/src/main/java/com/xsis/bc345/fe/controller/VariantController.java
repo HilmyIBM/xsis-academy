@@ -24,8 +24,8 @@ public class VariantController {
     private RestTemplate restTemplate = new RestTemplate();
 
     //API URL
-    @Value("${application.api.url}")
     // private final String apiUrl = "http://localhost:8080/api";
+    @Value("${application.api.url}")
     private String apiUrl;
     
     @GetMapping("")

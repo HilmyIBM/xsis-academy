@@ -16,8 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.bc345.fe.models.CategoryView;
 
-
-
 @Controller
 @RequestMapping("/category")
 public class CategoryController {
