@@ -53,7 +53,7 @@ public class CategoryController {
         }
     }
 
-    @GetMapping("/name/{categoryName}")
+    @GetMapping("/categoryName/{categoryName}")
     public ResponseEntity<?> getBy(@PathVariable String categoryName) {
         try {
             List<Category> data = categorySvc.getByName(categoryName);

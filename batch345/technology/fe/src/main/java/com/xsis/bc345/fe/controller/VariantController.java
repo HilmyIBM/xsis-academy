@@ -16,7 +16,7 @@ import com.xsis.bc345.fe.models.VariantView;
 @Controller
 public class VariantController {
     
-        //HTTP Client
+    //HTTP Client
     private RestTemplate restTemplate =new RestTemplate();
     
     //API URL

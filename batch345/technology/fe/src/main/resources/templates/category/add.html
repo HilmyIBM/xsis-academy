@@ -8,7 +8,7 @@
             </div>
             <div class="form-group">
                 <label for="txtDescription" class="form-label h6">Description</label>
-                <input type="text" class="form-control" id="txtDescription" name="descriptions" />
+                <input type="text" class="form-control" id="txtDescription" name="description" />
             </div>
             <div class="d-flex justify-content-end mt-3">
                 <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Save</button>
@@ -20,7 +20,7 @@
 
 <script>
     $(document).ready(function(){
-        $("#staticModalLabel").text($("#txtTitle").text());
+        $("#staticModalLabel").text($("#txtTitle").val());
 
         $("#frmNewCategory").validate({
             "rules" : {
@@ -40,12 +40,14 @@
             e.preventDefault();
 
             if ($("#frmNewCategory").valid()) {
-                debugger;
+
+                console.log($("#frmNewCategory").serialize());
+                console.log("halo");
+
                 $.ajax({
                     url: "/category/create",
                     type: "post",
-                    data: JSON.stringify(formData),
-                    contentType: "application/json",
+                    data: $("#frmNewCategory").serialize(),
                     dataType: "json",
                     beforeSend: () => {
                         // alert("mengirim data ke api");

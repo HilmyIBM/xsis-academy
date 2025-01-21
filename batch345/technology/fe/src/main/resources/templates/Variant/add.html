@@ -4,11 +4,11 @@
         <form th:action="@{~/variant/create}" id="frmNewVariant" method="post">
             <div class="form-group">
                 <label for="txtName" class="form-label h6">Name</label>
-                <input type="text" class="form-control" id="txtName" name="variantName" />
+                <input type="text" class="form-control" id="txtName" name="categoryName" />
             </div>
             <div class="form-group">
                 <label for="txtDescription" class="form-label h6">Description</label>
-                <input type="text" class="form-control" id="txtDescription" name="descriptions" />
+                <input type="text" class="form-control" id="txtDescription" name="description" />
             </div>
             <div class="d-flex justify-content-end mt-3">
                 <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Save</button>
@@ -39,13 +39,14 @@
         $("#frmNewVariant").submit(function(e) {
             e.preventDefault();
 
+            console.log($("#frmNewVariant").serialize());
+
             if ($("#frmNewVariant").valid()) {
                 debugger;
                 $.ajax({
                     url: "/variant/create",
                     type: "post",
-                    data: JSON.stringify(formData),
-                    contentType: "application/json",
+                    data: $("#frmNewVariant").serialize(),
                     dataType: "json",
                     beforeSend: () => {
                         // alert("mengirim data ke api");

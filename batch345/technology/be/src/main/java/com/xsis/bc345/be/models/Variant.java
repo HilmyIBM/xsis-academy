@@ -119,4 +119,21 @@ public class Variant {
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", categoryId='" + getCategoryId() + "'" +
+            ", name='" + getName() + "'" +
+            ", desc='" + getDesc() + "'" +
+            ", deleted='" + isDeleted() + "'" +
+            ", createBy='" + getCreateBy() + "'" +
+            ", createDate='" + getCreateDate() + "'" +
+            ", updateBy='" + getUpdateBy() + "'" +
+            ", updateDate='" + getUpdateDate() + "'" +
+            "}";
+    }
+
 }

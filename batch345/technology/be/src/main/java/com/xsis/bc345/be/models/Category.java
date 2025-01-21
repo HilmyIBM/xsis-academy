@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tbl_m_categories")
 public class Category {
-     @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -89,4 +89,20 @@ public class Category {
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", categoryName='" + getCategoryName() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", deleted='" + isDeleted() + "'" +
+            ", createBy='" + getCreateBy() + "'" +
+            ", createDate='" + getCreateDate() + "'" +
+            ", updateBy='" + getUpdateBy() + "'" +
+            ", updateDate='" + getUpdateDate() + "'" +
+            "}";
+    }
+
 }

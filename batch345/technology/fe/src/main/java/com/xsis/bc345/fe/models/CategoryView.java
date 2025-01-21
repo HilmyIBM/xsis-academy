@@ -62,4 +62,20 @@ public class CategoryView {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", categoryName='" + getCategoryName() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", deleted='" + isDeleted() + "'" +
+            ", createBy='" + getCreateBy() + "'" +
+            ", createDate='" + getCreateDate() + "'" +
+            ", updateBy='" + getUpdateBy() + "'" +
+            ", updateDate='" + getUpdateDate() + "'" +
+            "}";
+    }
+
+
 }

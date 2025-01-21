@@ -62,7 +62,7 @@ public class CategoryController {
         ResponseEntity<CategoryView> apiResponse = null;
 
         try {
-            apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + id, CategoryView.class);
+            apiResponse = restTemplate.getForEntity(apiUrl+ "/category" + "/id/" + id, CategoryView.class);
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 // CategoryView[] data = apiResponse.getBody();
@@ -88,13 +88,15 @@ public class CategoryController {
 
         return view;
     }
-    
+    @SuppressWarnings("null")
     @PostMapping("/create")
-    ResponseEntity<?> create(@ModelAttribute CategoryView category) {
+    public ResponseEntity<?> create(@ModelAttribute CategoryView category) {
         ResponseEntity<CategoryView> apiResponse = null;
 
+        System.out.println(category.toString());
+
         try {
-            apiResponse = restTemplate.postForEntity(apiUrl, category, CategoryView.class);
+            apiResponse = restTemplate.postForEntity(apiUrl + "/category", category, CategoryView.class);
 
             if(apiResponse.getStatusCode() == HttpStatus.CREATED) {
                 return new ResponseEntity<CategoryView>(apiResponse.getBody(), HttpStatus.CREATED);
@@ -108,6 +110,7 @@ public class CategoryController {
         }
     }
 
+
     @GetMapping("/edit/{id}")
     ModelAndView edit(@PathVariable int id) {
         ModelAndView view = new ModelAndView("/category/edit");
@@ -115,7 +118,7 @@ public class CategoryController {
 
         try {
             // Get Category data by requested Category ID
-            apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + id, CategoryView.class);
+            apiResponse = restTemplate.getForEntity(apiUrl + "/category" + "/id/" + id, CategoryView.class);
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 view.addObject("category", apiResponse.getBody());
@@ -139,7 +142,7 @@ public class CategoryController {
 
         try {
             restTemplate.put(apiUrl, category);
-            apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + category.getId(), CategoryView.class);
+            apiResponse = restTemplate.getForEntity(apiUrl+"/category" + "/id/" + category.getId(), CategoryView.class);
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 return new ResponseEntity<CategoryView>(apiResponse.getBody(), HttpStatus.OK);
@@ -173,7 +176,7 @@ public class CategoryController {
 
         try {
             apiResponse = restTemplate.exchange(
-                apiUrl + "/delete/" + id + "/" + userId,
+                apiUrl + "/category" + "/delete/" + id + "/" + userId,
                 HttpMethod.DELETE,
                 new HttpEntity<CategoryView>(category),
                 CategoryView.class
@@ -190,4 +193,6 @@ public class CategoryController {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    
 }

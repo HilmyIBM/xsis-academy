@@ -23,4 +23,12 @@ CREATE TABLE Tbl_M_Variant(
 
 select * from  tbl_m_variant tmv ;
 
+INSERT INTO tbl_m_variant 
+("name" ,category_id ,"desc" , create_by)
+VALUES
+('Makanan 2',2 ,'Kategori Makanan 2', 2);
+
+
+
+
 

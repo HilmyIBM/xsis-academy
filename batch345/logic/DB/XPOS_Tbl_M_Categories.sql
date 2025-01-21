@@ -15,9 +15,9 @@ CREATE TABLE Tbl_M_Categories(
 )
 
 INSERT INTO Tbl_M_Categories
-(category_name, "desc" , create_by)
+(category_name, description , create_by)
 VALUES
-('Makanan', 'Kategori Makanan', 1);
+('Minuman', 'Kategori Makanan', 1);
 
 SELECT * FROM Tbl_M_Categories;
 
