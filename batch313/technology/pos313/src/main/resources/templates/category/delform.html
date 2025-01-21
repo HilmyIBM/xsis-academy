@@ -1,0 +1,32 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<table class="table">
+    <tr>
+        <td align="right">ID</td>
+        <td th:text="${category.Id}"></td>
+    </tr>
+    <tr>
+        <td align="right">Initial</td>
+        <td th:text="${category.Initial}"></td>
+    </tr>
+    <tr>
+        <td align="right">Name</td>
+        <td th:text="${category.Name}"></td>
+    </tr>
+    <tr>
+        <td align="right">Active</td>
+        <td th:text="${category.Active}"></td>
+    </tr>
+    <tr>
+        <td align="right"><button class="btn btn-warning" onclick="javascript:window.open('/category/index','_self')">Cancel</button></td>
+        <td><button class="btn btn-danger" th:value="${category.Id}" onclick="deleteCategory(this.value)">Delete!</button></td>
+    </tr>
+</table>
+
+<script>
+function deleteCategory(id) {
+    window.open('/category/del/'+id, '_self');
+}
+</script>
+   
+</html>

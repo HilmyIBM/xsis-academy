@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<head>
+	<title>POS313::Home</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <h1>Welcome</h1>
+    <h3 th:text="${fullname}"></h3>
+
+</div>
+
+</body>
+</html>

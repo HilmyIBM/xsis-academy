@@ -1,0 +1,84 @@
+<span id="txtTitle" class="d-none" th:text="${title}"></span>
+<div class="card">
+    <div class="card-body">
+        <div id="spinner" class="spinner-border d-none" role="status" aria-hidden="true">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <form id="frmNewVariant" method="post" th:action="@{~/variant/create}">
+            <div class="form-group">
+                <label for="txtName" class="form-label h6 fw-bold">Name</label>
+                <input type="text" class="form-control" id="txtName" name="name" />
+            </div>
+            <div class="form-group">
+                <label for="txtDescription" class="form-label h6 fw-bold">Description</label>
+                <input type="text" class="form-control" id="txtDescription" name="description" />
+            </div>
+            <div class="form-group">
+                <label for="selCategory" class="form-label h6 fw-bold">Category</label>
+                <!-- <input type="text" class="form-control" id="txtDescription" name="description" /> -->
+                <select name="categoryId" id="selCategory" class="form-select">
+                    <option value="">--Select Category--</option>
+                    <option
+                        th:if="${category != null}"
+                        th:each="item:${category}"
+                        th:value="${item.id}"
+                        th:text="${item.categoryName}"></option>
+                </select>
+            </div>
+            <div class="d-flex justify-content-end mt-3">
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Save</button>
+            </div>
+            <input type="hidden" name="createBy" value="1" />
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $("#staticModalLabel").text($("#txtTitle").text());
+
+        $("#frmNewVariant").validate({
+            "rules" : {
+                "name": {
+                    "required": true,
+                    "maxlength": 100,
+                    "minlength": 3
+                },
+                "description": {
+                    "maxlength": 100
+                },
+                "categoryId": "required"
+            },
+            "errorClass": "text-danger"
+        });
+
+        $("#frmNewVariant").submit(function(e) {
+            e.preventDefault();
+            
+            let frmVariant = $("#frmNewVariant").serialize();
+
+            if ($("#frmNewVariant").valid()) {
+                $.ajax({
+                    url: "/variant/create",
+                    type: "post",
+                    data: frmVariant,
+                    dataType: "json",
+                    beforeSend: () => {
+                        $("#spinner").show();
+                        // alert("mengirim data ke api");
+                    },
+                    success: function(response) {
+                        setTimeout(()=>{}, 1000);
+                        // debugger;
+                        $("#spinner").hide();
+                        alert("Variant " + response.name + " succesfully added!");
+                        location.reload();
+                    },
+                    error: function(errResponse) {
+                        console.error("Failed to add new Variant: " + errResponse.responseText);
+                    }
+                });
+            }
+        });
+    });
+</script>

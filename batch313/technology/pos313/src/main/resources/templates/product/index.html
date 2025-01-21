@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<head>
+	<title>POS313::Product</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+<h3>
+    Product
+    <button class="btn btn-success" onclick="addForm()" style="float:right;">+</button>
+</h3>
+
+<table class="table" id="productTable">
+<thead>
+    <tr>
+        <th>#</th>
+        <th>Category</th>
+        <th>Variant</th>
+        <th>Initial</th>
+        <th>Name</th>
+        <th>Desc</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Active</th>
+        <th>Action</th>
+    </tr>
+</thead>
+<tbody id="productData">
+
+</tbody>
+</table>
+
+<script>
+
+loadProduct();
+
+function loadProduct() {
+    $.ajax({
+        url:'http://localhost:8083/api/product',
+        type:'GET',
+        contentType:'application/json',
+        success:function(product) { //product adalah hasil dari url, type, dan contenttype
+            console.log(product)
+            var str = '';
+            var number = 1;
+            for(i=0; i<product.length; i++) {
+                str += '<tr>';
+                str += '<td>' + number + '</td>';
+                str += '<td>' + product[i].variant.category.name + '</td>';
+                str += '<td>' + product[i].variant.name + '</td>';
+                str += '<td>' + product[i].initial + '</td>';
+                str += '<td>' + product[i].name + '</td>';
+                str += '<td>' + product[i].description + '</td>';
+                str += '<td>' + product[i].price + '</td>';
+                str += '<td>' + product[i].stock + '</td>';
+                str += '<td>' + product[i].active + '</td>';
+                str += `<td>
+                    <button value="${product[i].id}" onclick="editForm(this.value)">E</button>
+                    <button value="${product[i].id}" onclick="deleteForm(this.value)">X</button>
+                    </td>`;
+                str += '</tr>';
+                number++;
+            }
+
+            $('#productData').html(str);
+            $('#productTable').DataTable();
+        }
+    });
+}
+
+function getCategory() {
+    $.ajax({
+        url:'http://localhost:8083/api/category',
+        type:'GET',
+        contentType:'application/json',
+        success:function(category) {
+            var str='';
+            for(i=0; i<category.length; i++) {
+                str += '<option value="'+category[i].id+'">'+category[i].name+'</option>'
+            }
+            $('#category_id').html(str);
+        }
+    })
+}
+
+function addForm() {
+    str = `
+    <table class="table">
+        <tr>
+            <td>Category</td>
+            <td>
+                <select id="category_id" onclick="getVariantByCategory(this.value)"></select>
+            </td>
+        </tr>
+        <tr>
+            <td>Variant</td>
+            <td>
+                <select id="variant_id"></select>
+            </td>
+        </tr>
+        <tr>
+            <td>Initial</td>
+            <td><input id="initial" type="text" maxlength="10" size="10"></td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td><input id="name" type="text" maxlength="30" size="30"></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td><textarea id="description"></textarea></td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td><input id="price" type="text" maxlength="10" size="10"></td>
+        </tr>
+        <tr>
+            <td>Stock</td>
+            <td><input id="stock" type="text" maxlength="10" size="10"></td>
+        </tr>
+        <tr>
+            <td>Active</td>
+            <td><input id="active" type="checkbox"></td>
+        </tr>
+        <tr>
+            <td align="right" colspan="2">
+            <button class="btn btn-primary" onclick="saveProduct()">Save</button>
+            </td>
+        </tr>
+    </table>
+    `;
+
+    $('#mymodal').modal('show');
+    $('.modal-title').html('Add Product');
+    $('.modal-body').html(str);
+
+    getCategory();
+}
+
+function getVariantByCategory(catId) {
+    $.ajax({
+        url:'http://localhost:8083/api/variantByCategory/' + catId,
+        type:'GET',
+        contentType:'application/json',
+        success:function(variant) {
+            console.log(variant)
+            var str='';
+            for(i=0; i<variant.length; i++) {
+                str += '<option value="'+variant[i].id+'">'+variant[i].name+'</option>'
+            }
+            $('#variant_id').html(str);
+
+        }
+    })
+}
+
+function saveProduct() {
+
+    var objActive = document.getElementById('active').checked;
+    const productData = {
+        variantId : parseInt($('#variant_id').val()),
+        initial : $('#initial').val(),
+        name : $('#name').val(),
+        description : $('#description').val(),
+        price : parseInt($('#price').val()),
+        stock : parseInt($('#stock').val()),
+        active : objActive
+    }
+
+    $.ajax({
+        url:'http://localhost:8083/api/product',
+        type:'POST',
+        dataType:'json',
+        data:JSON.stringify(productData),
+        contentType:'application/json',
+        success:function(product) {
+            $('#mymodal').modal('hide')
+            loadProduct()
+        }
+    })
+}
+
+function editForm(product_id) {
+
+    $.ajax({
+        url:'http://localhost:8083/api/product/' + product_id,
+        type:'GET',
+        contentType:'application/json',
+        success:function(product) {
+            console.log(product.name);
+
+            str = `
+            <table class="table">
+                <tr>
+                    <td>Category</td>
+                    <td>
+                        <select id="category_id" onclick="getVariantByCategory(this.value)"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Variant</td>
+                    <td>
+                        <select id="variant_id">
+                            <option value="${product.variantId}">${product.variant.name}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Initial</td>
+                    <td><input id="initial" type="text" maxlength="10" size="10" value="${product.initial}"></td>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td><input id="name" type="text" maxlength="30" size="30" value="${product.name}"></td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td><textarea id="description">${product.description}</textarea></td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td><input id="price" type="text" maxlength="10" size="10" value="${product.price}"></td>
+                </tr>
+                <tr>
+                    <td>Stock</td>
+                    <td><input id="stock" type="text" maxlength="10" size="10" value="${product.stock}"></td>
+                </tr>
+                <tr>
+                    <td>Active</td>
+                    <td><input id="active" type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td align="right" colspan="2">
+                    <button class="btn btn-primary" value="${product.id}" onclick="editProduct(this.value)">Save</button>
+                    </td>
+                </tr>
+            </table>
+            `;
+
+            $('#mymodal').modal('show');
+            $('.modal-title').html('Edit Product');
+            $('.modal-body').html(str);
+
+            if(product.active) {
+                document.getElementById('active').checked = true
+            } else {
+                document.getElementById('active').checked = false
+            }
+
+            getCategory();
+        }
+    })
+}
+
+function editProduct(product_id) {
+
+    var objActive = document.getElementById('active').checked;
+    const productData = {
+        variantId : parseInt($('#variant_id').val()),
+        initial : $('#initial').val(),
+        name : $('#name').val(),
+        description : $('#description').val(),
+        price : parseInt($('#price').val()),
+        stock : parseInt($('#stock').val()),
+        active : objActive
+    }
+
+    $.ajax({
+        url:'http://localhost:8083/api/product/' + product_id,
+        type:'PUT',
+        dataType:'json',
+        data:JSON.stringify(productData),
+        contentType:'application/json',
+        success:function(product) {
+            $('#mymodal').modal('hide')
+            loadProduct()
+        }
+    })
+}
+
+function deleteForm(product_id) {
+    $.ajax({
+        url:'http://localhost:8083/api/product/' + product_id,
+        type:'GET',
+        contentType:'application/json',
+        success:function(product) {
+            str = `
+            <p>
+                Product ID : ${product.id}<br>
+                Category : ${product.variant.category.name}<br>
+                Variant : ${product.variant.name}<br>
+                Initial : ${product.initial}<br>
+                Name : ${product.name}<br>
+                Description : ${product.description}<br>
+                Price : ${product.price}<br>
+                Stock : ${product.stock}<br>
+                Active : ${product.active}<br>
+            </p>
+            <p><button value="${product.id}" onclick="deleteProduct(this.value)" class="btn btn-danger">DELETE!</button></p>
+            `;
+
+            $('#mymodal').modal('show')
+            $('.modal-title').html('Sure want to delete?')
+            $('.modal-body').html(str)
+        }
+    })
+}
+
+function deleteProduct(product_id) {
+    $.ajax({
+        url:'http://localhost:8083/api/product/' + product_id,
+        type:'DELETE',
+        contentType:'application/json',
+        success:function(product) {
+            console.log(product)
+            $('#mymodal').modal('hide')
+            loadProduct()
+        }
+    })
+}
+
+
+</script>
+
+</div>
+
+</body>
+</html>

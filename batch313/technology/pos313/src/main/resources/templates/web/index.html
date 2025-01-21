@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<head>
+	<title>POS313::Web</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <h1>WEB</h1>
+
+
+<script>
+
+loadVariant();
+
+function loadVariant() {
+    $.ajax({
+        url:'http://localhost:8083/api/variant',
+        type:'GET',
+        contentType:'application/json',
+        success:function(variant) {
+            console.log(variant);
+        }
+    })
+}
+
+</script>
+
+
+</div>
+
+</body>
+</html>
