@@ -1,9 +1,15 @@
 package com.xsis.bc345.be.category;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.xsis.bc345.be.variant.VariantModel;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_m_categories")
@@ -33,6 +39,10 @@ public class CategoryModel {
 
     @Column(name = "update_date")
     private LocalDateTime updateDate;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.MERGE, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonIgnore
+    private List<VariantModel> variants;
 
     public int getId() {
         return id;
@@ -98,16 +108,25 @@ public class CategoryModel {
         this.updateDate = updateDate;
     }
 
+    public List<VariantModel> getVariants() {
+        return variants;
+    }
+
+    public void setVariants(List<VariantModel> variants) {
+        this.variants = variants;
+    }
+
     @Override
     public String toString() {
         return "CategoryModel{" +
-                "categoryName='" + categoryName + '\'' +
-                ", description='" + description + '\'' +
-                ", deleted=" + deleted +
-                ", createBy=" + createBy +
-                ", createDate=" + createDate +
+                "updateDate=" + updateDate +
                 ", updateBy=" + updateBy +
-                ", updateDate=" + updateDate +
+                ", createDate=" + createDate +
+                ", createBy=" + createBy +
+                ", deleted=" + deleted +
+                ", description='" + description + '\'' +
+                ", categoryName='" + categoryName + '\'' +
+                ", id=" + id +
                 '}';
     }
 }
