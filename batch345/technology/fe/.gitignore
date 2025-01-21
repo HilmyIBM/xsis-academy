@@ -33,4 +33,5 @@ build/
 .vscode/
 
 ### Speing Boot Static Resource Libraries ###
-**/static/lib/
+!**/static/lib/fontawesome/css
+!**/static/lib/fontawesome/webfonts
