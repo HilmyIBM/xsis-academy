@@ -1,9 +1,9 @@
 package com.xsis.bc345.be.variant;
 
+import com.xsis.bc345.be.category.CategoryRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,19 +12,34 @@ import java.util.List;
 public class VariantService {
 
     private final VariantRepository variantRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public VariantService(VariantRepository variantRepository) {
+    public VariantService(VariantRepository variantRepository, CategoryRepository categoryRepository) {
         this.variantRepository = variantRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public List<VariantModel> getAllVariant() {
         try {
-            var data = variantRepository.findAllByDeleted(false);
+            var data = variantRepository.findAllByDeletedAndCategory_Deleted(false, false);
 
             return data.orElse(List.of());
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+    }
+
+    public VariantModel getById(int id, boolean deleted) {
+        try {
+            var data = variantRepository.findByIdAndDeleted(id, deleted);
+
+            if (data.isEmpty())
+                throw new EntityNotFoundException("Variant with id %s doesn't exists".formatted(id));
+
+            return data.get();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e.getCause());
         }
     }
 
@@ -32,38 +47,51 @@ public class VariantService {
         try {
             return variantRepository.save(variantModel);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+            throw new RuntimeException(e.getMessage(), e.getCause());
         }
     }
 
     public VariantModel updateVariant(VariantModel variantModel) {
-        var data = variantRepository.findByIdAndDeleted(variantModel.getId(), false);
+        try {
+            var variant = variantRepository.findByIdAndDeleted(variantModel.getId(), false);
 
-        if (data.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Variant with id %s doesn't exists".formatted(variantModel.getId()));
+            if (variant.isEmpty())
+                throw new EntityNotFoundException("Variant with id %s doesn't exists or already deleted".formatted(variantModel.getId()));
 
-        VariantModel existingData = data.get();
+            var category = categoryRepository.findByIdAndDeleted(variantModel.getCategory().getId(), false);
 
-        variantModel.setCategoryId(existingData.getCategoryId());
-        variantModel.setCreateBy(existingData.getCreateBy());
-        variantModel.setCreateDate(existingData.getCreateDate());
-        variantModel.setUpdateDate(LocalDateTime.now());
+            if (category.isEmpty())
+                throw new EntityNotFoundException("Category with id %s doesn't exists or already deleted".formatted(variantModel.getCategory().getId()));
 
-        return variantRepository.save(variantModel);
+            VariantModel existingData = variant.get();
+
+            variantModel.setCreateBy(existingData.getCreateBy());
+            variantModel.setCreateDate(existingData.getCreateDate());
+            variantModel.setUpdateDate(LocalDateTime.now());
+
+            return variantRepository.save(variantModel);
+        } catch (Exception e)  {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
     }
 
-    public void deleteVariant(VariantModel variantModel) {
-        var data = variantRepository.findByIdAndDeleted(variantModel.getId(), false);
+    public VariantModel deleteVariant(VariantModel variantModel) {
+        try {
+            var data = variantRepository.findByIdAndDeleted(variantModel.getId(), false);
 
-        if (data.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Variant with id %s doesn't exists".formatted(variantModel.getId()));
+            if (data.isEmpty())
+                throw new EntityNotFoundException("Variant with id %s doesn't exists".formatted(variantModel.getId()));
 
-        VariantModel existingData = data.get();
+            VariantModel existingData = data.get();
 
-        existingData.setUpdateDate(LocalDateTime.now());
-        existingData.setUpdateBy(variantModel.getUpdateBy());
-        existingData.setDeleted(true);
+            existingData.setUpdateDate(LocalDateTime.now());
+            existingData.setUpdateBy(variantModel.getUpdateBy());
+            existingData.setDeleted(true);
 
-        variantRepository.save(existingData);
+            return variantRepository.save(existingData);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
     }
 }

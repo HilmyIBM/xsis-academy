@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("api/variant")
@@ -17,8 +19,8 @@ public class VariantController {
         this.variantService = variantService;
     }
 
-    @GetMapping("")
-    public ResponseEntity<?> getAllVariant() {
+    @GetMapping
+    public ResponseEntity<List<VariantModel>> getAllVariant() {
         var data = variantService.getAllVariant();
 
         if (data.isEmpty())
@@ -27,20 +29,23 @@ public class VariantController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
-    @PostMapping("")
-    public ResponseEntity<?> saveVariant(@RequestBody VariantModel variantModel) {
-        return new ResponseEntity<>(variantService.createVariant(variantModel), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<VariantModel> getVariantById(@PathVariable int id) {
+         return new ResponseEntity<>(variantService.getById(id, false), HttpStatus.OK);
     }
 
-    @PutMapping("")
-    public ResponseEntity<?> updateVariant(@RequestBody VariantModel variantModel) {
+    @PostMapping
+    public ResponseEntity<VariantModel> saveVariant(@RequestBody VariantModel variantModel) {
+        return new ResponseEntity<>(variantService.createVariant(variantModel), HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<VariantModel> updateVariant(@RequestBody VariantModel variantModel) {
         return new ResponseEntity<>(variantService.updateVariant(variantModel), HttpStatus.OK);
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<?> deleteVariant(@RequestBody VariantModel variantModel) {
-        variantService.deleteVariant(variantModel);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+    @DeleteMapping
+    public ResponseEntity<VariantModel> deleteVariant(@RequestBody VariantModel variantModel) {
+        return new ResponseEntity<>(variantService.deleteVariant(variantModel), HttpStatus.OK);
     }
 }
