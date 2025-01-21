@@ -82,10 +82,10 @@ public class variant {
     @GetMapping("variant/edit/{id}")
     public ModelAndView edit(@PathVariable int id){
         ModelAndView view = new ModelAndView("variant/edit");
-        ResponseEntity<variantView> apiResponse=null;
+        ResponseEntity<variantView[]> apiResponse=null;
         ResponseEntity<categoryView[]> apiResponseCategory=null;
         try{
-            apiResponse=restTemplate.getForEntity(apiUrl+"/variant/id/"+id, variantView.class);
+            apiResponse=restTemplate.getForEntity(apiUrl+"/variant/id/"+id, variantView[].class);
             apiResponseCategory=restTemplate.getForEntity(apiCategory, categoryView[].class);
             if (apiResponse.getStatusCode()==HttpStatus.OK) {
                 view.addObject("variant",apiResponse.getBody());
@@ -102,12 +102,12 @@ public class variant {
 
     @PostMapping("/variant/update")
     public ResponseEntity<?> update(@ModelAttribute variantView variant) {
-        ResponseEntity<variantView> apiResponse=null;
+        ResponseEntity<variantView[]> apiResponse=null;
         try {
             restTemplate.put(apiUrl+"/variant", variant);
-            apiResponse=restTemplate.getForEntity(apiUrl+"/variant/id/"+variant.getId(), variantView.class);
+            apiResponse=restTemplate.getForEntity(apiUrl+"/variant/id/"+variant.getId(), variantView[].class);
             if (apiResponse.getStatusCode()==HttpStatus.OK) {
-                return new ResponseEntity<variantView>(apiResponse.getBody(),HttpStatus.OK);
+                return new ResponseEntity<variantView[]>(apiResponse.getBody(),HttpStatus.OK);
            } else {
                 throw new Exception(apiResponse.getStatusCode().toString()+" : "+apiResponse.getBody().toString());
            }
@@ -117,17 +117,14 @@ public class variant {
         }
     }
 
-    @GetMapping("/variant/detail/{id}")
+    @GetMapping("variant/detail/{id}")
     public ModelAndView detail(@PathVariable int id){
-        ModelAndView view = new ModelAndView("/variant/detail");
-        ResponseEntity<variantView> apiResponse=null;
-        ResponseEntity<categoryView[]> apiResponseCategory=null;
+        ModelAndView view = new ModelAndView("variant/detail");
+        ResponseEntity<variantView[]> apiResponse=null;
         try {
-            apiResponse=restTemplate.getForEntity(apiUrl+"/variant/id/"+id, variantView.class);
-            apiResponseCategory=restTemplate.getForEntity(apiCategory, categoryView[].class);
+            apiResponse=restTemplate.getForEntity(apiUrl+"variant/id/"+id, variantView[].class);
             if (apiResponse.getStatusCode()==HttpStatus.OK) {
                 view.addObject("variant", apiResponse.getBody());
-                view.addObject("category", apiResponseCategory.getBody());
             } else {
                 throw new Exception(apiResponse.getStatusCode().toString()+" : "+apiResponse.getBody());
             }

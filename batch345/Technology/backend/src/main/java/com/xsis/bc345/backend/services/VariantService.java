@@ -51,6 +51,10 @@ public class VariantService {
         return variantrepo.findByIdAndIsDeleted(id,false);
     }
 
+    public List<Map<String,Object>> getNativeId(int id) throws Exception{
+        return variantrepo.findByNativeQueryId(id).get();
+    }
+
     public VariantModel delete(int id,int userId) throws Exception{
         variantExist=variantrepo.findById(id);
         if (variantExist.isPresent()) {

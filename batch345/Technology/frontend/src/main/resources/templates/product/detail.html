@@ -1,19 +1,33 @@
 <span class="d-none" th:text="${title}" id="txtTitle"></span>
 <div class="card">
-    <div class="card-body" th:each="item:${variant}">
+    <div class="card-body" th:each="item:${product}">
             <div class="form-group">
                 <label for="txtName" class="form-label">Name : </label>
                 <input type="text" class="form-control-plaintext" id="txtName" name="name" th:value="${item.name}" readonly>
             </div>
 
-            <div class="form-group mt-4">
-                <label for="txtDeskripsi" class="form-label">Categories : </label>
-                <input type="text" class="form-control-plaintext"th:value="${item.categoryName}" readonly>
+            <div class="form-group mt-3">
+                <label for="txtDeskripsi" class="form-label">Price : </label>
+                <input type="text" class="form-control-plaintext"th:value="${item.price}" readonly>
             </div>
 
-            <div class="form-group mt-4">
-                <label for="txtDeskripsi" class="form-label">Description : </label>
-                <input type="text" class="form-control-plaintext" id="txtDeskripsi" name="deskripsi" th:value="${item.description}" readonly>
+            <div class="form-group mt-3">
+                <label for="txtDeskripsi" class="form-label">Stock : </label>
+                <input type="text" class="form-control-plaintext" id="txtDeskripsi" name="deskripsi" th:value="${item.stock}" readonly>
+            </div>
+            <div class="form-group mt-3">
+                <label for="txtDeskripsi" class="form-label">Variant : </label>
+                <input type="text" class="form-control-plaintext" id="txtDeskripsi" name="deskripsi" th:value="${item.variantName}" readonly>
+            </div>
+
+            <div class="form-group mt-3">
+                <label for="txtDeskripsi" class="form-label">Category : </label>
+                <input type="text" class="form-control-plaintext" id="txtDeskripsi" name="deskripsi" th:value="${item.categoryName}" readonly>
+            </div>
+
+            <div class="form-group mt-3">
+                <label for="txtDeskripsi" class="form-label">Image : </label>
+                <input type="text" class="form-control-plaintext" id="txtDeskripsi" name="deskripsi" th:value="${item.image}" readonly>
             </div>
             <br>
             <div class="grid border-top border-white">

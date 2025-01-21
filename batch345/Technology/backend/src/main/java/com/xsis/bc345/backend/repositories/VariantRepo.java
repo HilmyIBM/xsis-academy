@@ -23,5 +23,14 @@ public interface VariantRepo extends JpaRepository<VariantModel,Integer> {
         nativeQuery = true
     )
     Optional<List<Map<String,Object>>> findByNativeQuery();
+
+    @Query(value = "SELECT v.id,v.name,v.description,v.category_id AS \"categoryId\",c.category_name AS \"categoryName\", "
+        + "v.is_deleted AS \"isDeleted\",v.create_by AS \"createBy\",v.create_date  AS \"createDate\", "
+        + "v.update_by AS \"updateBy\",v.update_date AS \"updateDate\" "
+        + "FROM tbl_m_variant as v INNER JOIN tbl_m_categories AS c ON v.category_id=c.id"
+        + " WHERE v.is_deleted IS NOT TRUE AND v.id=?1",
+        nativeQuery = true
+    )
+    Optional<List<Map<String,Object>>> findByNativeQueryId(int id);
     
 }

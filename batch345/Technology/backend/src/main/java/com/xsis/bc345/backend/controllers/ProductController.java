@@ -1,6 +1,7 @@
 package com.xsis.bc345.backend.controllers;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,11 @@ public class ProductController {
     @GetMapping("")
     public ResponseEntity<?> getAll(){
          try {
-            List<ProductModel> data= productSVC.getAll();
+            final List<Map<String,Object>> data= productSVC.getNative();
             if (data.size()>0) {
-                return new ResponseEntity<List<ProductModel>>(data,HttpStatus.OK);   
+                return new ResponseEntity<List<Map<String,Object>>> (data,HttpStatus.OK);   
             }else{
-                return new ResponseEntity<List<ProductModel>>(data,HttpStatus.NO_CONTENT);
+                return new ResponseEntity<List<Map<String,Object>>>(data,HttpStatus.NO_CONTENT);
             }
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -63,11 +64,11 @@ public class ProductController {
     @GetMapping("id/{id}")
     public ResponseEntity<?> getId(@PathVariable int id){
         try {
-            Optional<ProductModel> data=productSVC.getbyId(id);
-            if (data.isPresent()) {
-                return new ResponseEntity<ProductModel>(data.get(),HttpStatus.OK);   
+            final List<Map<String,Object>> data=productSVC.getNativeId(id);
+            if (data.size()>0) {
+                return new ResponseEntity<List<Map<String,Object>>>(data,HttpStatus.OK);   
             }else{
-                return new ResponseEntity<ProductModel>(data.get(),HttpStatus.NO_CONTENT);
+                return new ResponseEntity<List<Map<String,Object>>>(data,HttpStatus.NO_CONTENT);
             }
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);

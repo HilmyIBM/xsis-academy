@@ -1,31 +1,32 @@
 <span class="d-none" th:text="${title}" id="txtTitle"></span>
 <div class="card">
-    <div class="card-body">
+    <div class="card-body" th:each="products:${product}">
         <form th:action="@{~/product/update}" id="formEditProduct" method="post">
+            <input name="id" id="txtId" th:value="${products.id}" type="hidden">
+            <input name="updateBy" id="txtUpdate" value="2" type="hidden">
             <div class="form-group">
                 <label for="txtName" class="form-label">Name : </label>
-                <input type="text" class="form-control" id="txtName" name="name" th:value="${product.name}">
+                <input type="text" class="form-control" id="txtName" name="name" th:value="${products.name}">
             </div>
             <div class="form-group mt-4">
                 <div class="mt-3"></div>
                 <label for="txtDeskripsi" class="form-label">Price : </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="price" th:value="${product.price}">
+                <input type="text" class="form-control" id="txtDeskripsi" name="price" th:value="${products.price}">
                 <div class="mt-3"></div>
                 <label for="txtDeskripsi" class="form-label">Stock : </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="stock" th:value="${product.stock}">
+                <input type="text" class="form-control" id="txtDeskripsi" name="stock" th:value="${products.stock}">
                 <div class="mt-3"></div>
                 <label for="txtDeskripsi" class="form-label">Pilih variant : </label><br>
-                <select name="variantId">
-                    <option th:each="itemC:${variant}" th:if="${product.variantId} == ${itemC.id}" th:text="${itemC.name}" th:value="${product.variantId}"></option>
-                    <option th:each="item:${variant}" th:if="${product.variantId != item.id}" th:value="${item.id}" th:text="${item.name}"></option>
+                <select name="variantId" class="form-select">
+                    <option th:each="itemC:${variant}" th:if="${products.variantId == itemC.id}" th:text="${itemC.name}" th:value="${products.variantId}"></option>
+                    <option th:each="item:${variant}" th:if="${products.variantId != item.id}" th:value="${item.id}" th:text="${item.name}"></option>
                 </select>
                 <div class="mt-3">
                 <label for="txtDeskripsi" class="form-label">image : </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="image" th:value="${product.image}">
+                <input type="text" class="form-control" id="txtDeskripsi" name="image" th:value="${products.image}">
             <div class="form-group">
             <div class="d-flex justify-content-end mt-3">
-                <input type="hidden" name="createBy" value="1">
-                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Simpan</button>
+                <button type="submit" class="btn btn-success"><i class="fas fa-edit"></i> Update</button>
             </div>
         </form>
     </div>
@@ -46,13 +47,13 @@
                     "maxlength" : 255
                 },
                 "price" : {
-                    "digits":true
+                    "number":true
                 },
                 "stock":{
                     "digits":true
                 },
-                "variantId":{
-                    "digits" : true
+                "image":{
+                    "url":true
                 }
             },
             "errorClass" : "text-danger"
@@ -65,17 +66,17 @@
                 $.ajax({
                     url :"/product/update",
                     type : "post",
-                    data : $("#formAddProduct").serialize(),
+                    data : $("#formEditProduct").serialize(),
                     dataType : "json",
                     beforeSend : () => {
                         alert("Mengirim Data");
                     },
                     success:function(response){
-                        alert("Product "+response.name + " Berhasil di Tambah");
+                        alert("Product "+response.name + " Berhasil di Update");
                         location.reload();
                     },
                     error:function(errResponse){
-                        alert("Tambah Product Gagal : " + errResponse.responseText);
+                        alert("Update Product Gagal : " + errResponse.responseText);
                     }
                 });
             }

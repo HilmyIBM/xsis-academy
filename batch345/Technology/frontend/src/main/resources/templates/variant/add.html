@@ -12,8 +12,8 @@
                 <input type="text" class="form-control" id="txtDeskripsi" name="description">
                 <div class="mt-3"></div>
                 <label for="txtDeskripsi" class="form-label">Pilih Category : </label><br>
-                <select name="categoryId">
-                    <option value="">--Select Category--</option>
+                <select name="categoryId" class="form-select">
+                    <option value="" class="text-center">--Select Category--</option>
                     <option th:if="${category != null}" th:each="item:${category}" th:value="${item.id}" th:text="${item.categoryName}"></option>
                 </select>
             <div class="form-group">
@@ -49,15 +49,25 @@
                     type : "post",
                     data : $("#formAddVariant").serialize(),
                     dataType : "json",
-                    beforeSend : () => {
-                        alert("Mengirim Data");
-                    },
                     success:function(response){
-                        alert("Variant "+response.name + " Berhasil di Tambah");
-                        location.reload();
+                        Swal.fire({ 
+                            title: "success",
+                            text: "Data Berhasil Di Tambah",
+                            icon: "success",  
+                            confirmButtonColor: "#3085d6",
+                            confirmButtonText: "Ok"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        });
                     },
                     error:function(errResponse){
-                        console.error("Tambah Variant Gagal : " + errResponse.responseText);
+                        Swal.fire({
+                            title: "Error",
+                            text: errResponse.responseText,
+                            icon: "Error"
+                        });
                     }
                 });
             }

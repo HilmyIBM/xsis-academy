@@ -25,9 +25,10 @@
         <table class="table table-bordered mt-2 table-hover text-center border-white" id="tblProduct">
           <thead>
             <tr>
-              <th class="col-1 text-center">Image</th>
               <th class="col-1 text-center">Id</th>
+              <th class="col-1 text-center">Image</th>
               <th class="col-3 text-center">Nama Product</th>
+              <th class="col-2 text-center">Category</th>
               <th class="col-2 text-center">Variant</th>
               <th class="col-1 text-center">Price</th>
               <th class="col-1 text-center">Stock</th>
@@ -36,6 +37,7 @@
           </thead>
           <tbody>
             <tr th:each="item:${product}" class="text-center">
+              <td th:text="${item.id}" class="text-center">1</td>
               <td >
                 <img
                   th:src=${item.image}
@@ -43,9 +45,9 @@
                   class="img-thumbnail rounded-circle"
                   style="width: 70px;">
               </td>
-              <td th:text="${item.id}" class="text-center">1</td>
               <td th:text="${item.name}" class="text-center">Carbonara</td>
-              <td><p th:each="variants:${variant}" th:if="${item.variantId}==${variants.id}" th:text="${variants.name}"></p></td>
+              <td th:text="${item.categoryName}"></td>
+              <td th:text="${item.variantName}"></td>
               <td th:text="${item.price}"class="text-center">50000</td>
               <td th:text="${item.stock}"class="text-center">10</td>
               <td>
@@ -74,6 +76,19 @@
           let catId=$(this).data('id');
 
           $('#staticModalBody').load("/product/edit/"+catId);
+          $('#staticModal').modal("show");
+        })
+
+        $(".btn-warning").click(function(e){
+          let catId=$(this).data('id');
+
+          $('#staticModalBody').load("/product/detail/"+catId);
+          $('#staticModal').modal("show");
+        })
+
+        $(".btn-danger").click(function(e){
+          let catId=$(this).data('id');
+          $('#staticModalBody').load("/product/delete/"+catId);
           $('#staticModal').modal("show");
         })
       </script>

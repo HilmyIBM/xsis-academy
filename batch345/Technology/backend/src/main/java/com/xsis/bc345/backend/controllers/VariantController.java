@@ -62,12 +62,12 @@ public class VariantController {
     @GetMapping("/id/{id}")
     public ResponseEntity<?> getbyId(@PathVariable int id){
         try {
-            Optional<VariantModel> data=variantSVC.getbyId(id);
+            final List<Map<String,Object>> data=variantSVC.getNativeId(id);
 
-            if (data.isPresent()) {
-                return new ResponseEntity<VariantModel>(data.get(),HttpStatus.OK);   
+            if (data.size()>0) {
+                return new ResponseEntity<List<Map<String,Object>>>(data,HttpStatus.OK);   
             }else{
-                return new ResponseEntity<VariantModel>(data.get(),HttpStatus.NO_CONTENT);
+                return new ResponseEntity<List<Map<String,Object>>>(data,HttpStatus.NO_CONTENT);
             }
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);

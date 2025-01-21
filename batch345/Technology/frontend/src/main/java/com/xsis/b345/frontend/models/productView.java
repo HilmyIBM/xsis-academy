@@ -1,5 +1,6 @@
 package com.xsis.b345.frontend.models;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 public class productView {
 
@@ -8,12 +9,14 @@ public class productView {
     private double price;
     private Integer stock;
     private Integer variantId;
+    private String variantName;
+    private String categoryName;
     private String image;
     private boolean isDeleted;
     private Integer createBy;
-    private LocalDateTime createDate;
+    private Timestamp createDate;
     private Integer updateBy;
-    private LocalDateTime updateDate;
+    private Timestamp updateDate;
 
     /**
      * @return Integer return the id
@@ -130,14 +133,14 @@ public class productView {
     /**
      * @return LocalDateTime return the createDate
      */
-    public LocalDateTime getCreateDate() {
+    public Timestamp getCreateDate() {
         return createDate;
     }
 
     /**
      * @param createDate the createDate to set
      */
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 
@@ -158,15 +161,45 @@ public class productView {
     /**
      * @return LocalDateTime return the updateDate
      */
-    public LocalDateTime getUpdateDate() {
+    public Timestamp getUpdateDate() {
         return updateDate;
     }
 
     /**
      * @param updateDate the updateDate to set
      */
-    public void setUpdateDate(LocalDateTime updateDate) {
+    public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
+    }
+
+
+    /**
+     * @return String return the variantName
+     */
+    public String getVariantName() {
+        return variantName;
+    }
+
+    /**
+     * @param variantName the variantName to set
+     */
+    public void setVariantName(String variantName) {
+        this.variantName = variantName;
+    }
+
+
+    /**
+     * @return String return the categoryName
+     */
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    /**
+     * @param categoryName the categoryName to set
+     */
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
 }

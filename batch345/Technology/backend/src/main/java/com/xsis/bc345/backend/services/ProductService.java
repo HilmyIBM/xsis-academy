@@ -2,6 +2,7 @@ package com.xsis.bc345.backend.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,14 @@ public class ProductService {
 
     public Optional<ProductModel> getbyId(Integer id){
         return productrepo.findByIdAndIsDeleted(id,false);
+    }
+
+    public List<Map<String,Object>> getNative() throws Exception{
+        return productrepo.findByNativeQuery().get();
+    }
+
+    public List<Map<String,Object>> getNativeId(int id) throws Exception{
+        return productrepo.findByNativeQueryId(id).get();
     }
 
 

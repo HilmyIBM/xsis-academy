@@ -15,12 +15,12 @@
                 <input type="text" class="form-control" id="txtDeskripsi" name="stock">
                 <div class="mt-3"></div>
                 <label for="txtDeskripsi" class="form-label">Pilih variant : </label><br>
-                <select name="variantId">
-                    <option value="">--Select variant--</option>
-                    <option th:if="${variant != null}" th:each="item:${variant}" th:value="${item.id}" th:text="${item.name}"></option>
+                <select name="variantId" class="form-select">
+                    <option value="" class="text-center">--Select variant--</option>
+                    <option dropdown-ite th:if="${variant != null}" th:each="item:${variant}" th:value="${item.id}" th:text="${item.name}"></option>
                 </select>
                 <div class="mt-3">
-                <label for="txtDeskripsi" class="form-label">image : </label>
+                <label for="txtDeskripsi" class="form-label">Image : </label>
                 <input type="text" class="form-control" id="txtDeskripsi" name="image">
             <div class="form-group">
             <div class="d-flex justify-content-end mt-3">
@@ -42,17 +42,14 @@
                     "maxlength" : 100,
                     "minlength" : 3
                 },
-                "description" : {
-                    "maxlength" : 255
-                },
                 "price" : {
                     "digits":true
                 },
                 "stock":{
                     "digits":true
                 },
-                "variantId":{
-                    "digits" : true
+                "image":{
+                    "url":true
                 }
             },
             "errorClass" : "text-danger"
