@@ -1,0 +1,71 @@
+<input type="hidden" id="txtTitle" th:value="${title}" />
+<div class="card">
+    <div class="card-body">
+        <form id="frmEditVariant">
+            <input type="hidden" name="id" id="txtId" th:value="${variant.getId()}" />
+            <input type="hidden" name="updateBy" id="txtUpdateBy" value="2" />
+            <div class="form-group">
+                <label for="txtName" class="form-label h6">Name</label>
+                <input type="text" class="form-control" id="txtName" name="name" th:value="${variant.getName()}" />
+            </div>
+            <div class="form-group">
+                <label for="txtDescription" class="form-label h6">Description</label>
+                <input type="text" class="form-control" id="txtDescription" name="description" th:value="${variant.getDescription()}" />
+            </div>
+            <div class="form-group">
+                <label for="selCategory" class="form-label h6">Categories</label>
+                <select name="category.id" id="selCategory" class="form-select">
+                    <option th:value="${variant.getCategory().getId()}" th:text="${variant.getCategory().getCategoryName()}"></option>
+                    <option
+                            th:if="${category != null}"
+                            th:each="item:${category}"
+                            th:value="${item.getId()}"
+                            th:text="${item.getCategoryName()}"></option>
+                </select>
+            </div>
+            <div class="d-flex justify-content-end mt-3">
+                <button type="submit" class="btn btn-success"><i class="fas fa-edit"></i> Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#staticModalLabel").text($("#txtTitle").val());
+
+        $("#frmEditVariant").validate({
+            "rules" : {
+                "categoryName": {
+                    "required": true,
+                    "maxlength": 100,
+                    "minlength": 3
+                },
+                "description": {
+                    "maxlength": 100
+                }
+            },
+            "errorClass": "text-danger"
+        });
+        $("#frmEditVariant").submit(function(e) {
+            e.preventDefault();
+            if ($("#frmEditVariant").valid()) {
+                $.ajax({
+                    url: "/variant/update",
+                    type: "put",
+                    data: $("#frmEditVariant").serialize(),
+                    dataType: "json",
+                    beforeSend: () => {
+                        // alert("mengirim data ke api");
+                    },
+                    success: function(response) {
+                        alert("Category " + response.categoryName + " succesfully updated!");
+                        location.reload();
+                    },
+                    error: function(errResponse) {
+                        console.error("Update Category Failed: " + errResponse.responseText);
+                    }
+                });
+            }
+        });
+    });
+</script>

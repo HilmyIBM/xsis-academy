@@ -13,8 +13,11 @@
         <div class="container mt-5">
             <h2>Variant List</h2>
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <button class="btn btn-primary">Add</button>
+                <button class="btn btn-primary" id="btnAddCategory" data-bs-toggle="modal" data-bs-target="#staticModal">Add</button>
             </div>
+<!--            <div class="d-flex justify-content-between align-items-center mb-3">-->
+<!--                <button class="btn btn-primary">Add</button>-->
+<!--            </div>-->
             <p>Tanggal = <span th:text="${#temporals.format(#temporals.createNow(), 'MM/dd/yyyy HH:mm:ss a')}"></span></p>
 
             <div class="table-responsive">
@@ -22,22 +25,22 @@
                     <thead>
                     <tr>
                         <th class="text-start">id</th>
-                        <th class="text-center">nama variant</th>
+                        <th class="text-center">name</th>
+                        <th class="text-center">description</th>
                         <th class="text-center">category</th>
-                        <th class="text-center">is delete</th>
                         <th class="text-center">Action</th>
                     </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                    <tr>
-                        <td class="text-start">2</td>
-                        <td class="text-center">Bread</td>
-                        <td class="text-center">Appetizer</td>
-                        <td class="text-center">False</td>
+                    <tr th:each="item:${variant}">
+                        <td class="text-start" th:text="${item.getId()}"></td>
+                        <td class="text-center" th:text="${item.getName()}" ></td>
+                        <td class="text-center" th:text="${item.getDescription()}"></td>
+                        <td class="text-center" th:text="${item.getCategory().getCategoryName()}"></td>
                         <td class="text-center">
-                            <button class="btn btn-sm btn-warning">Edit</button>
-                            <button class="btn btn-sm btn-info">Detail</button>
-                            <button class="btn btn-sm btn-danger">Delete</button>
+                            <button th:data-id="${item.getId()}" class="btn btn-info"><i class="fas fa-list-alt"></i></button>
+                            <button th:data-id="${item.getId()}" class="btn btn-warning"><i class="fas fa-edit"></i></button>
+                            <button th:data-id="${item.getId()}" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     </tbody>
@@ -46,9 +49,33 @@
         </div>
         <script>
             $(document).ready( function () {
-                $('#variant-table').DataTable( {
-                    ordering: false,
-                    select: true
+                $('#variant-table').DataTable({
+                    paging: false
+                });
+
+                $('#btnAddCategory').click(function (e) {
+                    // $('#staticModalLabel').append("<span th:text='${add_title}'></span>")
+                    $('#staticModalBody').load("variant/add");
+                });
+
+                $(".btn-info").click(function (e) {
+                    let varId = $(this).data("id");
+                    let type = "DETAIL";
+                    $("#staticModalBody").load("variant/" + type + "/" + varId);
+                    $("#staticModal").modal("show");
+                });
+
+                $(".btn-warning").click(function(e) {
+                    let varId = $(this).data("id");
+                    $("#staticModalBody").load("variant/edit/" + varId);
+                    $("#staticModal").modal("show");
+                });
+
+                $(".btn-danger").click(function (e) {
+                    let varId = $(this).data("id");
+                    let type = "DELETE";
+                    $("#staticModalBody").load("variant/" + type + "/" + varId);
+                    $("#staticModal").modal("show");
                 });
             } );
         </script>
