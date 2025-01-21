@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.xsis.bc345.be.models.Category;
 import com.xsis.bc345.be.models.Variant;
 import com.xsis.bc345.be.services.VariantService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,16 @@ public class VariantController {
     public ResponseEntity<?> getAll() {
         try {
             List<Variant> data = variantSvc.getAll();
+            return new ResponseEntity<List<Variant>>(data, data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/filter/{filter}")
+    public ResponseEntity<?> getByFilter(@PathVariable String filter) {
+        try {
+            List<Variant> data = variantSvc.getByNameorDescription(filter);
             return new ResponseEntity<List<Variant>>(data, data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xsis.bc345.be.models.Category;
 import com.xsis.bc345.be.models.Variant;
 import com.xsis.bc345.be.repositories.VariantRepository;
 
@@ -27,6 +28,10 @@ public class VariantService {
 
     public Optional<Variant> getById(int id){
         return variantRepo.findByIdAndDeleted(id, false);
+    }
+
+    public List<Variant> getByNameorDescription(String filter){
+        return variantRepo.findByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(filter, filter, false).get();
     }
 
     public Variant create(Variant data) throws Exception{

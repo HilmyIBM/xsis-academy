@@ -29,7 +29,7 @@ public class Product {
     private int stock;
 
     @Column(name="variant_id", nullable = false)
-    private int variantID;
+    private int variantId;
 
     @Column(name="image")
     private String image;
@@ -50,8 +50,9 @@ public class Product {
     @Column(name="update_date", nullable = true)
     private LocalDateTime updateDate;
 
+
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -59,7 +60,7 @@ public class Product {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -67,7 +68,7 @@ public class Product {
     }
 
     public Double getPrice() {
-        return price;
+        return this.price;
     }
 
     public void setPrice(Double price) {
@@ -75,19 +76,19 @@ public class Product {
     }
 
     public int getStock() {
-        return stock;
+        return this.stock;
     }
 
     public void setStock(int stock) {
         this.stock = stock;
     }
 
-    public int getVariantID() {
-        return variantID;
+    public int getVariantId() {
+        return this.variantId;
     }
 
-    public void setVariantID(int variantID) {
-        this.variantID = variantID;
+    public void setVariantId(int variantId) {
+        this.variantId = variantId;
     }
 
     public String getImage() {
@@ -99,7 +100,11 @@ public class Product {
     }
 
     public boolean isDeleted() {
-        return deleted;
+        return this.deleted;
+    }
+
+    public boolean getDeleted() {
+        return this.deleted;
     }
 
     public void setDeleted(boolean deleted) {
@@ -107,7 +112,7 @@ public class Product {
     }
 
     public int getCreateBy() {
-        return createBy;
+        return this.createBy;
     }
 
     public void setCreateBy(int createBy) {
@@ -115,7 +120,7 @@ public class Product {
     }
 
     public LocalDateTime getCreateDate() {
-        return createDate;
+        return this.createDate;
     }
 
     public void setCreateDate(LocalDateTime createDate) {
@@ -123,7 +128,7 @@ public class Product {
     }
 
     public Integer getUpdateBy() {
-        return updateBy;
+        return this.updateBy;
     }
 
     public void setUpdateBy(Integer updateBy) {
@@ -131,11 +136,12 @@ public class Product {
     }
 
     public LocalDateTime getUpdateDate() {
-        return updateDate;
+        return this.updateDate;
     }
 
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
+    
     
 }

@@ -41,7 +41,7 @@
                     <th scope="col">Image</th>
                     <th scope="col">ID</th>
                     <th scope="col">Nama Product</th>
-                    <!-- <th scope="col">Category</th> -->
+                    <th scope="col">Category</th>
                     <th scope="col">Variant</th>
                     <th scope="col">Price</th>
                     <th scope="col">Stock</th>
@@ -51,15 +51,16 @@
             </thead>
             <tbody class="align-middle">
                 <tr th:each="item:${product}">
-                    <th scope="col" th:text="${item.image}">
-                        <div style="width: 50px; height: 50px;">
-                            <img src="assets\img\ice.jpg" class="img-fluid rounded-circle" alt="gambar ID">
+                    <th>
+                        <div style="width: 50px; height: 50px; overflow: hidden; border-radius: 50%; display: inline-block;">
+                            <img th:if="${item.image != null}" th:src="@{~/assets/img/${item.image}}" class="img-fluid" alt="gambar ID" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img th:unless="${item.image != null}" src="assets/img/default.png" class="img-fluid" alt="gambar ID" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
-                    </th>
+                    </th>                    
                     <th scope="row" th:text="${item.id}">1</th>
                     <td th:text="${item.name}">Strawberry Ice Cream</td>
-                    <!-- <td th:text="${item.categoryId}">Dessert</td> -->
-                    <td th:text="${item.variantID}">Ice Cream</td>
+                    <td th:text="${item.categoryName}">Dessert</td>
+                    <td th:text="${item.variantName}">Ice Cream</td>
                     <td th:text="${item.price}">Rp. 15000</td>
                     <td th:text="${item.stock}">99999</td>
                     <td th:text="${item.deleted}">False</td>
@@ -74,6 +75,33 @@
             </tbody>
         </table>
         <!-- TABLE END -->
+
+        <script>
+            $("#btnAdd").click(function(e){
+                $("#staticModalBody").load("/product/add");
+            });
+
+            // $(".btn-info").click(function(e){
+            //     let catId = $(this).data("id");
+
+            //     $("#staticModalBody").load("/category/" + catId);
+            //     $("#staticModal").modal("show");
+            // })
+
+            // $(".btn-warning").click(function(e){
+            //     let catId = $(this).data("id");
+
+            //     $("#staticModalBody").load("/category/edit/" + catId);
+            //     $("#staticModal").modal("show");
+            // })
+
+            // $(".btn-danger").click(function() {
+            //     let catId = $(this).data("id");
+
+            //     $("#staticModalBody").load("/category/delete/" + catId);
+            //     $("#staticModal").modal("show");
+            // })
+        </script>
     </div>
 </body>
 </html>
