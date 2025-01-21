@@ -24,17 +24,53 @@ public class CategoryController {
 
     private static final Logger log = LoggerFactory.getLogger(CategoryController.class);
     private final RestTemplate restTemplate;
-    private final ProcessAPI<CategoryModel> request;
+    private final ProcessAPI<CategoryModel, CategoryModel> request;
 
     private final String API_URL;
 
     @Autowired
-    public CategoryController(ProcessAPI<CategoryModel> request, Environment env) {
+    public CategoryController(ProcessAPI<CategoryModel, CategoryModel> request, Environment env) {
         this.request = request;
         this.restTemplate = new RestTemplate();
         this.API_URL = env.getProperty("api.url") + "/category";
+    }
 
-        this.request.setAPIURL(API_URL);
+    @GetMapping("/{type}/{id}")
+    public ModelAndView detail(@PathVariable("type") RequestType type, @PathVariable("id") int id) {
+        ModelAndView view = getViewModel(type);
+
+        ResponseEntity<CategoryModel> apiResponse;
+
+        var header = new HttpHeaders();
+        header.setContentType(MediaType.APPLICATION_JSON);
+
+        var httpEntity = new HttpEntity<>(header);
+
+        try {
+            apiResponse = restTemplate.exchange(API_URL + "/" + id,
+                    HttpMethod.GET, httpEntity, CategoryModel.class);
+
+            if (apiResponse.getStatusCode() == HttpStatus.OK)
+                view.addObject("category", apiResponse.getBody());
+
+        } catch (HttpClientErrorException e) {
+            ErrorModel er = e.getResponseBodyAs(ErrorModel.class);
+
+            log.error(Objects.requireNonNull(er).toString());
+            view.addObject("error", er);
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+        }
+
+        return view;
+    }
+
+    @GetMapping("/add")
+    ModelAndView add() {
+        ModelAndView view = new ModelAndView("master/category/add");
+        view.addObject("title", "Add New Category");
+
+        return view;
     }
 
     @GetMapping("")
@@ -68,55 +104,25 @@ public class CategoryController {
         return view;
     }
 
-    @GetMapping("/{type}/{id}")
-    public ModelAndView detail(@PathVariable("type") RequestType type, @PathVariable("id") int id) {
-        ModelAndView view = getViewModel(type);
-
-        ResponseEntity<CategoryModel> apiResponse;
-
-        var header = new HttpHeaders();
-        header.setContentType(MediaType.APPLICATION_JSON);
-
-        var httpEntity = new HttpEntity<>(header);
-
-        try {
-            apiResponse = restTemplate.exchange(API_URL + "/" + id,
-                    HttpMethod.GET, httpEntity, CategoryModel.class);
-
-            if (apiResponse.getStatusCode() == HttpStatus.OK)
-                view.addObject("category", apiResponse.getBody());
-
-        } catch (HttpClientErrorException e) {
-            log.error(Objects.requireNonNull(e.getResponseBodyAs(ErrorModel.class)).toString());
-            view.addObject("error", e.getResponseBodyAs(ErrorModel.class));
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-        }
-
-        return view;
-    }
-
-    @GetMapping("/add")
-    ModelAndView add() {
-        ModelAndView view = new ModelAndView("master/category/add");
-        view.addObject("title", "Add New Category");
-
-        return view;
-    }
-
     @PostMapping("/create")
-    public ResponseEntity<?> create(@ModelAttribute CategoryModel model) {
-        return request.send(model, CategoryModel.class, HttpMethod.POST, HttpStatus.CREATED);
+    public ResponseEntity<?> createCategory(@ModelAttribute CategoryModel model) {
+        return request.send(model, CategoryModel.class,
+                HttpMethod.POST, HttpStatus.CREATED,
+                API_URL);
     }
 
     @PostMapping("/update")
-    public ResponseEntity<?> update(@ModelAttribute CategoryModel model) {
-        return request.send(model, CategoryModel.class, HttpMethod.PUT, HttpStatus.OK);
+    public ResponseEntity<?> updateCategory(@ModelAttribute CategoryModel model) {
+        return request.send(model, CategoryModel.class,
+                HttpMethod.PUT, HttpStatus.OK,
+                API_URL);
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<?> delete(@ModelAttribute CategoryModel model) {
-        return request.send(model, CategoryModel.class, HttpMethod.DELETE, HttpStatus.OK);
+    public ResponseEntity<?> deleteCategory(@ModelAttribute CategoryModel model) {
+        return request.send(model, CategoryModel.class,
+                HttpMethod.DELETE, HttpStatus.OK,
+                API_URL);
     }
 
 
