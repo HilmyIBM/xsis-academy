@@ -20,9 +20,9 @@
   $(document).ready(function () {
     $("#staticModalLabel").text($("#txtTitle").val());
     $(".card-footer > #btn-confirm").click((e) => {
-      let catId = $("#productId").val();
+      let productId = $("#productId").val();
       $.ajax({
-        url: `/product/delete/${catId}/3`,
+        url: `/product/delete/${productId}/3`,
         type: "post",
         success: (res) => {
           alert(`Product successfully deleted!`);

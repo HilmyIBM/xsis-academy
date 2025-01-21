@@ -20,9 +20,9 @@
   $(document).ready(function () {
     $("#staticModalLabel").text($("#txtTitle").val());
     $(".card-footer > #btn-confirm").click((e) => {
-      let catId = $("#variantId").val();
+      let varId = $("#variantId").val();
       $.ajax({
-        url: `/variant/delete/${catId}/3`,
+        url: `/variant/delete/${varId}/3`,
         type: "post",
         success: (res) => {
           alert(`Variant successfully deleted!`);

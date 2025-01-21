@@ -21,7 +21,7 @@ public interface VariantRepository extends JpaRepository<Variant, Integer> {
                         + "v.is_deleted AS \"deleted\", v.create_by AS \"createBy\", v.create_date AS \"createDate\", "
                         + "v.update_by AS \"updateBy\", v.update_date AS \"updateDate\" "
                         + "FROM tbl_m_variant AS v INNER JOIN tbl_m_categories AS c ON v.category_id = c.id "
-                        + "WHERE v.is_deleted IS NOT TRUE", nativeQuery = true)
+                        + "WHERE v.is_deleted IS NOT TRUE AND c.is_deleted IS NOT TRUE", nativeQuery = true)
         Optional<List<Map<String, Object>>> findAllNative();
 
         Optional<List<Variant>> findByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(String name,
@@ -31,7 +31,8 @@ public interface VariantRepository extends JpaRepository<Variant, Integer> {
                         + "v.is_deleted AS \"deleted\", v.create_by AS \"createBy\", v.create_date AS \"createDate\", "
                         + "v.update_by AS \"updateBy\", v.update_date AS \"updateDate\" "
                         + "FROM tbl_m_variant v INNER JOIN tbl_m_categories c ON v.category_id = c.id "
-                        + "WHERE v.is_deleted = FALSE AND (LOWER(v.name) LIKE LOWER(CONCAT('%', :filter, '%')) OR "
+                        + "WHERE (v.is_deleted IS NOT TRUE AND c.is_deleted IS NOT TRUE) AND "
+                        + "(LOWER(v.name) LIKE LOWER(CONCAT('%', :filter, '%')) OR "
                         + "LOWER(c.category_name) LIKE LOWER(CONCAT('%', :filter, '%')) OR "
                         + "LOWER(v.description) LIKE LOWER(CONCAT('%', :filter, '%')))", nativeQuery = true)
         Optional<List<Map<String, Object>>> getByFilter(@Param("filter") String filter);
