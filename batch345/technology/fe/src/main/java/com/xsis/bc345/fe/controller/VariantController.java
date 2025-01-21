@@ -1,8 +1,8 @@
 package com.xsis.bc345.fe.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +17,7 @@ import com.xsis.bc345.fe.models.VariantView;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
+
 @Controller
 @RequestMapping("/variant")
 public class VariantController {
@@ -24,7 +25,6 @@ public class VariantController {
     private RestTemplate restTemplate = new RestTemplate();
 
     //API URL
-    // private final String apiUrl = "http://localhost:8080/api";
     @Value("${application.api.url}")
     private String apiUrl;
     
@@ -160,4 +160,62 @@ public class VariantController {
 
         return view;
     }
+
+    @PostMapping("/update")
+    public ResponseEntity<?> update(VariantView variant) {
+        ResponseEntity<VariantView> apiResponse = null;
+
+        try {
+            apiResponse = restTemplate.exchange(apiUrl + "/variant", HttpMethod.PUT, new HttpEntity<VariantView>(variant), VariantView.class);
+
+            if(apiResponse.getStatusCode() == HttpStatus.OK) {
+                return new ResponseEntity<VariantView>(apiResponse.getBody(), HttpStatus.OK);
+            }
+            else{
+                throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/delete/{id}")
+    public ModelAndView delete(@PathVariable int id) {
+        ModelAndView view = new ModelAndView("/variant/delete");
+
+        view.addObject("id", id);
+        view.addObject("title", "Delete Variant");
+
+        return view;
+    }
+
+    @PostMapping("/delete/{id}/{userId}")
+    public ResponseEntity<?> delete(@PathVariable int id, @PathVariable int userId) {
+        ResponseEntity<VariantView> apiResponse = null;
+        
+        VariantView variant = new VariantView();
+        variant.setId(id);
+        variant.setUpdateBy(userId);
+
+        try {
+            apiResponse = restTemplate.exchange(
+                apiUrl + "/variant/delete/" + id + "/" + userId,
+                HttpMethod.DELETE,
+                new HttpEntity<VariantView>(variant),
+                VariantView.class
+            );
+
+            if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                return new ResponseEntity<VariantView>(apiResponse.getBody(),HttpStatus.OK);
+            }
+            else {
+                throw new Exception(apiResponse.getStatusCode().toString() + ": " +  apiResponse.getBody().toString());
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
 }

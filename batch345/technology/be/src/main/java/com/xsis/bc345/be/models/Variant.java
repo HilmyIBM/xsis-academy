@@ -38,7 +38,7 @@ public class Variant {
 	@CreationTimestamp
 	private LocalDateTime createDate;
 
-	@Column(name = "update_by")
+	@Column(name = "update_by", nullable = true)
 	private int updateBy;
 
 	@Column(name = "update_date")
@@ -103,6 +103,7 @@ public class Variant {
     public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
+
 
     public int getUpdateBy() {
         return this.updateBy;

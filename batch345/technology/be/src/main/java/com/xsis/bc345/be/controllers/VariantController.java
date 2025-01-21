@@ -50,9 +50,10 @@ public class VariantController {
     @GetMapping("/id/{id}")
     public ResponseEntity<?> getBy(@PathVariable int id) {
         try {
-            final Optional<Variant> data = variantSvc.getBy(id);
+            // final Optional<Variant> data = variantSvc.getBy(id);
+            final Optional<Map<String, Object>> data = variantSvc.getByNative(id);
             
-            return new ResponseEntity<Variant>(
+            return new ResponseEntity<Map<String, Object>>(
                 data.get(),
                 data.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT
             );
@@ -90,7 +91,7 @@ public class VariantController {
     @PutMapping("")
     public ResponseEntity<?> update(@RequestBody Variant data) {
         try {
-            return new ResponseEntity<Variant>(variantSvc.create(data), HttpStatus.CREATED);
+            return new ResponseEntity<Variant>(variantSvc.update(data), HttpStatus.OK);
         } catch (Exception e) {
             // TODO: handle exception
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

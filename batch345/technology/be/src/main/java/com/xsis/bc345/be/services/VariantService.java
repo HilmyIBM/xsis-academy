@@ -34,6 +34,10 @@ public class VariantService {
         return variantRepo.findByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(filter, filter, false);
     }
 
+    public Optional<Map<String, Object>> getByNative(int id) throws Exception {
+        return variantRepo.findByIdNative(id);
+    }
+
     public Optional<List<Variant>> getByName(String name) throws Exception {
         return variantRepo.findByNameContainsIgnoreCaseAndDeleted(name, false);
     }
@@ -59,7 +63,7 @@ public class VariantService {
     }
 
     public Variant delete(int id, int userId) throws Exception {
-        existingVariant = variantRepo.findByIdAndDeleted(userId, false);
+        existingVariant = variantRepo.findByIdAndDeleted(id, false);
 
         if (existingVariant.isPresent()){
             existingVariant.get().setDeleted(true);

@@ -27,7 +27,8 @@
             <div class="d-flex justify-content-end mt-3">
                 <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Save</button>
             </div>
-            <input type="hidden" name="createBy" value="1" />
+            <input type="hidden" name="id" th:value="${variant.id}" />
+            <input type="hidden" name="updateBy" value="2" />
         </form>
     </div>
 
@@ -70,8 +71,8 @@
                     success: function(response) {
                         setTimeout(()=>{}, 1000);
                         $("#variantSpinner").hide();
-                        alert("Variant " + response.variantName + " succesfully updated!");
-                        // location.reload();
+                        alert("Variant " + response.name + " succesfully updated!");
+                        location.reload();
                     },
                     error: function(errResponse) {
                         console.error("Create new variant Failed: " + errResponse.responseText);
