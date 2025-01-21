@@ -1,7 +1,7 @@
 <input type="hidden" id="txtTitle"  th:value="${title}"/>
 <div class="card">
   <div class="card-body">
-    <form th:action="@{~/variant/update}" id="frmEditVariant" method="post">
+    <form  id="frmEditVariant">
       <input type="text" name="id" id="txtId" th:value="${variant.id}"/>
       <input type="hidden" name="updateBy" id="txtUpdateBy" value="2"/>
       <div class="form-group">
@@ -16,6 +16,16 @@
           id="txtDescription"
           name="description"
           th:value="${variant.description}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="txtCategoryId" class="form-label"> Category ID </label>
+        <input
+          type="text"
+          class="form-control"
+          id="txtCategoryId"
+          name="categoryId"
+          th:value="${variant.categoryId}"
         />
       </div>
       <div class="text-right">
@@ -39,6 +49,9 @@
         }, 
         "description":{
           "maxlength":100
+        },
+        "categoryId" : {
+          "required":true
         }
       }
     });

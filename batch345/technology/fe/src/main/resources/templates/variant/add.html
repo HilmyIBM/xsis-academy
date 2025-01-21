@@ -1,7 +1,7 @@
 <span id="txtTitle" class="d-none" th:text="${title}"></span>
 <div class="card">
   <div class="card-body">
-    <form th:action="@{~/variant/save}" id="frmNewVariant" method="post">
+    <form id="frmNewVariant">
 
       <div class="form-group">
         <label for="txtName" class="form-label"> Name </label>
@@ -58,17 +58,16 @@
           e.preventDefault();
 
           if ($("#frmNewVariant").valid()) {
-              debugger;
               $.ajax({
                   url: "/variant/create",
                   type: "post",
                   data: $("#frmNewVariant").serialize(),
                   dataType: "json",
                   beforeSend: () => {
-                      alert("mengirim data ke api");
+                      // alert("mengirim data ke api");
                   },
                   success: function(response) {
-                      alert("Variant " + response.categoryName + " succesfully created!");
+                      alert("Variant " + response.name + " succesfully created!");
                       location.reload();
                   },
                   error: function(errResponse) {

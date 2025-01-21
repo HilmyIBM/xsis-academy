@@ -149,7 +149,7 @@ public class VariantController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity update(@ModelAttribute VariantView variant) throws Exception {
+    public ResponseEntity<?> update(@ModelAttribute VariantView variant) throws Exception {
         // TODO: process POST request
         ResponseEntity<VariantView> apiResponse = null;
 

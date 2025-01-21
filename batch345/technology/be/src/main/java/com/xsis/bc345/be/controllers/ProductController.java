@@ -1,6 +1,7 @@
 package com.xsis.bc345.be.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,16 +21,34 @@ public class ProductController {
     @Autowired
     private ProductService productSvc;
 
+    // @GetMapping("")
+    // public ResponseEntity<?> getAll(){
+    //     try {
+    //         List<Product> data = productSvc.getAll();
+
+    //         if (data.size()>0){
+    //             return new ResponseEntity<List<Product>>(data, HttpStatus.OK);
+                
+    //         } else {
+    //             return new ResponseEntity<List<Product>>(data, HttpStatus.NO_CONTENT);
+                
+    //         }
+    //     } catch (Exception e) {
+    //         // TODO: handle exception
+    //         return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
+
     @GetMapping("")
-    public ResponseEntity<?> getAll(){
+    public ResponseEntity<?> getAllNative(){
         try {
-            List<Product> data = productSvc.getAll();
+            final List<Map<String, Object>> data = productSvc.getAllNative();
 
             if (data.size()>0){
-                return new ResponseEntity<List<Product>>(data, HttpStatus.OK);
+                return new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.OK);
                 
             } else {
-                return new ResponseEntity<List<Product>>(data, HttpStatus.NO_CONTENT);
+                return new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.NO_CONTENT);
                 
             }
         } catch (Exception e) {
@@ -37,5 +56,6 @@ public class ProductController {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
 }

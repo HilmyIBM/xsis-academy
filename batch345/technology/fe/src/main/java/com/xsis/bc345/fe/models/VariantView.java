@@ -12,6 +12,15 @@ public class VariantView {
     private int createby;
     private Timestamp createDate;
     private String categoryName;
+    private String variant;
+
+    public String getVariant() {
+        return this.variant;
+    }
+
+    public void setVariant(String variant) {
+        this.variant = variant;
+    }
 
     public String getCategoryName() {
         return this.categoryName;
@@ -89,14 +98,14 @@ public class VariantView {
         this.updateBy = updateBy;
     }
 
-    public LocalDateTime getUpdateDate() {
+    public Timestamp getUpdateDate() {
         return this.updateDate;
     }
 
-    public void setUpdateDate(LocalDateTime updateDate) {
+    public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
     }
     private int updateBy;
-    private LocalDateTime updateDate;
+    private Timestamp updateDate;
 
 }
