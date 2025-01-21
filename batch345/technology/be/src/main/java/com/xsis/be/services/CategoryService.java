@@ -2,6 +2,7 @@ package com.xsis.be.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -29,8 +30,8 @@ public class CategoryService {
     public Optional<List<Category>> getByCategoryName(String categoryName) throws Exception{
         return categoryRepo.findByCategoryNameIgnoreCaseAndDeleted(categoryName, false);
     }
-    public Optional<List<Category>> getByNameOrDescription(String filter) throws Exception{
-        return categoryRepo.findByCategoryNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(filter, filter, false);
+    public Optional<List<Map<String,Object>>> getByNameOrDescription(String filter) throws Exception{
+        return categoryRepo.findNameAndCategoryByNativeQuery(filter);
     }
 
     public Category create(Category data) throws Exception{

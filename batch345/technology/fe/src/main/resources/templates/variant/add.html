@@ -1,20 +1,30 @@
 <span id="txtTitle" class="d-none" th:text="${title}"></span>
 <div class="card">
     <div class="card-body">
-        <form th:action="@{~/category/save}" id="formNewCategory" method="post">
+        <form th:action="@{~/variant/create}" id="formNewVariant" method="post">
             <div class="form-group">
-                <label for="txtName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="txtName" name="categoryName"/>
+                <label for="txtName" class="form-label">Variant Name</label>
+                <input type="text" class="form-control" id="txtName" name="name"/>
             </div>
             <div class="form-group">
                 <label for="txtDesc" class="form-label">Description</label>
                 <input type="text" class="form-control" id="txtDesc" name="description"/>
             </div>
             <div class="form-group">
-                <label for="txtDesc" class="form-label">Select Category</label>
-                <input type="text" class="form-control" id="txtDesc" name="description"/>
+                <label for="slcCategory" class="form-label">Select Category</label>
+                <select id="slcCategory" class="form-select" name="categoryId">
+                    <option value="">--Select Category--</option>
+                    <option
+                      th:if="${category!=null}"
+                      th:each="item:${category}"
+                      th:text="${item.categoryName}"
+                      th:value="${item.id}"
+                    >
+                      Category Name
+                    </option>
+                </select>
             </div>
-            <input type="hidden" class="form-control" id="txtDesc" name="createBy" value="2"/>
+            <input type="hidden" class="form-control" id="txtDesc" name="createBy" value="1"/>
             <div class="text-right d-flex justify-content-end mt-3">
                 <button class="btn btn-success" type="submit"><i class="fas fa-save"></i> Save</button>
             </div>
@@ -24,35 +34,39 @@
 <script>
     $(document).ready(function(){
         $("#staticModalLabel").text($("#txtTitle").text());
-        $("#formEditCategory").validate({
+        $("#formNewVariant").validate({
             "rules": {
-                "categoryName": {
+                "name": {
                     "required" : true,
                     "maxlength" : 100,
                     "minlength" : 3
                 },
                 "description":{
                     "maxlength": 100
-                }
-            }
+                },
+                "categoryId": {
+                    "required": true,
+                },
+            },
+            errorClass: "text-danger",
         });
-        $("#formNewCategory").submit(function(e){
+        $("#formNewVariant").submit(function(e){
             e.preventDefault();
-            if($("#formNewCategory").valid()){
+            if($("#formNewVariant").valid()){
                 $.ajax({
-                    url: "/category/create",
+                    url: "/variant/create",
                     type: "post",
-                    data: $("#formNewCategory").serialize(),
+                    data: $("#formNewVariant").serialize(),
                     dataType: "json",
                     beforeSend: () => {
                         alert("mengirim data ke api");
                     },
                     success: function(response){
-                        alert("Category " + response.categoryName + " succesfully updated!");
+                        alert("Variant " + response.name + " succesfully updated!");
                         location.reload();
                     },
                     error: function(errResponse){
-                        console.error("update Category failed " + errResponse.responseText);
+                        console.error("update Variant failed " + errResponse.responseText);
                     }
                 });
             }

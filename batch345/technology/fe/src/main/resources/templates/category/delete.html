@@ -1,10 +1,16 @@
 <span id="txtTitle" class="d-none" th:text="${title}"></span>
 <div class="card">
     <div class="card-body">
-        <div>Delete form</div>
-        <div th:text="${category.id}"></div>
         <form th:action="@{~/category/delete-confirm}" id="formDeleteCategory" method="post">
-            <input type="hidden" name="id" id="txtId" th:value="${category.id}">
+            <div class="form-group">
+                <label for="txtId" class="form-label">Category Id</label>
+                <input type="text" name="id" class="form-control" id="txtId" th:value="${category.id}" readonly>
+            </div>
+            <!-- <input type="hidden" name="id" id="txtId" th:value="${category.id}"> -->
+            <div class="form-group">
+                <label for="txtDesc" class="form-label">Category description</label>
+            <input type="text" name="description" class="form-control" id="txtDesc" th:value="${category.description}" readonly>
+            </div>
             <input type="hidden" name="updateBy" id="txtId" value="2">
             <div class="d-flex justify-content-end mt-3">
                 <button type="submit" class="btn btn-success">Submit</button>

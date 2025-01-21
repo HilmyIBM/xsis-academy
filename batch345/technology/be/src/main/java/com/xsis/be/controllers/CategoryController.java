@@ -1,6 +1,7 @@
 package com.xsis.be.controllers;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,8 +70,8 @@ public class CategoryController {
     @GetMapping("/filter/{filter}")
     public ResponseEntity<?> getByFilter(@PathVariable String filter) {
         try {
-            Optional<List<Category>> data = categorySvc.getByNameOrDescription(filter);
-            return new ResponseEntity<List<Category>>(
+            Optional<List<Map<String,Object>>> data = categorySvc.getByNameOrDescription(filter);
+            return new ResponseEntity<List<Map<String,Object>>>(
                 data.get(), data.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT
             );
         } catch (Exception e) {

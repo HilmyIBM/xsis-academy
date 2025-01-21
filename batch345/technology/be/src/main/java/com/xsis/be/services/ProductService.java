@@ -1,6 +1,7 @@
 package com.xsis.be.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ public class ProductService {
     public ProductService(ProductRepository productRepo){
         this.productRepo = productRepo;
     }
-    public List<Product> getAll() throws Exception{
-        return productRepo.findByDeleted(false).get();
+    public List<Map<String,Object>> getAll() throws Exception{
+        return productRepo.findByNativeQuery().get();
     }
 }

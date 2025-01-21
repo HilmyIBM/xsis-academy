@@ -1,5 +1,6 @@
 package com.xsis.bc345.fe.models;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class VariantView {
@@ -8,10 +9,12 @@ public class VariantView {
     private String name;
     private String description;
     private boolean deleted;
-    private Integer createBy;
-    private LocalDateTime createDate;
+    private int createBy;
+    private Timestamp createDate;
     private Integer updateBy;
-    private LocalDateTime updateDate;
+    private Timestamp updateDate;
+    private String categoryName;
+
 
     public Integer getId() {
         return this.id;
@@ -21,11 +24,17 @@ public class VariantView {
         this.id = id;
     }
 
-    public Integer getCategoryId() {
+    public boolean getDeleted() {
+        return this.deleted;
+    }
+
+   
+
+    public int getCategoryId() {
         return this.categoryId;
     }
 
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -48,24 +57,23 @@ public class VariantView {
     public boolean isDeleted() {
         return this.deleted;
     }
-
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
 
-    public Integer getCreateBy() {
+    public int getCreateBy() {
         return this.createBy;
     }
 
-    public void setCreateBy(Integer createBy) {
+    public void setCreateBy(int createBy) {
         this.createBy = createBy;
     }
 
-    public LocalDateTime getCreateDate() {
+    public Timestamp getCreateDate() {
         return this.createDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 
@@ -77,12 +85,21 @@ public class VariantView {
         this.updateBy = updateBy;
     }
 
-    public LocalDateTime getUpdateDate() {
+    public Timestamp getUpdateDate() {
         return this.updateDate;
     }
 
-    public void setUpdateDate(LocalDateTime updateDate) {
+    public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
     }
+
+    public String getCategoryName() {
+        return this.categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
 
 }
