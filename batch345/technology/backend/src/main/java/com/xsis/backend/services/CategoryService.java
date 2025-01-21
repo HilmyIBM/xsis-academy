@@ -28,9 +28,8 @@ public class CategoryService {
 
     public List<Category> getByNameOrDescription(String filter) throws Exception {
         return categoryRepo
-                .findCategoryNameOrDescription(filter)
+                .getNativeByDeletedFalseAndCategoryNameOrDescription(filter)
                 .get();
-
     }
 
     public List<Category> getByName(String categoryName) throws Exception {

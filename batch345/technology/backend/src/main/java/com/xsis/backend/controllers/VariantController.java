@@ -41,8 +41,9 @@ public class VariantController {
     @GetMapping("/filter/{filter}")
     public ResponseEntity<?> getByFilter(@PathVariable String filter) {
         try {
-            List<Variant> data = variantService.getByNameOrDescription(filter);
-            return new ResponseEntity<List<Variant>>(data, (data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT));
+            List<Map<String, Object>> data = variantService.getByNameOrDescription(filter);
+            return new ResponseEntity<List<Map<String, Object>>>(data,
+                    (data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT));
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

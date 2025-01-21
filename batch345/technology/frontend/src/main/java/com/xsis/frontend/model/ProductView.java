@@ -8,6 +8,8 @@ public class ProductView {
     private double price;
     private int stock;
     private int variantId;
+    private String variantName;
+    private String categoryName;
     private String image;
     private boolean deleted;
     private int createBy;
@@ -53,6 +55,22 @@ public class ProductView {
 
     public void setVariantId(int variantId) {
         this.variantId = variantId;
+    }
+
+    public String getVariantName() {
+        return this.variantName;
+    }
+
+    public void setVariantName(String variantName) {
+        this.variantName = variantName;
+    }
+
+    public String getCategoryName() {
+        return this.categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getImage() {

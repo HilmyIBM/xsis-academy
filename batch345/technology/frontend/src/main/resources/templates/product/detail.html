@@ -1,11 +1,23 @@
 <input type="hidden" id="txtTitle" th:value="${title}" />
 <div class="card">
   <div class="card-body">
-    <div id="formDetailVariant" class="d-grid gap-3">
-      <input type="hidden" name="id" id="txtId" th:value="${variant.id}" />
+    <div id="formDetailProduct" class="d-grid gap-3">
+      <input type="hidden" name="id" id="txtId" th:value="${product.id}" />
       <input type="hidden" name="updateBy" id="txtUpdateBy" value="2" />
       <div class="form-group">
-        <label for="txtName" class="form-label">Name</label>
+        <label for="txtImage" class="form-label">URL Product Image</label>
+        <input
+          type="text"
+          disabled
+          readonly
+          class="form-control"
+          id="txtImage"
+          name="image"
+          th:value="${product.image}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="txtName" class="form-label">Product Name</label>
         <input
           type="text"
           disabled
@@ -13,33 +25,55 @@
           class="form-control"
           id="txtName"
           name="name"
-          th:value="${variant.name}"
+          th:value="${product.name}"
         />
       </div>
       <div class="form-group">
-        <label for="txtDescription" class="form-label">Description</label>
+        <label for="txtPrice" class="form-label">Price</label>
+        <input
+          type="number"
+          disabled
+          readonly
+          class="form-control"
+          id="txtPrice"
+          name="price"
+          th:value="${product.price}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="txtStock" class="form-label">Stock</label>
+        <input
+          type="number"
+          disabled
+          readonly
+          class="form-control"
+          id="txtStock"
+          name="stock"
+          th:value="${product.stock}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="txtCategory" class="form-label">Category</label>
         <input
           type="text"
           disabled
           readonly
           class="form-control"
-          id="txtDescription"
-          name="description"
-          th:value="${variant.description}"
+          id="txtCategory"
+          name="categoryName"
+          th:value="${product.categoryName}"
         />
       </div>
       <div class="form-group">
-        <label for="slcCategory" class="form-label">Category</label>
+        <label for="slcVariant" class="form-label">Variant</label>
         <select
           disabled
           readonly
-          id="slcCategory"
+          id="slcVariant"
           class="form-select"
-          name="categoryId"
+          name="variantId"
         >
-          <option th:text="${variant.categoryName}" selected>
-            Category Name
-          </option>
+          <option th:text="${product.name}" selected>Variant Name</option>
         </select>
       </div>
       <div class="row row-cols-2">
@@ -52,7 +86,7 @@
             class="form-control"
             id="txtDescription"
             name="description"
-            th:value="${variant.createBy}"
+            th:value="${product.createBy}"
           />
         </div>
         <div class="form-group col">
@@ -64,7 +98,7 @@
             class="form-control"
             id="txtDescription"
             name="description"
-            th:value="${variant.updateBy}"
+            th:value="${product.updateBy}"
           />
         </div>
         <div class="form-group col mt-3">
@@ -76,7 +110,7 @@
             class="form-control"
             id="txtDescription"
             name="description"
-            th:value="${variant.createDate}"
+            th:value="${product.createDate}"
           />
         </div>
         <div class="form-group col mt-3">
@@ -88,7 +122,7 @@
             class="form-control"
             id="txtDescription"
             name="description"
-            th:value="${variant.updateDate}"
+            th:value="${product.updateDate}"
           />
         </div>
       </div>

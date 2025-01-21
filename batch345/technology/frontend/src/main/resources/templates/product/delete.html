@@ -1,0 +1,41 @@
+<input type="hidden" id="txtTitle" th:value="${title}" />
+<input type="hidden" id="productId" th:value="${id}" />
+<div class="card">
+  <div class="card-body row">
+    <div class="col-1 text-center h3">
+      <i class="fas fa-question-circle text-info"></i>
+    </div>
+    <div class="col-11 text-center">
+      Are your sure want to delete this Product with ID
+      <span th:text="${id}"></span>?
+    </div>
+  </div>
+  <div class="card-footer d-flex justify-content-end mt-3">
+    <button id="btn-confirm" class="btn btn-danger me-2">Confirm</button>
+    <button id="btn-cancel" class="btn btn-secondary">Cancel</button>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $("#staticModalLabel").text($("#txtTitle").val());
+    $(".card-footer > #btn-confirm").click((e) => {
+      let catId = $("#productId").val();
+      $.ajax({
+        url: `/product/delete/${catId}/3`,
+        type: "post",
+        success: (res) => {
+          alert(`Product successfully deleted!`);
+          location.reload();
+        },
+        error: (errRes) => {
+          alert(`Failed to delete product!`);
+          console.error(errRes);
+        },
+      });
+    });
+    $(".card-footer > #btn-cancel").click((e) => {
+      $("#staticModal").modal("hide");
+    });
+  });
+</script>

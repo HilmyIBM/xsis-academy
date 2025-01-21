@@ -35,9 +35,8 @@ public class VariantService {
         return variantRepository.findByIdAndDeleted(id, false);
     }
 
-    public List<Variant> getByNameOrDescription(String filter) throws Exception {
-        return variantRepository
-                .findByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(filter, filter, false).get();
+    public List<Map<String, Object>> getByNameOrDescription(String filter) throws Exception {
+        return variantRepository.getByFilter(filter).get();
     }
 
     public Variant update(Variant data) throws Exception {
