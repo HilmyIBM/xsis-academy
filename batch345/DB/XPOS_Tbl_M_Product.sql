@@ -18,6 +18,8 @@ INSERT INTO Tbl_M_Product(name, price,stock, variant_id, create_by)
 VALUES
 ('Chabu', 5000, 200, 1, 2),
 ('Hidro koko', 14000, 1000, 2, 2),
-('Tora', 10000, 50, 1, 3)
-SELECT * FROM Tbl_M_Product
-DROP TABLE Tbl_M_Product
+('Tora', 10000, 50, 1, 3);
+
+SELECT * FROM Tbl_M_Product;
+
+DROP TABLE Tbl_M_Product;
