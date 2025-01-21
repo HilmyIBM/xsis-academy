@@ -38,10 +38,9 @@ public class CategoryController {
             // must null first and then is empty --> if it's isEmpty() first it will showing
             // the console
             if (filter == null || filter.isBlank()) {
-                apiResponse = restTemplate.getForEntity(apiUrl, CategoryView[].class);
-
+                apiResponse = restTemplate.getForEntity(apiUrl+"category", CategoryView[].class);
             } else {
-                apiResponse = restTemplate.getForEntity(apiUrl + "/filter/" + filter, CategoryView[].class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "category/filter/" + filter, CategoryView[].class);
             }
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
@@ -63,7 +62,7 @@ public class CategoryController {
         ModelAndView view = new ModelAndView("category/detail");
         ResponseEntity<CategoryView> apiResponse = null;
         try {
-            apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + id, CategoryView.class);
+            apiResponse = restTemplate.getForEntity(apiUrl + "category/id/" + id, CategoryView.class);
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 view.addObject("category", apiResponse.getBody());
             } else {
@@ -94,7 +93,7 @@ public class CategoryController {
     public ResponseEntity<?> save(@ModelAttribute CategoryView category) {
         ResponseEntity<CategoryView> apiResponse = null;
         try {
-            apiResponse = restTemplate.postForEntity(apiUrl, category, CategoryView.class);
+            apiResponse = restTemplate.postForEntity(apiUrl+"category/", category, CategoryView.class);
             if (apiResponse.getStatusCode() == HttpStatus.CREATED) {
                 return new ResponseEntity<CategoryView>(apiResponse.getBody(), HttpStatus.CREATED);
             } else {
@@ -110,7 +109,7 @@ public class CategoryController {
         ResponseEntity<CategoryView> apiResponse = null;
         try {
             restTemplate.put(apiUrl, category);
-            apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + category.getId(), CategoryView.class);
+            apiResponse = restTemplate.getForEntity(apiUrl + "category/id/" + category.getId(), CategoryView.class);
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 return new ResponseEntity<CategoryView>(apiResponse.getBody(), HttpStatus.OK);
             } else {
@@ -130,7 +129,7 @@ public class CategoryController {
         ResponseEntity<CategoryView> apiResponse = null;
 
         try {
-            apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + id, CategoryView.class);
+            apiResponse = restTemplate.getForEntity(apiUrl + "category/id/" + id, CategoryView.class);
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 view.addObject("category", apiResponse.getBody());
             } else {
@@ -163,9 +162,9 @@ public class CategoryController {
         category.setUpdateBy(userId);
         try {
             // backend endpoint
-            restTemplate.delete(apiUrl + "/delete/" + id + "/" + userId);
+            restTemplate.delete(apiUrl + "category/delete/" + id + "/" + userId);
             // menyesuaikan dengan backend
-            apiResponse = restTemplate.exchange(apiUrl + "/delete/" + id + "/" + userId, HttpMethod.DELETE,
+            apiResponse = restTemplate.exchange(apiUrl + "category/delete/" + id + "/" + userId, HttpMethod.DELETE,
                     new HttpEntity<CategoryView>(category), CategoryView.class);
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 return new ResponseEntity<CategoryView>(apiResponse.getBody(), HttpStatus.OK);

@@ -111,22 +111,6 @@
 
                 $("#staticModalBody").load(`category/delete/${catId}`);
                 $("#staticModal").modal("show")
-
-                /* if (confirm("Are you sure want to delete Categiry with ID " + catId + "?")) {
-                    $.ajax({
-                        // Direct hit to the API
-                        url: `http://localhost:8080/api/category/delete/${catId}/3`,
-                        type: "delete",
-                        success: function (response) {
-                            alert(`Category ${catId} successfully Deleted`)
-                            location.reload("category");
-                        },
-                        error: function (errResponse) {
-                            alert(`Failed to delete Category ${catId}!`)
-                            console.error(errResponse.responseText)
-                        }
-                    })
-                } */
             })
 
             $(document).ready(function (e) {

@@ -1,0 +1,161 @@
+<span id="txtTitle" class="d-none" th:text="${title}"></span>
+<div class="card p-3">
+    <form id="frmNewProduct" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="inputImageProduct" class="form-label">Upload Image</label>
+            <input type="file" id="inputImageProduct" name="image" class="form-control"
+                accept="image/png, image/gif, image/jpeg, image/jpg">
+        </div>
+
+        <div class="mb-3">
+            <label for="txtNamaProduct" class="form-label">Nama Product</label>
+            <input type="text" name="name" id="txtNamaProduct" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="txtPrice" class="form-label">Price</label>
+            <input type="number" name="price" id="txtPrice" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="txtStock" class="form-label">Stock</label>
+            <input type="number" name="stock" id="txtStock" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="variantCategory" class="form-label">Variant</label>
+            <select name="variantId" id="variantCategory" class="form-select">
+                <option value="">-- Select Variant --</option>
+                <!-- Example of dynamic population -->
+                <option th:if="${variants != null}" th:each="item:${variants}" th:value="${item.id}"
+                    th:text="${item.name}"></option>
+            </select>
+        </div>
+
+        <div class="d-flex justify-content-end mt-3">
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save"></i> Save
+            </button>
+        </div>
+    </form>
+
+    <div th:unless="${variants != null}" class="text-danger mt-3">
+        <span th:value="${errMsg}"></span>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        // Define the custom file extension validation method
+        $.validator.addMethod("extension", function (value, element, param) {
+            var fileExtension = (value.substr(value.lastIndexOf('.') + 1) || '').toLowerCase();
+            return this.optional(element) || param.split('|').indexOf(fileExtension) !== -1;
+        }, "Please upload a valid file (jpg, jpeg, png).");
+        // Initialize form validation
+        $("#frmNewProduct").validate({
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 3
+                },
+                price: {
+                    required: true,
+                    min: 1
+                },
+                stock: {
+                    required: true,
+                    min: 1
+                },
+                variantId: {
+                    required: true
+                },
+                image: { // Image validation
+                    required: true,
+                    extension: "jpg|jpeg|png|gif" // Validate image format
+                }
+            },
+            messages: {
+                name: {
+                    required: "Please enter the product name.",
+                    minlength: "The product name must be at least 3 characters long."
+                },
+                price: {
+                    required: "Please enter the product price.",
+                    min: "Price must be greater than 0."
+                },
+                stock: {
+                    required: "Please enter the product stock.",
+                    min: "Stock must be greater than 0."
+                },
+                variantId: {
+                    required: "Please select a variant."
+                },
+                image: {
+                    required: "Please upload an image.",
+                    extension: "Please upload a valid image file (jpg, jpeg, png)."
+                }
+            },
+        });
+        $("#frmNewProduct").submit(function (e) {
+            e.preventDefault();  // Prevent default form submission
+
+            if ($("#frmNewProduct").valid()) {  // Check if form is valid
+                console.log("Form is valid, submitting via AJAX");
+                // Create a FormData object
+                var formData = new FormData();
+
+                // Add form fields to the FormData object
+                formData.append("name", $("#txtNamaProduct").val());
+                formData.append("price", $("#txtPrice").val());
+                formData.append("stock", $("#txtStock").val());
+                formData.append("variantId", $("#variantCategory").val());
+
+                // Add the image file to the FormData object
+                var files = $("#inputImageProduct")[0].files;
+                if (files.length > 0) {
+                    var file = files[0];
+                    formData.append("image", file);
+                    console.log("Selected file:", file);
+                    console.log("File name:", file.name);
+                    console.log("File type:", file.type);
+                    console.log("File size (in bytes):", file.size);
+                } else {
+                    console.log("No image selected.");
+                }
+
+                // Proceed with your AJAX submission
+                $.ajax({
+                    url: "product/save",
+                    type: "POST",
+                    data: formData,  // Send form data including file
+                    contentType: false,  // Don't set content type (because of FormData)
+                    processData: false,  // Don't process data (because of FormData)
+                    success: function (response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: `Product name ${response.name} successfully created!`,
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function (errResponse) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: `Error creating product: ${errResponse.responseText}`,
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            location.reload()
+                        });
+                    }
+                });
+            } else {
+                console.log("Form is invalid, validation failed.");
+            }
+        });
+    });
+
+</script>

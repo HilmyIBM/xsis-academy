@@ -1,19 +1,23 @@
 package com.xsis.bc345.fe.models;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
+// View must be same as the response from the backend
 public class ProductView {
     private Integer id;
     private String name;
-    private Double price;
+    private BigDecimal price;
     private Integer stock;
+    private String categoryName;
     private Integer variantId;
+    private String variantName;
     private String image;
     private boolean deleted;
     private Integer createBy;
-    private LocalDateTime createDate;
+    private Timestamp createDate;
     private Integer updateBy;
-    private LocalDateTime updateDate;
+    private Timestamp updateDate;
 
     public Integer getId() {
         return id;
@@ -31,11 +35,11 @@ public class ProductView {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -79,11 +83,11 @@ public class ProductView {
         this.createBy = createBy;
     }
 
-    public LocalDateTime getCreateDate() {
+    public Timestamp getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 
@@ -95,12 +99,28 @@ public class ProductView {
         this.updateBy = updateBy;
     }
 
-    public LocalDateTime getUpdateDate() {
+    public Timestamp getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(LocalDateTime updateDate) {
+    public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getVariantName() {
+        return variantName;
+    }
+
+    public void setVariantName(String variantName) {
+        this.variantName = variantName;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
 }

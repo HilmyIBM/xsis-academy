@@ -28,11 +28,16 @@ public class VariantController {
     private String apiUrl;
 
     @GetMapping("")
-    public ModelAndView categoryVariant() {
+    public ModelAndView categoryVariant(String variantFilter) {
         ModelAndView view = new ModelAndView("variant/index");
         ResponseEntity<VariantView[]> apiResponse = null;
         try {
-            apiResponse = restTemplate.exchange(apiUrl + "variant", HttpMethod.GET, null, VariantView[].class);
+            if (variantFilter == null || variantFilter.isBlank()) {
+                apiResponse = restTemplate.exchange(apiUrl + "variant", HttpMethod.GET, null, VariantView[].class);
+            } else {
+                apiResponse = restTemplate.exchange(apiUrl + "variant/filter/" + variantFilter, HttpMethod.GET, null,
+                        VariantView[].class);
+            }
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 view.addObject("variants", apiResponse.getBody());
             } else {

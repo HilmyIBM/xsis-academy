@@ -5,12 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>category-product</title>
+    <title>product</title>
 </head>
 
 <body>
     <div layout:fragment="content">
-        <button type="button" class="btn btn-primary mt-2">Add</button>
+        <button type="button" class="btn btn-primary mt-2" id="btnAdd" data-bs-toggle="modal"
+            data-bs-target="#staticModal">Add</button>
         <div class="d-flex flex-row justify-content-between mt-2">
             <form action="#">
                 <div class="input-group container-fluid">
@@ -36,8 +37,8 @@
                         <th scope="col">Image</th>
                         <th scope="col">ID</th>
                         <th scope="col">Nama Product</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Variant</th>
+                        <th scope="col">Category Name</th>
+                        <th scope="col">Variant Name</th>
                         <th scope="col">Price</th>
                         <th scope="col">Stock</th>
                         <th scope="col">Is Delete</th>
@@ -45,18 +46,18 @@
                     </tr>
                 </thead>
                 <tbody class="align-middle">
-                    <tr th:each="item:${product}">
+                    <tr th:each="item:${products}">
                         <td><img src="https://images2.minutemediacdn.com/image/upload/c_crop,w_1458,h_820,x_0,y_0/c_fill,w_1440,ar_16:9,f_auto,q_auto,g_auto/images/voltaxMediaLibrary/mmsport/video_games/01j6sekt06zwfkneznn5.jpg"
                                 alt="Jane Doe"
                                 style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
                         </td>
                         <th scope="row" th:text="${item.id}">1</th>
                         <td th:text="${item.name}">Carbonara</td>
-                        <td th:text="${}">Main Course</td>
-                        <td th:text="${item.variantId}">Pasta</td>
-                        <td>RP. 35000</td>
-                        <td>1</td>
-                        <td>False</td>
+                        <td th:text="${item.categoryName}">Main Course</td>
+                        <td th:text="${item.variantName}">Pasta</td>
+                        <td th:text="${item.price}"></td>
+                        <td th:text="${item.stock}"></td>
+                        <td th:text="${item.deleted}"></td>
                         <td>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
@@ -69,7 +70,16 @@
                 </tbody>
             </table>
         </div>
+        <script>
+            $(document).ready(function (e) {
+                $("#btnAdd").click(function (e) {
+                    $("#staticModalBody").load("product/add")
+                    $("#staticModal").show("show")
+                })
+            })
+        </script>
     </div>
 </body>
+
 
 </html>
