@@ -18,6 +18,10 @@ public interface VariantRepository extends JpaRepository<Variant, Integer> {
 
     Optional<Variant> findById(int id);
 
+    // Filter 2 column and deleted is false
+    Optional<List<Variant>> findByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(String name,
+            String description, boolean deleted);
+
     // Inner join solving problem
     @Query(value = """
             SELECT

@@ -23,6 +23,10 @@ public class VariantService {
         return variantRepo.findByDeleted(false);
     }
 
+    public List<Variant> getByNameOrDescription(String filter) throws Exception {
+        return variantRepo.findByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(filter, filter, false).get();
+    }
+
     public Variant create(Variant data) throws Exception {
         return variantRepo.save(data);
     }
@@ -31,7 +35,7 @@ public class VariantService {
         return variantRepo.findByIdAndDeleted(id, false);
     }
 
-    public Optional<Map<String,Object>> getByIdNative(int id){
+    public Optional<Map<String, Object>> getByIdNative(int id) {
         return variantRepo.findByIdNative(id);
     }
 
@@ -60,7 +64,7 @@ public class VariantService {
         }
     }
 
-    public List<Map<String,Object>> getAllNative() throws Exception{
+    public List<Map<String, Object>> getAllNative() throws Exception {
         return variantRepo.findAllNative().get();
     }
 }

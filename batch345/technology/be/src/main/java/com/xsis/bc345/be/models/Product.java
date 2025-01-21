@@ -1,5 +1,6 @@
 package com.xsis.bc345.be.models;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,16 +23,19 @@ public class Product {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @Column(name = "price")
-    private Double price;
+    @Column(name = "price", nullable = false)
+    private BigDecimal price;
 
-    @Column(name = "stock")
+    @Column(name = "stock", nullable = false)
     private Integer stock;
 
-    @Column(name = "variant_id", nullable = false)
+    @Column(name = "category", nullable = true)
+    private String category;
+
+    @Column(name = "variant_id")
     private Integer variantId;
 
-    @Column(name = "image", nullable = true)
+    @Column(name = "image", nullable = false)
     private String image;
 
     @Column(name = "is_deleted", nullable = false)
@@ -66,11 +70,11 @@ public class Product {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

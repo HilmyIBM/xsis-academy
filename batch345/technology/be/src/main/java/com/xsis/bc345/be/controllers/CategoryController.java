@@ -35,7 +35,7 @@ public class CategoryController {
             List<Category> data = categorySvc.getAll();
 
             if (data.size() == 0) {
-                return new ResponseEntity<List<Category>>(new ArrayList<Category>(), HttpStatus.NO_CONTENT); // returning array                                                                               // []
+                return new ResponseEntity<List<Category>>(new ArrayList<Category>(), HttpStatus.NO_CONTENT); // returning array of data
             }
             return new ResponseEntity<List<Category>>(data, HttpStatus.OK);
 
@@ -77,6 +77,7 @@ public class CategoryController {
         }
     }
 
+    // @RequestBody is expection json format
     @PostMapping("")
     public ResponseEntity<?> create(@RequestBody final Category data) {
         try {

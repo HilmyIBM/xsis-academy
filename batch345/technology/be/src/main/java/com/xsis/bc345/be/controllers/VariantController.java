@@ -42,6 +42,16 @@ public class VariantController {
         }
     }
 
+    @GetMapping("filter/{varFilter}")
+    public ResponseEntity<?> getByNameOrDescription(@PathVariable String varFilter) {
+        try {
+            List<Variant> data = variantSvc.getByNameOrDescription(varFilter);
+            return new ResponseEntity<List<Variant>>(data, data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("id/{id}")
     public ResponseEntity<?> getById(@PathVariable int id) {
         try {
