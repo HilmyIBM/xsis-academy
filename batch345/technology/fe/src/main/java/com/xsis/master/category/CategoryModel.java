@@ -1,10 +1,7 @@
 package com.xsis.master.category;
 
-import groovyjarjarantlr4.v4.runtime.misc.NotNull;
-import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class CategoryModel {
     private Integer id;
@@ -16,11 +13,6 @@ public class CategoryModel {
     private LocalDateTime createDate;
     private long updateBy;
     private LocalDateTime updateDate;
-
-    // Error
-    private String error;
-    private String message;
-    private int status;
 
     public Integer getId() {
         return id;
@@ -84,30 +76,6 @@ public class CategoryModel {
 
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 
     @Override
