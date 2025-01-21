@@ -1,5 +1,7 @@
 package com.xsis.bc345.be.product;
 
+import com.xsis.bc345.be.category.CategoryModel;
+import com.xsis.bc345.be.variant.VariantModel;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -10,10 +12,13 @@ import java.time.LocalDateTime;
 public class ProductModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "image")
+    private String image;
 
     @Column(name = "price")
     private Double price;
@@ -21,8 +26,8 @@ public class ProductModel {
     @Column(name = "stock")
     private Integer stock;
 
-    @Column(name = "variant_id", nullable = false)
-    private Long variantId;
+//    @Column(name = "variant_id", nullable = false)
+//    private Long variantId;
 
     @Column(name = "is_deleted")
     private boolean deleted;
@@ -39,6 +44,10 @@ public class ProductModel {
 
     @Column(name = "update_date")
     private LocalDateTime updateDate;
+
+    @ManyToOne
+    @JoinColumn(name = "variant_id", referencedColumnName = "id", nullable = false)
+    private VariantModel variant;
 
     public Long getId() {
         return id;
@@ -72,13 +81,13 @@ public class ProductModel {
         this.stock = stock;
     }
 
-    public Long getVariantId() {
-        return variantId;
-    }
-
-    public void setVariantId(Long variantId) {
-        this.variantId = variantId;
-    }
+//    public Long getVariantId() {
+//        return variantId;
+//    }
+//
+//    public void setVariantId(Long variantId) {
+//        this.variantId = variantId;
+//    }
 
     public boolean isDeleted() {
         return deleted;
@@ -118,5 +127,21 @@ public class ProductModel {
 
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public VariantModel getVariant() {
+        return variant;
+    }
+
+    public void setVariant(VariantModel variant) {
+        this.variant = variant;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

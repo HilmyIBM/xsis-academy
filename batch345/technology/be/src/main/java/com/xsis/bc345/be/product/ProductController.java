@@ -16,7 +16,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<?> getAllProduct() {
         var data = productService.getAllProduct();
 
@@ -26,20 +26,23 @@ public class ProductController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
-    @PostMapping("")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProductById(@PathVariable int id) {
+        return new ResponseEntity<>(productService.getById(id, false), HttpStatus.OK);
+    }
+
+    @PostMapping
     public ResponseEntity<?> saveProduct(@RequestBody ProductModel productModel) {
         return new ResponseEntity<>(productService.createProduct(productModel), HttpStatus.CREATED);
     }
 
-    @PutMapping("")
+    @PutMapping
     public ResponseEntity<?> updateProduct(@RequestBody ProductModel productModel) {
         return new ResponseEntity<>(productService.updateProduct(productModel), HttpStatus.OK);
     }
 
-    @DeleteMapping("")
+    @DeleteMapping
     public ResponseEntity<?> deleteProduct(@RequestBody ProductModel productModel) {
-        productService.deleteProduct(productModel);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(productService.deleteProduct(productModel), HttpStatus.OK);
     }
 }

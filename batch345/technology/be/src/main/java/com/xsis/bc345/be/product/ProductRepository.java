@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<ProductModel, Long> {
-    Optional<List<ProductModel>> findAllByDeleted(boolean deleted);
+    Optional<List<ProductModel>> findAllByDeletedAndVariant_Deleted(boolean deleted, boolean variantDeleted);
 
-    Optional<ProductModel> findByIdAndDeleted(Long id, boolean deleted);
+    Optional<ProductModel> findByIdAndDeleted(long id, boolean deleted);
 }

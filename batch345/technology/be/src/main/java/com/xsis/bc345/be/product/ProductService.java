@@ -1,5 +1,7 @@
 package com.xsis.bc345.be.product;
 
+import com.xsis.bc345.be.variant.VariantRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -7,26 +9,39 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 @Service
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final VariantRepository variantRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, VariantRepository variantRepository) {
         this.productRepository = productRepository;
+        this.variantRepository = variantRepository;
     }
 
     public List<ProductModel> getAllProduct() {
         try {
-            var data = productRepository.findAllByDeleted(false);
+            var data = productRepository.findAllByDeletedAndVariant_Deleted(false, false);
 
             return data.orElseGet(List::of);
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+    }
+
+    public ProductModel getById(int id, boolean deleted) {
+        try {
+            var data = productRepository.findByIdAndDeleted(id, deleted);
+
+            if (data.isEmpty())
+                throw new EntityNotFoundException("Product with id %s doesn't exists or already deleted".formatted(id));
+
+            return data.get();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e.getCause());
         }
     }
 
@@ -34,71 +49,50 @@ public class ProductService {
         try {
             return productRepository.save(productModel);
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException(e.getMessage(), e.getCause());
         }
     }
 
     public ProductModel updateProduct(ProductModel productModel) {
+        try {
+            var product = productRepository.findByIdAndDeleted(productModel.getId(), false);
 
-//        updateModel(productModel.getId(),
-//                productModel,
-//                update -> {
-//                    update.setDeleted(productModel.isDeleted());
-//                },
-//                save -> productRepository.save(productModel));
+            if (product.isEmpty())
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with id %s doesn't exists or already deleted".formatted(productModel.getId()));
 
-        var data = productRepository.findByIdAndDeleted(productModel.getId(), false);
+            var variant = variantRepository.findByIdAndDeleted(productModel.getVariant().getId(), false);
 
-        if (data.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with id %s doesn't exists".formatted(productModel.getId()));
+            if (variant.isEmpty())
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Variant with id %s doesn't exists or already deleted".formatted(productModel.getId()));
 
-        ProductModel currProduct = data.get();
+            ProductModel existingProduct = product.get();
 
-        productModel.setVariantId(currProduct.getVariantId());
-        productModel.setCreateBy(currProduct.getCreateBy());
-        productModel.setCreateDate(currProduct.getCreateDate());
-        productModel.setUpdateDate(LocalDateTime.now());
+            productModel.setCreateBy(existingProduct.getCreateBy());
+            productModel.setCreateDate(existingProduct.getCreateDate());
+            productModel.setUpdateDate(LocalDateTime.now());
 
-        return productRepository.save(productModel);
+            return productRepository.save(productModel);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
     }
 
-    public void deleteProduct(ProductModel productModel) {
-        var data = productRepository.findByIdAndDeleted(productModel.getId(), false);
+    public ProductModel deleteProduct(ProductModel productModel) {
+        try {
+            var data = productRepository.findByIdAndDeleted(productModel.getId(), false);
 
-        if (data.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with id %s doesn't exists".formatted(productModel.getId()));
+            if (data.isEmpty())
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with id %s doesn't exists or already deleted".formatted(productModel.getId()));
 
-        ProductModel currProd = data.get();
+            ProductModel currProd = data.get();
 
-        currProd.setDeleted(true);
-        currProd.setUpdateBy(productModel.getUpdateBy());
-        currProd.setUpdateDate(LocalDateTime.now());
+            currProd.setDeleted(true);
+            currProd.setUpdateBy(productModel.getUpdateBy());
+            currProd.setUpdateDate(LocalDateTime.now());
 
-        productRepository.save(currProd);
-    }
-
-
-    public <T, ID> T updateModel(
-            ID id,
-            T model,
-            Consumer<T> test,
-            Consumer<T> updater,
-            Function<T, T> saver) {
-
-//        var data = finder.get();
-//
-//        if (data.isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource with id %s doesn't exist".formatted(id));
-//        }
-//
-//        T existingModel = data.get();
-
-        updater.andThen(test).accept(model);
-
-        // Apply custom updates using the provided Consumer
-        updater.accept(model);
-
-        // Save and return the updated model
-        return saver.apply(model);
+            return productRepository.save(currProd);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
     }
 }
