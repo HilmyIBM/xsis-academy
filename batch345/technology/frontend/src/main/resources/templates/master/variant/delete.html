@@ -23,17 +23,17 @@
       let varId = $("#varId").val();
       let userId = 1;
       $.ajax({
-        url:"category/delete/"+varId+"/"+userId,
+        url:"variant/delete/"+varId+"/"+userId,
         type: "post",
         beforeSend: () => {
           alert("Menghapus Data");
         },
         success: (response) => {
-          alert("Category dengan ID" + varId + "berhasil dihapus");
+          alert("Variant dengan ID" + varId + "berhasil dihapus");
           location.reload();
         },
         error: (errResponse) => {
-          alert("Gagal hapus category");
+          alert("Gagal hapus variant");
           console.error("Hapus data gagal : " + errResponse.responseText);
         }
       });

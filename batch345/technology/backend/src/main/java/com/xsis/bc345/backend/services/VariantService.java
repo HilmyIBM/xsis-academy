@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.xsis.bc345.backend.models.Category;
 import com.xsis.bc345.backend.models.Variant;
 import com.xsis.bc345.backend.repositories.VariantRepository;
 
@@ -32,6 +31,10 @@ public class VariantService {
     }
   }
 
+  public Optional<Map<String, Object>> getByIdNative(int id) throws Exception {
+    return variantRepo.findAllByNativeQueryAndId(id);
+  }
+
   public Optional<Variant> getById(int id) throws Exception{
     return variantRepo.findByIdAndDeleted(id, false);
   }
@@ -50,6 +53,21 @@ public class VariantService {
       return variantRepo.save(data);
     } else {
       throw new Exception("Variant tidak ada");
+    }
+  }
+
+  public Variant delete(int id, int userId) throws Exception {
+    Optional<Variant> existingVariant = variantRepo.findById(id);
+
+    if(existingVariant.isPresent()){
+      existingVariant.get().setDeleted(true);
+      existingVariant.get().setUpdateBy(userId);
+      existingVariant.get().setUpdateDate(LocalDateTime.now());
+
+      return variantRepo.save(existingVariant.get());
+    }
+    else {
+      throw new Exception("Variant tidak ditemukan");
     }
   }
 

@@ -1,6 +1,7 @@
 package com.xsis.bc345.frontend.controller;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -75,14 +76,11 @@ public class VariantController {
   public ModelAndView detail(@PathVariable int id) {
     ModelAndView view = new ModelAndView("master/variant/detail");
     ResponseEntity<VariantView> apiResponse = null;
-    ResponseEntity<CategoryView[]> apiCategoryResponse = null;
 
     try {
-      apiResponse = restTemplate.getForEntity(apiUrl + "/variant/id/" + id, VariantView.class);
-      apiCategoryResponse = restTemplate.getForEntity(apiUrl + "/category", CategoryView[].class);
+      apiResponse = restTemplate.getForEntity(apiUrl + "/variant/native/id/" + id, VariantView.class);
       if (apiResponse.getStatusCode() == HttpStatus.OK) {
         view.addObject("variant", apiResponse.getBody());
-        view.addObject("category", apiCategoryResponse.getBody());
       } else {
         throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
       }
@@ -97,7 +95,7 @@ public class VariantController {
   @GetMapping("/add")
   public ModelAndView add() {
       ModelAndView view = new ModelAndView("master/variant/add");
-      view.addObject("title", "Add new Category");
+      view.addObject("title", "Add new Variant");
       ResponseEntity<CategoryView[]> apiCategoryResponse = null;
       try {
         apiCategoryResponse = restTemplate.getForEntity(apiUrl + "/category", CategoryView[].class);
@@ -140,7 +138,7 @@ public class VariantController {
     ResponseEntity<VariantView> apiResponse = null;
 
     try {
-      apiResponse = restTemplate.postForEntity(apiUrl, variant, VariantView.class);
+      apiResponse = restTemplate.postForEntity(apiUrl + "/variant", variant, VariantView.class);
 
       if (apiResponse.getStatusCode() == HttpStatus.CREATED) {
         return new ResponseEntity<VariantView>(apiResponse.getBody(), HttpStatus.OK);
@@ -160,6 +158,32 @@ public class VariantController {
       try {
         restTemplate.put(apiUrl, variant);
         apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + variant.getId(), VariantView.class);
+        if (apiResponse.getStatusCode() == HttpStatus.OK){
+          return new ResponseEntity<VariantView>(apiResponse.getBody(), HttpStatus.OK);
+        }else{
+          throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
+        }
+      } catch (Exception e) {
+        // TODO: handle exception
+        return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+      
+  }
+
+  @GetMapping("/delete/{id}")
+  public ModelAndView delete(@PathVariable int id) {
+      ModelAndView view = new ModelAndView("master/variant/delete");
+      view.addObject("id", id);
+      view.addObject("title", "Delete Variant");
+      return view;
+  }
+
+  @PostMapping("/delete/{id}/{userId}")
+  public ResponseEntity<?> delete(@PathVariable int id, @PathVariable int userId) {
+    ResponseEntity<VariantView> apiResponse = null;
+
+      try {
+        apiResponse = restTemplate.exchange(apiUrl + "/variant/delete/" + id + "/" + userId, HttpMethod.DELETE, null, VariantView.class);
         if (apiResponse.getStatusCode() == HttpStatus.OK){
           return new ResponseEntity<VariantView>(apiResponse.getBody(), HttpStatus.OK);
         }else{

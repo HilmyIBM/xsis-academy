@@ -5,21 +5,21 @@
       <input name="updateBy" id="txtUpdate" th:value="2" type="hidden">
       <div class="form-group">
         <label for="txtName" class="form-label">Name</label>
-        <input type="text" class="form-control" id="txtName" name="name" th:value="${category.categoryName}"/>
+        <input type="text" class="form-control" id="txtName" name="name" th:value="${category.categoryName}" disabled />
       </div>
       <div class="form-group">
         <label for="txtDescription" class="form-label">Description</label>
-        <input type="text" class="form-control" id="txtDescription" name="description" th:value="${category.description}"/>
+        <input type="text" class="form-control" id="txtDescription" name="description" th:value="${category.description}" disabled/>
       </div>
         <div class="col">
           <label for="txtDescription" class="form-label h6">Create By</label>
-          <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${category.createBy}"/>
+          <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${category.createBy}" disabled/>
           <label for="txtDescription" class="form-label h6">Update By</label>
-          <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${category.updateBy}"/>
+          <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${category.updateBy}" disabled/>
           <label for="txtDescription" class="form-label h6">Create Date</label>
-          <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${category.createDate}"/>
+          <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${category.createDate}" disabled/>
           <label for="txtDescription" class="form-label h6">Update Date</label>
-          <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${category.updateDate}"/>
+          <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${category.updateDate}" disabled/>
       </div>
     </div>
   </div>

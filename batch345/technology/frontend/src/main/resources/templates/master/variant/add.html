@@ -10,6 +10,9 @@
         <label for="txtDescription" class="form-label">Description</label>
         <input type="text" class="form-control" id="txtDescription" name="description"/>
       </div>
+      <div class="form-group">
+        <input type="hidden" class="form-control" id="txtCreateBy" name="createBy" value="1"/>
+      </div>
       <select name="categoryId">
         <option value="">-- SELECT CATEGORY --</option>
         <option th:each="item:${category}" th:value="${item.id}" th:text="${item.categoryName}">-- SELECT CATEGORY --</option>
@@ -17,7 +20,7 @@
       <div class="text-right">
         <button class="btn btn-success"><i class="fas fa-save"></i> Save</button>
       </div>
-    </form>
+    </form> 
   </div>
 </div>
 
@@ -54,7 +57,7 @@
             // alert("mengirim data ke api");
           },
           success: function(response){
-            alert("Variant " + response.variant + "successfully created!");
+            alert("Variant " + response.name + " successfully created!");
             location.reload();
           },
           error: function(errResponse){

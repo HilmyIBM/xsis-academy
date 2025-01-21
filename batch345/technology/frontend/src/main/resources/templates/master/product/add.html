@@ -1,0 +1,81 @@
+<span id="txtTitle" class="d-none" th:text="${title}"></span>
+<div class="card">
+  <div class="card-body">
+    <form th:action="@{~/product/create}" id="frmNewProduct" method="post">
+      <div class="form-group">
+        <label for="txtName" class="form-label">Name</label>
+        <input type="text" class="form-control" id="txtName" name="name"/>
+      </div>
+      <div class="form-group">
+        <label for="txtPrice" class="form-label">Price</label>
+        <input type="text" class="form-control" id="txtPrice" name="price"/>
+      </div>
+      <div class="form-group">
+        <label for="txtStock" class="form-label">Stock</label>
+        <input type="text" class="form-control" id="txtStock" name="stock"/>
+      </div>
+      <div class="form-group">
+        <input type="hidden" class="form-control" id="txtCreateBy" name="createBy" value="1"/>
+      </div>
+      <div class="form-group">
+        <input type="hidden" class="form-control" id="txtCreateBy" name="image" value="placeholder.jpg"/>
+      </div>
+      <label for="selectVariant" class="form-label">Choose Variant</label>
+      <select class="form-select" name="variantId" id="selectVariant">
+        <option class value="">-- SELECT VARIANT --</option>
+        <option th:each="item:${variant}" th:value="${item.id}" th:text="${item.name}">-- SELECT CATEGORY --</option>
+      </select>
+      <div class="text-right mt-2">
+        <button class="btn btn-success"><i class="fas fa-save"></i> Save</button>
+      </div>
+    </form> 
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $("#staticModalLabel").text($("#txtTitle").text());
+    $(".btn-success").click(function(){
+
+    });
+    $("#frmNewProduct").validate({
+      "rules" : {
+        "name": {
+          "required": true,
+          "maxlength": 100,
+          "minlength": 3
+        },
+        "price": {
+          "digits": true
+        },
+        "stock": {
+          "digits": true
+        }
+      },
+      "errorClass": "text-danger"
+    });
+
+    $("#frmNewProduct").submit(function(e) {
+      e.preventDefault();
+
+      if($("#frmNewProduct").valid()) {
+        $.ajax({
+          url: "/product/create",
+          type: "post",
+          data: $("#frmNewProduct").serialize(),
+          dataType: "json",
+          beforeSend: () => {
+            // alert("mengirim data ke api");
+          },
+          success: function(response){
+            alert("Product " + response.name + " successfully created!");
+            location.reload();
+          },
+          error: function(errResponse){
+            alert("Product Creation Failed : " + errResponse.responseText);
+          } 
+        });
+      }
+    })
+  })
+</script>

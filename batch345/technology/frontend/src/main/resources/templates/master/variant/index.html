@@ -58,6 +58,12 @@ layout:decorate="~{fragments/layout}">
         $("#staticModalBody").load("/variant/" + varId);
         $("#staticModal").modal("show");
       })
+      $(".btn-danger").click(function(e) {
+        let varId = $(this).data("id");
+
+        $("#staticModalBody").load("/variant/delete/" + varId);
+        $("#staticModal").modal("show");
+      })
     </script>
   </div>
 </body>

@@ -1,6 +1,6 @@
 package com.xsis.bc345.frontend.models;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 public class ProductView {
   private int id;
@@ -8,12 +8,14 @@ public class ProductView {
   private int price;
   private int stock;
   private int variantId;
+  private String variantName;
+  private String categoryName;
   private String image;
   private boolean is_deleted;
   private int createBy;
-  private LocalDateTime createDate;
+  private Timestamp createDate;
   private int updateBy;
-  private LocalDateTime updateDate;
+  private Timestamp updateDate;
   
   public int getId() {
     return id;
@@ -45,6 +47,13 @@ public class ProductView {
   public void setVariantId(int variantId) {
     this.variantId = variantId;
   }
+  public String getVariantName() {
+    return variantName;
+  }
+  public void setVariantName(String variantName) {
+    this.variantName = variantName;
+  }
+  
   public String getImage() {
     return image;
   }
@@ -63,10 +72,10 @@ public class ProductView {
   public void setCreateBy(int createBy) {
     this.createBy = createBy;
   }
-  public LocalDateTime getCreateDate() {
+  public Timestamp getCreateDate() {
     return createDate;
   }
-  public void setCreateDate(LocalDateTime createDate) {
+  public void setCreateDate(Timestamp createDate) {
     this.createDate = createDate;
   }
   public int getUpdateBy() {
@@ -75,12 +84,16 @@ public class ProductView {
   public void setUpdateBy(int updateBy) {
     this.updateBy = updateBy;
   }
-  public LocalDateTime getUpdateDate() {
+  public Timestamp getUpdateDate() {
     return updateDate;
   }
-  public void setUpdateDate(LocalDateTime updateDate) {
+  public void setUpdateDate(Timestamp updateDate) {
     this.updateDate = updateDate;
   }
-
-  
+  public String getCategoryName() {
+    return categoryName;
+  }
+  public void setCategoryName(String categoryName) {
+    this.categoryName = categoryName;
+  }
 }

@@ -1,8 +1,6 @@
 package com.xsis.bc345.frontend.models;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 
 public class VariantView {
   

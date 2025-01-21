@@ -1,22 +1,25 @@
 <span id="txtTitle" class="d-none" th:text="${title}"></span>
 <div class="card">
   <div class="card-body">
-      <input name="id" id="txtId" th:value="${variant.id}" type="hidden">
+      <input name="id" id="txtId" th:value="${product.id}" type="hidden">
       <input name="updateBy" id="txtUpdate" th:value="2" type="hidden">
       <div class="form-group">
         <label for="txtName" class="form-label">Name</label>
-        <input type="text" class="form-control" id="txtName" name="name" th:value="${variant.name}" disabled/>
+        <input type="text" class="form-control" id="txtName" name="name" th:value="${product.name}" disabled/>
       </div>
       <div class="form-group">
-        <label for="txtDescription" class="form-label">Description</label>
-        <input type="text" class="form-control" id="txtDescription" name="description" th:value="${variant.description}" disabled/>
+        <label for="txtVariantName" class="form-label">Variant</label>
+        <input type="text" class="form-control" id="txtDescription" name="description" th:value="${product.variantName}" disabled/>
       </div>
+      
       <div class="form-group">
         <label for="txtCategoryName" class="form-label">Category</label>
-        <!-- <input th:each="item:${category}" th:if="${variant.categoryId}==${item.id}" type="text" class="form-control" id="txtCategoryName" name="categoryName" th:value="${item.categoryName}"/> -->
-        <input type="text" class="form-control" id="txtCategoryName" name="categoryName" th:value="${variant.categoryName}" disabled/>
+        <input type="text" class="form-control" id="txtCategoryName" name="categoryName" th:value="${product.categoryName}" disabled/>
       </div>
-
+      <div class="form-group">
+        <label for="txtPrice" class="form-label">Price</label>
+        <input type="text" class="form-control" id="txtPrice" name="price" th:value="${product.price}" disabled/>
+      </div>
       <div class="col">
         <label for="txtDescription" class="form-label h6">Create By</label>
         <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${variant.createBy}" disabled/>

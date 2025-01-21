@@ -16,16 +16,18 @@ layout:decorate="~{fragments/layout}">
   </style>
     <h1>Welcome to Product</h1>
     <hr style="opacity: 1;"/>
-
+    <button type="button" class="btn btn-success" id="btnAdd" data-bs-toggle="modal" data-bs-target="#staticModal"><i class="fas fa-plus"></i> Add</button>
+    
     <table class="table table-striped" id="tb-product">
       <thead>
         <tr>
           <th scope="col">Image</th>
           <th scope="col">ID</th>
           <th scope="col">Name</th>
+          <th scope="col">Variant</th>
+          <th scope="col">Category</th>
           <th scope="col">Price</th>
           <th scope="col">Stock</th>
-          <th scope="col">Variant ID</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
@@ -36,9 +38,10 @@ layout:decorate="~{fragments/layout}">
           </td>
           <td th:text="${item.id}">1</td>
           <td th:text="${item.name}">Carbonara</td>
+          <td th:text="${item.variantName}">Variant</td>
+          <td th:text="${item.categoryName}">Category</td>
           <td th:text="${item.price}">Main Course</td>
           <td th:text="${item.stock}">Pasta</td>
-          <td th:text="${item.variantId}">Rp 35000</td>
           <td>
             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
               <button type="button" class="btn btn-success">Detail</button>
@@ -52,6 +55,9 @@ layout:decorate="~{fragments/layout}">
     </table>
     <script>
       new DataTable('#tb-product');
+      $("#btnAdd").click(function(e) {
+        $("#staticModalBody").load("product/add");
+      });
     </script>
   </div>
 </body>
