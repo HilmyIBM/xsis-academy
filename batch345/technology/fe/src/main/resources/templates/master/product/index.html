@@ -13,8 +13,9 @@
         <div class="container mt-5">
             <h2>Product List</h2>
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <button class="btn btn-primary">Add</button>
+                <button class="btn btn-primary" id="btnAddProduct" data-bs-toggle="modal" data-bs-target="#staticModal">Add</button>
             </div>
+            <p>Tanggal = <span th:text="${#temporals.format(#temporals.createNow(), 'MM/dd/yyyy HH:mm:ss a')}"></span></p>
             <div class="table-responsive">
                 <table class="table table-striped table-hover table-sm" id="product-table">
                     <thead>
@@ -24,24 +25,24 @@
                         <th class="text-center">nama product</th>
                         <th class="text-center">category</th>
                         <th class="text-center">variant</th>
+                        <th class="text-center">price</th>
                         <th class="text-center">stock</th>
-                        <th class="text-center">is delete</th>
                         <th class="text-center">Action</th>
                     </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                    <tr class="align-middle">
-                        <td class="text-start">2</td>
-                        <td class="text-center"><img th:src="@{../static/images/asd.jpg}" alt="img" class="rounded-5" width="50px"></td>
-                        <td class="text-center">Carbonara</td>
-                        <td class="text-center">Pasta</td>
-                        <td class="text-center">Rp 35000</td>
-                        <td class="text-center">1</td>
-                        <td class="text-center">False</td>
+                    <tr class="align-middle" th:each="item:${products}">
+                        <td class="text-start" th:text="${item.getId()}"></td>
+                        <td class="text-center"><img th:src="${item.getImage()}" alt="img" class="rounded-5" width="50px"></td>
+                        <td class="text-center" th:text="${item.getName()}"></td>
+                        <td class="text-center" th:text="${item.getVariant().getName()}"></td>
+                        <td class="text-center" th:text="${item.getVariant().getCategory().getCategoryName()}"></td>>
+                        <td class="text-center" th:text="${item.getPrice()}"></td>
+                        <td class="text-center" th:text="${item.getStock()}"></td>
                         <td class="text-center">
-                            <button class="btn btn-sm btn-warning">Edit</button>
-                            <button class="btn btn-sm btn-info">Detail</button>
-                            <button class="btn btn-sm btn-danger">Delete</button>
+                            <button th:data-id="${item.getId()}" class="btn btn-info"><i class="fas fa-list-alt"></i></button>
+                            <button th:data-id="${item.getId()}" class="btn btn-warning"><i class="fas fa-edit"></i></button>
+                            <button th:data-id="${item.getId()}" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     </tbody>
@@ -50,11 +51,32 @@
         </div>
         <script>
             $(document).ready( function () {
-                $('#product-table').DataTable( {
-                    ordering: false,
-                    select: true
+                $('#product-table').DataTable();
+
+                $('#btnAddProduct').click(function (e) {
+                    $('#staticModalBody').load("product/add");
                 });
-            } );
+
+                $(".btn-info").click(function (e) {
+                    let varId = $(this).data("id");
+                    let type = "DETAIL";
+                    $("#staticModalBody").load("product/" + type + "/" + varId);
+                    $("#staticModal").modal("show");
+                });
+
+                $(".btn-warning").click(function(e) {
+                    let varId = $(this).data("id");
+                    $("#staticModalBody").load("product/edit/" + varId);
+                    $("#staticModal").modal("show");
+                });
+
+                $(".btn-danger").click(function (e) {
+                    let varId = $(this).data("id");
+                    let type = "DELETE";
+                    $("#staticModalBody").load("product/" + type + "/" + varId);
+                    $("#staticModal").modal("show");
+                });
+            });
         </script>
     </section>
 </body>

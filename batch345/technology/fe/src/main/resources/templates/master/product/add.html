@@ -1,0 +1,89 @@
+<span id="txtTitle" class="d-none" th:text="${title}"></span>
+<div class="card">
+  <div class="card-body">
+    <div id="variantSpinner" class="spinner-border d-none" role="status" aria-hidden="true">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <form id="frmAddProduct">
+      <div class="form-group">
+        <label for="txtName" class="form-label h6">Name</label>
+        <input type="text" class="form-control" id="txtName" name="name" />
+      </div>
+      <div class="input-group mt-4 mb-2">
+        <input type="file" class="form-control" id="inputGroupFile02" name="image">
+        <label class="input-group-text" for="inputGroupFile02">Image</label>
+      </div>
+      <div class="form-group">
+        <label for="txtPrice" class="form-label h6">Price</label>
+        <input type="text" class="form-control" id="txtPrice" name="price" />
+      </div>
+      <div class="form-group">
+        <label for="txtStock" class="form-label h6">Stock</label>
+        <input type="text" class="form-control" id="txtStock" name="stock" />
+      </div>
+      <div class="form-group">
+        <label for="selVariant" class="form-label h6">Variants</label>
+        <select name="variant.id" id="selVariant" class="form-select">
+          <option value="">--Select Variant--</option>
+          <option
+                  th:if="${variants != null}"
+                  th:each="item:${variants}"
+                  th:value="${item.getId()}"
+                  th:text="${item.getName()}"></option>
+        </select>
+      </div>
+      <div class="d-flex justify-content-end mt-3">
+        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Save</button>
+      </div>
+      <input type="hidden" name="createBy" id="txtCreateBy" value="666999" />
+    </form>
+  </div>
+</div>
+
+<script>
+
+  $(document).ready(function(){
+    $("#staticModalLabel").text($("#txtTitle").text());
+
+    $("#frmAddProduct").submit(function(e) {
+      e.preventDefault();
+
+      let form = $(this);
+      let formData = form.serializeArray();  // Serialize form fields
+
+      let fileInput = document.querySelector('input[type="file"]');
+      let file = fileInput.files[0];
+
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onloadend = function() {
+        // Add the base64 file content to the form data
+        formData.push({name: "image", value: reader.result});
+
+        // Convert to query string format
+        let serializedData = $.param(formData);
+
+        $.ajax({
+          url: "/product/create",
+          type: "post",
+          data: serializedData,
+          contentType: "application/x-www-form-urlencoded",
+          processData: true,
+          dataType: "json",
+          beforeSend: () => {
+            $("#variantSpinner").show();
+          },
+          success: function(response) {
+            $("#variantSpinner").hide();
+            alert("Product " + response.variantName + " successfully created!");
+            location.reload();
+          },
+          error: function(errResponse) {
+            console.error("Create new product Failed: " + errResponse.responseText);
+          }
+        });
+      }
+    });
+  });
+</script>

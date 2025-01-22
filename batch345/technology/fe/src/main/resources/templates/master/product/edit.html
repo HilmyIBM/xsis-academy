@@ -1,0 +1,95 @@
+<input type="hidden" id="txtTitle" th:value="${title}" />
+<div class="card">
+    <div class="card-body">
+        <form id="frmEditProduct">
+            <input type="hidden" name="id" id="txtId" th:value="${product.getId()}" />
+            <input type="hidden" name="updateBy" id="txtUpdateBy" value="2" />
+
+            <div class="form-group">
+                <label for="txtName" class="form-label h6">Name</label>
+                <input type="text" class="form-control" id="txtName" name="name" th:value="${product.getName()}" />
+            </div>
+
+            <div class="input-group mt-4 mb-2">
+                <input type="file" class="form-control" id="inputGroupFile02" name="image">
+                <label class="input-group-text" for="inputGroupFile02">Image</label>
+            </div>
+
+            <div class="form-group">
+                <label for="txtPrice" class="form-label h6">Price</label>
+                <input type="text" class="form-control" id="txtPrice" name="price" th:value="${product.getPrice()}" />
+            </div>
+
+            <div class="form-group">
+                <label for="txtStock" class="form-label h6">Stock</label>
+                <input type="text" class="form-control" id="txtStock" name="stock" th:value="${product.getStock()}" />
+            </div>
+
+            <div class="form-group">
+                <label for="selVariants" class="form-label h6">Variants</label>
+                <select name="variant.id" id="selVariants" class="form-select">
+                    <option th:value="${product.getVariant().getId()}" th:text="${product.getVariant().getName()}"></option>
+                    <option
+                            th:if="${variants != null}"
+                            th:each="item:${variants}"
+                            th:value="${item.getId()}"
+                            th:text="${item.getName()}"></option>
+                </select>
+            </div>
+            <div class="d-flex justify-content-end mt-3">
+                <button type="submit" class="btn btn-success"><i class="fas fa-edit"></i> Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    // Function to send the AJAX request
+    function sendAjaxRequestWithImage(formData) {
+        $.ajax({
+            url: "/product/update",
+            type: "put",
+            data: formData,
+            contentType: "application/x-www-form-urlencoded",
+            processData: true,
+            dataType: "json",
+            beforeSend: () => {
+                $("#variantSpinner").show();
+            },
+            success: function(response) {
+                $("#variantSpinner").hide();
+                alert("Product " + response.variantName + " successfully created!");
+                location.reload();
+            },
+            error: function(errResponse) {
+                console.error("Create new product Failed: " + errResponse.responseText);
+            }
+        });
+    }
+
+    $(document).ready(function(){
+        $("#staticModalLabel").text($("#txtTitle").val());
+
+        $("#frmEditProduct").submit(function(e) {
+            e.preventDefault();
+
+            let form = $(this);
+            let formData = form.serializeArray();
+
+            let fileInput = document.querySelector('input[type="file"]');
+            let file = fileInput.files[0];
+
+            if (file) {
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+
+                reader.onloadend = function() {
+                    formData.push({name: "image", value: reader.result});
+                    sendAjaxRequestWithImage($.param(formData));
+                }
+            } else {
+                sendAjaxRequestWithImage($.param(formData));
+            }
+
+        });
+    });
+</script>
