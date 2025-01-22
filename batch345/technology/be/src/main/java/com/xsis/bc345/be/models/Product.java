@@ -35,7 +35,7 @@ public class Product {
     @Column(name = "variant_id")
     private Integer variantId;
 
-    @Column(name = "image", nullable = false)
+    @Column(name = "image", nullable = true)
     private String image;
 
     @Column(name = "is_deleted", nullable = false)

@@ -20,7 +20,7 @@ public class ProductService {
         return productRepo.findByDeleted(false).get();
     }
 
-    public List<Map<String,Object>> getAllNative() throws Exception{
+    public List<Map<String, Object>> getAllNative() throws Exception {
         return productRepo.findAllData().get();
     }
 
@@ -28,7 +28,12 @@ public class ProductService {
         return productRepo.save(data);
     }
 
+    public Map<String, Object> getById(int id) throws Exception {
+        return productRepo.findByNativeQueryId(id).get();
+    }
+
     public List<Product> getFilter(String filter) throws Exception {
-        return productRepo.findByCategoryContainsIgnoreCaseOrNameContainsIgnoreCaseAndDeleted(filter, filter, false).get();
+        return productRepo.findByCategoryContainsIgnoreCaseOrNameContainsIgnoreCaseAndDeleted(filter, filter, false)
+                .get();
     }
 }
