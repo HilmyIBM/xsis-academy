@@ -22,19 +22,15 @@
             <div>
                 <div class="input-group flex-nowrap input-group-sm">
                     <span class="input-group-text" id="addon-wrapping">Show</span>
-                    <input th:if="${variant != null}" type="text" class="form-control" th:value="${#lists.size(variant)}">
-                    <input th:unless="${variant != null}" type="text" class="form-control" th:value=0>                    
+                    <input type="text" class="form-control" th:value="${#lists.size(variant)}">
                     <span class="input-group-text" id="addon-wrapping">Entries</span>
                 </div>
             </div>
             <div style="width: 40%;">
-                <form id="frmFilter">
-                    <div class="input-group input-group-sm mb-3">
-                        <input th:if="${filter!=null}" th:value="${filter}" name="filter" id="txtFilter" type="text" class="form-control" placeholder="Search Variant"  aria-describedby="button-addon2">
-                        <input th:unless="${filter!=null}" name="filter" id="txtFilter" type="text" class="form-control" placeholder="Search Categories"  aria-describedby="button-addon2">
-                        <button class="btn btn-outline-dark" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
-                    </div>
-                </form>
+                <div class="input-group input-group-sm mb-3">
+                    <input type="text" class="form-control" placeholder="Search Categories"  aria-describedby="button-addon2">
+                    <button class="btn btn-outline-dark" type="button" id="button-addon2"><i class="fas fa-search"></i></button>
+                </div>
             </div>
         </div>
 

@@ -32,42 +32,15 @@ public class VariantController {
     // private final String apiUrl="http://localhost:8080/api";
 
     @GetMapping("")
-    public ModelAndView index(String filter){
+    public ModelAndView index(){
         ModelAndView view = new ModelAndView("variant/index");
         ResponseEntity<VariantView[]> apiResponse = null; 
 
         try {
-            if (filter == null || filter.isBlank()) {
-                apiResponse = restTemplate.getForEntity(apiUrl + "/variant", VariantView[].class);
-            }else {
-                apiResponse = restTemplate.getForEntity(apiUrl + "/variant/filter/" + filter, VariantView[].class);
-            }
+            apiResponse = restTemplate.getForEntity(apiUrl + "/variant", VariantView[].class);
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 VariantView[] data = apiResponse.getBody();
-
-                // Ambil category berdasarkan categoryId untuk setiap variant
-                for (VariantView variant : data) {
-                    if (variant.getCategoryId() != 0) {  // Pastikan categoryId tidak null
-                        // Ambil category berdasarkan categoryId
-                        ResponseEntity<CategoryView> categoryResponse = restTemplate
-                            .getForEntity(apiUrl + "/category/id/" + variant.getCategoryId(), CategoryView.class);
-
-                        if (categoryResponse.getStatusCode() == HttpStatus.OK) {
-                            // Dapatkan data kategori
-                            CategoryView categoryView = categoryResponse.getBody();
-
-                            // Set categoryName ke dalam variant
-                            variant.setCategoryName(categoryView.getCategoryName());
-                        } else {
-                            // Jika kategori tidak ditemukan, set kategori default
-                            variant.setCategoryName("No Category");
-                        }
-                    } else {
-                        // Jika categoryId null, set kategori default
-                        variant.setCategoryName("No Category");
-                    }
-                }
                 view.addObject("variant", data);
             } else {
                 throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());

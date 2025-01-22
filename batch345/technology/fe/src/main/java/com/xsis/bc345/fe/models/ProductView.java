@@ -5,17 +5,18 @@ import java.time.LocalDateTime;
 public class ProductView {    
     private int id;
     private String name;
-    private Double price;
-    private int stock;
-    private int variantId;
     private String variantName;
     private String categoryName;
+    private Double price;
+    private int stock;
+    private int variantID;
     private String image;
     private boolean deleted;
     private int createBy;
     private LocalDateTime createDate;
     private Integer updateBy;
     private LocalDateTime updateDate;
+
 
     public int getId() {
         return this.id;
@@ -31,6 +32,22 @@ public class ProductView {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getVariantName() {
+        return this.variantName;
+    }
+
+    public void setVariantName(String variantName) {
+        this.variantName = variantName;
+    }
+
+    public String getCategoryName() {
+        return this.categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public Double getPrice() {
@@ -49,28 +66,12 @@ public class ProductView {
         this.stock = stock;
     }
 
-    public int getVariantId() {
-        return this.variantId;
+    public int getVariantID() {
+        return this.variantID;
     }
 
-    public void setVariantId(int variantId) {
-        this.variantId = variantId;
-    }
-
-    public String getVariantName() {
-        return this.variantName;
-    }
-
-    public void setVariantName(String variantName) {
-        this.variantName = variantName;
-    }
-
-    public String getCategoryName() {
-        return this.categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setVariantID(int variantID) {
+        this.variantID = variantID;
     }
 
     public String getImage() {
@@ -124,5 +125,6 @@ public class ProductView {
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
+    
     
 }

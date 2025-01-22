@@ -1,5 +1,4 @@
 -- create table TBL_M_Product
-drop table if exists tbl_m_product;
 create table TBL_M_Product(
 	id serial primary key not null,
 	name varchar(100) not null,

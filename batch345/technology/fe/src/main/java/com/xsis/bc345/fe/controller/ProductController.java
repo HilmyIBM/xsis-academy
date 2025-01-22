@@ -2,16 +2,21 @@ package com.xsis.bc345.fe.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -78,39 +83,76 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@ModelAttribute ProductView product){
-        ResponseEntity<ProductView> apiResponse = null;
-        
+    public ResponseEntity<?> create(@ModelAttribute ProductView product, @RequestParam("SetImage") MultipartFile image) {
         try {
-            apiResponse = restTemplate.postForEntity(apiUrl + "/product", product , ProductView.class);
+            // Menyimpan file gambar jika ada
+            if (!image.isEmpty()) {
+                String imagePath = saveImage(image);  // Anda dapat menggunakan metode untuk menyimpan file, misalnya di disk atau cloud storage
+                product.setImage(imagePath);  // Menyimpan path gambar ke dalam objek product
+            }
+
+            // Kirim objek product ke API atau database
+            ResponseEntity<ProductView> apiResponse = restTemplate.postForEntity(apiUrl + "/product", product, ProductView.class);
+
             if (apiResponse.getStatusCode() == HttpStatus.CREATED) {
-                return new ResponseEntity<ProductView>(apiResponse.getBody(), HttpStatus.OK);
+                return new ResponseEntity<>(apiResponse.getBody(), HttpStatus.OK);
             } else {
-                throw new Exception(apiResponse.getBody().toString() + ": " + apiResponse.getBody().toString());
+                throw new Exception("Failed to create product: " + apiResponse.getBody().toString());
             }
         } catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    // private String saveImage(MultipartFile image) throws IOException {
-    //     if (image.isEmpty()) {
-    //         throw new IOException("File is empty");
-    //     }
+    @GetMapping("/delete/{id}")
+    public ModelAndView delete(@PathVariable int id){
+        ModelAndView view = new ModelAndView("/product/delete");
+        view.addObject("id", id);
+        view.addObject("title", "Delete Confirmation");
+        return view;
+    }
 
-    //     // Dapatkan ekstensi file
-    //     String originalFileName = image.getOriginalFilename();
-    //     String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+    @PostMapping("/delete/{id}/{userId}")
+    ModelAndView delete(@PathVariable int id, @PathVariable int userId) {
+        ModelAndView view = new ModelAndView("/product/delete");
+        ResponseEntity<ProductView> apiResponse = null;
+        ProductView product = new ProductView();
 
-    //     // Generate nama file unik (untuk menghindari nama file yang sama)
-    //     String newFileName = UUID.randomUUID().toString() + extension;
+        product.setId(id);
+        product.setUpdateBy(userId);
 
-    //     // Path untuk menyimpan file gambar
-    //     File filePath = new File(uploadDir, newFileName);
+        try {
+            apiResponse = restTemplate.exchange(
+                apiUrl + "/product/delete/" + id + "/" + userId, 
+                HttpMethod.DELETE, new HttpEntity<ProductView>(product), 
+                ProductView.class
+            );
+            if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                ProductView data = apiResponse.getBody();
+                view.addObject("product", data);
+            } else {
+                throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
+            }
 
-    //     // Simpan file ke disk
-    //     image.transferTo(filePath);
+        } catch (Exception e) {
+            view.addObject("errorMsg", e.getMessage());
+        }
+        
+        view.addObject("title", "Delete Confirmation");
+        
+        return view;
+    }
 
-    //     return newFileName;  // Kembalikan nama file yang baru
-    // }
+    private String saveImage(MultipartFile image) throws IOException {
+        // Simpan gambar di server atau cloud storage
+        // Ini contoh menyimpan di direktori lokal:
+        String fileName = UUID.randomUUID().toString() + "." + getExtension(image.getOriginalFilename());
+        Path path = Paths.get("src/main/resources/static/assets/img/" + fileName);
+        Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        return fileName;  // Mengembalikan path gambar
+    }
+
+    private String getExtension(String filename) {
+        return filename.substring(filename.lastIndexOf('.') + 1);
+    }
 }

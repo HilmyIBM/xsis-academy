@@ -2,12 +2,12 @@ package com.xsis.bc345.be.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xsis.bc345.be.models.Category;
 import com.xsis.bc345.be.models.Variant;
 import com.xsis.bc345.be.repositories.VariantRepository;
 
@@ -17,9 +17,18 @@ public class VariantService {
     private VariantRepository variantRepo;
     private Optional<Variant> existingVariant;
 
-    public List<Variant> getAll(){
+    // public List<Variant> getAll(){
+    //     try {
+    //         return variantRepo.findByDeleted(false).get();
+    //         // return variantRepo.findAllVariantsWithCategoryAndDeleted(false);
+    //     } catch (Exception e) {
+    //         throw e;
+    //     }
+    // }
+
+    public List<Map<String, Object>> getAll() throws Exception {
         try {
-            return variantRepo.findByDeleted(false).get();
+            return variantRepo.findAllVariant().get();
             // return variantRepo.findAllVariantsWithCategoryAndDeleted(false);
         } catch (Exception e) {
             throw e;
@@ -28,10 +37,6 @@ public class VariantService {
 
     public Optional<Variant> getById(int id){
         return variantRepo.findByIdAndDeleted(id, false);
-    }
-
-    public List<Variant> getByNameorDescription(String filter){
-        return variantRepo.findByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(filter, filter, false).get();
     }
 
     public Variant create(Variant data) throws Exception{

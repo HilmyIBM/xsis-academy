@@ -31,7 +31,7 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="image" class="form-label">Upload Image</label>
-                    <input type="file" class="form-control" id="image" name="image">
+                    <input type="file" class="form-control" id="image" name="SetImage" accept="image/jpeg, image/jpg, image/png">
                 </div>
             </div>
          </div>
@@ -70,7 +70,6 @@
                     'required': true
                 },
                 'image': {
-                    'required': true,
                     'extension': 'jpg|jpeg|png'  // Validasi untuk tipe gambar jpg, jpeg, atau png
                 }
             },
@@ -81,11 +80,13 @@
             e.preventDefault();
 
             if($('#frmNewProduct').valid()){
+                var formData = new FormData($('#frmNewProduct')[0]); // Membaca form data termasuk file gambar
                 $.ajax({
                     url: '/product/create',
                     type: 'post',
-                    data: $('#frmNewProduct').serialize(),
-                    dataType: 'json',
+                    data: formData,
+                    contentType: false, // Menggunakan FormData, jadi kita tidak menetapkan content-type
+                    processData: false, // Tidak perlu proses data
                     beforeSend: () => {
                         // alert("mengirim data ke API");
                     },
