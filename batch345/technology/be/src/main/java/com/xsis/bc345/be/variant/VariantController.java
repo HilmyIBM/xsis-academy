@@ -14,6 +14,7 @@ public class VariantController {
 
     private final VariantService variantService;
 
+
     @Autowired
     public VariantController(VariantService variantService) {
         this.variantService = variantService;
@@ -27,6 +28,14 @@ public class VariantController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
         return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
+    @GetMapping("/all/{page}/{size}")
+    public ResponseEntity<List<VariantModel>> getAllVariant(@PathVariable Integer page, @PathVariable Integer size) {
+        if (page == null) page = 0;
+        if (size == null) size = 10;
+
+        return new ResponseEntity<>(variantService.getAllVariant(page, size), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

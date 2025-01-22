@@ -26,6 +26,14 @@ public class ProductController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
+    @GetMapping("/all/{page}/{size}")
+    public ResponseEntity<?> getAllProduct(@PathVariable Integer page, @PathVariable Integer size) {
+        if (page == null) page = 0;
+        if (size == null) size = 10;
+
+        return new ResponseEntity<>(productService.getAllProduct(page, size), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getProductById(@PathVariable int id) {
         return new ResponseEntity<>(productService.getById(id, false), HttpStatus.OK);

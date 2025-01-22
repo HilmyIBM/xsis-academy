@@ -4,6 +4,9 @@ import com.xsis.bc345.be.variant.VariantRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,6 +26,13 @@ public class CategoryService {
 
     public List<CategoryModel> getAll() {
         return categoryRepository.findAllByDeleted(false).orElse(List.of());
+    }
+
+    public List<CategoryModel> getAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<CategoryModel> pageCategory = categoryRepository.findAllByDeleted(false, pageable);
+
+        return pageCategory.getContent();
     }
 
     public CategoryModel getById(int id, boolean deleted) {

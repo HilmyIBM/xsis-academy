@@ -5,6 +5,9 @@ import com.xsis.bc345.be.product.ProductRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,6 +25,13 @@ public class VariantService {
         this.variantRepository = variantRepository;
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
+    }
+
+    public List<VariantModel> getAllVariant(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<VariantModel> pageVariant = variantRepository.findAllByDeleted(false, pageable);
+
+        return pageVariant.getContent();
     }
 
     public List<VariantModel> getAllVariant() {

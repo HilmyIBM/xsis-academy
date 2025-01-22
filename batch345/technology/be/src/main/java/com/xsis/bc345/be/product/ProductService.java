@@ -1,8 +1,12 @@
 package com.xsis.bc345.be.product;
 
+import com.xsis.bc345.be.variant.VariantModel;
 import com.xsis.bc345.be.variant.VariantRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -26,6 +30,13 @@ public class ProductService {
         return productRepository
                 .findAllByDeletedAndVariant_Deleted(false, false)
                 .orElse(List.of());
+    }
+
+    public List<ProductModel> getAllProduct(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ProductModel> pageProduct = productRepository.findAllByDeleted(false, pageable);
+
+        return pageProduct.getContent();
     }
 
     public ProductModel getById(int id, boolean deleted) {

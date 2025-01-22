@@ -21,13 +21,25 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAll() {
+    public ResponseEntity<?> getAllCategory() {
         var data = categoryService.getAll();
 
         if (data.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
         return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
+    @GetMapping("/all/{page}/{size}")
+    public ResponseEntity<?> getAllCategory(
+            @PathVariable Integer page,
+            @PathVariable Integer size) {
+
+        if (page == null) page = 0;
+        if (size == null) size = 10;
+
+        return new ResponseEntity<>(categoryService.getAll(page,size), HttpStatus.OK);
+
     }
 
     @GetMapping("/{id}")
