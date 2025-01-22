@@ -25,9 +25,6 @@ public class ProductModel {
     @Column(name = "stock")
     private Integer stock;
 
-//    @Column(name = "variant_id", nullable = false)
-//    private Long variantId;
-
     @Column(name = "is_deleted")
     private boolean deleted;
 
@@ -79,14 +76,6 @@ public class ProductModel {
     public void setStock(Integer stock) {
         this.stock = stock;
     }
-
-//    public Long getVariantId() {
-//        return variantId;
-//    }
-//
-//    public void setVariantId(Long variantId) {
-//        this.variantId = variantId;
-//    }
 
     public boolean isDeleted() {
         return deleted;

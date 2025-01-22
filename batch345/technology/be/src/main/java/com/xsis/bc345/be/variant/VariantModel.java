@@ -1,6 +1,5 @@
 package com.xsis.bc345.be.variant;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xsis.bc345.be.category.CategoryModel;
 import com.xsis.bc345.be.product.ProductModel;

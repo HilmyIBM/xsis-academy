@@ -1,6 +1,5 @@
 package com.xsis.bc345.be.product;
 
-import com.xsis.bc345.be.variant.VariantModel;
 import com.xsis.bc345.be.variant.VariantRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
