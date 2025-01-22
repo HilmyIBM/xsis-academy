@@ -1,9 +1,8 @@
 package com.xsis.bc345.be.category;
 
 import com.xsis.bc345.be.variant.VariantRepository;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,6 @@ import java.util.List;
 @Service
 public class CategoryService {
 
-    private static final Logger log = LoggerFactory.getLogger(CategoryService.class);
     private final CategoryRepository categoryRepository;
     private final VariantRepository variantRepository;
 
@@ -24,74 +22,55 @@ public class CategoryService {
     }
 
     public List<CategoryModel> getAll() {
-        try {
-            var data = categoryRepository.findAllByDeleted(false);
-
-            return data.orElse(List.of());
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
+        return categoryRepository.findAllByDeleted(false).orElse(List.of());
     }
 
     public CategoryModel getById(int id, boolean deleted) {
-        try {
-            var data = categoryRepository
-                    .findByIdAndDeleted(id, deleted);
+        var data = categoryRepository
+                .findByIdAndDeleted(id, deleted);
 
-            if (data.isEmpty())
-                throw new EntityNotFoundException("Category with id %s doesnt exists or already deleted".formatted(id));
+        if (data.isEmpty())
+            throw new EntityNotFoundException("Category with id %s doesnt exists or already deleted".formatted(id));
 
-            return data.get();
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
+        return data.get();
     }
 
     public CategoryModel createCategory(CategoryModel categoryModel) {
-        try {
-            return categoryRepository.save(categoryModel);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+        return categoryRepository.save(categoryModel);
     }
 
     public CategoryModel updateCategory(CategoryModel categoryModel) {
-        try {
-            var data = categoryRepository.findByIdAndDeleted(categoryModel.getId(), false);
+        var category = categoryRepository.findByIdAndDeleted(categoryModel.getId(), false);
 
-            if (data.isEmpty())
-                throw new EntityNotFoundException("Category with id %s doesn't exists or already deleted".formatted(categoryModel.getId()));
+        if (category.isEmpty())
+            throw new EntityNotFoundException("Category with id %s doesn't exists or already deleted".formatted(categoryModel.getId()));
 
-            var existingData = data.get();
+        var existingCategory = category.get();
 
-            categoryModel.setCreateBy(existingData.getCreateBy());
-            categoryModel.setCreateDate(existingData.getCreateDate());
-            categoryModel.setUpdateDate(LocalDateTime.now());
+        categoryModel.setCreateBy(existingCategory.getCreateBy());
+        categoryModel.setCreateDate(existingCategory.getCreateDate());
+        categoryModel.setUpdateDate(LocalDateTime.now());
 
-            return categoryRepository.save(categoryModel);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
+        return categoryRepository.save(categoryModel);
     }
 
     public CategoryModel deleteCategory(CategoryModel model) {
-        try {
-            var data = categoryRepository.findByIdAndDeleted(model.getId(), false);
-//            var count = variantRepository.countVariantModelByCategory_Id(model.getId());
+        var category = categoryRepository.findByIdAndDeleted(model.getId(), false);
+        var relatedVariants = variantRepository.countAllByCategory_DeletedAndId(false, model.getId());
 
-            if (data.isEmpty())
-                throw new EntityNotFoundException("Category with id %s doesn't exists or already deleted".formatted(model.getId()));
+        if (category.isEmpty())
+            throw new EntityNotFoundException("Category with id %s doesn't exists or already deleted".formatted(model.getId()));
 
-            var existingData = data.get();
+        if (relatedVariants > 0)
+            throw new EntityExistsException("Cannot delete categories with id %s because they are used by variants".formatted(model.getId()));
 
-            existingData.setUpdateBy(model.getUpdateBy());
-            existingData.setUpdateDate(LocalDateTime.now());
-            existingData.setDeleted(true);
+        var existingCategory = category.get();
 
-            return categoryRepository.save(existingData);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
+        existingCategory.setUpdateBy(model.getUpdateBy());
+        existingCategory.setUpdateDate(LocalDateTime.now());
+        existingCategory.setDeleted(true);
+
+        return categoryRepository.save(existingCategory);
     }
 
 //    public Optional<List<CategoryModel>> getByNameOrDescription(String filter) {
