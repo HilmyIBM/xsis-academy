@@ -156,8 +156,8 @@ public class VariantController {
       ResponseEntity<VariantView> apiResponse = null;
 
       try {
-        restTemplate.put(apiUrl, variant);
-        apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + variant.getId(), VariantView.class);
+        restTemplate.put(apiUrl + "/variant", variant);
+        apiResponse = restTemplate.getForEntity(apiUrl + "/variant/id/" + variant.getId(), VariantView.class);
         if (apiResponse.getStatusCode() == HttpStatus.OK){
           return new ResponseEntity<VariantView>(apiResponse.getBody(), HttpStatus.OK);
         }else{

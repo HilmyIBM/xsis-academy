@@ -26,6 +26,10 @@ public class ProductService {
     }
   }
 
+  public Optional<Product> getById(int id) throws Exception {
+      return productRepo.findByIdAndDeleted(id, false);
+  }
+
   public List<Map<String, Object>> getAllNative() throws Exception {
     return productRepo.nativeFindAll().get();
   }

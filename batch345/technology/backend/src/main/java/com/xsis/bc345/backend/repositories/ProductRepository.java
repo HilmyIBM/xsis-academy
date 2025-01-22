@@ -14,6 +14,7 @@ import com.xsis.bc345.backend.models.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
   Optional<List<Product>> findByDeleted(boolean deleted); 
+  Optional<Product> findByIdAndDeleted(int id, boolean deleted);
 
   @Query(
     value="SELECT p.id, p.name, p.price, p.stock, p.variant_id, p.image, v.name AS \"variantName\", c.category_name AS \"categoryName\", " +

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xsis.bc345.backend.models.Product;
+import com.xsis.bc345.backend.models.Variant;
 import com.xsis.bc345.backend.services.ProductService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,6 +56,20 @@ public class ProductController {
         return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
+
+  @GetMapping("/id/{id}")
+  public ResponseEntity<?> getBy(@PathVariable int id) {
+    try {
+      Optional<Product> data = productSvc.getById(id);
+
+      return new ResponseEntity<Product>(
+        data.get(),
+        data.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT
+      );
+    } catch (Exception e) {
+      return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 
   @GetMapping("native/id/{id}")
   public ResponseEntity<?> getByIdNative(@PathVariable int id) {

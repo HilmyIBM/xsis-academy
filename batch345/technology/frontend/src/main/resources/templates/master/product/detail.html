@@ -20,15 +20,19 @@
         <label for="txtPrice" class="form-label">Price</label>
         <input type="text" class="form-control" id="txtPrice" name="price" th:value="${product.price}" disabled/>
       </div>
+      <div class="form-group">
+        <label for="txtStock" class="form-label">Stock</label>
+        <input type="text" class="form-control" id="txtStock" name="stock" th:value="${product.stock}" disabled/>
+      </div>
       <div class="col">
         <label for="txtDescription" class="form-label h6">Create By</label>
-        <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${variant.createBy}" disabled/>
+        <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${product.createBy}" disabled/>
         <label for="txtDescription" class="form-label h6">Update By</label>
-        <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${variant.updateBy}" disabled/>
+        <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${product.updateBy}" disabled/>
         <label for="txtDescription" class="form-label h6">Create Date</label>
-        <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${variant.createDate}" disabled/>
+        <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${product.createDate}" disabled/>
         <label for="txtDescription" class="form-label h6">Update Date</label>
-        <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${variant.updateDate}" disabled/>
+        <input type="text" class="form-control" id="txtDescription" name="descirption" th:value="${product.updateDate}" disabled/>
       </div>
     </div>
   </div>

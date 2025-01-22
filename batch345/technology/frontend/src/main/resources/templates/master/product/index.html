@@ -15,6 +15,7 @@ layout:decorate="~{fragments/layout}">
     }
   </style>
     <h1>Welcome to Product</h1>
+    <h1 th:text="${errorMsg}"></h1>
     <hr style="opacity: 1;"/>
     <button type="button" class="btn btn-success" id="btnAdd" data-bs-toggle="modal" data-bs-target="#staticModal"><i class="fas fa-plus"></i> Add</button>
     
@@ -44,9 +45,9 @@ layout:decorate="~{fragments/layout}">
           <td th:text="${item.stock}">Pasta</td>
           <td>
             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-              <button type="button" class="btn btn-success">Detail</button>
-              <button type="button" class="btn btn-warning">Edit</button>
-              <button type="button" class="btn btn-danger">Delete</button>
+              <button type="button" class="btn btn-success" th:data-id="${item.id}">Detail</button>
+              <button type="button" class="btn btn-warning" th:data-id="${item.id}">Edit</button>
+              <button type="button" class="btn btn-danger" th:data-id="${item.id}">Delete</button>
             </div>
           </td>
         </tr>
@@ -57,6 +58,25 @@ layout:decorate="~{fragments/layout}">
       new DataTable('#tb-product');
       $("#btnAdd").click(function(e) {
         $("#staticModalBody").load("product/add");
+      });
+      $(".btn-success").click(function(e) {
+        let prodId = $(this).data("id");
+
+        $("#staticModalBody").load("/product/" + prodId);
+        $("#staticModal").modal("show");
+      })
+      
+      $(".btn-danger").click(function(e) {
+        let prodId = $(this).data("id");
+
+        $("#staticModalBody").load("/prodcuct/delete/" + prodId);
+        $("#staticModal").modal("show");
+      })
+      $(".btn-warning").click(function(e) {
+        let prodId = $(this).data('id');
+
+        $("#staticModalBody").load("/product/edit/" + prodId);
+        $("#staticModal").modal("show");
       });
     </script>
   </div>
