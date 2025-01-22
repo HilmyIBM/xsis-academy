@@ -17,28 +17,19 @@ public interface VariantRepository extends JpaRepository<Variant, Integer>  {
     // List<Variant> findAllVariantsWithCategoryAndDeleted(boolean deleted);
     Optional<Variant> findByIdAndDeleted(int id, boolean deleted);
 
-    @Query(value = """
+    @Query(value = 
+        """
             SELECT
-                v.id,
-                v.name,
-                v.description,
-                v.category_id AS "categoryId",
-                c.category_name AS "categoryName",
-                v.is_deleted AS "deleted",
-                v.create_by AS "createBy",
-                v.create_date AS "createDate",
-                v.update_by AS "updateBy",
-                v.update_date AS "updateDate"
-            FROM
-                tbl_m_variant v
-            INNER JOIN
-                tbl_m_categories c
-            ON
-                v.category_id = c.id
-            WHERE
-                v.is_deleted IS NOT TRUE
+                v.*,
+                c.category_name AS "categoryName"
+            FROM tbl_m_variant v
+            INNER JOIN tbl_m_categories c ON v.category_id = c.id
+            WHERE v.is_deleted IS FALSE 
+                AND c.is_deleted IS FALSE 
             ORDER BY v.id;
-            """, nativeQuery = true)
+        """, 
+        nativeQuery = true
+    )
     Optional<List<Map<String, Object>>> findAllVariant();
 
 }

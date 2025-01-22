@@ -1,5 +1,6 @@
 package com.xsis.bc345.fe.models;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class ProductView {    
@@ -9,13 +10,13 @@ public class ProductView {
     private String categoryName;
     private Double price;
     private int stock;
-    private int variantID;
+    private int variantId;
     private String image;
     private boolean deleted;
     private int createBy;
-    private LocalDateTime createDate;
+    private Timestamp createDate;
     private Integer updateBy;
-    private LocalDateTime updateDate;
+    private Timestamp updateDate;
 
 
     public int getId() {
@@ -66,12 +67,12 @@ public class ProductView {
         this.stock = stock;
     }
 
-    public int getVariantID() {
-        return this.variantID;
+    public int getVariantId() {
+        return this.variantId;
     }
 
-    public void setVariantID(int variantID) {
-        this.variantID = variantID;
+    public void setVariantId(int variantId) {
+        this.variantId = variantId;
     }
 
     public String getImage() {
@@ -102,11 +103,11 @@ public class ProductView {
         this.createBy = createBy;
     }
 
-    public LocalDateTime getCreateDate() {
+    public Timestamp getCreateDate() {
         return this.createDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 
@@ -118,11 +119,11 @@ public class ProductView {
         this.updateBy = updateBy;
     }
 
-    public LocalDateTime getUpdateDate() {
+    public Timestamp getUpdateDate() {
         return this.updateDate;
     }
 
-    public void setUpdateDate(LocalDateTime updateDate) {
+    public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
     }
     

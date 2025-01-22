@@ -22,6 +22,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
                 LEFT JOIN tbl_m_variant v ON p.variant_id = v.id
                 LEFT JOIN tbl_m_categories c ON v.category_id = c.id
             WHERE p.is_deleted IS FALSE
+                AND v.is_deleted IS FALSE
+                AND c.is_deleted IS FALSE
             ORDER BY p.id;
         """,
         nativeQuery = true
@@ -36,7 +38,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             FROM tbl_m_product p
                 INNER JOIN tbl_m_variant v ON p.variant_id = v.id
                 INNER JOIN tbl_m_categories c ON v.category_id = c.id
-            WHERE p.is_deleted is FALSE AND (
+            WHERE p.is_deleted IS FALSE AND (
                 LOWER(p.name) LIKE %?1%
                 OR LOWER(v.name) LIKE %?1%
                 OR LOWER(c.category_name) LIKE %?1%

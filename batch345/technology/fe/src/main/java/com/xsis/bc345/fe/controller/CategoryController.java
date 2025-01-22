@@ -142,11 +142,11 @@ public class CategoryController {
     }
 
     @PostMapping("/update")
-    ResponseEntity<?> update(@ModelAttribute CategoryView category){
+    public ResponseEntity<?> update(@ModelAttribute CategoryView category){
         ResponseEntity<CategoryView> apiResponse = null;
 
         try {
-            restTemplate.put(apiUrl, category);
+            restTemplate.put(apiUrl + "/category", category);
             apiResponse = restTemplate.getForEntity(apiUrl + "/category/id/" + category.getId() , CategoryView.class);
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
