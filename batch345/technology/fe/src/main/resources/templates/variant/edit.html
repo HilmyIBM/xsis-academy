@@ -3,7 +3,7 @@
 <div class="card">
     <div class="card-body">
         <form id="frmEditVariant" th:action="@{~/variant/edit}">
-            <input type="text" name="id" th:value="${variant.id}" hidden>
+            <input type="number" name="id" th:value="${variant.id}" hidden>
             <input type="text" name="updateBy" value="2" hidden>
             <div class="form-group">
                 <label for="txtName" class="form-label">Name</label>

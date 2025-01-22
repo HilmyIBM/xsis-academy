@@ -3,13 +3,13 @@
     <form id="frmNewProduct" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="inputImageProduct" class="form-label">Upload Image</label>
-            <input type="file" id="inputImageProduct" name="image" class="form-control"
-                accept="image/png, image/gif, image/jpeg, image/jpg">
+            <input type="file" id="inputImageProduct" name="myImage" class="form-control"
+                accept="image/png, image/jpeg, image/jpg">
         </div>
 
         <div class="mb-3">
-            <label for="txtNamaProduct" class="form-label">Nama Product</label>
-            <input type="text" name="name" id="txtNamaProduct" class="form-control" required>
+            <label for="txtNameProduct" class="form-label">Nama Product</label>
+            <input type="text" name="name" id="txtNameProduct" class="form-control" required>
         </div>
 
         <div class="mb-3">
@@ -72,7 +72,7 @@
                 },
                 image: { // Image validation
                     required: true,
-                    extension: "jpg|jpeg|png|gif" // Validate image format
+                    extension: "jpg|jpeg|png" // Validate image format
                 }
             },
             messages: {
@@ -96,30 +96,31 @@
                     extension: "Please upload a valid image file (jpg, jpeg, png)."
                 }
             },
+            "errorClass": "text-danger"
         });
         $("#frmNewProduct").submit(function (e) {
-            e.preventDefault();  // Prevent default form submission
+            e.preventDefault();
 
-            if ($("#frmNewProduct").valid()) {  // Check if form is valid
+            if ($("#frmNewProduct").valid()) {
                 console.log("Form is valid, submitting via AJAX");
-                // Create a FormData object
-                var formData = new FormData();
-
-                // Add form fields to the FormData object
-                formData.append("name", $("#txtNamaProduct").val());
-                formData.append("price", $("#txtPrice").val());
-                formData.append("stock", $("#txtStock").val());
-                formData.append("variantId", $("#variantCategory").val());
+                console.log($("#txtNameProduct").val())
+                console.log($("#txtPrice").val())
+                console.log($("#txtStock").val())
+                console.log($("#variantCategory").val())
+                // Create a FormData object 
+                var formData = new FormData(this);
+                // // Add form fields to the FormData object
+                // formData.append("name", $("#txtNameProduct").val());
+                // formData.append("price", $("#txtPrice").val());
+                // formData.append("stock", $("#txtStock").val());
+                // formData.append("variantId", $("#variantCategory").val());
 
                 // Add the image file to the FormData object
                 var files = $("#inputImageProduct")[0].files;
                 if (files.length > 0) {
                     var file = files[0];
-                    formData.append("image", file);
-                    console.log("Selected file:", file);
-                    console.log("File name:", file.name);
-                    console.log("File type:", file.type);
-                    console.log("File size (in bytes):", file.size);
+                    formData.append("myImage", file);
+                    console.log(file)
                 } else {
                     console.log("No image selected.");
                 }
@@ -127,10 +128,13 @@
                 // Proceed with your AJAX submission
                 $.ajax({
                     url: "product/save",
-                    type: "POST",
+                    type: "post",
                     data: formData,  // Send form data including file
                     contentType: false,  // Don't set content type (because of FormData)
                     processData: false,  // Don't process data (because of FormData)
+                    beforeSend: function () {
+                        alert("Mengirim Data");
+                    },
                     success: function (response) {
                         Swal.fire({
                             icon: 'success',
@@ -142,14 +146,15 @@
                         });
                     },
                     error: function (errResponse) {
-                        Swal.fire({
+                       /*  Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
                             text: `Error creating product: ${errResponse.responseText}`,
                             confirmButtonText: 'OK'
                         }).then(() => {
                             location.reload()
-                        });
+                        }); */
+                        alert(errResponse.responseText);
                     }
                 });
             } else {

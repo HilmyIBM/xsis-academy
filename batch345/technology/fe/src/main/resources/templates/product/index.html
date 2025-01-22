@@ -46,24 +46,26 @@
                     </tr>
                 </thead>
                 <tbody class="align-middle">
-                    <tr th:each="item:${products}">
-                        <td><img src="https://images2.minutemediacdn.com/image/upload/c_crop,w_1458,h_820,x_0,y_0/c_fill,w_1440,ar_16:9,f_auto,q_auto,g_auto/images/voltaxMediaLibrary/mmsport/video_games/01j6sekt06zwfkneznn5.jpg"
-                                alt="Jane Doe"
-                                style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+                    <tr th:each="prod:${products}">
+                        <td><img th:src="@{'/lib/images/' + ${prod.image}}"
+                                src="https://images2.minutemediacdn.com/image/upload/c_crop,w_1458,h_820,x_0,y_0/c_fill,w_1440,ar_16:9,f_auto,q_auto,g_auto/images/voltaxMediaLibrary/mmsport/video_games/01j6sekt06zwfkneznn5.jpg"
+                                alt="product" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
                         </td>
-                        <th scope="row" th:text="${item.id}">1</th>
-                        <td th:text="${item.name}">Carbonara</td>
-                        <td th:text="${item.categoryName}">Main Course</td>
-                        <td th:text="${item.variantName}">Pasta</td>
-                        <td th:text="${item.price}"></td>
-                        <td th:text="${item.stock}"></td>
-                        <td th:text="${item.deleted}"></td>
+                        <th scope="row" th:text="${prod.id}">1</th>
+                        <td th:text="${prod.name}">Carbonara</td>
+                        <td th:text="${prod.categoryName}">Main Course</td>
+                        <td th:text="${prod.variantName}">Pasta</td>
+                        <td th:text="${prod.price}"></td>
+                        <td th:text="${prod.stock}"></td>
+                        <td th:text="${prod.deleted}"></td>
                         <td>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
-                                <button type="button" class="btn btn-warning"><i
-                                        class="fas fa-info-circle"></i></button>
-                                <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button th:data-id="${prod.id}" type="button" class="btn btn-success"><i
+                                        class="fas fa-edit" id="editProduct"></i></button>
+                                <button th:data-id="${prod.id}" type="button" class="btn btn-warning"><i
+                                        class="fas fa-info-circle" id="detailProduct"></i></button>
+                                <button ty:data-id="${prod.id}" type="button" class="btn btn-danger"><i
+                                        class="fas fa-trash" id="deleteProduct"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -74,7 +76,13 @@
             $(document).ready(function (e) {
                 $("#btnAdd").click(function (e) {
                     $("#staticModalBody").load("product/add")
-                    $("#staticModal").show("show")
+                    $("#staticModal").modal("show")
+                })
+                $(".btn-group #editProduct").click(function (e) {
+                    let productId = $(this).data("id");
+                    console.log(productId);
+                    $("#staticModalBody").load("product/edit/" + productId)
+                    $("#staticModal").modal("show")
                 })
             })
         </script>

@@ -1,0 +1,42 @@
+<span th:text="${title}" class="d-none" id="txtTitle"></span>
+<div class="card-body">
+    <form action="">
+        <input type="number" name="updateBy" value="100" hidden>
+        <div class="mb-3">
+            <label for="inputImageProduct" class="form-label">Upload Image</label>
+            <input type="file" id="inputImageProduct" name="myImage" class="form-control"
+                accept="image/png, image/jpeg, image/jpg" th:value="${product.image}">
+        </div>
+
+        <div class="mb-3">
+            <label for="txtNameProduct" class="form-label">Nama Product</label>
+            <input type="text" name="name" id="txtNameProduct" class="form-control" th:value="${product.name}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="txtPrice" class="form-label">Price</label>
+            <input type="number" name="price" id="txtPrice" class="form-control" th:value="${product.price}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="txtStock" class="form-label">Stock</label>
+            <input type="number" name="stock" id="txtStock" class="form-control" th:value="${product.stock}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="variantCategory" class="form-label">Variant</label>
+            <select name="variantId" id="variantCategory" class="form-select">
+                <option value="">-- Select Variant --</option>
+                <!-- Example of dynamic population -->
+                <option th:if="${variants != null}" th:each="item:${variants}" th:value="${item.id}"
+                    th:text="${item.name}" th:selected="${item.id == product.variantId}"></option>
+            </select>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#staticModalLabel").text($("#txtTitle").text())
+    })
+</script>
