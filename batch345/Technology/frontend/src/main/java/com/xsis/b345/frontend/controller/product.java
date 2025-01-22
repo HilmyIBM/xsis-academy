@@ -70,9 +70,15 @@ public class product {
     }
 
     @PostMapping("/product/save")
-    public ResponseEntity<?> save(@ModelAttribute productView product) {
+    public ResponseEntity<?> save(@ModelAttribute productView product, @RequestParam("Setimage") MultipartFile file) {
         ResponseEntity<productView> apiResponse=null;
         try {
+            if (!file.isEmpty()) {
+                String fileName = file.getOriginalFilename();
+                Path path = Paths.get("src/main/resources/static/lib/images/" + fileName);
+                Files.write(path, file.getBytes());
+                product.setImage(fileName);
+            }
             apiResponse=restTemplate.postForEntity(apiUrl+"/product", product, productView.class);
             if (apiResponse.getStatusCode()==HttpStatus.CREATED) {
                 return new ResponseEntity<productView>(apiResponse.getBody(),HttpStatus.OK);
@@ -107,7 +113,7 @@ public class product {
     }
 
     @PostMapping("/product/update")
-    public ResponseEntity<?> update(@ModelAttribute productView product) {
+    public ResponseEntity<?> update(@ModelAttribute productView product,@RequestParam("Setimage") MultipartFile file) {
         ResponseEntity<productView[]> apiResponse=null;
         try {
             restTemplate.put(apiUrl+"/product", product);

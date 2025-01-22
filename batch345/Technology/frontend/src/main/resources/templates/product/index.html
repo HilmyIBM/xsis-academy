@@ -40,7 +40,7 @@
               <td th:text="${item.id}" class="text-center">1</td>
               <td >
                 <img
-                  th:src=${item.image}
+                  th:src="@{'lib/images/'+${item.image}}"
                   alt="product"
                   class="img-thumbnail rounded-circle"
                   style="width: 70px;">
