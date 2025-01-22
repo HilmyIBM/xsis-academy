@@ -1,7 +1,5 @@
 package com.xsis.master.variant;
 
-import java.io.Serializable;
-
 public class VariantDTO {
     private int id;
     private String name;

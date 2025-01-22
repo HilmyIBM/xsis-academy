@@ -13,11 +13,8 @@
         <div class="container mt-5">
             <h2>Variant List</h2>
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <button class="btn btn-primary" id="btnAddCategory" data-bs-toggle="modal" data-bs-target="#staticModal">Add</button>
+                <button class="btn btn-primary" id="btnAddVariant" data-bs-toggle="modal" data-bs-target="#staticModal">Add</button>
             </div>
-<!--            <div class="d-flex justify-content-between align-items-center mb-3">-->
-<!--                <button class="btn btn-primary">Add</button>-->
-<!--            </div>-->
             <p>Tanggal = <span th:text="${#temporals.format(#temporals.createNow(), 'MM/dd/yyyy HH:mm:ss a')}"></span></p>
 
             <div class="table-responsive">
@@ -49,11 +46,12 @@
         </div>
         <script>
             $(document).ready( function () {
-                $('#variant-table').DataTable({
-                    paging: false
-                });
+                var table = $('#variant-table').DataTable();
 
-                $('#btnAddCategory').click(function (e) {
+                console.log(table.page());
+                console.log(table.page.len());
+
+                $('#btnAddVariant').click(function (e) {
                     // $('#staticModalLabel').append("<span th:text='${add_title}'></span>")
                     $('#staticModalBody').load("variant/add");
                 });

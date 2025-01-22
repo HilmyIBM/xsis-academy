@@ -140,7 +140,7 @@ public class VariantController {
     }
 
 
-    @GetMapping("")
+    @GetMapping
     public ModelAndView variants() {
         var view = new ModelAndView("master/variant/index");
         ResponseEntity<List<VariantModel>> apiResponse;
