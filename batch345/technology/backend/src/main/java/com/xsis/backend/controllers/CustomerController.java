@@ -24,7 +24,7 @@ public class CustomerController {
     @GetMapping("")
     public ResponseEntity<?> getAll() {
         try {
-            List<Customer> data = customerService.getAll();
+            final List<Customer> data = customerService.getAll();
             return new ResponseEntity<List<Customer>>(data,
                     (data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT));
         } catch (Exception e) {

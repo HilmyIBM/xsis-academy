@@ -1,5 +1,11 @@
 package com.xsis.frontend.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -11,7 +17,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.frontend.model.ProductView;
@@ -24,6 +32,9 @@ public class ProductController {
 
     @Value("${application.api.url}")
     private String apiUrl;
+
+    @Value("${file.upload-dir}")
+    private String uploadDir;
 
     @GetMapping("")
     public ModelAndView index(String filter) {
@@ -95,9 +106,17 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@ModelAttribute ProductView product) {
+    public ResponseEntity<?> create(@ModelAttribute ProductView product,
+            @RequestParam("setImage") MultipartFile imgFile) throws IOException {
+
         ResponseEntity<ProductView> apiResponse = null;
         try {
+            if (imgFile != null && !imgFile.isEmpty()) {
+                String fileName = imgFile.getOriginalFilename();
+                Path imgPath = Paths.get(uploadDir + fileName);
+                Files.write(imgPath, imgFile.getBytes());
+                product.setImage(fileName);
+            }
             apiResponse = restTemplate.postForEntity(apiUrl + "/products", product, ProductView.class);
 
             if (apiResponse.getStatusCode() == HttpStatus.CREATED) {
@@ -139,9 +158,23 @@ public class ProductController {
 
     @SuppressWarnings("null")
     @PostMapping("/update")
-    public ResponseEntity<?> update(@ModelAttribute ProductView product) {
+    public ResponseEntity<?> update(@ModelAttribute ProductView product,
+            @RequestParam(value = "setImage", required = false) MultipartFile imgFile) throws IOException {
         ResponseEntity<ProductView> response = null;
         try {
+            if (imgFile != null && !imgFile.isEmpty()) {
+                String fileName = imgFile.getOriginalFilename();
+                Path imgPath = Paths.get(uploadDir + fileName);
+
+                File uploadDirFile = new File(uploadDir);
+                if (!uploadDirFile.exists()) {
+                    uploadDirFile.mkdirs();
+                }
+
+                Files.write(imgPath, imgFile.getBytes());
+                product.setImage(fileName);
+            }
+
             restTemplate.put(apiUrl + "/products", product);
             response = restTemplate.getForEntity(apiUrl + "/products/id/" + product.getId(), ProductView.class);
 
