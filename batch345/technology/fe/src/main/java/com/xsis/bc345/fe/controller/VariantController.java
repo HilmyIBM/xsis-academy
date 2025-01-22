@@ -118,7 +118,7 @@ public class VariantController {
     public ResponseEntity<?> update(@ModelAttribute VariantView variant) {
         ResponseEntity<VariantView> apiResponse = null;
         try {
-            restTemplate.put(apiUrl, variant);
+            restTemplate.put(apiUrl+"/variant", variant);
             apiResponse = restTemplate.getForEntity(apiUrl +"/variant/id/" + variant.getId(), VariantView.class);
             if(variant.getName() == ""){
 

@@ -1,7 +1,6 @@
 package com.xsis.bc345.fe.models;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 public class ProductView {
     private Integer id;
