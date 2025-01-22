@@ -23,76 +23,56 @@ public class ProductService {
     }
 
     public List<ProductModel> getAllProduct() {
-        try {
-            var data = productRepository.findAllByDeletedAndVariant_Deleted(false, false);
-
-            return data.orElseGet(List::of);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
+        return productRepository
+                .findAllByDeletedAndVariant_Deleted(false, false)
+                .orElse(List.of());
     }
 
     public ProductModel getById(int id, boolean deleted) {
-        try {
-            var data = productRepository.findByIdAndDeleted(id, deleted);
+        var data = productRepository.findByIdAndDeleted(id, deleted);
 
-            if (data.isEmpty())
-                throw new EntityNotFoundException("Product with id %s doesn't exists or already deleted".formatted(id));
+        if (data.isEmpty())
+            throw new EntityNotFoundException("Product with id %s doesn't exists or already deleted".formatted(id));
 
-            return data.get();
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
+        return data.get();
     }
 
     public ProductModel createProduct(ProductModel productModel) {
-        try {
-            return productRepository.save(productModel);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
+        return productRepository.save(productModel);
     }
 
     public ProductModel updateProduct(ProductModel productModel) {
-        try {
-            var product = productRepository.findByIdAndDeleted(productModel.getId(), false);
+        var product = productRepository.findByIdAndDeleted(productModel.getId(), false);
 
-            if (product.isEmpty())
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with id %s doesn't exists or already deleted".formatted(productModel.getId()));
+        if (product.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with id %s doesn't exists or already deleted".formatted(productModel.getId()));
 
-            var variant = variantRepository.findByIdAndDeleted(productModel.getVariant().getId(), false);
+        var variant = variantRepository.findByIdAndDeleted(productModel.getVariant().getId(), false);
 
-            if (variant.isEmpty())
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Variant with id %s doesn't exists or already deleted".formatted(productModel.getId()));
+        if (variant.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Variant with id %s doesn't exists or already deleted".formatted(productModel.getId()));
 
-            ProductModel existingProduct = product.get();
+        ProductModel existingProduct = product.get();
 
-            productModel.setCreateBy(existingProduct.getCreateBy());
-            productModel.setCreateDate(existingProduct.getCreateDate());
-            productModel.setUpdateDate(LocalDateTime.now());
+        productModel.setCreateBy(existingProduct.getCreateBy());
+        productModel.setCreateDate(existingProduct.getCreateDate());
+        productModel.setUpdateDate(LocalDateTime.now());
 
-            return productRepository.save(productModel);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
+        return productRepository.save(productModel);
     }
 
     public ProductModel deleteProduct(ProductModel productModel) {
-        try {
-            var data = productRepository.findByIdAndDeleted(productModel.getId(), false);
+        var data = productRepository.findByIdAndDeleted(productModel.getId(), false);
 
-            if (data.isEmpty())
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with id %s doesn't exists or already deleted".formatted(productModel.getId()));
+        if (data.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with id %s doesn't exists or already deleted".formatted(productModel.getId()));
 
-            ProductModel currProd = data.get();
+        ProductModel currProd = data.get();
 
-            currProd.setDeleted(true);
-            currProd.setUpdateBy(productModel.getUpdateBy());
-            currProd.setUpdateDate(LocalDateTime.now());
+        currProd.setDeleted(true);
+        currProd.setUpdateBy(productModel.getUpdateBy());
+        currProd.setUpdateDate(LocalDateTime.now());
 
-            return productRepository.save(currProd);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
+        return productRepository.save(currProd);
     }
 }

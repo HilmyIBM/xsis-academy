@@ -9,4 +9,6 @@ public interface ProductRepository extends JpaRepository<ProductModel, Long> {
     Optional<List<ProductModel>> findAllByDeletedAndVariant_Deleted(boolean deleted, boolean variantDeleted);
 
     Optional<ProductModel> findByIdAndDeleted(long id, boolean deleted);
+
+    int countAllByVariant_DeletedAndId(boolean variantDeleted, long id);
 }
