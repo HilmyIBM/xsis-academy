@@ -1,0 +1,36 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<table class="table">
+    <tr>
+        <td align="right">ID</td>
+        <td th:text="${variant.Id}"></td>
+    </tr>
+    <tr>
+        <td align="right">Category</td>
+        <td th:text="${variant.category.Name}"></td>
+    </tr>
+    <tr>
+        <td align="right">Initial</td>
+        <td th:text="${variant.Initial}"></td>
+    </tr>
+    <tr>
+        <td align="right">Name</td>
+        <td th:text="${variant.Name}"></td>
+    </tr>
+    <tr>
+        <td align="right">Active</td>
+        <td th:text="${variant.Active}"></td>
+    </tr>
+    <tr>
+        <td align="right"><button class="btn btn-warning" onclick="javascript:window.open('/variant/index','_self')">Cancel</button></td>
+        <td><button class="btn btn-danger" th:value="${variant.Id}" onclick="deletevariant(this.value)">Delete!</button></td>
+    </tr>
+</table>
+
+<script>
+function deletevariant(id) {
+    window.open('/variant/del/'+id, '_self');
+}
+</script>
+   
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<head>
+	<title>POS313::Category</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <p>
+        <h3>Category
+        <button 
+            onclick="addform()" 
+            style="float:right;"
+            class="btn btn-success">
+            +
+        </button>
+        </h3>
+    </p>
+
+    <table class="table" id="categoryTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Initial</th>
+                <th>Name</th>
+                <th>Active</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item, iter:${categorydata}">
+                <td th:text="${iter.count}"></td>
+                <td th:text="${item.Initial}"></td>
+                <td th:text="${item.Name}"></td>
+                <td th:text="${item.Active}"></td>
+                <td>
+                    <button class="btn btn-warning" th:value="${item.Id}" onclick="edit(this.value)">
+                        <i class="fa fa-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger" th:value="${item.Id}" onclick="del(this.value)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+<script>
+
+$(document).ready(function () {
+    $('#categoryTable').DataTable();
+});
+
+function addform() {
+    $.ajax({
+        url:'/category/form',
+        type:'GET',
+        contentType:'html',
+        success:function(result) {
+            $('#mymodal').modal('show');
+            $('.modal-title').html('Add Category');
+            $('.modal-body').html(result);
+        }
+    });
+}
+
+function edit(id) {
+    $.ajax({
+        url:'/category/edit/' + id,
+        type:'GET',
+        contentType:'html',
+        success:function(result) {
+            $('#mymodal').modal('show');
+            $('.modal-title').html('Edit Category');
+            $('.modal-body').html(result);
+        }
+    });
+}
+
+function del(id) {
+    $.ajax({
+        url:'/category/delete/' + id,
+        type:'GET',
+        contentType:'html',
+        success:function(result) {
+            $('#mymodal').modal('show');
+            $('.modal-title').html('Delete Category');
+            $('.modal-body').html(result);
+        }
+    });
+}
+</script>
+
+
+</div>
+
+</body>
+</html>

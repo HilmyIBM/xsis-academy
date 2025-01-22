@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+<head>
+	<title>POS313::Order</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+<h3>Order</h3>
+
+<table class="table">
+<tr>
+    <td colspan="5" style="background-color:#333; color:white">
+        <button class="btn btn-warning" onclick="newOrder()" id="neworder">New Order</button>
+        <button class="btn btn-danger" id="payment" onclick="paymentForm()">Payment</button>
+        <button class="btn btn-success" onclick="newTransaction()" id="newtrans">New Transaction</button>
+        <input type="hidden" size="2" id="OrderHeaderId" style="float:right">
+        <input type="text" size="10" id="referenceNo" style="float:right">
+    </td>
+</tr>
+<tr>
+    <td>Product</td>
+    <td>Price</td>
+    <td>Quantity</td>
+    <td>Amount</td>
+    <td>Remove</td>
+</tr>
+<tbody id="orderDetailData">
+</tbody>
+<tr>
+    <td colspan="2">Total</td>
+    <td id="totalQty"></td>
+    <td id="totalAmount"></td>
+    <td>Remove</td>
+</tr>
+</table>
+
+<script>
+
+$('#neworder').prop('disabled', true)
+$('#payment').prop('disabled', true)
+$('#newtrans').prop('disabled', false)
+
+function newTransaction() {
+    $.ajax({
+        url:'http://localhost:8083/api/saveorderheader',
+        type:'POST',
+        contentType:'application/json',
+        success:function(result) {
+            $('#OrderHeaderId').val(result.id);
+            $('#referenceNo').val(result.reference);
+            $('#neworder').prop('disabled', false)
+            $('#payment').prop('disabled', true)
+            $('#newtrans').prop('disabled', true)
+        }
+    })
+}
+
+function newOrder() {
+    $.ajax({
+        url:'http://localhost:8083/api/product',
+        type:'GET',
+        contentType:'application/json',
+        success:function(product) {
+            var str = `
+                <p>
+                    <span style="float:left">Qty : <input type="text" size="3" id="qty" value="1"></span>
+                    <span style="float:right">Search : <input type="text" size="10" id="search" oninput="getProductByName(this.value)"></span>
+                </p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Initial</th>
+                            <th>Name/Desc</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productData">
+                    </tbody>
+                </table>
+            `;
+
+            $('#mymodal').modal('show')
+            $('.modal-title').html('New Order')
+            $('.modal-body').html(str)
+
+            var str = ''
+            for(i=0; i<product.length; i++) {
+                str += `
+                    <tr>
+                        <td><button value="${product[i].id}_${product[i].price}" onclick="saveOrder(this.value)">Order!</button></td>
+                        <td>${product[i].initial}</td>
+                        <td>${product[i].name}<br>${product[i].description}</td>
+                        <td>${product[i].price}</td>
+                        <td>${product[i].stock}</td>
+                    </tr>
+                `;
+                $('#productData').html(str)
+            }
+
+        }
+    })    
+}
+
+function getProductByName(name) {
+    if(name) {
+        $.ajax({
+            url:'http://localhost:8083/api/productByName/' + name,
+            type:'GET',
+            contentType:'application/json',
+            success:function(product) {
+                var str = ''
+                for(i=0; i<product.length; i++) {
+                    str += `
+                        <tr>
+                            <td><button value="${product[i].id}_${product[i].price}" onclick="saveOrder(this.value)">Order!</button></td>
+                            <td>${product[i].initial}</td>
+                            <td>${product[i].name}<br>${product[i].description}</td>
+                            <td>${product[i].price}</td>
+                            <td>${product[i].stock}</td>
+                        </tr>
+                    `;
+                    $('#productData').html(str)
+                }
+            }
+        })
+    } else {
+        $.ajax({
+            url:'http://localhost:8083/api/product',
+            type:'GET',
+            contentType:'application/json',
+            success:function(product) {
+                var str = ''
+                for(i=0; i<product.length; i++) {
+                    str += `
+                        <tr>
+                            <td><button value="${product[i].id}_${product[i].price}" onclick="saveOrder(this.value)">Order!</button></td>
+                            <td>${product[i].initial}</td>
+                            <td>${product[i].name}<br>${product[i].description}</td>
+                            <td>${product[i].price}</td>
+                            <td>${product[i].stock}</td>
+                        </tr>
+                    `;
+                    $('#productData').html(str)
+                }
+            }
+        })
+    }
+}
+
+function saveOrder(id_price) {
+    let product_array = String(id_price).split('_')
+    let product_id = product_array[0]
+    let price = product_array[1]
+
+    const OrderDetailData = {
+        headerId : parseInt($('#OrderHeaderId').val()),
+        productId : parseInt(product_id),
+        price : parseInt(price),
+        quantity : parseInt($('#qty').val()),
+        createDate : new Date()
+    }
+    console.log(OrderDetailData);
+
+    $.ajax({
+        url:'http://localhost:8083/api/saveorderdetail',
+        type:'POST',
+        dataType:'json',
+        data:JSON.stringify(OrderDetailData),
+        contentType:'application/json',
+        success:function(result) {
+            console.log(result)
+            orderDetailByHeader(result.headerId)
+            reduceStock(result.productId, result.quantity)
+            checkDetail()
+        }
+    })
+}
+
+function orderDetailByHeader(headerId) {
+    $.ajax({
+        url:'http://localhost:8083/api/orderdetail/' + headerId,
+        type:'GET',
+        contentType:'application/json',
+        success:function(orderdetail) {
+            console.log(orderdetail)
+            str = '';
+            totalqty = 0;
+            totalamount = 0;
+            for(i=0; i<orderdetail.length; i++) {
+                var amount = orderdetail[i].price * orderdetail[i].quantity;
+                str += `
+                <tr>
+                    <td>${orderdetail[i].product.name}</td>
+                    <td>${orderdetail[i].price}</td>
+                    <td>${orderdetail[i].quantity}</td>
+                    <td>${amount}</td>
+                    <td><button value="${orderdetail[i].id}_${orderdetail[i].productId}_${orderdetail[i].quantity}" onclick="deleteDetail(this.value)">DEL!</button></td>
+                </tr>
+                `;
+                totalqty += orderdetail[i].quantity;
+                totalamount += amount;
+            }
+
+            $('#orderDetailData').html(str)
+            $('#totalQty').html(totalqty)
+            $('#totalAmount').html(totalamount)
+
+            $('#mymodal').modal('hide')
+        }
+    })    
+}
+
+function reduceStock(product_id, qty) {
+    $.ajax({
+        url:'http://localhost:8083/api/product/' + product_id + '/' + qty,
+        type:'PATCH',
+        contentType:'application/json',
+        success:function(result) {
+            console.log(result)
+        }
+    })
+}
+
+function returnStock(product_id, qty) {
+    $.ajax({
+        url:'http://localhost:8083/api/returnStock/' + product_id + '/' + qty,
+        type:'PATCH',
+        contentType:'application/json',
+        success:function(result) {
+            console.log(result)
+        }
+    })
+}
+
+function deleteDetail(orderId_productId_qty) {
+    order_array = orderId_productId_qty.split("_")
+    orderdetail_id = order_array[0]
+    product_id = order_array[1]
+    qty = order_array[2]
+    $.ajax({
+        url:'http://localhost:8083/api/orderdetail/' + orderdetail_id,
+        type:'DELETE',
+        contentType:'application/json',
+        success:function(result) {
+            console.log(result)
+            returnStock(product_id, qty)
+            orderDetailByHeader($('#OrderHeaderId').val());
+            checkDetail();
+        }
+    })    
+}
+
+function checkDetail() {
+    $.ajax({
+        url:'http://localhost:8083/api/getdetail/' + $('#OrderHeaderId').val(),
+        type:'GET',
+        contentType:'application/json',
+        success:function(result) {
+            console.log(result)
+            if(result > 0)
+                $('#payment').prop('disabled', false)
+            else
+                $('#payment').prop('disabled', true)
+        }
+    })
+}
+
+function paymentForm() {
+    str = `
+    <table width="100%">
+        <tr>
+            <td>Reference :<br><input type="text" id="payReference" class="form-control"></td>
+        </tr>
+        <tr>
+            <td>Amount :<br><input type="text" id="payAmount" class="form-control"></td>
+        </tr>
+        <tr>
+            <td>Pay Money :<br><input type="text" id="payMoney" class="form-control" onchange="change()"></td>
+        </tr>
+        <tr>
+            <td>Change :<br><input type="text" id="payChange" class="form-control"></td>
+        </tr>
+        <tr>
+            <td>
+                <button class="btn btn-warning">Cancel</button>
+                <button class="btn btn-success" onclick="pay()">Pay!</button>
+            </td>
+        </tr>
+    </table>
+    `;
+
+    $('#mymodal').modal('show')
+    $('.modal-title').html('Payment')
+    $('.modal-body').html(str)
+
+    refno = $('#referenceNo').val()
+    totalAmount = $('#totalAmount').text()
+    $('#payReference').val(refno)
+    $('#payAmount').val(totalAmount)
+}
+
+function change() {
+    payAmount = $('#payAmount').val()
+    payMoney = $('#payMoney').val()
+    kembalian = payMoney - payAmount
+    $('#payChange').val(kembalian)
+}
+
+function pay() {
+    str = `
+    <table width="100%">
+        <tr>
+            <td>Reference :<br><input type="text" id="payRef" class="form-control"></td>
+        </tr>
+        <tr>
+            <td>Amount :<br><input type="text" id="payAmo" class="form-control"></td>
+        </tr>
+        <tr>
+            <td>Pay Money :<br><input type="text" id="payMon" class="form-control" onchange="change()"></td>
+        </tr>
+        <tr>
+            <td>Change :<br><input type="text" id="payCha" class="form-control"></td>
+        </tr>
+        <tr>
+            <td>
+                <button class="btn btn-warning">Close</button>
+            </td>
+        </tr>
+    </table>
+    `;
+
+    $('#mymodal2').modal('show')
+    $('.modal-title2').html('Payment : Terima kasih')
+    $('.modal-body2').html(str)    
+
+    payRef = $('#payReference').val()
+    payAmo = $('#payAmount').val()
+    payMon = $('#payMoney').val()
+    payCha = $('#payChange').val()
+    
+    $('#payRef').val(payRef)
+    $('#payAmo').val(payAmo)
+    $('#payMon').val(payMon)
+    $('#payCha').val(payCha)
+
+    $.ajax({
+        url:'http://localhost:8083/api/updateheader/' + $('#OrderHeaderId').val() + '/' + payAmo,
+        type:'PATCH',
+        dataType:'json',
+        contentType:'application/json',
+        success:function(result) {
+            console.log(result)
+        }
+    })
+
+}
+</script>
+
+</div>
+
+</body>
+</html>

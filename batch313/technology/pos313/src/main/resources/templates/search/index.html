@@ -1,0 +1,50 @@
+<h3>Search POS</h3>
+<p>Key : <span id="searchKey" style="font-size:15pt; font-weight: bold;"></span></p>
+
+
+<table class="table">
+<thead>
+    <tr>
+        <th>Category</th>
+        <th>Variant</th>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Ref. #</th>
+        <th>Amount</th>
+    </tr>
+</thead>
+<tbody id="searchData">
+
+</tbody>
+</table>
+
+
+<script>
+var st = $('#searchText').val()
+$('#searchKey').html(st)
+
+$.ajax({
+    url:'http://localhost:8083/api/searchpos/' + st,
+    type:'GET',
+    contentType:'application/json',
+    success:function(data) {
+        console.log(data);
+        str = ''
+        for(i=0; i<data.length; i++) {
+            str += `
+                <tr>
+                    <td>${data[i].category_name}</td>
+                    <td>${data[i].variant_name}</td>
+                    <td>${data[i].product_name}</td>
+                    <td>${data[i].product_price}</td>
+                    <td>${data[i].product_stock}</td>
+                    <td>${data[i].reference}</td>
+                    <td>${data[i].amount}</td>
+                </tr>
+            `;
+        }
+        $('#searchData').html(str)
+    }
+})
+</script>

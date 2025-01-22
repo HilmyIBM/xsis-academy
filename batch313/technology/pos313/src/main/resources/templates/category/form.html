@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>POS313::Category Form</title>
+</head>
+<body>
+
+<form th:action="@{~/category/save}" method="post" th:object="${category}">
+    <table class="table">
+        <tr>
+            <td>Initial</td>
+            <td>
+                <input type="hidden" th:field="*{Id}">
+                <input type="text" maxlength="10" size="10" th:field="*{Initial}" class="form-control">
+            </td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" maxlength="30" size="30" th:field="*{Name}" class="form-control"></td>
+        </tr>
+        <tr>
+            <td>Active</td>
+            <td><input type="checkbox" th:field="*{Active}"></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="right">
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+</body>
+</html>

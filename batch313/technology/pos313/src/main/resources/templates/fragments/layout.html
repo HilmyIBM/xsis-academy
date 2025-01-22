@@ -1,0 +1,113 @@
+<!Doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<title>POS:313</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">	
+    <link rel="stylesheet" href="/css/jquery.dataTables.min.css">
+
+    <script src="/js/jquery-3.6.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+
+<!-- Modal -->
+<div class="modal fade" id="mymodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="mymodal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: cornflowerblue; color:white">
+          <h5 class="modal-title2" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body2" style="padding:20px;background-color: azure;">
+          ...
+        </div>
+        <div class="modal-footer" style="background-color: cornflowerblue;">
+        </div>
+      </div>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">POS-313</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/home">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Master Data
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="/category/index">Category</a></li>
+                <li><a class="dropdown-item" href="/variant/index">Variant</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/product/">Product</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/user/index">User</a></li>
+            </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/order/">Order</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/logout/">Logout</a>
+            </li>
+            </ul>
+            <input id="searchText" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width:200px;">
+            <button class="btn btn-outline-success" onclick="searchPos()">Search</button>
+        </div>
+    </div>
+</nav>
+
+<div id="content">
+    <section layout:fragment="content" style="padding:20px;" id="baseContent"></section>
+</div>
+
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+      <span class="text-muted">CopyRight&copy;2023, Batch 313, XA - Jakarta, Indonesia </span>
+    </div>
+</footer>
+
+
+<script>
+function searchPos() {
+    $.ajax({
+        url:'/search/',
+        type:'GET',
+        contentType:'html',
+        success:function(page) {
+            $('#baseContent').html(page)
+        }
+    })
+    
+}
+</script>
+  
+</body>
+</html>
