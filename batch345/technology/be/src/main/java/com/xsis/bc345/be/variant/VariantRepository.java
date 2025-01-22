@@ -14,5 +14,5 @@ public interface VariantRepository extends JpaRepository<VariantModel, Integer> 
 
     Optional<List<VariantModel>> findAllByDeletedAndCategory_Deleted(boolean deleted, boolean categoryDeleted);
 
-    int countVariantModelByCategory_IdAndDeleted(int categoryId, boolean deleted);
+    int countAllByCategory_DeletedAndId(boolean categoryDeleted, int id);
 }
