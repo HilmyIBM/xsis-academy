@@ -76,6 +76,7 @@
                 <th scope="col">Alamat</th>
                 <th scope="col">Email</th>
                 <th scope="col">No. Telepon</th>
+                <th scope="col">Role</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -86,7 +87,7 @@
                 <td th:text="${item.address}">Banyuwangi</td>
                 <td th:text="${item.email}">dirasuma@gmail.com</td>
                 <td th:text="${item.phone}"></td>
-                <td th:text="${item.role_id}">Management Trainee</td>
+                <td th:text="${item.roleId}">Management Trainee</td>
                 <td class="d-flex gap-2">
                   <button
                     th:data-id="${item.id}"
@@ -115,45 +116,15 @@
                 </td>
               </tr>
             </tbody>
-            <tbody th:unless="${customer!=null}">
-              <tr>
-                <th scope="row">1</th>
-                <td>Dwi</td>
-                <td>Banyuwangi</td>
-                <td>dirasuma@gmail.com</td>
-                <td>Management Trainee</td>
-                <td class="d-flex gap-2">
-                  <button type="button" class="btn btn-success">Edit</button>
-                  <button type="button" class="btn btn-warning">Detail</button>
-                  <button type="button" class="btn btn-danger">Delete</button>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Densa</td>
-                <td>Sidoarjo</td>
-                <td>densatanzil@gmail.com</td>
-                <td>Staff</td>
-                <td class="d-flex gap-2">
-                  <button type="button" class="btn btn-success">Edit</button>
-                  <button type="button" class="btn btn-warning">Detail</button>
-                  <button type="button" class="btn btn-danger">Delete</button>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Alfito</td>
-                <td>Jakarta</td>
-                <td>alfito@gmail.com</td>
-                <td>Programmer</td>
-                <td class="d-flex gap-2">
-                  <button type="button" class="btn btn-success">Edit</button>
-                  <button type="button" class="btn btn-warning">Detail</button>
-                  <button type="button" class="btn btn-danger">Delete</button>
-                </td>
-              </tr>
-            </tbody>
           </table>
+          <div
+            th:unless="${customer != null}"
+            class="text-center text-danger"
+            style="min-height: 250px"
+            th:text="${errorMsg}"
+          >
+            Error
+          </div>
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <p>Page <span>1</span>of <span>2</span></p>

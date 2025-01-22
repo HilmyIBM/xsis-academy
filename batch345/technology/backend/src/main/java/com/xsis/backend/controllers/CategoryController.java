@@ -44,8 +44,7 @@ public class CategoryController {
         try {
             Optional<Category> data = categorySvc.getById(id);
 
-            return new ResponseEntity<Category>(data.get(),
-                    (data.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT));
+            return new ResponseEntity<Category>(data.get(), (data.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT));
 
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
