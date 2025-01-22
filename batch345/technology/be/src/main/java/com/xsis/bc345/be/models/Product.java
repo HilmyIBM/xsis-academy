@@ -18,9 +18,6 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	
-	@Column(name = "variant_id")
-	private int variantId;
 
 	@Column(name = "name", length = 100, nullable = false)
 	private String name;
@@ -34,6 +31,9 @@ public class Product {
 	@Column(name = "image")
 	private String image;
 
+	@Column(name = "variant_id")
+	private int variantId;
+	
 	@Column(name = "is_deleted")
 	private boolean deleted;
 
@@ -45,7 +45,7 @@ public class Product {
 	private LocalDateTime createDate;
 
 	@Column(name = "update_by")
-	private int updateBy;
+	private Integer updateBy;
 
 	@Column(name = "update_date")
 	private LocalDateTime updateDate;
@@ -126,11 +126,11 @@ public class Product {
         this.createDate = createDate;
     }
 
-    public int getUpdateBy() {
+    public Integer getUpdateBy() {
         return this.updateBy;
     }
 
-    public void setUpdateBy(int updateBy) {
+    public void setUpdateBy(Integer updateBy) {
         this.updateBy = updateBy;
     }
 
@@ -141,5 +141,5 @@ public class Product {
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
-    
+
 }

@@ -1,7 +1,6 @@
 package com.xsis.bc345.be.models;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 

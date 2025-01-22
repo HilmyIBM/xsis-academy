@@ -118,13 +118,9 @@ public class VariantController {
     }
 
     @PostMapping("/create")
-    // public ResponseEntity<?> create(Map<String, Object> variant) {
     public ResponseEntity<?> create(VariantView variant) {
-        ResponseEntity<VariantView> apiResponse = null;
-
         try {
-            apiResponse = restTemplate.postForEntity(apiUrl + "/variant", variant, VariantView.class);
-            // apiResponse = restTemplate.postForEntity(apiUrl + "/variant", variant, Variant.class);
+            final ResponseEntity<VariantView> apiResponse = restTemplate.postForEntity(apiUrl + "/variant", variant, VariantView.class);
 
             if(apiResponse.getStatusCode() == HttpStatus.CREATED) {
                 return new ResponseEntity<VariantView>(apiResponse.getBody(), HttpStatus.CREATED);

@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xsis.bc345.be.models.Product;
 import com.xsis.bc345.be.repositories.ProductRepository;
 
 @Service
@@ -27,5 +28,9 @@ public class ProductService {
     public Optional<Map<String, Object>> getBy(String filter) {
         // return productRepo.findByDeleted(false).get();
         return productRepo.findByNative(filter.toLowerCase());
+    }
+
+    public Product create(Product data) {
+        return productRepo.save(data);
     }
 }

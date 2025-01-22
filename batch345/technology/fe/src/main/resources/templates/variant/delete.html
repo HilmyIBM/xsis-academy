@@ -21,7 +21,6 @@
 
         $(".card-footer > .btn-danger").click(function(e) {
             let varId = $("#variantId").val();
-            debugger;
 
             $.ajax({
                 url: "/variant/delete/" + varId + "/3",

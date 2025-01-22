@@ -8,8 +8,8 @@ public class ProductView {
 	private double price;
 	private int stock;
 	private String image;
-
-    private int categoryId;
+    
+    private Integer categoryId;
     private String categoryName;
 
     private int variantId;
@@ -61,11 +61,11 @@ public class ProductView {
         this.image = image;
     }
 
-    public int getCategoryId() {
+    public Integer getCategoryId() {
         return this.categoryId;
     }
 
-    public void setCategoryId(int categoryId) {
+    public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
 
