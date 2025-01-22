@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xsis.bc345.backend.models.CategoryModel;
@@ -85,6 +86,27 @@ public class VariantController {
                 return new ResponseEntity<String>("Gagal Hapus",HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/filter/{filter}")
+    public ResponseEntity<?> getbyfilter(@PathVariable String filter){
+        try {
+            final List<Map<String,Object>> data=variantSVC.getfilterNative(filter);
+            return new ResponseEntity<List<Map<String,Object>>>(data,data.size()>0?HttpStatus.OK:HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<?> getbyCategory(@PathVariable int categoryId) {
+        try {
+            final Optional<List<VariantModel>> data=variantSVC.getbyCategory(categoryId);
+            return new ResponseEntity<>(data.get(),data.isPresent()?HttpStatus.OK:HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            // TODO: handle exception
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

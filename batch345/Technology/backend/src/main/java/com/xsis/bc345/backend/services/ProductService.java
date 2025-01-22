@@ -54,6 +54,10 @@ public class ProductService {
         return productrepo.findByNativeQueryId(id).get();
     }
 
+    public List<Map<String,Object>> getfilterNative(String filter) throws Exception{
+        return productrepo.findByfilter(filter).get();
+    }
+
 
     public ProductModel delete(int id, int userId) throws Exception {
         // TODO Auto-generated method stub

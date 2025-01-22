@@ -8,21 +8,51 @@
   <body>
     <div layout:fragment="content">
       <style>
-        nav{
-            background-color: #6C757D;
-            color: white;
+        nav {
+          background-color: #6c757d;
+          color: white;
         }
-    </style>
       </style>
       <div class="">
         <h1>Product List</h1>
-        <button class="btn btn-success" type="button" id="btnAdd" data-bs-toggle="modal" data-bs-target="#staticModal">
-          <i class="fas fa-plus"></i>&nbsp;&nbsp;Add
-        </button>
+        <div class="d-flex justify-content-between">
+          <button
+            class="btn btn-success"
+            type="button"
+            id="btnAdd"
+            data-bs-toggle="modal"
+            data-bs-target="#staticModal"
+          >
+            <i class="fas fa-plus"></i>&nbsp;&nbsp;Add
+          </button>
+          <form class="input-group w-25">
+            <input
+              th:if="${filter != null and !filter.isEmpty()}"
+              th:value="${filter}"
+              name="filter"
+              type="text"
+              class="form-control"
+              placeholder="Cari Product atau Category atau Variant"
+            />
+            <input
+              th:unless="${filter != null and !filter.isEmpty()}"
+              name="filter"
+              type="text"
+              class="form-control"
+              placeholder="Cari Product, Category, Variant"
+            />
+            <button type="submit" class="input-group-text" title="Filter">
+              <i class="fas fa-filter"></i>
+            </button>
+          </form>
+        </div>
         <hr style="opacity: 1" />
       </div>
       <div class="">
-        <table class="table table-bordered mt-2 table-hover text-center border-white" id="tblProduct">
+        <table
+          class="table table-bordered mt-2 table-hover text-center border-white"
+          id="tblProduct"
+        >
           <thead>
             <tr>
               <th class="col-1 text-center">Id</th>
@@ -38,27 +68,58 @@
           <tbody>
             <tr th:each="item:${product}" class="text-center">
               <td th:text="${item.id}" class="text-center">1</td>
-              <td >
+              <td>
                 <img
+                  th:if="${item.image}!=null"
                   th:src="@{'lib/images/'+${item.image}}"
                   alt="product"
                   class="img-thumbnail rounded-circle"
-                  style="width: 70px;">
+                  style="width: 350px; height: 100px"
+                />
+
+                <img
+                  th:unless="${item.image}!=null"
+                  th:src="@{'lib/no-image.png'}"
+                  alt="product"
+                  class="img-thumbnail rounded-circle"
+                  style="width: 350px; height: 100px"
+                />
               </td>
               <td th:text="${item.name}" class="text-center">Carbonara</td>
               <td th:text="${item.categoryName}"></td>
               <td th:text="${item.variantName}"></td>
-              <td th:text="${item.price}"class="text-center">50000</td>
-              <td th:text="${item.stock}"class="text-center">10</td>
+              <td th:text="${item.price}" class="text-center">50000</td>
+              <td th:text="${item.stock}" class="text-center">10</td>
               <td>
                 <div
                   class="btn-group d-flex justify-content-center"
                   role="group"
                   aria-label="Basic mixed styles example"
                 >
-                <button th:data-id="${item.id}" type="button" class="btn btn-info" title="Edit"><i class="fas fa-edit"></i></button>
-                <button th:data-id="${item.id}" type="button" class="btn btn-warning" title="Detail"><i class="fas fa-info"></i></button>
-                <button th:data-id="${item.id}" type="button" class="btn btn-danger" title="Delete"><i class="fas fa-trash"></i></button>
+                  <button
+                    th:data-id="${item.id}"
+                    type="button"
+                    class="btn btn-info"
+                    title="Edit"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button
+                    th:data-id="${item.id}"
+                    type="button"
+                    class="btn btn-warning"
+                    title="Detail"
+                  >
+                    <i class="fas fa-info"></i>
+                  </button>
+                  <button
+                    th:data-id="${item.id}"
+                    type="button"
+                    class="btn btn-danger"
+                    title="Delete"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
                 </div>
               </td>
             </tr>
@@ -66,31 +127,30 @@
         </table>
       </div>
       <script>
-        new DataTable('#tblProduct');
-        $('#btnAdd').click(
-          function(e){
-            $('#staticModalBody').load("/product/add");
-          });
-        
-          $(".btn-info").click(function(e){
-          let catId=$(this).data('id');
+        new DataTable("#tblProduct");
+        $("#btnAdd").click(function (e) {
+          $("#staticModalBody").load("/product/add");
+        });
 
-          $('#staticModalBody').load("/product/edit/"+catId);
-          $('#staticModal').modal("show");
-        })
+        $("#tblProduct").on("click", ".btn-info", function (e) {
+          let catId = $(this).data("id");
 
-        $(".btn-warning").click(function(e){
-          let catId=$(this).data('id');
+          $("#staticModalBody").load("/product/edit/" + catId);
+          $("#staticModal").modal("show");
+        });
 
-          $('#staticModalBody').load("/product/detail/"+catId);
-          $('#staticModal').modal("show");
-        })
+        $("#tblProduct").on("click", ".btn-warning", function (e) {
+          let catId = $(this).data("id");
 
-        $(".btn-danger").click(function(e){
-          let catId=$(this).data('id');
-          $('#staticModalBody').load("/product/delete/"+catId);
-          $('#staticModal').modal("show");
-        })
+          $("#staticModalBody").load("/product/detail/" + catId);
+          $("#staticModal").modal("show");
+        });
+
+        $("#tblProduct").on("click", ".btn-danger", function (e) {
+          let catId = $(this).data("id");
+          $("#staticModalBody").load("/product/delete/" + catId);
+          $("#staticModal").modal("show");
+        });
       </script>
     </div>
   </body>

@@ -31,6 +31,10 @@ public class VariantService {
         return variantrepo.findByNativeQuery().get();
     }
 
+    public List<Map<String,Object>> getfilterNative(String filter) throws Exception{
+        return variantrepo.findByfilter(filter).get();
+    }
+
     public VariantModel create(VariantModel data) throws Exception{
         return variantrepo.save(data);
     }
@@ -65,5 +69,9 @@ public class VariantService {
         }else{
             throw new Exception("Data Tidak Adak");
         }
+    }
+
+    public Optional<List<VariantModel>> getbyCategory(int categoryId) {
+        return variantrepo.findByCategoryIdAndIsDeleted(categoryId, false);
     }
 }

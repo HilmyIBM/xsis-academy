@@ -2,6 +2,7 @@ package com.xsis.b345.frontend.models;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+
 public class productView {
 
     private Integer id;
@@ -172,7 +173,6 @@ public class productView {
         this.updateDate = updateDate;
     }
 
-
     /**
      * @return String return the variantName
      */
@@ -186,7 +186,6 @@ public class productView {
     public void setVariantName(String variantName) {
         this.variantName = variantName;
     }
-
 
     /**
      * @return String return the categoryName

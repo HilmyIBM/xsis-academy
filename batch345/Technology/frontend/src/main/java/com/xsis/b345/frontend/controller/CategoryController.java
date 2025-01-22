@@ -20,22 +20,23 @@ public class CategoryController {
     @Value("${application.api.url}")
     private String apiUrl;
     private RestTemplate restTemplate = new RestTemplate();
-    //private final String apiUrl="http://localhost:8080/api/category";
+    // private final String apiUrl="http://localhost:8080/api/category";
 
     @GetMapping("")
-    public ModelAndView index(String filter){
+    public ModelAndView index(String filter) {
         ModelAndView view = new ModelAndView("/category/index");
-        ResponseEntity<categoryView[]> apiResponse=null;
+        ResponseEntity<categoryView[]> apiResponse = null;
         try {
-            if(filter==null || filter.isEmpty()){
-                apiResponse = restTemplate.getForEntity(apiUrl+"/category",categoryView[].class);
-            }else{
-                apiResponse = restTemplate.getForEntity(apiUrl+"/category"+"/filter/"+filter,categoryView[].class);
+            if (filter == null || filter.isEmpty()) {
+                apiResponse = restTemplate.getForEntity(apiUrl + "/category", categoryView[].class);
+            } else {
+                apiResponse = restTemplate.getForEntity(apiUrl + "/category" + "/filter/" + filter,
+                        categoryView[].class);
             }
-            if (apiResponse.getStatusCode()==HttpStatus.OK) {
+            if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 view.addObject("category", apiResponse.getBody());
             } else {
-                throw new Exception(apiResponse.getStatusCode().toString()+" : "+apiResponse.getBody());
+                throw new Exception(apiResponse.getStatusCode().toString() + " : " + apiResponse.getBody());
             }
         } catch (Exception e) {
             view.addObject("errorMSG", e.getMessage());
@@ -46,57 +47,57 @@ public class CategoryController {
 
     @GetMapping("/add")
     public ModelAndView addData() {
-        ModelAndView view= new ModelAndView("/category/add");
+        ModelAndView view = new ModelAndView("/category/add");
         view.addObject("title", "Add new category");
         return view;
     }
 
     @PostMapping("/save")
-    ResponseEntity<?>save(@ModelAttribute categoryView Category){
-        ResponseEntity<categoryView> apiResponse=null;
+    ResponseEntity<?> save(@ModelAttribute categoryView Category) {
+        ResponseEntity<categoryView> apiResponse = null;
         try {
-            apiResponse=restTemplate.postForEntity(apiUrl+"/category", Category, categoryView.class);
-            if (apiResponse.getStatusCode()==HttpStatus.CREATED) {
-                return new ResponseEntity<categoryView>(apiResponse.getBody(),HttpStatus.OK);
+            apiResponse = restTemplate.postForEntity(apiUrl + "/category", Category, categoryView.class);
+            if (apiResponse.getStatusCode() == HttpStatus.CREATED) {
+                return new ResponseEntity<categoryView>(apiResponse.getBody(), HttpStatus.OK);
             } else {
-                throw new Exception(apiResponse.getStatusCode().toString()+" : "+apiResponse.getBody().toString());   
+                throw new Exception(apiResponse.getStatusCode().toString() + " : " + apiResponse.getBody().toString());
             }
         } catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView editdata(@PathVariable int id){
-        ModelAndView view= new ModelAndView("/category/edit");
+    public ModelAndView editdata(@PathVariable int id) {
+        ModelAndView view = new ModelAndView("/category/edit");
         view.addObject("title", "Edit Category");
-        ResponseEntity<categoryView> apiResponse=null;
+        ResponseEntity<categoryView> apiResponse = null;
         try {
-            apiResponse=restTemplate.getForEntity(apiUrl+"/category/id/"+id, categoryView.class);
-            if (apiResponse.getStatusCode()==HttpStatus.OK) {
+            apiResponse = restTemplate.getForEntity(apiUrl + "/category/id/" + id, categoryView.class);
+            if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 view.addObject("category", apiResponse.getBody());
             } else {
-                throw new Exception(apiResponse.getStatusCode().toString()+" : "+apiResponse.getBody());
+                throw new Exception(apiResponse.getStatusCode().toString() + " : " + apiResponse.getBody());
             }
         } catch (Exception e) {
             view.addObject("errorMSG", e.getMessage());
-        }  
+        }
         return view;
     }
 
     @PostMapping("/update")
-    public ResponseEntity<?> update(@ModelAttribute categoryView Category){
-        ResponseEntity<categoryView> apiResponse=null;
+    public ResponseEntity<?> update(@ModelAttribute categoryView Category) {
+        ResponseEntity<categoryView> apiResponse = null;
         try {
-           restTemplate.put(apiUrl+"/category",Category);
-           apiResponse=restTemplate.getForEntity(apiUrl+"/category/id/"+Category.getId(), categoryView.class);
-           if (apiResponse.getStatusCode()==HttpStatus.OK) {
-                return new ResponseEntity<categoryView>(apiResponse.getBody(),HttpStatus.OK);
-           } else {
-                throw new Exception(apiResponse.getStatusCode().toString()+" : "+apiResponse.getBody().toString());
-           }
+            restTemplate.put(apiUrl + "/category", Category);
+            apiResponse = restTemplate.getForEntity(apiUrl + "/category/id/" + Category.getId(), categoryView.class);
+            if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                return new ResponseEntity<categoryView>(apiResponse.getBody(), HttpStatus.OK);
+            } else {
+                throw new Exception(apiResponse.getStatusCode().toString() + " : " + apiResponse.getBody().toString());
+            }
         } catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -104,24 +105,24 @@ public class CategoryController {
     public ModelAndView detail(@PathVariable int id) {
         ModelAndView view = new ModelAndView("/category/detail");
         view.addObject("title", "Detail Category");
-        ResponseEntity<categoryView> apiResponse=null;
+        ResponseEntity<categoryView> apiResponse = null;
         try {
-            apiResponse=restTemplate.getForEntity(apiUrl+"category/id/"+id, categoryView.class);
-            if (apiResponse.getStatusCode()==HttpStatus.OK) {
+            apiResponse = restTemplate.getForEntity(apiUrl + "category/id/" + id, categoryView.class);
+            if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 view.addObject("category", apiResponse.getBody());
             } else {
-                throw new Exception(apiResponse.getStatusCode().toString()+" : "+apiResponse.getBody());
+                throw new Exception(apiResponse.getStatusCode().toString() + " : " + apiResponse.getBody());
             }
         } catch (Exception e) {
             // TODO: handle exception
             view.addObject("errorMSG", e.getMessage());
-            
+
         }
         return view;
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView viewDelete(@PathVariable int id){
+    public ModelAndView viewDelete(@PathVariable int id) {
         ModelAndView view = new ModelAndView("category/delete");
         view.addObject("id", id);
         view.addObject("title", "Hapus Kategori");
@@ -129,22 +130,20 @@ public class CategoryController {
     }
 
     @PostMapping("/delete/{id}/{userId}")
-    public ResponseEntity<?> deleteData(@PathVariable int id,@PathVariable int userId) {
-        ResponseEntity<categoryView> apiResponse=null;
+    public ResponseEntity<?> deleteData(@PathVariable int id, @PathVariable int userId) {
+        ResponseEntity<categoryView> apiResponse = null;
         try {
-            apiResponse=restTemplate.exchange(apiUrl+"/category/delete/"+id+"/"+userId,HttpMethod.DELETE,
-            null,
-            categoryView.class);
-            if (apiResponse.getStatusCode()==HttpStatus.OK) {
-                return new ResponseEntity<categoryView>(apiResponse.getBody(),HttpStatus.OK);
-           } else {
-                throw new Exception(apiResponse.getStatusCode().toString()+" : "+apiResponse.getBody().toString());
-           }
+            apiResponse = restTemplate.exchange(apiUrl + "/category/delete/" + id + "/" + userId, HttpMethod.DELETE,
+                    null,
+                    categoryView.class);
+            if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                return new ResponseEntity<categoryView>(apiResponse.getBody(), HttpStatus.OK);
+            } else {
+                throw new Exception(apiResponse.getStatusCode().toString() + " : " + apiResponse.getBody().toString());
+            }
         } catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-
-    
 }

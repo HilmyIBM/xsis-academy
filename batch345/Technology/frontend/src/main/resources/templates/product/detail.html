@@ -25,9 +25,18 @@
                 <input type="text" class="form-control-plaintext" id="txtDeskripsi" name="deskripsi" th:value="${item.categoryName}" readonly>
             </div>
 
-            <div class="form-group mt-3">
-                <label for="txtDeskripsi" class="form-label">Image : </label>
-                <input type="text" class="form-control-plaintext" id="txtDeskripsi" name="deskripsi" th:value="${item.image}" readonly>
+            <div class="form-group mt-2">
+                <label for="txtDeskripsi" class="form-label">Image : </label><br>
+                <img
+                th:if="${item.image}!=null"
+                th:src="@{'lib/images/'+${item.image}}"
+                alt="product"
+                class="img-thumbnail">
+                
+                <img th:unless="${item.image}!=null"
+                th:src="@{'lib/no-image.png'}"
+                alt="product"
+                class="img-thumbnail">
             </div>
             <br>
             <div class="grid border-top border-white">

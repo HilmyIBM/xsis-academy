@@ -41,9 +41,9 @@ public interface  ProductRepo extends JpaRepository<ProductModel,Integer> {
     p.update_by AS "updateBy",p.update_date AS "updateDate"
     FROM tbl_m_product as p INNER JOIN tbl_m_variant AS v ON p.variant_id=v.id INNER JOIN tbl_m_categories AS c on v.category_id = c.id
     WHERE p.is_deleted IS NOT TRUE AND (
-            p.name LIKE %:filter% OR
-            v.name LIKE %:filter% OR
-            c.category_name LIKE %:filter% OR
+            LOWER(p.name) LIKE %:filter% OR
+            LOWER(v.name) LIKE %:filter% OR
+            LOWER(c.category_name) LIKE %:filter% 
             )
             """
     ,nativeQuery = true)

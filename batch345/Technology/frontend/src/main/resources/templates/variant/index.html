@@ -13,9 +13,38 @@
     </style>
       <div>
         <h1>Variant List</h1>
-        <button class="btn btn-success" type="button" id="btnAdd" data-bs-toggle="modal" data-bs-target="#staticModal">
-          <i class="fas fa-plus"></i>&nbsp;&nbsp;Add
-        </button>
+        <div class="d-flex justify-content-between">
+          <button
+            class="btn btn-success"
+            type="button"
+            id="btnAdd"
+            data-bs-toggle="modal"
+            data-bs-target="#staticModal"
+          >
+            <i class="fas fa-plus"></i>&nbsp;&nbsp;Add
+          </button>
+          <form class="input-group w-25">
+            <input
+              th:if="${filter != null and !filter.isEmpty()}"
+              th:value="${filter}"
+              name="filter"
+              type="text"
+              class="form-control"
+              placeholder="Cari Varianty atau Category"
+            />
+            <input
+              th:unless="${filter != null and !filter.isEmpty()}"
+              name="filter"
+              type="text"
+              class="form-control"
+              placeholder="Cari Varianty atau Category"
+            />
+            <button type="submit" class="input-group-text" title="Filter">
+              <i class="fas fa-filter"></i>
+            </button>
+          </form>
+        </div>
+
         <hr style="opacity: 1" />
       </div>
       <div>
@@ -59,21 +88,21 @@
             $('#staticModalBody').load("/variant/add");
           });
         
-        $(".btn-info").click(function(e){
+          $('#tblVariant').on('click','.btn-info',function(e){
           let catId=$(this).data('id');
 
           $('#staticModalBody').load("/variant/edit/"+catId);
           $('#staticModal').modal("show");
         })
 
-        $(".btn-warning").click(function(e){
+        $('#tblVariant').on('click','.btn-warning',function(e){
           let catId=$(this).data('id');
 
-          $('#staticModalBody').load("variant/detail/"+catId);
+          $('#staticModalBody').load("/variant/detail/"+catId);
           $('#staticModal').modal("show");
         })
 
-        $(".btn-danger").click(function(e){ 
+        $('#tblVariant').on('click','.btn-danger',function(e){
           let catId=$(this).data('id');
           $('#staticModalBody').load("/variant/delete/"+catId);
           $('#staticModal').modal("show");

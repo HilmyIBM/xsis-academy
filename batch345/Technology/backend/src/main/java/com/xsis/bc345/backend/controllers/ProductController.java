@@ -90,5 +90,20 @@ public class ProductController {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("filter/{filter}")
+    public ResponseEntity<?> getbyFilter(@PathVariable String filter){
+         try {
+            final List<Map<String,Object>> data= productSVC.getfilterNative(filter);
+            if (data.size()>0) {
+                return new ResponseEntity<List<Map<String,Object>>> (data,HttpStatus.OK);   
+            }else{
+                return new ResponseEntity<List<Map<String,Object>>>(data,HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }  
     
 }
