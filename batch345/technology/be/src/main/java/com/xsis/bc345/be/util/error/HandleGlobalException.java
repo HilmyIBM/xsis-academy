@@ -1,5 +1,6 @@
 package com.xsis.bc345.be.util.error;
 
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,19 @@ public class HandleGlobalException {
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorMessage> handleRuntimeException(RuntimeException e) {
+    public ResponseEntity<ErrorMessage> handleEntityNotExists(EntityExistsException ex) {
+        ErrorMessage err = new ErrorMessage(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(),
+                ex.getClass().getSimpleName(),
+                LocalDateTime.now()
+        );
+
+        return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorMessage> handleRuntimeException(Exception e) {
         ErrorMessage err = new ErrorMessage(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 e.getMessage(),
