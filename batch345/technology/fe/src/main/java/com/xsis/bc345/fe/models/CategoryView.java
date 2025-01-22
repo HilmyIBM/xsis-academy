@@ -11,8 +11,8 @@ public class CategoryView {
 
     private int createBy;
     private Timestamp createDate;
-    private int updateBy;
-    private Timestamp updateDate;    
+    private Integer updateBy;
+    private Timestamp updateDate;
 
     public int getId() {
         return this.id;
@@ -66,11 +66,11 @@ public class CategoryView {
         this.createDate = createDate;
     }
 
-    public int getUpdateBy() {
+    public Integer getUpdateBy() {
         return this.updateBy;
     }
 
-    public void setUpdateBy(int updateBy) {
+    public void setUpdateBy(Integer updateBy) {
         this.updateBy = updateBy;
     }
 
@@ -81,5 +81,4 @@ public class CategoryView {
     public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
     }
-
 }

@@ -8,9 +8,9 @@
 		<div layout:fragment="content">
 			<div class="d-flex justify-content-between my-1">
 				<div class="h2">Product Index</div>
-				<div><a class="btn btn-sm btn-success rounded mx-1">
-						<i class="fas fa-plus text-white"></i>					
-					</a></div>
+				<div>
+					<a id="btnAdd" class="btn btn-sm btn-success rounded mx-1"><i class="fas fa-plus text-white"></i></a>
+				</div>
 			</div>
 			<div>
 				<table class="table table-striped table-hover">
@@ -27,15 +27,18 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td class="d-none d-sm-table-cell">&nbsp;</td>
-							<td>1</td>
-							<td>Bubur Ayam</td>
-							<td>9999</td>
-							<td class="d-none d-sm-table-cell">99</td>
-							<td class="d-none d-sm-table-cell">Bubur</td>
-							<td class="d-none d-sm-table-cell">Bubur</td>
-							<td class="d-none d-sm-table-cell">Bubur</td>
+						<tr th:if="${product != null}" th:each="item:${product}">
+							<td class="d-none d-sm-table-cell">
+								<div class="rounded">
+									<img class="img-fluid" />
+								</div>
+							</td>
+							<td th:text="${item.id}">1</td>
+							<td th:text="${item.name}">Bubur Ayam</td>
+							<td th:text="${item.price}">9999</td>
+							<td th:text="${item.stock}" class="d-none d-sm-table-cell">99</td>
+							<td th:text="${item.variantName}" class="d-none d-sm-table-cell">Bubur</td>
+							<td th:text="${item.categoryName}" class="d-none d-sm-table-cell">Bubur</td>
 							<td class="d-flex justify-content-center">
 								<div class="btn-group">
 									<button class="btn btn-info" title="Details..." href="/category/1"><i class="fas fa-list-alt"></i></button>
@@ -43,20 +46,22 @@
 									<button class="btn btn-danger" title="Delete..."><i class="fas fa-trash"></i></button>
 								</div>
 							</td>
-						</tr>						
+						</tr>
+						<tr th:if="${errorMsg != null}">
+							<td colspan="8" class="text-danger text-center fst-italic" th:text="${errorMsg}">-- No Product data available! --</td>
+						</tr>					
 					</tbody>
 				</table>
 			</div>
 			
 			<script>
 				let prodId;
-				
-				$(".btn-success").click(function(e) {
-					// $("#modalLgBody").load("/product/add");
-					// $("#modalLgLabel").text("Add New Product");
-					// $("#modalLg").modal("show");
-				});
 
+				$("#btnAdd").click(function(e) {
+					// alert("Di sini!");
+					$("#staticModalBody").load("/product/add");
+					$("#staticModal").modal("show");
+				});
 			</script>
 		</div>
 	</body>

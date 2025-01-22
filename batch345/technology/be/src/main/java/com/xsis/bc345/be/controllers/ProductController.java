@@ -3,7 +3,6 @@ package com.xsis.bc345.be.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xsis.bc345.be.models.Product;
 import com.xsis.bc345.be.services.ProductService;
 
 import java.util.List;

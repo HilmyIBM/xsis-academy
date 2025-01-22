@@ -76,4 +76,8 @@ public class VariantService {
             throw new Exception("Variant doesm't exist!");
         }
     }
+
+    public Optional<List<Variant>> getByCategory(int categoryId) {
+       return variantRepo.findByCategoryIdAndDeleted(categoryId, false);
+    }
 }

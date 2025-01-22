@@ -26,7 +26,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             SELECT
                 p.id, p.name, p.image, p.price, p.stock,
                 p.variant_id AS "variantId", v.name AS "variantName",
-                v.category_id AS "categoryId", c.id AS "categoryId",
+                v.category_id AS "categoryId", c.category_name AS "categoryName",
                 p.is_deleted AS deleted,
                 p.create_by AS "createBy", p.create_date AS "createDate", 
                 p.update_by AS "updateBy", p.update_date AS "updateDate"
@@ -46,7 +46,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             SELECT
                 p.id, p.name, p.image, p.price, p.stock,
                 p.variant_id AS "variantId", v.name AS "variantName",
-                v.category_id AS "categoryId", c.id AS "categoryId",
+                v.category_id AS "categoryId", c.categoruy_name AS "categoryName",
                 p.is_deleted AS deleted,
                 p.create_by AS "createBy", p.create_date AS "createDate", 
                 p.update_by AS "updateBy", p.update_date AS "updateDate"
@@ -66,7 +66,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             SELECT
                 p.id, p.name, p.image, p.price, p.stock,
                 p.variant_id AS "variantId", v.name AS "variantName",
-                v.category_id AS "categoryId", c.id AS "categoryId",
+                v.category_id AS "categoryId", c.category_name AS "categoryName",
                 p.is_deleted AS deleted,
                 p.create_by AS "createBy", p.create_date AS "createDate", 
                 p.update_by AS "updateBy", p.update_date AS "updateDate"

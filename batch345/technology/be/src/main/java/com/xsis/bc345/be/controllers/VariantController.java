@@ -78,6 +78,21 @@ public class VariantController {
         }
     }
 
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<?> getByCategory(@PathVariable int categoryId){
+        try {
+            final Optional<List<Variant>> data = variantSvc.getByCategory(categoryId);
+
+            return new ResponseEntity<>(
+                data.get()
+                , data.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT
+            );
+        } catch (Exception e) {
+            // TODO: handle exception
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("")
     public ResponseEntity<?> create(@RequestBody Variant data) {
         try {

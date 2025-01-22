@@ -1,0 +1,175 @@
+<div class="card">
+    <form id="frmNewProduct" method="post" asp-action="Add" enctype="multipart/form-data">
+        <div class="card-body">
+            <input type="hidden" id="txtTitle" th:value="${title}" />
+            <input type="hidden" name="createBy" value="1" />
+
+            <div class="row input-group">
+                <!-- Product Image -->
+                <label for="fImage" class="form-label input-group-text col-lg-2 col-md-12">Image</label>
+                <input type="file" id="fImage" name="ImageFile" class="form-control col-lg-10 col-md-12" />
+            </div>
+
+            <div class="row input-group">
+                <!-- Product Name -->
+                <label class="form-label input-group-text col-lg-2 col-md-12">Name</label>
+                <input class="form-control col-lg-10 col-md-12" type="text" name="name" />
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-lg-6 col-md-12 input-group pl-0">
+                    <!-- Product Category -->
+                    <label class="form-label input-group-text col-4" for="categoryId">Category</label>
+                    <select name="categoryId" class="form-control col-8" id="categoryId">
+                        <option value="">--Select Category--</option>
+                        <option th:if="${categories != null}" th:each="category:${categories}" th:value="${category.id}" th:text="${category.categoryName}"></option> 
+                    </select>
+                </div>
+                <div class="col-lg-6 col-md-12 input-group">
+                    <!-- Product Variant -->
+                    <label class="form-label input-group-text col-4" for="variantId">Variant</label>
+                    <select name="variantId" class="form-control col-8" id="variantId">
+                        <option value="">--Select Category First--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-12 input-group pl-0">
+                    <label class="form-label input-group-text col-4" for="price">Price</label>
+                    <input type="number" name="price" id="price" class="form-control col-8" min="0">
+                </div>
+                <div class="col-lg-6 col-md-12 input-group">
+                    <label class="form-label input-group-text col-4" for="stock">Stock</label>
+                    <input type="number" name="stock" id="stock" class="form-control col-8" min="0">
+                </div>
+            </div>
+            <div id="errMsg" class="mt-3 d-flex">
+                <ul class="list-group"></ul>
+            </div>
+        </div>
+        <div class="card-footer text-end">
+            <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Save</button>
+        </div>
+    </form>
+</div>
+    
+<script>
+    $(document).ready(function() {
+        $("#staticModalLabel").text($("#txtTitle").val());
+    });
+
+    $("#categoryId").change(function(e) {
+        var catId = $(this).val();
+
+        $.ajax({
+            url: "variant/category/" + catId,
+            beforeSend: function() {},
+            success: function(apiResponse) {
+                $("#variantId").empty();
+                $.each(
+                    apiResponse,
+                    function(idx, variant) {
+                        $("#variantId").append(`<option value="${variant.id}">${variant.name}</option>`);
+                    }
+                );
+            },
+            error: function(errResponse) {
+                alert("Get Variant process Failed!");
+            }
+        });
+    });
+
+    // //JQuery Validate with Custom Massage Container
+    // $("#frmNewProduct").validate({
+    //     errorClass: "alert-warning text-danger",
+    //     errorContainer: "#errMsg",
+    //     errorLabelContainer: "#errMsg ul",
+    //     wrapper: "li",
+    //     rules: {
+    //         Name: {
+    //             minlength: 3,
+    //             maxlength: 100,
+    //             required: true
+    //         },
+    //         CategoryId: "required",
+    //         VariantId: "required",
+    //         Price: {
+    //             min: 0,
+    //             required: true
+    //         },
+    //         Stock: {
+    //             min: 0,
+    //             required: true
+    //         }
+    //     },
+    //     messages: {
+    //         Name: {
+    //             minlength: "Product Name must be at least 3 character long",
+    //             maxlength: "Product Name maximum at 100 character long",
+    //             required: "Product Name is required"
+    //         },
+    //         CategoryId: "Product Category is required",
+    //         VariantId: "Product Variant is required",
+    //         Price: {
+    //             min: "Product Price cannot contain negative value",
+    //             required: "Product Price is required"
+    //         },
+    //         Stock: {
+    //             min: "Product Stock cannot contain negative value",
+    //             required: "Product Stock is required"
+    //         }
+    //     }
+    // });    
+
+    // $("#frmNewProduct").submit(function(event) {
+    //     // Disable Form Submit
+    //     event.preventDefault();
+
+    //     // Submit Form Data with AJAX only if Data Valid
+    //     if ($("#frmNewProduct").valid()) {
+    //         var formData = new FormData($(this)[0]);
+
+    //         $.ajax({
+    //             url: "Product/Add",
+    //             type: "post",
+    //             data: formData,
+    //             dataType: "json",
+    //             processData: false,
+    //             contentType: false,
+    //             beforeSend: function() { },
+    //             success: function(apiResponse) {
+    //                 if (apiResponse.success){
+    //                     location.reload();
+    //                 }
+    //                 else {
+    //                     alert(apiResponse.message);
+    //                 }
+    //             },
+    //             error: function(errResponse) {
+    //                 debugger;
+    //                 alert("Failed to Add the new Product!");
+    //             }
+    //         });
+    //     }
+    // });
+
+    // //Contoh JSon Object
+    // var respon = {
+    //     "succes": true,
+    //     "message": "test message",
+    //     "data": [
+    //         {
+    //             "id": 1,
+    //             "CategoryName": "makanan",
+    //             "Description": "Ini makanan",
+    //             "IsDeleted": 0
+    //         },
+    //         {
+    //             "id": 2,
+    //             "CategoryName": "Minuman",
+    //             "Description": "Ini Minuman",
+    //             "IsDeleted": 0
+    //         }
+    //     ]
+    // };
+</script>

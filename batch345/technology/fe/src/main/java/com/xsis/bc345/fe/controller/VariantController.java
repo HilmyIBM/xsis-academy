@@ -80,6 +80,19 @@ public class VariantController {
         return view;
     }
 
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<?> getByCategory(@PathVariable int categoryId) {
+        ResponseEntity<VariantView[]> apiResponse;
+        try {
+            apiResponse = restTemplate.getForEntity(apiUrl + "/variant/category/" + categoryId, VariantView[].class);
+
+            return new ResponseEntity<VariantView[]>(apiResponse.getBody(), HttpStatus.OK);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/add")
     public ModelAndView add() {
         ModelAndView view = new ModelAndView("/variant/add");
