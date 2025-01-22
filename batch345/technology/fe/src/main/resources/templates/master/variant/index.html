@@ -46,12 +46,11 @@
         </div>
         <script>
             $(document).ready( function () {
-                var table = $('#variant-table').DataTable();
+                $('#variant-table').DataTable({
+                    paging: false
+                });
 
-                console.log(table.page());
-                console.log(table.page.len());
-
-                $('#btnAddVariant').click(function (e) {
+                $('#btnAddCategory').click(function (e) {
                     // $('#staticModalLabel').append("<span th:text='${add_title}'></span>")
                     $('#staticModalBody').load("variant/add");
                 });
