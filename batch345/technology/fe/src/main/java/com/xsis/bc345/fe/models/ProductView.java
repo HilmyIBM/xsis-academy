@@ -20,6 +20,15 @@ public class ProductView {
     private String categoryName;
     private String variant;
 
+    public int getCategoryId() {
+        return this.categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+    private int categoryId;
+
     public int getId() {
         return this.id;
     }

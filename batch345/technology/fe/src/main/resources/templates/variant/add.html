@@ -17,13 +17,14 @@
         />
       </div>
       <div class="form-group">
-        <label for="txtCategoryId" class="form-label"> Category Id </label>
-        <input
-          type="text"
-          class="form-control"
-          id="txtCategoryId"
-          name="categoryId"
-        />
+        <label for="txtCategoryName" class="form-label">Category Name</label>
+        <select class="form-control" id="txtCategoryName" name="categoryId" required>
+          <option value="" disabled selected>Select a category</option>
+          <th:block th:each="category : ${categories}">
+            <option th:value="${category.id}" th:text="${category.categoryName}" 
+                    th:selected="${variant.categoryId == category.id}"></option>
+          </th:block>
+        </select>
       </div>
       <div class="text-right">
         <button class="btn btn-success mt-3"><i class="fas fa-save" type="submit"></i>&nbsp; Save</button>

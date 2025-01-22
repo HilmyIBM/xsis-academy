@@ -39,7 +39,7 @@ public class CategoryController {
         ResponseEntity<CategoryView[]> apiResponse = null;
 
         try {
-            if (filter == null || filter.isEmpty()) {
+            if (filter == null || filter.isBlank()) {
 
                 apiResponse = restTemplate.getForEntity(apiUrl, CategoryView[].class);
             } else {

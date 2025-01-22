@@ -9,7 +9,7 @@ public class VariantView {
     private String name;
     private String description;
     private boolean deleted;
-    private int createby;
+    private int createBy;
     private Timestamp createDate;
     private String categoryName;
     private String variant;
@@ -74,12 +74,12 @@ public class VariantView {
         this.deleted = deleted;
     }
 
-    public int getCreateby() {
-        return this.createby;
+    public int getCreateBy() {
+        return this.createBy;
     }
 
-    public void setCreateby(int createby) {
-        this.createby = createby;
+    public void setCreateBy(int createBy) {
+        this.createBy = createBy;
     }
 
     public Timestamp getCreateDate() {

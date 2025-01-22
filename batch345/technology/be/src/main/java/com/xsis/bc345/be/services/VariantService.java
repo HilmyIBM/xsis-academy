@@ -89,6 +89,11 @@ public class VariantService {
     public List<Map<String, Object>> getAllNative() throws Exception {
         // TODO Auto-generated method stub
         return variantRepo.findAllNative().get();   }
+
+    public Optional<List<Variant>> getByCategory(int categoryId) {
+        // TODO Auto-generated method stub
+        return variantRepo.findByCategoryIdAndDeleted(categoryId, false);
+    }
     
     
 
