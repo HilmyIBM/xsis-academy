@@ -7,7 +7,7 @@ public class VariantView{
     private int id;
     private String categoryId; 
     private String name; 
-    private String desc;
+    private String description;
     private boolean deleted;
     private String categoryName;
     private int createBy;
@@ -49,13 +49,15 @@ public class VariantView{
         this.name = name;
     }
 
-    public String getDesc() {
-        return this.desc;
+
+    public String getDescription() {
+        return this.description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
+   
 
     public boolean isDeleted() {
         return this.deleted;
@@ -108,4 +110,22 @@ public class VariantView{
     public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", categoryId='" + getCategoryId() + "'" +
+            ", name='" + getName() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", deleted='" + isDeleted() + "'" +
+            ", categoryName='" + getCategoryName() + "'" +
+            ", createBy='" + getCreateBy() + "'" +
+            ", createDate='" + getCreateDate() + "'" +
+            ", updateBy='" + getUpdateBy() + "'" +
+            ", updateDate='" + getUpdateDate() + "'" +
+            ", updateTime='" + getUpdateTime() + "'" +
+            "}";
+    }
+
 }

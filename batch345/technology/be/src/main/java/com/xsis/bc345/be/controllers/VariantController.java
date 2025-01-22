@@ -37,6 +37,7 @@ public class VariantController {
 
     @PostMapping("")
     public ResponseEntity<?> create(@RequestBody final Variant data) {
+        System.out.println(data.toString());
         try {
             return new ResponseEntity<Variant>(variantSvc.create(data), HttpStatus.CREATED);
         } catch (Exception e) {

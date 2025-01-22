@@ -16,47 +16,47 @@ import jakarta.persistence.Table;
 public class Variant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @Column( name ="category_id", nullable = false)
-    private Integer categoryId;
+    private int categoryId;
     
     @Column( name ="name", length = 50, nullable = false)
     private String name;
     
-    @Column( name ="desc",length = 255, nullable = true)
-    private String desc;
+    @Column( name ="description",length = 255, nullable = true)
+    private String description;
     
     @Column( name ="is_deleted")
     private Boolean deleted;
     
     @Column( name ="create_by", nullable = false)
-    private Integer createBy;
+    private int createBy;
     
     @Column( name ="create_date")
     @CreationTimestamp
     private LocalDateTime createDate;
     
     @Column( name ="update_by", nullable = false)
-    private Integer updateBy;
+    private int updateBy;
 
     @Column( name ="update_time")
     private LocalDateTime updateDate; 
 
 
-    public Integer getId() {
+    public int getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Integer getCategoryId() {
+    public int getCategoryId() {
         return this.categoryId;
     }
 
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -68,13 +68,15 @@ public class Variant {
         this.name = name;
     }
 
-    public String getDesc() {
-        return this.desc;
+
+    public String getDescription() {
+        return this.description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
+    
 
     public Boolean isDeleted() {
         return this.deleted;
@@ -88,11 +90,11 @@ public class Variant {
         this.deleted = deleted;
     }
 
-    public Integer getCreateBy() {
+    public int getCreateBy() {
         return this.createBy;
     }
 
-    public void setCreateBy(Integer createBy) {
+    public void setCreateBy(int createBy) {
         this.createBy = createBy;
     }
 
@@ -104,11 +106,11 @@ public class Variant {
         this.createDate = createDate;
     }
 
-    public Integer getUpdateBy() {
+    public int getUpdateBy() {
         return this.updateBy;
     }
 
-    public void setUpdateBy(Integer updateBy) {
+    public void setUpdateBy(int updateBy) {
         this.updateBy = updateBy;
     }
 
@@ -118,22 +120,6 @@ public class Variant {
 
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
-    }
-
-
-    @Override
-    public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", categoryId='" + getCategoryId() + "'" +
-            ", name='" + getName() + "'" +
-            ", desc='" + getDesc() + "'" +
-            ", deleted='" + isDeleted() + "'" +
-            ", createBy='" + getCreateBy() + "'" +
-            ", createDate='" + getCreateDate() + "'" +
-            ", updateBy='" + getUpdateBy() + "'" +
-            ", updateDate='" + getUpdateDate() + "'" +
-            "}";
     }
 
 }

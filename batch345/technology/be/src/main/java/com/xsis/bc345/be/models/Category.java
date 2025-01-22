@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @Column(name="category_name", length = 100,nullable = false)
     private String categoryName;
@@ -29,14 +29,14 @@ public class Category {
     private boolean deleted;
 
     @Column(name="create_by", nullable = false)
-    private Integer createBy;
+    private int createBy;
 
     @Column(name="create_date")
     @CreationTimestamp
     private LocalDateTime createDate;
 
     @Column(name="update_by", nullable = true)
-    private Integer updateBy;
+    private int updateBy;
 
     @Column(name="update_date",nullable = true)
     private LocalDateTime updateDate;
@@ -44,7 +44,7 @@ public class Category {
     public String getCategoryName() {
         return categoryName;
     }
-    public Integer getCreateBy() {
+    public int getCreateBy() {
         return createBy;
     }
     public LocalDateTime getCreateDate() {
@@ -56,10 +56,10 @@ public class Category {
     public String getDescription() {
         return description;
     }
-    public Integer getId() {
+    public int getId() {
         return id;
     }
-    public Integer getUpdateBy() {
+    public int getUpdateBy() {
         return updateBy;
     }
     public LocalDateTime getUpdateDate() {
@@ -68,7 +68,7 @@ public class Category {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
-    public void setCreateBy(Integer createBy) {
+    public void setCreateBy(int createBy) {
         this.createBy = createBy;
     }
     public void setCreateDate(LocalDateTime createDate) {
@@ -80,10 +80,10 @@ public class Category {
     public void setDescription(String description) {
         this.description = description;
     }
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
-    public void setUpdateBy(Integer updateBy) {
+    public void setUpdateBy(int updateBy) {
         this.updateBy = updateBy;
     }
     public void setUpdateDate(LocalDateTime updateDate) {

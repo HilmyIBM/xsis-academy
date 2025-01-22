@@ -41,7 +41,7 @@
                     <tr th:each="item : ${variant}">
                         <td th:text="${item.id}"></td>
                         <td th:text="${item.name}"></td>
-                        <td th:text="${item.desc}"></td>
+                        <td th:text="${item.description}"></td>
                         <td>
                             <button th:data-id="${item.id}" class="btn btn-success btn-sm">Detail</button>
                             <button th:data-id="${item.id}" class="btn btn-warning btn-sm">Edit</button>
@@ -57,27 +57,27 @@
 
             <script>
                 $("#btnAdd").click(function(e){
-                    $("#staticModalBody").load("/category/add");
+                    $("#staticModalBody").load("/variant/add");
                 });
 
                 $(".btn-success").click(function (e) {
                     let catId = $(this).data("id");
 
-                    $("#staticModalBody").load("/category/" + catId);
+                    $("#staticModalBody").load("/variant/" + catId);
                     $("#staticModal").modal("show");
                 });
 
                 $(".btn-warning").click(function(e) {
                     let catId = $(this).data("id");
 
-                    $("#staticModalBody").load("/category/edit/" + catId);
+                    $("#staticModalBody").load("/variant/edit/" + catId);
                     $("#staticModal").modal("show");
                 });
 
                 $(".btn-danger").click(function(e) {
                     let catId = $(this).data("id");
 
-                    $("#staticModalBody").load("/category/delete/" + catId);
+                    $("#staticModalBody").load("/variant/delete/" + catId);
                     if (status === "error") {
                         alert("Failed to load confirmation modal!");
                         console.error(xhr.statusText);

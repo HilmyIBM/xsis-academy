@@ -33,7 +33,7 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody class="text-center" th:if="${category != null and !#lists.isEmpty(category)}">
+                    <tbody class="text-center" th:if="${category != null}">
                         <tr th:each="item : ${category}">
                             <td th:text="${item.id}"></td>
                             <td th:text="${item.categoryName}"></td>

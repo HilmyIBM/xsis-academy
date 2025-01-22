@@ -88,7 +88,6 @@ public class CategoryController {
 
         return view;
     }
-    @SuppressWarnings("null")
     @PostMapping("/create")
     public ResponseEntity<?> create(@ModelAttribute CategoryView category) {
         ResponseEntity<CategoryView> apiResponse = null;
@@ -118,7 +117,7 @@ public class CategoryController {
 
         try {
             // Get Category data by requested Category ID
-            apiResponse = restTemplate.getForEntity(apiUrl + "/category" + "/id/" + id, CategoryView.class);
+            apiResponse = restTemplate.getForEntity(apiUrl + "/category/id/" + id, CategoryView.class);
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 view.addObject("category", apiResponse.getBody());
@@ -139,10 +138,11 @@ public class CategoryController {
     @PostMapping("/update")
     ResponseEntity<?> update(@ModelAttribute CategoryView category) {
         ResponseEntity<CategoryView> apiResponse = null;
+        System.out.println(category.toString());
 
         try {
             restTemplate.put(apiUrl, category);
-            apiResponse = restTemplate.getForEntity(apiUrl+"/category" + "/id/" + category.getId(), CategoryView.class);
+            apiResponse = restTemplate.getForEntity(apiUrl+"/category/id/" + category.getId(), CategoryView.class);
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 return new ResponseEntity<CategoryView>(apiResponse.getBody(), HttpStatus.OK);

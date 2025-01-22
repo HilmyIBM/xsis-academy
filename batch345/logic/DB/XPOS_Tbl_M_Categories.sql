@@ -5,7 +5,7 @@ DROP TABLE Tbl_M_Categories
 CREATE TABLE Tbl_M_Categories(
 	id SERIAL NOT NULL,
 	category_name varchar(100) NOT NULL,
-	desc text NOT NULL,
+	description text NOT NULL,
 	is_deleted BOOLEAN DEFAULT FALSE,
 	create_by int NOT NULL,
 	create_date TIMESTAMP DEFAULT now(),
@@ -21,13 +21,13 @@ VALUES
 
 SELECT * FROM Tbl_M_Categories;
 
-ALTER TABLE Tbl_M_Categories DROP COLUMN description;
+ALTER TABLE Tbl_M_Variant DROP COLUMN "desc";
 
 ALTER TABLE Tbl_M_Categories
 	ALTER COLUMN description
 		DROP NOT NULL;
 
-ALTER TABLE Tbl_M_Categories RENAME COLUMN "desc" TO description;
+ALTER TABLE Tbl_M_variant RENAME COLUMN "desc" TO description;
 
     select
         c1_0.id,
