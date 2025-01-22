@@ -73,7 +73,7 @@
           $('#staticModal').modal("show");
         })
 
-        $(".btn-danger").click(function(e){
+        $(".btn-danger").click(function(e){ 
           let catId=$(this).data('id');
           $('#staticModalBody').load("/variant/delete/"+catId);
           $('#staticModal').modal("show");

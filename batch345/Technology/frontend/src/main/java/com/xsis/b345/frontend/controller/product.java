@@ -30,7 +30,6 @@ public class product {
     @Value("${application.api.url}")
     private String apiUrl;
     private RestTemplate restTemplate = new RestTemplate();
-    //private final String apiUrl="http://localhost:8080/api/product";
     private final String apiVariant="http://localhost:8080/api/variant";
 
     @GetMapping("/product")
@@ -116,6 +115,12 @@ public class product {
     public ResponseEntity<?> update(@ModelAttribute productView product,@RequestParam("Setimage") MultipartFile file) {
         ResponseEntity<productView[]> apiResponse=null;
         try {
+            if (!file.isEmpty()) {
+                String fileName = file.getOriginalFilename();
+                Path path = Paths.get("src/main/resources/static/lib/images/" + fileName);
+                Files.write(path, file.getBytes());
+                product.setImage(fileName);
+            }
             restTemplate.put(apiUrl+"/product", product);
             apiResponse=restTemplate.getForEntity(apiUrl+"/product/id/"+product.getId(), productView[].class);
             if (apiResponse.getStatusCode()==HttpStatus.OK) {
@@ -124,7 +129,6 @@ public class product {
                 throw new Exception(apiResponse.getStatusCode().toString()+" : "+apiResponse.getBody().toString());
            }
         } catch (Exception e) {
-            // TODO: handle exception
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

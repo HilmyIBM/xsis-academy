@@ -35,4 +35,18 @@ public interface  ProductRepo extends JpaRepository<ProductModel,Integer> {
     )
     Optional<List<Map<String,Object>>> findByNativeQuery();
 
+    @Query(value ="""
+    SELECT p.id,p.name,p.price,p.stock,p.image,v.name AS "variantName",c.category_name AS"categoryName",
+    p.is_deleted AS "isDeleted",p.create_by AS "createBy",p.create_date  AS "createDate",
+    p.update_by AS "updateBy",p.update_date AS "updateDate"
+    FROM tbl_m_product as p INNER JOIN tbl_m_variant AS v ON p.variant_id=v.id INNER JOIN tbl_m_categories AS c on v.category_id = c.id
+    WHERE p.is_deleted IS NOT TRUE AND (
+            p.name LIKE %:filter% OR
+            v.name LIKE %:filter% OR
+            c.category_name LIKE %:filter% OR
+            )
+            """
+    ,nativeQuery = true)
+    Optional<List<Map<String,Object>>> findByfilter(String filter);
+
 }
