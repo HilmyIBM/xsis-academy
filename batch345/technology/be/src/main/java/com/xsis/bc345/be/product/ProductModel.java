@@ -1,6 +1,5 @@
 package com.xsis.bc345.be.product;
 
-import com.xsis.bc345.be.category.CategoryModel;
 import com.xsis.bc345.be.variant.VariantModel;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,7 +16,7 @@ public class ProductModel {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "image")
+    @Column(name = "image", columnDefinition = "TEXT")
     private String image;
 
     @Column(name = "price")
