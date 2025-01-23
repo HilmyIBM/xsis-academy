@@ -64,6 +64,9 @@ public class ProductService {
 
         ProductModel existingProduct = product.get();
 
+        if (productModel.getImage() == null)
+            productModel.setImage(existingProduct.getImage());
+
         productModel.setCreateBy(existingProduct.getCreateBy());
         productModel.setCreateDate(existingProduct.getCreateDate());
         productModel.setUpdateDate(LocalDateTime.now());

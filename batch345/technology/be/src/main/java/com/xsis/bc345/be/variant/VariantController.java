@@ -14,7 +14,6 @@ public class VariantController {
 
     private final VariantService variantService;
 
-
     @Autowired
     public VariantController(VariantService variantService) {
         this.variantService = variantService;
@@ -23,6 +22,16 @@ public class VariantController {
     @GetMapping
     public ResponseEntity<List<VariantModel>> getAllVariant() {
         var data = variantService.getAllVariant();
+
+        if (data.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
+    @GetMapping("/category/{id}")
+    public ResponseEntity<List<VariantModel>> getAllByCategory(@PathVariable int id) {
+        var data = variantService.getAllByCategory(id);
 
         if (data.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

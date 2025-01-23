@@ -11,7 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VariantService {
@@ -38,6 +40,25 @@ public class VariantService {
         return variantRepository
                 .findAllByDeletedAndCategory_Deleted(false, false)
                 .orElse(List.of());
+    }
+
+    public List<VariantModel> getAllByCategory(int id) {
+        var data = variantRepository
+                .nativeFindAllVariantsByCategoryId(id);
+
+        if (data.isEmpty())
+            return List.of();
+
+        return data.get()
+                .stream()
+                .map(v -> {
+                    VariantModel mod = new VariantModel();
+
+                    mod.setName(v.getName());
+                    mod.setId(v.getId());
+
+                    return mod;
+                }).collect(Collectors.toCollection(ArrayList::new));
     }
 
     public VariantModel getById(int id, boolean deleted) {
