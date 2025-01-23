@@ -4,8 +4,6 @@ import com.xsis.master.category.CategoryModel;
 import com.xsis.master.util.ErrorModel;
 import com.xsis.master.util.ProcessAPI;
 import com.xsis.master.util.RequestType;
-import com.xsis.master.variant.VariantDTO;
-import com.xsis.master.variant.VariantModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
@@ -42,15 +40,15 @@ public class ProductController {
         ModelAndView view = new ModelAndView("master/product/add");
         view.addObject("title", "Add New Product");
 
-        ResponseEntity<List<VariantModel>> apiResponse;
+        ResponseEntity<List<CategoryModel>> apiResponse;
 
         try {
-            apiResponse = restTemplate.exchange("http://localhost:8080/api/variant", HttpMethod.GET,
+            apiResponse = restTemplate.exchange("http://localhost:8080/api/category", HttpMethod.GET,
                     new HttpEntity<>(new ArrayList<>()),
                     new ParameterizedTypeReference<>(){});
 
             if (apiResponse.getStatusCode() == HttpStatus.OK || apiResponse.getStatusCode() == HttpStatus.NO_CONTENT) {
-                view.addObject("variants", apiResponse.getBody());
+                view.addObject("category", apiResponse.getBody());
 
                 return view;
             }
@@ -70,7 +68,7 @@ public class ProductController {
         view.addObject("title", "Edit Product");
 
         ResponseEntity<ProductModel> apiProductResp;
-        ResponseEntity<List<VariantModel>> apiVariantsResp;
+        ResponseEntity<List<CategoryModel>> apiCategoryResp;
         ExecutorService executor = Executors.newFixedThreadPool(2);
 
         try {
@@ -83,17 +81,17 @@ public class ProductController {
                     restTemplate.exchange(API_URL + "/" + id,
                             HttpMethod.GET, httpEntity, ProductModel.class));
 
-            Future<ResponseEntity<List<VariantModel>>> fVariant = executor.submit(() ->
-                    restTemplate.exchange("http://localhost:8080/api/variant", HttpMethod.GET,
+            Future<ResponseEntity<List<CategoryModel>>> fCategory = executor.submit(() ->
+                    restTemplate.exchange("http://localhost:8080/api/category", HttpMethod.GET,
                             new HttpEntity<>(new ArrayList<>(), header),
                             new ParameterizedTypeReference<>(){}));
 
             apiProductResp = fProduct.get();
-            apiVariantsResp = fVariant.get();
+            apiCategoryResp = fCategory.get();
 
-            if (apiProductResp.getStatusCode() == HttpStatus.OK && apiVariantsResp.getStatusCode() == HttpStatus.OK) {
+            if (apiProductResp.getStatusCode() == HttpStatus.OK && apiCategoryResp.getStatusCode() == HttpStatus.OK) {
                 view.addObject("product", apiProductResp.getBody());
-                view.addObject("variants", apiVariantsResp.getBody());
+                view.addObject("category", apiCategoryResp.getBody());
             }
 
         } catch (HttpClientErrorException e) {
