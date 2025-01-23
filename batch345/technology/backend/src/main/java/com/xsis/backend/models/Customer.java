@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 
 @Entity
 @Table(name = "tbl_m_customer")
@@ -22,6 +23,7 @@ public class Customer {
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
+    @Email(message = "Invalid email format")
     @Column(name = "email", length = 50, unique = true, nullable = false)
     private String email;
 

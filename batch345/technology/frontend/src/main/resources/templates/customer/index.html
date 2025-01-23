@@ -18,7 +18,6 @@
           type="button"
           class="btn btn-success"
           data-bs-toggle="modal"
-          data-bs-target="#staticModal"
         >
           Add
         </button>
@@ -140,23 +139,24 @@
       </div>
       <script>
         $("#btnAdd").click(function (e) {
-          $("#staticModalBody").load("/customer/add");
+          $("#staticModalLgBody").load("/customer/add");
+          $("#staticModalLg").modal("show");
         });
         $(".btn-edit").click(function (e) {
           let catId = $(this).data("id");
 
-          $("#staticModalBody").load("/customer/edit/" + catId);
-          $("#staticModal").modal("show");
+          $("#staticModalLgBody").load("/customer/edit/" + catId);
+          $("#staticModalLg").modal("show");
         });
         $(".btn-detail").click(function (e) {
           let catId = $(this).data("id");
-          $("#staticModalBody").load("/customer/" + catId);
-          $("#staticModal").modal("show");
+          $("#staticModalLgBody").load("/customer/" + catId);
+          $("#staticModalLg").modal("show");
         });
         $(".btn-delete").click(function (e) {
           let catId = $(this).data("id");
-          $("#staticModalBody").load("/customer/delete/" + catId);
-          $("#staticModal").modal("show");
+          $("#staticModalLgBody").load("/customer/delete/" + catId);
+          $("#staticModalLg").modal("show");
         });
       </script>
     </div>
