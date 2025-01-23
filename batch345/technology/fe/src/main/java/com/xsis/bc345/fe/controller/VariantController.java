@@ -134,14 +134,6 @@ public class VariantController {
         ResponseEntity<List<CategoryView>> categoryResponse = null;
 
         try {
-            // apiResponse = restTemplate.getForEntity(apiUrl + "/variant/id/" + id , VariantView.class);
-            // if (apiResponse.getStatusCode() == HttpStatus.OK) {
-            //     VariantView data = apiResponse.getBody();
-            //     view.addObject("variant", data);
-            // } else {
-            //     throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
-            // }
-
             // Mengambil data variant berdasarkan ID
             apiResponse = restTemplate.getForEntity(apiUrl + "/variant/id/" + id, VariantView.class);
 

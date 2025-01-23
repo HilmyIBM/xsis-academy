@@ -34,3 +34,4 @@ build/
 
 # Font awesome
 **/static/lib/fontawesome/
+**/static/assets/img/

@@ -1,0 +1,119 @@
+<span id="txTitle" th:text="${title}" class="d-none"></span>
+
+<form id="frmEditProduct" enctype="multipart/form-data"> 
+    <input type="hidden" name="id" id="txtId" th:value="${product.id}">
+    <input type="hidden" name="updateBy" id="txtUpdateBy" value="2">
+    <input type="hidden" name="currentImage" id="txtUpdateBy" th:value="${product.image}">
+    <div class="card">
+        <div class="card-body">
+            <div class="row d-flex align-items-stretch">
+                <div class="col-4">
+                    <div class="d-flex justify-content-center mb-2">
+                        <div style="width: 200px; height: 200px; overflow: hidden; display: inline-block;" class="">
+                            <img th:if="${product.image != null}" th:src="@{/assets/img/{imageName}(imageName=${product.image})}" class="img-fluid" alt="gambar ID" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img th:unless="${product.image != null}" src="assets/img/default.png" class="img-fluid" alt="gambar ID" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="image" class="form-label">Upload Image</label>
+                        <input type="file" class="form-control" id="image" name="SetImage" accept="image/jpeg, image/jpg, image/png">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group mb-2">
+                        <label for="txtName" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" name="name" id="txtName" th:value="${product.name}">
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="txtPrice" class="form-label">Price</label>
+                                <input type="number" class="form-control" name="price" id="txtPrice" th:value="${product.price}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="txtStock" class="form-label">Stock</label>
+                                <input type="number" class="form-control" name="stock" id="txtStock" th:value="${product.stock}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="variantId" class="form-label">Variant</label>
+                        <select class="form-select" aria-label="Default select example" name="variantId" id="variantId">
+                            <option value="">Select Variant</option>
+                            <option th:each="item : ${variant}" th:value="${item.id}" th:text="${item.name}"
+                                th:selected="${item.id == product.variantId}">One</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+         </div>
+    </div>
+    <div class="d-flex justify-content-end mt-3">
+        <button type="submit" class="btn btn-dark"><i class="fas fa-save"></i> Save</button>
+    </div>
+</form>
+
+
+<script>
+    $(document).ready(function(){
+        $('#staticModalLabelLg').text($("#txTitle").text());
+
+        $.validator.addMethod("extension", function (value, element, param) {
+            var fileExtension = (value.substr(value.lastIndexOf('.') + 1) || '').toLowerCase();
+            return this.optional(element) || param.split('|').indexOf(fileExtension) !== -1;
+        }, "Please upload a valid file (jpg, jpeg, png).");
+
+        $('#frmNewProduct').validate({
+            'rules': {
+                'name': {
+                    'required': true,
+                    'maxlength': 100,
+                    'minlength': 3
+                },
+                'stock': {
+                    'number': true,
+                    'min': 0
+                },
+                'price': {
+                    'number': true,
+                    'min': 0
+                },
+                'variantId': {
+                    'required': true
+                },
+                'image': {
+                    'required': true,
+                    'extension': 'jpg|jpeg|png'  // Validasi untuk tipe gambar jpg, jpeg, atau png
+                }
+            },
+            'errorClass': 'text-danger'
+        });
+
+        $('#frmEditProduct').submit(function(e){
+            e.preventDefault();
+
+            if($('#frmEditProduct').valid()){
+                var formData = new FormData(this); // Membaca form data termasuk file gambar
+                $.ajax({
+                    url: '/product/update',
+                    type: 'post',
+                    data: formData,
+                    contentType: false, // Menggunakan FormData, jadi kita tidak menetapkan content-type
+                    processData: false, // Tidak perlu proses data
+                    beforeSend: () => {
+                        // alert("mengirim data ke API");
+                    },
+                    success: function(response){
+                        alert("Product " + response.name + " succesfully updated!");
+                        location.reload();
+                    },
+                    error: function(errResponse){
+                        console.error("update product failed" + errResponse.responseText)
+                    },
+                });
+            }
+        });
+    })
+</script>

@@ -19,7 +19,7 @@
                     <select class="form-select" aria-label="Default select example" name="categoryId" id="categoryId">
                         <option value="">Select Categories</option>
                         <!-- <option th:each="item:${category}" th:value="${item.id}" th:text="${item.categoryName}">One</option> -->
-                         <option th:each="item : ${category}" th:value="${item.id}" th:text="${item.categoryName}"
+                        <option th:each="item : ${category}" th:value="${item.id}" th:text="${item.categoryName}"
                             th:selected="${item.id == variant.categoryId}">One</option>
                     </select>
                 </div>

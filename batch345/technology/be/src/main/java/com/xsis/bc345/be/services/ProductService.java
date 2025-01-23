@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xsis.bc345.be.models.Product;
+import com.xsis.bc345.be.models.Variant;
 import com.xsis.bc345.be.repositories.ProductRepository;
 
 @Service
@@ -42,8 +43,30 @@ public class ProductService {
         }
     }
 
+    public Map<String, Object> getByIdNative(int id){
+        try {
+            return productRepo.findByIdNative(id).get();
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
     public Product create(Product data) throws Exception{
         return productRepo.save(data);
+    }
+
+    public Product update(Product data) throws Exception {
+        existingProduct = productRepo.findById(data.getId());
+        if(existingProduct.isPresent()){
+            data.setCreateBy(existingProduct.get().getCreateBy());
+            data.setCreateDate(existingProduct.get().getCreateDate());
+            data.setUpdateDate(LocalDateTime.now());
+
+            // Update
+            return productRepo.save(data);
+        }else{
+            throw new Exception("Product doesn't exist!");
+        }
     }
 
     public Product delete(int id, int userId) throws Exception {

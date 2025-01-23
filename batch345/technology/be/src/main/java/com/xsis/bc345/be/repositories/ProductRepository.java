@@ -46,5 +46,18 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
         """
     )
     Optional<List<Map<String, Object>>> findByFilter(String filter);
+
+    @Query(
+        nativeQuery = true,
+        value =
+        """
+            SELECT p.*, p.create_date AS "createDate", p.update_date AS "updateDate", p.update_by AS "updateBy", v.id AS "variantId", v.name AS "variantName", c.id AS "categoryId", c.category_name AS "categoryName"
+            FROM tbl_m_product p
+                INNER JOIN tbl_m_variant v ON p.variant_id = v.id
+                INNER JOIN tbl_m_categories c ON v.category_id = c.id  
+            WHERE p.id = :id 
+        """
+    )
+    Optional<Map<String, Object>> findByIdNative(int id);
     
 }

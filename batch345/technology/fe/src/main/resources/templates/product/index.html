@@ -84,19 +84,19 @@
                 $("#staticModalBody").load("/product/add");
             });
 
-            // $(".btn-info").click(function(e){
-            //     let catId = $(this).data("id");
+            $(".btn-info").click(function(e){
+                let catId = $(this).data("id");
 
-            //     $("#staticModalBody").load("/category/" + catId);
-            //     $("#staticModal").modal("show");
-            // })
+                $("#staticModalBody").load("/product/" + catId);
+                $("#staticModal").modal("show");
+            })
 
-            // $(".btn-warning").click(function(e){
-            //     let catId = $(this).data("id");
+            $(".btn-warning").click(function(e){
+                let catId = $(this).data("id");
 
-            //     $("#staticModalBody").load("/category/edit/" + catId);
-            //     $("#staticModal").modal("show");
-            // })
+                $("#staticModalBodyLg").load("/product/edit/" + catId);
+                $("#staticModalLg").modal("show");
+            })
 
             $(".btn-danger").click(function() {
                 let catId = $(this).data("id");
