@@ -1,0 +1,96 @@
+<input type="hidden" id="txtTitle" th:value="${title}" />
+<div class="card">
+  <div class="card-body">
+    <form
+      th:action="@{~/product/create}"
+      id="formNewProduct"
+      class="d-grid gap-3"
+      method="post"
+    >
+      <input type="hidden" id="txtCreateBy" name="createBy" value="1" />
+      <div class="form-group">
+        <label for="formFile" class="form-label">Input Product Image</label>
+        <input class="form-control" type="file" id="formFile" />
+      </div>
+      <div class="form-group">
+        <label for="txtImage" class="form-label">URL Product Image</label>
+        <input type="text" class="form-control" id="txtImage" name="image" />
+      </div>
+      <div class="form-group">
+        <label for="txtName" class="form-label">Product Name</label>
+        <input type="text" class="form-control" id="txtName" name="name" />
+      </div>
+      <div class="form-group">
+        <label for="txtPrice" class="form-label">Price</label>
+        <input type="number" class="form-control" id="txtPrice" name="price" />
+      </div>
+      <div class="form-group">
+        <label for="txtStock" class="form-label">Stock</label>
+        <input type="number" class="form-control" id="txtStock" name="stock" />
+      </div>
+      <div class="form-group">
+        <label for="slcVariant" class="form-label">Variant</label>
+        <select id="slcVariant" class="form-select" name="variantId">
+          <option value="">--Select Variant--</option>
+          <option
+            th:if="${variant!=null}"
+            th:each="item:${variant}"
+            th:text="${item.name}"
+            th:value="${item.id}"
+          >
+            Variant Name
+          </option>
+        </select>
+      </div>
+      <div class="text-right d-flex justify-content-end">
+        <button type="submit" class="btn btn-success">
+          <i class="fas fa-save"></i> Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $("#staticModalLabel").text($("#txtTitle").val());
+    $("#formNewProduct").validate({
+      rules: {
+        name: {
+          required: true,
+          maxlength: 50,
+          minlength: 3,
+        },
+        variantId: {
+          required: true,
+        },
+      },
+      errorClass: "text-danger",
+    });
+
+    $("#formNewProduct").submit(function (e) {
+      e.preventDefault();
+
+      if ($("#formNewProduct").valid()) {
+        $.ajax({
+          url: "/product/create",
+          type: "post",
+          data: $("#formNewProduct").serialize(),
+          dataType: "json",
+          beforeSend: () => {
+            // alert("Mengirim data ke API");
+          },
+          success: function (response) {
+            alert("Product " + response.name + " successfully update!");
+            location.reload();
+          },
+          error: function (errResponse) {
+            console.error(
+              "Create new Product Failed: " + errResponse.responseText
+            );
+          },
+        });
+      }
+    });
+  });
+</script>

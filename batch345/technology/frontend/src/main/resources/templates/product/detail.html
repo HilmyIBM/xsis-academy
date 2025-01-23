@@ -1,0 +1,137 @@
+<input type="hidden" id="txtTitle" th:value="${title}" />
+<div class="card">
+  <div class="card-body">
+    <div id="formDetailProduct" class="d-grid gap-3">
+      <input type="hidden" name="id" id="txtId" th:value="${product.id}" />
+      <input type="hidden" name="updateBy" id="txtUpdateBy" value="2" />
+      <div class="form-group">
+        <label for="txtImage" class="form-label">URL Product Image</label>
+        <input
+          type="text"
+          disabled
+          readonly
+          class="form-control"
+          id="txtImage"
+          name="image"
+          th:value="${product.image}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="txtName" class="form-label">Product Name</label>
+        <input
+          type="text"
+          disabled
+          readonly
+          class="form-control"
+          id="txtName"
+          name="name"
+          th:value="${product.name}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="txtPrice" class="form-label">Price</label>
+        <input
+          type="number"
+          disabled
+          readonly
+          class="form-control"
+          id="txtPrice"
+          name="price"
+          th:value="${product.price}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="txtStock" class="form-label">Stock</label>
+        <input
+          type="number"
+          disabled
+          readonly
+          class="form-control"
+          id="txtStock"
+          name="stock"
+          th:value="${product.stock}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="txtCategory" class="form-label">Category</label>
+        <input
+          type="text"
+          disabled
+          readonly
+          class="form-control"
+          id="txtCategory"
+          name="categoryName"
+          th:value="${product.categoryName}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="slcVariant" class="form-label">Variant</label>
+        <select
+          disabled
+          readonly
+          id="slcVariant"
+          class="form-select"
+          name="variantId"
+        >
+          <option th:text="${product.variantName}" selected>Variant Name</option>
+        </select>
+      </div>
+      <div class="row row-cols-2">
+        <div class="form-group col">
+          <label for="txtDescription" class="form-label">Created by</label>
+          <input
+            type="text"
+            disabled
+            readonly
+            class="form-control"
+            id="txtDescription"
+            name="description"
+            th:value="${product.createBy}"
+          />
+        </div>
+        <div class="form-group col">
+          <label for="txtDescription" class="form-label">Updated by</label>
+          <input
+            type="text"
+            disabled
+            readonly
+            class="form-control"
+            id="txtDescription"
+            name="description"
+            th:value="${product.updateBy}"
+          />
+        </div>
+        <div class="form-group col mt-3">
+          <label for="txtDescription" class="form-label">Create date</label>
+          <input
+            type="text"
+            disabled
+            readonly
+            class="form-control"
+            id="txtDescription"
+            name="description"
+            th:value="${product.createDate}"
+          />
+        </div>
+        <div class="form-group col mt-3">
+          <label for="txtDescription" class="form-label">Update date</label>
+          <input
+            type="text"
+            disabled
+            readonly
+            class="form-control"
+            id="txtDescription"
+            name="description"
+            th:value="${product.updateDate}"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $("#staticModalLabel").text($("#txtTitle").val());
+  });
+</script>
