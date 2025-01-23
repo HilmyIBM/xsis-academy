@@ -101,7 +101,7 @@ public class VariantModel {
                 ", createDate=" + createDate +
                 ", updateBy=" + updateBy +
                 ", updateDate=" + updateDate +
-                ", category=" + category.toString() +
+                ", category=" + category +
                 '}';
     }
 }
