@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -47,7 +48,8 @@ public class VariantController {
         try {
             apiResponse = restTemplate.exchange("http://localhost:8080/api/category", HttpMethod.GET,
                     new HttpEntity<>(new ArrayList<>()),
-                    new ParameterizedTypeReference<>(){});
+                    new ParameterizedTypeReference<>() {
+                    });
 
             if (apiResponse.getStatusCode() == HttpStatus.OK || apiResponse.getStatusCode() == HttpStatus.NO_CONTENT) {
                 view.addObject("category", apiResponse.getBody());
@@ -61,6 +63,28 @@ public class VariantController {
         }
 
         return view;
+    }
+
+    @GetMapping("/category/{id}")
+    public ResponseEntity<?> getVariantByCategory(@PathVariable int id) {
+        ResponseEntity<List<VariantModel>> apiResps;
+
+        var header = new HttpHeaders();
+        header.setContentType(MediaType.APPLICATION_JSON);
+
+        apiResps = restTemplate.exchange(API_URL + "/category/" + id,
+                HttpMethod.GET,
+                new HttpEntity<>(new ArrayList<>(), header),
+                new ParameterizedTypeReference<>() {});
+
+        if (apiResps.getStatusCode() == HttpStatus.OK) {
+            Objects.requireNonNull(apiResps.getBody())
+                    .forEach(v -> log.info(v.toString()));
+
+            return new ResponseEntity<>(apiResps.getBody(), apiResps.getStatusCode());
+        }
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/edit/{id}")
@@ -81,12 +105,13 @@ public class VariantController {
 
             Future<ResponseEntity<VariantModel>> fVariant = executor.submit(() ->
                     restTemplate.exchange(API_URL + "/" + id,
-                    HttpMethod.GET, httpEntity, VariantModel.class));
+                            HttpMethod.GET, httpEntity, VariantModel.class));
 
             Future<ResponseEntity<List<CategoryModel>>> fCategory = executor.submit(() ->
                     restTemplate.exchange("http://localhost:8080/api/category", HttpMethod.GET,
                             new HttpEntity<>(new ArrayList<>(), header),
-                            new ParameterizedTypeReference<>(){}));
+                            new ParameterizedTypeReference<>() {
+                            }));
 
             apiVariantResp = fVariant.get();
             apiCategoryResp = fCategory.get();
@@ -96,12 +121,8 @@ public class VariantController {
                 view.addObject("category", apiCategoryResp.getBody());
             }
 
-        } catch (HttpClientErrorException e) {
-            ErrorModel er = e.getResponseBodyAs(ErrorModel.class);
-            log.error(Objects.requireNonNull(er).toString());
-            view.addObject("error", er);
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
         } finally {
             executor.shutdown();
         }
@@ -129,15 +150,13 @@ public class VariantController {
                 view.addObject("variant", apiResponse.getBody());
 
         } catch (HttpClientErrorException e) {
-            ErrorModel er = e.getResponseBodyAs(ErrorModel.class);
-            log.error(Objects.requireNonNull(er).toString());
-            view.addObject("error", er);
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
+            view.addObject("error", e.getResponseBodyAs(ErrorModel.class));
         }
 
         return view;
     }
+
+    // ===================== REST =====================
 
 
     @GetMapping
@@ -148,7 +167,8 @@ public class VariantController {
         try {
             apiResponse = restTemplate.exchange(API_URL, HttpMethod.GET,
                     new HttpEntity<>(new ArrayList<>()),
-                    new ParameterizedTypeReference<>(){});
+                    new ParameterizedTypeReference<>() {
+                    });
 
             if (apiResponse.getStatusCode() == HttpStatus.OK || apiResponse.getStatusCode() == HttpStatus.NO_CONTENT) {
                 view.addObject("variant", apiResponse.getBody());
@@ -192,10 +212,12 @@ public class VariantController {
         switch (type) {
             case DETAIL -> {
                 attributes.put("title", "Variant Details");
-                return new ModelAndView("master/variant/details", attributes); }
+                return new ModelAndView("master/variant/details", attributes);
+            }
             case DELETE -> {
                 attributes.put("title", "Delete Variant");
-                return new ModelAndView("master/variant/delete", attributes); }
+                return new ModelAndView("master/variant/delete", attributes);
+            }
             default -> throw new UnsupportedOperationException();
         }
     }
