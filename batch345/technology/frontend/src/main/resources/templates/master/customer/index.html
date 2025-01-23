@@ -1,47 +1,76 @@
 <!DOCTYPE html>
-<html lang="en"
-layout:decorate="~{fragments/layout}">
-<head>
-  <title>Category</title>
-</head>
-<body>
-  <div layout:fragment="content">
-    <h1>Welcome to Category</h1>
-    <hr style="opacity: 1;"/>
-    <button type="button" class="btn btn-success" id="btnAdd" data-bs-toggle="modal" data-bs-target="#staticModal"><i class="fas fa-plus"></i> Add</button>
-    <table class="table table-striped" id="tb-customer">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Email</th>
-          <th scope="col">Address</th>
-          <th scope="col">Phone</th>
-          <th scope="col">Role ID</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="item:${customer}">
-          <td th:text="${item.id}"></td>
-          <td th:text="${item.name}">Appetizer</td>
-          <td th:text="${item.email}">Category of Appetizer</td>
-          <td th:text="${item.address}">Category of Appetizer</td>
-          <td th:text="${item.phone}">Category of Appetizer</td>
-          <td th:text="${item.roleId}">Category of Appetizer</td>
-          <td>
-            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-              <button type="button" class="btn btn-success" th:data-id="${item.id}">Detail</button>
-              <button type="button" class="btn btn-warning" th:data-id="${item.id}">Edit</button>
-              <button type="button" class="btn btn-danger" th:data-id="${item.id}">Delete</button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <script>
-      new DataTable('#tb-customer');
-    </script>
-  </div>
-</body>
+<html lang="en" layout:decorate="~{fragments/layout}">
+  <head>
+    <title>Category</title>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <h1>Welcome to Category</h1>
+      <hr style="opacity: 1" />
+      <button
+        type="button"
+        class="btn btn-success"
+        id="btnAdd"
+        data-bs-toggle="modal"
+        data-bs-target="#staticModal"
+      >
+        <i class="fas fa-plus"></i> Add
+      </button>
+      <table class="table table-striped" id="tb-customer">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Address</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Role ID</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="item:${customer}">
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.name}">Appetizer</td>
+            <td th:text="${item.email}">Category of Appetizer</td>
+            <td th:text="${item.address}">Category of Appetizer</td>
+            <td th:text="${item.phone}">Category of Appetizer</td>
+            <td th:text="${item.roleId}">Category of Appetizer</td>
+            <td>
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Basic mixed styles example"
+              >
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  th:data-id="${item.id}"
+                >
+                  Detail
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-warning"
+                  th:data-id="${item.id}"
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  th:data-id="${item.id}"
+                >
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <script>
+        new DataTable("#tb-customer");
+      </script>
+    </div>
+  </body>
 </html>

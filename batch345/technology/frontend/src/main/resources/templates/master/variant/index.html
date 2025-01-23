@@ -1,70 +1,99 @@
 <!DOCTYPE html>
-<html lang="en"
-layout:decorate="~{fragments/layout}">
-<head>
-  <title>Variant</title>
-</head>
-<body>
-  <div layout:fragment="content">
-    <h1>Welcome to Variant</h1>
-    <h1 th:text="${errorMsg}"></h1>
-    <hr style="opacity: 1;"/>
-    <button type="button" class="btn btn-success" id="btnAdd" data-bs-toggle="modal" data-bs-target="#staticModal"><i class="fas fa-plus"></i> Add</button>
-    <table class="table table-striped" id="tb-variant">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Category</th>
-          <th scope="col">Description</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="item : ${variant}">
-          <th th:text="${item.id}" scope="row">1</th>
-          <td th:text="${item.name}">Bread</td>
-          <td th:text="${item.categoryName}">Bread</td>
-          <!-- <td>
+<html lang="en" layout:decorate="~{fragments/layout}">
+  <head>
+    <title>Variant</title>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <h1>Welcome to Variant</h1>
+      <h1 th:text="${errorMsg}"></h1>
+      <hr style="opacity: 1" />
+      <button
+        type="button"
+        class="btn btn-success"
+        id="btnAdd"
+        data-bs-toggle="modal"
+        data-bs-target="#staticModal"
+      >
+        <i class="fas fa-plus"></i> Add
+      </button>
+      <table class="table table-striped" id="tb-variant">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Category</th>
+            <th scope="col">Description</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="item : ${variant}">
+            <th th:text="${item.id}" scope="row">1</th>
+            <td th:text="${item.name}">Bread</td>
+            <td th:text="${item.categoryName}">Bread</td>
+            <!-- <td>
             <span th:each="cat:${category}" th:if="${item.categoryId} == ${cat.id}" th:text="${cat.categoryName}"></span>
           </td> -->
-          <td th:text="${item.description}">Variant of Bread</td>
-          <td>
-            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-              <button type="button" class="btn btn-success" th:data-id="${item.id}">Detail</button>
-              <button type="button" class="btn btn-warning" th:data-id="${item.id}">Edit</button>
-              <button type="button" class="btn btn-danger" th:data-id="${item.id}">Delete</button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        new DataTable('#tb-variant');
-      });
-      $("#btnAdd").click(function(e) {
-        $("#staticModalBody").load("variant/add");
-      });
-      $(".btn-warning").click(function(e) {
-        let varId = $(this).data('id');
+            <td th:text="${item.description}">Variant of Bread</td>
+            <td>
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Basic mixed styles example"
+              >
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  th:data-id="${item.id}"
+                >
+                  Detail
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-warning"
+                  th:data-id="${item.id}"
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  th:data-id="${item.id}"
+                >
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          new DataTable("#tb-variant");
+        });
+        $("#btnAdd").click(function (e) {
+          $("#staticModalBody").load("variant/add");
+        });
+        $(".btn-warning").click(function (e) {
+          let varId = $(this).data("id");
 
-        $("#staticModalBody").load("/variant/edit/" + varId);
-        $("#staticModal").modal("show");
-      });
-      $(".btn-success").click(function(e) {
-        let varId = $(this).data("id");
+          $("#staticModalBody").load("/variant/edit/" + varId);
+          $("#staticModal").modal("show");
+        });
+        $(".btn-success").click(function (e) {
+          let varId = $(this).data("id");
 
-        $("#staticModalBody").load("/variant/" + varId);
-        $("#staticModal").modal("show");
-      })
-      $(".btn-danger").click(function(e) {
-        let varId = $(this).data("id");
+          $("#staticModalBody").load("/variant/" + varId);
+          $("#staticModal").modal("show");
+        });
+        $(".btn-danger").click(function (e) {
+          let varId = $(this).data("id");
 
-        $("#staticModalBody").load("/variant/delete/" + varId);
-        $("#staticModal").modal("show");
-      })
-    </script>
-  </div>
-</body>
+          $("#staticModalBody").load("/variant/delete/" + varId);
+          $("#staticModal").modal("show");
+        });
+      </script>
+    </div>
+  </body>
 </html>

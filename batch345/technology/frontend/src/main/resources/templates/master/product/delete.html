@@ -1,12 +1,12 @@
 <input type="hidden" id="txtTitle" th:value="${title}" />
-<input type="hidden" id="varId" th:value="${id}" />
+<input type="hidden" id="prodId" th:value="${id}" />
 <div class="card">
   <div class="card-body">
     <div class="col text-center h4">
       <i class="fas fa-question-circle text-info"></i>
     </div>
     <div class="col-11">
-      Are you sure want to delete Variant with ID <span th:text="${id}"></span>?
+      Are you sure want to delete Product with ID <span th:text="${id}"></span>?
     </div>
   </div>
   <div class="card-footer d-flex justify-content-end">
@@ -20,20 +20,20 @@
     $("#staticModelLabel").text($("#txtTitle").val());
 
     $(".card-footer > .btn-danger").click(function (e) {
-      let varId = $("#varId").val();
+      let prodId = $("#prodId").val();
       let userId = 1;
       $.ajax({
-        url: "variant/delete/" + varId + "/" + userId,
+        url: "product/delete/" + prodId + "/" + userId,
         type: "post",
         beforeSend: () => {
           alert("Menghapus Data");
         },
         success: (response) => {
-          alert("Variant dengan ID" + varId + "berhasil dihapus");
+          alert("Product dengan ID " + prodId + " berhasil dihapus");
           location.reload();
         },
         error: (errResponse) => {
-          alert("Gagal hapus variant");
+          alert("Gagal hapus product");
           console.error("Hapus data gagal : " + errResponse.responseText);
         },
       });

@@ -1,84 +1,115 @@
 <!DOCTYPE html>
-<html lang="en"
-layout:decorate="~{fragments/layout}">
-<head>
-  <title>Product</title>
-</head>
-<body>
-  <div layout:fragment="content">
-    
-  <style>
-    .img-thumbnail {
-      width: 75px; /* Ukuran lebar gambar */
-      height: 75px; /* Ukuran tinggi gambar */
-      object-fit: cover; /* Memotong gambar agar tetap proporsional */
-    }
-  </style>
-    <h1>Welcome to Product</h1>
-    <h1 th:text="${errorMsg}"></h1>
-    <hr style="opacity: 1;"/>
-    <button type="button" class="btn btn-success" id="btnAdd" data-bs-toggle="modal" data-bs-target="#staticModal"><i class="fas fa-plus"></i> Add</button>
-    
-    <table class="table table-striped" id="tb-product">
-      <thead>
-        <tr>
-          <th scope="col">Image</th>
-          <th scope="col">ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Variant</th>
-          <th scope="col">Category</th>
-          <th scope="col">Price</th>
-          <th scope="col">Stock</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="item:${product}">
-          <td>
-            <img th:src="@{'/img/' + ${item.image}}" alt="product "class="img-thumbnail rounded-circle">
-          </td>
-          <td th:text="${item.id}">1</td>
-          <td th:text="${item.name}">Carbonara</td>
-          <td th:text="${item.variantName}">Variant</td>
-          <td th:text="${item.categoryName}">Category</td>
-          <td th:text="${item.price}">Main Course</td>
-          <td th:text="${item.stock}">Pasta</td>
-          <td>
-            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-              <button type="button" class="btn btn-success" th:data-id="${item.id}">Detail</button>
-              <button type="button" class="btn btn-warning" th:data-id="${item.id}">Edit</button>
-              <button type="button" class="btn btn-danger" th:data-id="${item.id}">Delete</button>
-            </div>
-          </td>
-        </tr>
-        
-      </tbody>
-    </table>
-    <script>
-      new DataTable('#tb-product');
-      $("#btnAdd").click(function(e) {
-        $("#staticModalBody").load("product/add");
-      });
-      $(".btn-success").click(function(e) {
-        let prodId = $(this).data("id");
+<html lang="en" layout:decorate="~{fragments/layout}">
+  <head>
+    <title>Product</title>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <style>
+        .img-thumbnail {
+          width: 75px; /* Ukuran lebar gambar */
+          height: 75px; /* Ukuran tinggi gambar */
+          object-fit: cover; /* Memotong gambar agar tetap proporsional */
+        }
+      </style>
+      <h1>Welcome to Product</h1>
+      <h1 th:text="${errorMsg}"></h1>
+      <hr style="opacity: 1" />
+      <button
+        type="button"
+        class="btn btn-success"
+        id="btnAdd"
+        data-bs-toggle="modal"
+        data-bs-target="#staticModal"
+      >
+        <i class="fas fa-plus"></i> Add
+      </button>
 
-        $("#staticModalBody").load("/product/" + prodId);
-        $("#staticModal").modal("show");
-      })
-      
-      $(".btn-danger").click(function(e) {
-        let prodId = $(this).data("id");
+      <table class="table table-striped" id="tb-product">
+        <thead>
+          <tr>
+            <th scope="col">Image</th>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Variant</th>
+            <th scope="col">Category</th>
+            <th scope="col">Price</th>
+            <th scope="col">Stock</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="item:${product}">
+            <td>
+              <img
+                th:src="@{'/img/' + ${item.image}}"
+                alt="product "
+                class="img-thumbnail rounded-circle"
+              />
+            </td>
+            <td th:text="${item.id}">1</td>
+            <td th:text="${item.name}">Carbonara</td>
+            <td th:text="${item.variantName}">Variant</td>
+            <td th:text="${item.categoryName}">Category</td>
+            <td th:text="${item.price}">Main Course</td>
+            <td th:text="${item.stock}">Pasta</td>
+            <td>
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Basic mixed styles example"
+              >
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  th:data-id="${item.id}"
+                >
+                  Detail
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-warning"
+                  th:data-id="${item.id}"
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  th:data-id="${item.id}"
+                >
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <script>
+        new DataTable("#tb-product");
+        $("#btnAdd").click(function (e) {
+          $("#staticModalBody").load("product/add");
+        });
+        $(".btn-success").click(function (e) {
+          let prodId = $(this).data("id");
 
-        $("#staticModalBody").load("/prodcuct/delete/" + prodId);
-        $("#staticModal").modal("show");
-      })
-      $(".btn-warning").click(function(e) {
-        let prodId = $(this).data('id');
+          $("#staticModalBody").load("/product/" + prodId);
+          $("#staticModal").modal("show");
+        });
 
-        $("#staticModalBody").load("/product/edit/" + prodId);
-        $("#staticModal").modal("show");
-      });
-    </script>
-  </div>
-</body>
+        $(".btn-danger").click(function (e) {
+          let prodId = $(this).data("id");
+
+          $("#staticModalBody").load("/product/delete/" + prodId);
+          $("#staticModal").modal("show");
+        });
+        $(".btn-warning").click(function (e) {
+          let prodId = $(this).data("id");
+
+          $("#staticModalBody").load("/product/edit/" + prodId);
+          $("#staticModal").modal("show");
+        });
+      </script>
+    </div>
+  </body>
 </html>

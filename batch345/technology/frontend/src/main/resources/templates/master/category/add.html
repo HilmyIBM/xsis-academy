@@ -4,44 +4,54 @@
     <form th:action="@{~/category/create}" id="frmNewCategory" method="post">
       <div class="form-group">
         <label for="txtName" class="form-label">Name</label>
-        <input type="text" class="form-control" id="txtName" name="categoryName"/>
+        <input
+          type="text"
+          class="form-control"
+          id="txtName"
+          name="categoryName"
+        />
       </div>
       <div class="form-group">
         <label for="txtDescription" class="form-label">Description</label>
-        <input type="text" class="form-control" id="txtDescription" name="description"/>
+        <input
+          type="text"
+          class="form-control"
+          id="txtDescription"
+          name="description"
+        />
       </div>
-      
+
       <div class="text-right">
-        <button class="btn btn-success"><i class="fas fa-save"></i> Save</button>
+        <button class="btn btn-success">
+          <i class="fas fa-save"></i> Save
+        </button>
       </div>
     </form>
   </div>
 </div>
 
 <script>
-  $(document).ready(function(){
+  $(document).ready(function () {
     $("#staticModalLabel").text($("#txtTitle").text());
-    $(".btn-success").click(function(){
-
-    });
+    $(".btn-success").click(function () {});
     $("#frmNewCategory").validate({
-      "rules" : {
-        "categoryName": {
-          "required": true,
-          "maxlength": 100,
-          "minlength": 3
+      rules: {
+        categoryName: {
+          required: true,
+          maxlength: 100,
+          minlength: 3,
         },
-        "description": {
-          "maxlength": 100
-        }
+        description: {
+          maxlength: 100,
+        },
       },
-      "errorClass": "text-danger"
+      errorClass: "text-danger",
     });
 
-    $("#frmNewCategory").submit(function(e) {
+    $("#frmNewCategory").submit(function (e) {
       e.preventDefault();
 
-      if($("#frmNewCategory").valid()) {
+      if ($("#frmNewCategory").valid()) {
         $.ajax({
           url: "/category/create",
           type: "post",
@@ -50,15 +60,19 @@
           beforeSend: () => {
             // alert("mengirim data ke api");
           },
-          success: function(response){
-            alert("Category " + response.categoryName + "successfully created!");
+          success: function (response) {
+            alert(
+              "Category " + response.categoryName + "successfully created!"
+            );
             location.reload();
           },
-          error: function(errResponse){
-            console.error("Create Category Failed : " + errResponse.responseText);
-          } 
+          error: function (errResponse) {
+            console.error(
+              "Create Category Failed : " + errResponse.responseText
+            );
+          },
         });
       }
-    })
-  })
+    });
+  });
 </script>

@@ -2,51 +2,73 @@
 <div class="card">
   <div class="card-body">
     <form th:action="@{~/variant/update}" id="frmEditVariant" method="post">
-      <input name="id" id="txtId" th:value="${variant.id}" type="hidden">
-      <input name="updateBy" id="txtUpdate" th:value="2" type="hidden">
+      <input name="id" id="txtId" th:value="${variant.id}" type="hidden" />
+      <input name="updateBy" id="txtUpdate" th:value="2" type="hidden" />
       <div class="form-group">
         <label for="txtName" class="form-label">Name</label>
-        <input type="text" class="form-control" id="txtName" name="name" th:value="${variant.name}"/>
+        <input
+          type="text"
+          class="form-control"
+          id="txtName"
+          name="name"
+          th:value="${variant.name}"
+        />
       </div>
       <div class="form-group">
         <label for="txtDescription" class="form-label">Description</label>
-        <input type="text" class="form-control" id="txtDescription" name="description" th:value="${variant.description}"/>
+        <input
+          type="text"
+          class="form-control"
+          id="txtDescription"
+          name="description"
+          th:value="${variant.description}"
+        />
       </div>
       <select name="categoryId">
-          <option th:each="item:${category}" th:if="${variant.categoryId}==${item.id}" th:text="${item.categoryName}" th:value="${variant.categoryId}"></option>
-          <option th:each="item:${category}" th:if="${variant.categoryId != item.id}" th:value="${item.id}" th:text="${item.categoryName}"></option>
-        </select>
+        <option
+          th:each="item:${category}"
+          th:if="${variant.categoryId}==${item.id}"
+          th:text="${item.categoryName}"
+          th:value="${variant.categoryId}"
+        ></option>
+        <option
+          th:each="item:${category}"
+          th:if="${variant.categoryId != item.id}"
+          th:value="${item.id}"
+          th:text="${item.categoryName}"
+        ></option>
+      </select>
       <div class="text-right">
-        <button class="btn btn-success"><i class="fas fa-save"></i> Save</button>
+        <button class="btn btn-success">
+          <i class="fas fa-save"></i> Save
+        </button>
       </div>
     </form>
   </div>
 </div>
 
 <script>
-  $(document).ready(function(){
+  $(document).ready(function () {
     $("#staticModalLabel").text($("#txtTitle").text());
-    $(".btn-success").click(function(){
-
-    });
+    $(".btn-success").click(function () {});
     $("#frmEditVariant").validate({
-      "rules" : {
-        "name": {
-          "required": true,
-          "maxlength": 100,
-          "minlength": 3
+      rules: {
+        name: {
+          required: true,
+          maxlength: 100,
+          minlength: 3,
         },
-        "description": {
-          "maxlength": 100
-        }
+        description: {
+          maxlength: 100,
+        },
       },
-      "errorClass": "text-danger"
+      errorClass: "text-danger",
     });
 
-    $("#frmEditVariant").submit(function(e) {
+    $("#frmEditVariant").submit(function (e) {
       e.preventDefault();
 
-      if($("#frmEditVariant").valid()) {
+      if ($("#frmEditVariant").valid()) {
         $.ajax({
           url: "/variant/update",
           type: "post",
@@ -55,15 +77,17 @@
           beforeSend: () => {
             // alert("mengirim data ke api");
           },
-          success: function(response){
+          success: function (response) {
             alert("Variant " + response.name + " successfully updated!");
             location.reload();
           },
-          error: function(errResponse){
-            console.error("Update Variant Failed : " + errResponse.responseText);
-          } 
+          error: function (errResponse) {
+            console.error(
+              "Update Variant Failed : " + errResponse.responseText
+            );
+          },
         });
       }
-    })
-  })
+    });
+  });
 </script>

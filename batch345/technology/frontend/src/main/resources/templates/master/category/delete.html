@@ -1,12 +1,13 @@
-<input type="hidden" id="txtTitle" th:value="${title}"/>
-<input type="hidden" id="catId" th:value="${id}"/>
+<input type="hidden" id="txtTitle" th:value="${title}" />
+<input type="hidden" id="catId" th:value="${id}" />
 <div class="card">
   <div class="card-body">
     <div class="col text-center h4">
       <i class="fas fa-question-circle text-info"></i>
     </div>
     <div class="col-11">
-      Are you sure want to delete Category with ID <span th:text="${id}"></span>?
+      Are you sure want to delete Category with ID
+      <span th:text="${id}"></span>?
     </div>
   </div>
   <div class="card-footer d-flex justify-content-end">
@@ -16,14 +17,14 @@
 </div>
 
 <script>
-  $(document).ready(function(){
+  $(document).ready(function () {
     $("#staticModelLabel").text($("#txtTitle").val());
 
-    $(".card-footer > .btn-danger").click(function(e){
+    $(".card-footer > .btn-danger").click(function (e) {
       let catId = $("#catId").val();
       let userId = 1;
       $.ajax({
-        url:"category/delete/"+catId+"/"+userId,
+        url: "category/delete/" + catId + "/" + userId,
         type: "post",
         beforeSend: () => {
           alert("Menghapus Data");
@@ -35,11 +36,11 @@
         error: (errResponse) => {
           alert("Gagal hapus category");
           console.error("Hapus data gagal : " + errResponse.responseText);
-        }
+        },
       });
     });
 
-    $(".card-footer > .btn-primary").click(function(e){
+    $(".card-footer > .btn-primary").click(function (e) {
       $("#staticModal").modal("hide");
     });
   });

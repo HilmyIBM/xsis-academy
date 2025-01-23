@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,48 +27,50 @@ import com.xsis.bc345.frontend.models.VariantView;
 @Controller
 @RequestMapping("/product")
 public class ProductController {
-  
-   private RestTemplate restTemplate = new RestTemplate();
+
+  private RestTemplate restTemplate = new RestTemplate();
 
   @Value("${application.api.url}")
   private String apiUrl;
 
   // @GetMapping("")
   // public ModelAndView index() {
-  //     ModelAndView view = new ModelAndView("master/product/index");
-  //     ResponseEntity<ProductView[]> apiResponse = null;
+  // ModelAndView view = new ModelAndView("master/product/index");
+  // ResponseEntity<ProductView[]> apiResponse = null;
 
-  //     try {
-  //       apiResponse = restTemplate.getForEntity(apiUrl + "/product", ProductView[].class);
-  //         if (apiResponse.getStatusCode() == HttpStatus.OK) {
-  //           view.addObject("product", apiResponse.getBody());
-  //         } else {
-  //           throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
-  //         }
-  //     } catch (Exception e) {
-  //       // TODO: handle exception
-  //       view.addObject("errorMsg", e.getMessage());
-  //     }
-  //     return view;
+  // try {
+  // apiResponse = restTemplate.getForEntity(apiUrl + "/product",
+  // ProductView[].class);
+  // if (apiResponse.getStatusCode() == HttpStatus.OK) {
+  // view.addObject("product", apiResponse.getBody());
+  // } else {
+  // throw new Exception(apiResponse.getStatusCode().toString() + ": " +
+  // apiResponse.getBody());
+  // }
+  // } catch (Exception e) {
+  // // TODO: handle exception
+  // view.addObject("errorMsg", e.getMessage());
+  // }
+  // return view;
   // }
 
   @GetMapping("")
   public ModelAndView index() {
-      ModelAndView view = new ModelAndView("master/product/index");
-      ResponseEntity<ProductView[]> apiResponse = null;
+    ModelAndView view = new ModelAndView("master/product/index");
+    ResponseEntity<ProductView[]> apiResponse = null;
 
-      try {
-        apiResponse = restTemplate.getForEntity(apiUrl + "/product/native", ProductView[].class);
-          if (apiResponse.getStatusCode() == HttpStatus.OK) {
-            view.addObject("product", apiResponse.getBody());
-          } else {
-            throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
-          }
-      } catch (Exception e) {
-        // TODO: handle exception
-        view.addObject("errorMsg", e.getMessage());
+    try {
+      apiResponse = restTemplate.getForEntity(apiUrl + "/product/native", ProductView[].class);
+      if (apiResponse.getStatusCode() == HttpStatus.OK) {
+        view.addObject("product", apiResponse.getBody());
+      } else {
+        throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
       }
-      return view;
+    } catch (Exception e) {
+      // TODO: handle exception
+      view.addObject("errorMsg", e.getMessage());
+    }
+    return view;
   }
 
   @GetMapping("/{id}")
@@ -83,30 +86,30 @@ public class ProductController {
         throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
       }
     } catch (Exception e) {
-      // TODO: handle 
+      // TODO: handle
       view.addObject("errorMsg", e.getMessage());
     }
-      view.addObject("title", "Product Detail");
-      return view;
+    view.addObject("title", "Product Detail");
+    return view;
   }
 
   @GetMapping("/add")
   public ModelAndView add() {
-      ModelAndView view = new ModelAndView("master/product/add");
-      view.addObject("title", "Add new Product");
-      ResponseEntity<VariantView[]> apiVariantResponse = null;
-      try {
-        apiVariantResponse = restTemplate.getForEntity(apiUrl + "/variant", VariantView[].class);
-        if (apiVariantResponse.getStatusCode() == HttpStatus.OK) {
-          view.addObject("variant", apiVariantResponse.getBody());
-        } else {
-          throw new Exception(apiVariantResponse.getStatusCode().toString() + ": " + apiVariantResponse.getBody());
-        }
-      } catch (Exception e) {
-        // TODO: handle exception
-        view.addObject("errorMsg", e.getMessage());
+    ModelAndView view = new ModelAndView("master/product/add");
+    view.addObject("title", "Add new Product");
+    ResponseEntity<VariantView[]> apiVariantResponse = null;
+    try {
+      apiVariantResponse = restTemplate.getForEntity(apiUrl + "/variant", VariantView[].class);
+      if (apiVariantResponse.getStatusCode() == HttpStatus.OK) {
+        view.addObject("variant", apiVariantResponse.getBody());
+      } else {
+        throw new Exception(apiVariantResponse.getStatusCode().toString() + ": " + apiVariantResponse.getBody());
       }
-      return view;
+    } catch (Exception e) {
+      // TODO: handle exception
+      view.addObject("errorMsg", e.getMessage());
+    }
+    return view;
   }
 
   @PostMapping("/create")
@@ -115,36 +118,36 @@ public class ProductController {
 
     try {
       if (!file.isEmpty()) {
-          String originalFileName = file.getOriginalFilename();
-          String fileExtension = "";
+        String originalFileName = file.getOriginalFilename();
+        String fileExtension = "";
 
-          if (originalFileName != null && originalFileName.contains(".")) {
-              fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        if (originalFileName != null && originalFileName.contains(".")) {
+          fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        }
+
+        // Generate a unique file name
+        String uniqueFileName = UUID.randomUUID().toString() + "_" + System.currentTimeMillis() + fileExtension;
+
+        // Define the file path for the new file
+        Path newFilePath = Paths.get("src/main/resources/static/img/" + uniqueFileName);
+
+        // Check if the product already has an image
+        if (product.getImage() != null && !product.getImage().isEmpty()) {
+          // Define the path of the old image
+          Path oldFilePath = Paths.get("src/main/resources/static/img/" + product.getImage());
+
+          // Delete the old image if it exists
+          File oldFile = oldFilePath.toFile();
+          if (oldFile.exists()) {
+            oldFile.delete();
           }
+        }
 
-          // Generate a unique file name
-          String uniqueFileName = UUID.randomUUID().toString() + "_" + System.currentTimeMillis() + fileExtension;
+        // Write the new file to storage
+        Files.write(newFilePath, file.getBytes());
 
-          // Define the file path for the new file
-          Path newFilePath = Paths.get("src/main/resources/static/img/" + uniqueFileName);
-
-          // Check if the product already has an image
-          if (product.getImage() != null && !product.getImage().isEmpty()) {
-              // Define the path of the old image
-              Path oldFilePath = Paths.get("src/main/resources/static/img/" + product.getImage());
-              
-              // Delete the old image if it exists
-              File oldFile = oldFilePath.toFile();
-              if (oldFile.exists()) {
-                  oldFile.delete();
-              }
-          }
-
-          // Write the new file to storage
-          Files.write(newFilePath, file.getBytes());
-
-          // Update the product's image property with the new file name
-          product.setImage(uniqueFileName);
+        // Update the product's image property with the new file name
+        product.setImage(uniqueFileName);
       }
 
       apiResponse = restTemplate.postForEntity(apiUrl + "/product", product, ProductView.class);
@@ -160,8 +163,8 @@ public class ProductController {
     }
   }
 
-  @GetMapping("/edit/{id}") 
-  ModelAndView edit(@PathVariable long id){
+  @GetMapping("/edit/{id}")
+  ModelAndView edit(@PathVariable long id) {
     ModelAndView view = new ModelAndView("master/product/edit");
     ResponseEntity<ProductView> apiResponse = null;
     ResponseEntity<VariantView[]> apiVariantResponse = null;
@@ -169,10 +172,10 @@ public class ProductController {
     try {
       apiResponse = restTemplate.getForEntity(apiUrl + "/product/id/" + id, ProductView.class);
       apiVariantResponse = restTemplate.getForEntity(apiUrl + "/variant", VariantView[].class);
-      if (apiResponse.getStatusCode() == HttpStatus.OK){
+      if (apiResponse.getStatusCode() == HttpStatus.OK) {
         view.addObject("product", apiResponse.getBody());
         view.addObject("variant", apiVariantResponse.getBody());
-      }else{
+      } else {
         throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
       }
     } catch (Exception e) {
@@ -184,56 +187,81 @@ public class ProductController {
 
   @PostMapping("/update")
   public ResponseEntity<?> update(@ModelAttribute ProductView product, @RequestParam("itemImage") MultipartFile file) {
-      ResponseEntity<ProductView> apiResponse = null;
+    ResponseEntity<ProductView> apiResponse = null;
+
+    try {
+      if (!file.isEmpty()) {
+        String originalFileName = file.getOriginalFilename();
+        String fileExtension = "";
+
+        if (originalFileName != null && originalFileName.contains(".")) {
+          fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        }
+
+        // Generate a unique file name
+        String uniqueFileName = UUID.randomUUID().toString() + "_" + System.currentTimeMillis() + fileExtension;
+
+        // Define the path for the new file
+        Path newFilePath = Paths.get("src/main/resources/static/img/" + uniqueFileName);
+
+        // Check if the product already has an image
+        if (product.getImage() != null && !product.getImage().isEmpty()) {
+          // Define the path of the old image
+          Path oldFilePath = Paths.get("src/main/resources/static/img/" + product.getImage());
+
+          // Delete the old image if it exists
+          File oldFile = oldFilePath.toFile();
+          if (oldFile.exists()) {
+            oldFile.delete();
+          }
+        }
+
+        // Save the new file to storage
+        Files.write(newFilePath, file.getBytes());
+
+        // Update the product's image property with the new file name
+        product.setImage(uniqueFileName);
+      } else {
+        // Preserve the existing image if no new file is uploaded
+        ResponseEntity<ProductView> existingProductResponse = restTemplate
+            .getForEntity(apiUrl + "/product/id/" + product.getId(), ProductView.class);
+        if (existingProductResponse.getStatusCode() == HttpStatus.OK) {
+          // Get the current image name from the existing product
+          ProductView existingProduct = existingProductResponse.getBody();
+          if (existingProduct != null) {
+            product.setImage(existingProduct.getImage());
+          }
+        } else {
+          throw new Exception("Failed to retrieve existing product for image preservation.");
+        }
+      }
+      restTemplate.put(apiUrl + "/product", product);
+      apiResponse = restTemplate.getForEntity(apiUrl + "/product/id/" + product.getId(), ProductView.class);
+      if (apiResponse.getStatusCode() == HttpStatus.OK) {
+        return new ResponseEntity<ProductView>(apiResponse.getBody(), HttpStatus.OK);
+      } else {
+        throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
+      }
+    } catch (Exception e) {
+      // TODO: handle exception
+      return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @GetMapping("/delete/{id}")
+  public ModelAndView delete(@PathVariable int id) {
+      ModelAndView view = new ModelAndView("master/product/delete");
+      view.addObject("id", id);
+      view.addObject("title", "Delete Product");
+      return view;
+  }
+
+  @PostMapping("/delete/{id}/{userId}")
+  public ResponseEntity<?> delete(@PathVariable int id, @PathVariable int userId) {
+    ResponseEntity<ProductView> apiResponse = null;
 
       try {
-        if (!file.isEmpty()) {
-              String originalFileName = file.getOriginalFilename();
-              String fileExtension = "";
-
-              if (originalFileName != null && originalFileName.contains(".")) {
-                  fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-              }
-
-              // Generate a unique file name
-              String uniqueFileName = UUID.randomUUID().toString() + "_" + System.currentTimeMillis() + fileExtension;
-
-              // Define the path for the new file
-              Path newFilePath = Paths.get("src/main/resources/static/img/" + uniqueFileName);
-
-              // Check if the product already has an image
-              if (product.getImage() != null && !product.getImage().isEmpty()) {
-                  // Define the path of the old image
-                  Path oldFilePath = Paths.get("src/main/resources/static/img/" + product.getImage());
-
-                  // Delete the old image if it exists
-                  File oldFile = oldFilePath.toFile();
-                  if (oldFile.exists()) {
-                      oldFile.delete();
-                  }
-              }
-
-              // Save the new file to storage
-              Files.write(newFilePath, file.getBytes());
-
-              // Update the product's image property with the new file name
-              product.setImage(uniqueFileName);
-          }else {
-            // Preserve the existing image if no new file is uploaded
-            ResponseEntity<ProductView> existingProductResponse = 
-                restTemplate.getForEntity(apiUrl + "/product/id/" + product.getId(), ProductView.class);
-            if (existingProductResponse.getStatusCode() == HttpStatus.OK) {
-                // Get the current image name from the existing product
-                ProductView existingProduct = existingProductResponse.getBody();
-                if (existingProduct != null) {
-                    product.setImage(existingProduct.getImage());
-                }
-            } else {
-                throw new Exception("Failed to retrieve existing product for image preservation.");
-            }
-        }
-        restTemplate.put(apiUrl + "/product", product);
-        apiResponse = restTemplate.getForEntity(apiUrl + "/product/id/" + product.getId(), ProductView.class);
+        apiResponse = restTemplate.exchange(apiUrl + "/product/delete/" + id + "/" + userId, HttpMethod.DELETE, null, ProductView.class);
         if (apiResponse.getStatusCode() == HttpStatus.OK){
           return new ResponseEntity<ProductView>(apiResponse.getBody(), HttpStatus.OK);
         }else{
@@ -243,6 +271,5 @@ public class ProductController {
         // TODO: handle exception
         return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
       }
-      
   }
 }

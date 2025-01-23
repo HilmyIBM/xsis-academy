@@ -2,62 +2,95 @@
 <div class="card">
   <div class="card-body">
     <form th:action="@{~/product/update}" id="frmEditProduct" method="post">
-      <input name="id" id="txtId" th:value="${product.id}" type="hidden">
-      <input name="updateBy" id="txtUpdate" th:value="2" type="hidden">
+      <input name="id" id="txtId" th:value="${product.id}" type="hidden" />
+      <input name="updateBy" id="txtUpdate" th:value="2" type="hidden" />
       <div class="form-group">
         <label for="txtName" class="form-label">Name</label>
-        <input type="text" class="form-control" id="txtName" name="name" th:value="${product.name}"/>
+        <input
+          type="text"
+          class="form-control"
+          id="txtName"
+          name="name"
+          th:value="${product.name}"
+        />
       </div>
       <select name="variantId">
-        <option th:each="item:${variant}" th:if="${product.variantId}==${item.id}" th:text="${item.name}" th:value="${product.variantId}"></option>
-        <option th:each="item:${variant}" th:if="${product.variantId != item.id}" th:value="${item.id}" th:text="${item.name}"></option>
+        <option
+          th:each="item:${variant}"
+          th:if="${product.variantId}==${item.id}"
+          th:text="${item.name}"
+          th:value="${product.variantId}"
+        ></option>
+        <option
+          th:each="item:${variant}"
+          th:if="${product.variantId != item.id}"
+          th:value="${item.id}"
+          th:text="${item.name}"
+        ></option>
       </select>
       <div class="form-group">
         <label for="txtPrice" class="form-label">Price</label>
-        <input type="text" class="form-control" id="txtPrice" name="price" th:value="${product.price}"/>
+        <input
+          type="text"
+          class="form-control"
+          id="txtPrice"
+          name="price"
+          th:value="${product.price}"
+        />
       </div>
       <div class="form-group">
         <label for="txtStock" class="form-label">Stock</label>
-        <input type="text" class="form-control" id="txtStock" name="stock" th:value="${product.stock}"/>
+        <input
+          type="text"
+          class="form-control"
+          id="txtStock"
+          name="stock"
+          th:value="${product.stock}"
+        />
       </div>
       <div class="form-group">
         <label for="txtImage" class="form-label">Image</label>
-        <input type="file" class="form-control" id="txtImage" name="itemImage"/>
+        <input
+          type="file"
+          class="form-control"
+          id="txtImage"
+          name="itemImage"
+        />
       </div>
       <div class="text-right">
-        <button class="btn btn-success"><i class="fas fa-save"></i> Save</button>
+        <button class="btn btn-success">
+          <i class="fas fa-save"></i> Save
+        </button>
       </div>
     </form>
   </div>
 </div>
 
 <script>
-  $(document).ready(function(){
+  $(document).ready(function () {
     $("#staticModalLabel").text($("#txtTitle").text());
-    $(".btn-success").click(function(){
-
-    });
+    $(".btn-success").click(function () {});
     $("#frmEditProduct").validate({
-      "rules" : {
-        "name": {
-          "required": true,
-          "maxlength": 100,
-          "minlength": 3
+      rules: {
+        name: {
+          required: true,
+          maxlength: 100,
+          minlength: 3,
         },
-        "price": {
-          "digits": true
+        price: {
+          digits: true,
         },
-        "stock": {
-          "digits": true
-        }
+        stock: {
+          digits: true,
+        },
       },
-      "errorClass": "text-danger"
+      errorClass: "text-danger",
     });
 
-    $("#frmEditProduct").submit(function(e) {
+    $("#frmEditProduct").submit(function (e) {
       e.preventDefault();
 
-      if($("#frmEditProduct").valid()) {
+      if ($("#frmEditProduct").valid()) {
         var formData = new FormData(this);
         $.ajax({
           url: "/product/update",
@@ -69,15 +102,15 @@
           beforeSend: () => {
             // alert("mengirim data ke api");
           },
-          success: function(response){
+          success: function (response) {
             alert("Product " + response.name + " successfully updated!");
             location.reload();
           },
-          error: function(errResponse){
+          error: function (errResponse) {
             alert("Update Product Failed : " + errResponse.responseText);
-          } 
+          },
         });
       }
-    })
-  })
+    });
+  });
 </script>
