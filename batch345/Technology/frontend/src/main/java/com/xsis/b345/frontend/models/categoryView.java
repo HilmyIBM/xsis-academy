@@ -1,5 +1,6 @@
 package com.xsis.b345.frontend.models;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class categoryView {
@@ -10,10 +11,10 @@ public class categoryView {
     private boolean isDeleted;
 
     private int createBy;
-    private LocalDateTime createDate;
+    private Timestamp createDate;
 
     private int updateBy;
-    private LocalDateTime updateDate;
+    private Timestamp updateDate;
 
 
 
@@ -90,14 +91,14 @@ public class categoryView {
     /**
      * @return LocalDateTime return the createDate
      */
-    public LocalDateTime getCreateDate() {
+    public Timestamp getCreateDate() {
         return createDate;
     }
 
     /**
      * @param createDate the createDate to set
      */
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 
@@ -118,14 +119,14 @@ public class categoryView {
     /**
      * @return LocalDateTime return the updateDate
      */
-    public LocalDateTime getUpdateDate() {
+    public Timestamp getUpdateDate() {
         return updateDate;
     }
 
     /**
      * @param updateDate the updateDate to set
      */
-    public void setUpdateDate(LocalDateTime updateDate) {
+    public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
     }
 

@@ -2,31 +2,37 @@
 <div class="card">
     <div class="card-body">
         <form th:action="@{~/product/save}" id="formAddProduct" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="txtName" class="form-label">Name : </label>
+            <div class="input-group">
+                <label for="txtName" class="input-group-text">Name  </label>
                 <input type="text" class="form-control" id="txtName" name="name">
             </div>
             <div class="form-group mt-4">
-                <div class="mt-3"></div>
-                <label for="txtDeskripsi" class="form-label">Price : </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="price">
-                <div class="mt-3"></div>
-                <label for="txtDeskripsi" class="form-label">Stock : </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="stock">
-                <div class="mt-3"></div>
-                <label class="form-label">Pilih Category : </label>
-                <select name="categoryId" class="form-select">
-                    <option value="" class="text-center">--Select Category--</option>
-                    <option th:if="${category != null}" th:each="item:${category}" th:value="${item.id}" th:text="${item.categoryName}"></option>
-                <div class="mt-3"></div>
-                <label for="txtDeskripsi" class="form-label">Pilih variant : </label><br>
-                <select name="variantId" class="form-select">
-                    <option value="" class="text-center">--Select variant--</option>
-                    <option dropdown-ite th:if="${variant != null}" th:each="item:${variant}" th:value="${item.id}" th:text="${item.name}"></option>
-                </select>
+                <div class="mt-3 input-group">
+                    <label for="txtDeskripsi" class="input-group-text">Price </label>
+                    <input type="text" class="form-control" id="txtDeskripsi" name="price">
+                </div>
+                <div class="mt-3 input-group">
+                    <label for="txtDeskripsi" class="input-group-text">Stock </label>
+                    <input type="text" class="form-control" id="txtDeskripsi" name="stock">
+                </div>
+                <div class="mt-3 input-group">
+                    <label class="input-group-text" for="categoryId">Pilih Category </label>
+                    <select name="categoryId" class="form-select" id="categoryId">
+                        <option value="" class="text-center">--Select Category--</option>
+                        <option th:if="${category != null}" th:each="item:${category}" th:value="${item.id}" th:text="${item.categoryName}"></option>
+                    </select>
+                </div>
+                <div class="mt-3 input-group">
+                    <label for="variantId" class="input-group-text">Pilih variant&nbsp;&nbsp;&nbsp;&nbsp;</label><br>
+                    <select name="variantId" id="variantId" class="form-select">
+                        <option value="" class="text-center">--Select Category First--</option>
+                    </select>
+                </div>
                 <div class="mt-3">
-                <label class="form-label">Image : </label>
-                <input type="file" class="form-control" id="Setimage" name="Setimage" accept="image/*">
+                    <label class="form-label">Image : </label>
+                    <input type="file" class="form-control" id="Setimage" name="Setimage" accept="image/*">
+                    <img id="imagePreview" src="#" alt="Image Preview" style="display:none; margin-top: 10px; max-width: 100%; height: auto;">
+                </div>
             <div class="form-group">
             <div class="d-flex justify-content-end mt-3">
                 <input type="hidden" name="createBy" value="1">
@@ -39,6 +45,36 @@
 <script>
     $(document).ready(function(){
         $('#staticBackdropLabel').text($('#txtTitle').text());
+
+        $('#categoryId').change(function(e){
+            var categoryId = $(this).val();
+            $.ajax({
+                url : "variant/category/"+categoryId,
+                success:function(apiResponse){
+                    console.log(apiResponse);
+                    $("#variantId").empty();
+                    $.each(
+                    apiResponse,
+                    function(idx, variant) {
+                        $("#variantId").append(`<option value='${variant.id}'>${variant.name}</option>`);
+                    }
+                 );
+                },
+                error:function(errResponse){
+                    alert("Error : "+errResponse.responseText);
+                }
+            });
+        })
+
+        $("#Setimage").change(function() {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#imagePreview').attr('src', e.target.result);
+                $('#imagePreview').show();
+            }
+            reader.readAsDataURL(this.files[0]);
+        });
+
         $("#formAddProduct").validate({
             "rules" :{
                 "name" : {
@@ -57,29 +93,10 @@
                 }
             },
             "messages" : {
-                "Setimage" : "File harus berupa gambar"
+                "Setimage" : "Gambar Harus Berupa JPG, JPEG, PNG"
             },
             "errorClass" : "text-danger"
         });
-
-        $('#categoryId').change(function(e){
-            var categoryId = $(this).val();
-            $.ajax({
-                url : "/variant/category/"+categoryId,
-                success:function(response){
-                    $("#variantId").empty();
-                    $.each(
-                        response.data,
-                        function(index, item){
-                            $("#variantId").append("<option value='${item.id}'>${item.name}</option>");
-                        }
-                    )
-                },
-                error:function(errResponse){
-                    alert("Error : "+errResponse.responseText);
-                }
-            });
-        })
 
         $("#formAddProduct").submit(function(e){
             e.preventDefault();

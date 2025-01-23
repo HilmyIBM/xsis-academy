@@ -134,7 +134,6 @@
 
         $("#tblProduct").on("click", ".btn-info", function (e) {
           let catId = $(this).data("id");
-
           $("#staticModalBody").load("/product/edit/" + catId);
           $("#staticModal").modal("show");
         });

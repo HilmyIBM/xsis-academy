@@ -55,16 +55,13 @@ public class product {
     public ModelAndView addData() {
         ModelAndView view = new ModelAndView("/product/add");
         view.addObject("title", "Add new product");
-        ResponseEntity<variantView[]> apiResponsevariant = null;
         ResponseEntity<categoryView[]> apiResponseCategory = null;
         try {
-            apiResponsevariant = restTemplate.getForEntity(apiVariant, variantView[].class);
             apiResponseCategory = restTemplate.getForEntity(apiUrl + "/category", categoryView[].class);
-            if (apiResponsevariant.getStatusCode() == HttpStatus.OK) {
-                view.addObject("variant", apiResponsevariant.getBody());
+            if (apiResponseCategory.getStatusCode() == HttpStatus.OK) {
                 view.addObject("category", apiResponseCategory.getBody());
             } else {
-                view.addObject("variant", new variantView());
+                view.addObject("category", new categoryView());
             }
         } catch (Exception e) {
             view.addObject("errorMSG", e.getMessage());
@@ -99,13 +96,13 @@ public class product {
     public ModelAndView edit(@PathVariable int id) {
         ModelAndView view = new ModelAndView("product/edit");
         ResponseEntity<productView[]> apiResponse = null;
-        ResponseEntity<variantView[]> apiResponseVariant = null;
+        ResponseEntity<categoryView[]> apiResponseCategory = null;
         try {
             apiResponse = restTemplate.getForEntity(apiUrl + "/product/id/" + id, productView[].class);
-            apiResponseVariant = restTemplate.getForEntity(apiUrl + "/variant", variantView[].class);
+            apiResponseCategory = restTemplate.getForEntity(apiUrl + "/category", categoryView[].class);
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                view.addObject("category", apiResponseCategory.getBody());
                 view.addObject("product", apiResponse.getBody());
-                view.addObject("variant", apiResponseVariant.getBody());
             } else {
                 throw new Exception(apiResponse.getStatusCode().toString() + " : " + apiResponse.getBody());
             }

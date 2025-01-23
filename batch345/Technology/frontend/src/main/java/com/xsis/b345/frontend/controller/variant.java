@@ -166,7 +166,7 @@ public class variant {
         }
     }
     
-    @GetMapping("/category/{categoryId}")
+    @GetMapping("variant/category/{categoryId}")
     public ResponseEntity<?> getbyCategory(@PathVariable int categoryId){
         ResponseEntity<variantView[]> apiresponse;
         try {

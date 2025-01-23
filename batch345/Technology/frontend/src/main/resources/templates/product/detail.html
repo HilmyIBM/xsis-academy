@@ -1,28 +1,28 @@
 <span class="d-none" th:text="${title}" id="txtTitle"></span>
 <div class="card">
     <div class="card-body" th:each="item:${product}">
-            <div class="form-group">
-                <label for="txtName" class="form-label">Name : </label>
-                <input type="text" class="form-control-plaintext" id="txtName" name="name" th:value="${item.name}" readonly>
+            <div class="input-group">
+                <label for="txtName" class="input-group-text">Name </label>
+                <input type="text" class="form-control" id="txtName" name="name" th:value="${item.name}" disabled readonly>
             </div>
 
-            <div class="form-group mt-3">
-                <label for="txtDeskripsi" class="form-label">Price : </label>
-                <input type="text" class="form-control-plaintext"th:value="${item.price}" readonly>
+            <div class="input-group mt-3">
+                <label for="txtDeskripsi" class="input-group-text">Price </label>
+                <input type="text" class="form-control"th:value="${item.price}" disabled readonly>
             </div>
 
-            <div class="form-group mt-3">
-                <label for="txtDeskripsi" class="form-label">Stock : </label>
-                <input type="text" class="form-control-plaintext" id="txtDeskripsi" name="deskripsi" th:value="${item.stock}" readonly>
+            <div class="input-group mt-3">
+                <label for="txtDeskripsi" class="input-group-text">Stock </label>
+                <input type="text" class="form-control" id="txtDeskripsi" name="deskripsi" th:value="${item.stock}" disabled readonly>
             </div>
-            <div class="form-group mt-3">
-                <label for="txtDeskripsi" class="form-label">Variant : </label>
-                <input type="text" class="form-control-plaintext" id="txtDeskripsi" name="deskripsi" th:value="${item.variantName}" readonly>
+            <div class="input-group mt-3">
+                <label for="txtDeskripsi" class="input-group-text">Variant </label>
+                <input type="text" class="form-control" id="txtDeskripsi" name="deskripsi" th:value="${item.variantName}" disabled readonly>
             </div>
 
-            <div class="form-group mt-3">
-                <label for="txtDeskripsi" class="form-label">Category : </label>
-                <input type="text" class="form-control-plaintext" id="txtDeskripsi" name="deskripsi" th:value="${item.categoryName}" readonly>
+            <div class="input-group mt-3">
+                <label for="txtDeskripsi" class="input-group-text">Category </label>
+                <input type="text" class="form-control" id="txtDeskripsi" name="deskripsi" th:value="${item.categoryName}" disabled readonly>
             </div>
 
             <div class="form-group mt-2">
@@ -31,7 +31,7 @@
                 th:if="${item.image}!=null"
                 th:src="@{'lib/images/'+${item.image}}"
                 alt="product"
-                class="img-thumbnail">
+                class="img-fluid">
                 
                 <img th:unless="${item.image}!=null"
                 th:src="@{'lib/no-image.png'}"

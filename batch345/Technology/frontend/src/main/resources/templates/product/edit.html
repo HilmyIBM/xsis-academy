@@ -9,22 +9,33 @@
                 <input type="text" class="form-control" id="txtName" name="name" th:value="${products.name}">
             </div>
             <div class="form-group mt-4">
-                <div class="mt-3"></div>
-                <label for="txtDeskripsi" class="form-label">Price : </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="price" th:value="${products.price}">
-                <div class="mt-3"></div>
-                <label for="txtDeskripsi" class="form-label">Stock : </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="stock" th:value="${products.stock}">
-                <div class="mt-3"></div>
-                <label for="txtDeskripsi" class="form-label">Pilih variant : </label><br>
-                <select name="variantId" class="form-select">
-                    <option th:each="itemC:${variant}" th:if="${products.variantId == itemC.id}" th:text="${itemC.name}" th:value="${products.variantId}"></option>
-                    <option th:each="item:${variant}" th:if="${products.variantId != item.id}" th:value="${item.id}" th:text="${item.name}"></option>
-                </select>
+                <div class="mt-3">
+                    <label for="txtDeskripsi" class="form-label">Price : </label>
+                    <input type="text" class="form-control" id="txtDeskripsi" name="price" th:value="${products.price}">
+                </div>
+                <div class="mt-3">
+                    <label for="txtDeskripsi" class="form-label">Stock : </label>
+                    <input type="text" class="form-control" id="txtDeskripsi" name="stock" th:value="${products.stock}">
+                </div>
+                <div class="mt-3">
+                    <label for="categoryId" class="form-label">Pilih Category : </label><br>
+                    <select name="categoryId" class="form-select" id="categoryId">
+                        <option th:each="itemC:${category}" th:if="${products.variantId == itemC.id}" th:text="${itemC.categoryName}" th:value="${products.variantId}"></option>
+                        <option th:each="item:${category}" th:if="${products.variantId != item.id}" th:value="${item.id}" th:text="${item.categoryName}"></option>
+                    </select>
+                </div>
+                <div class="mt-3">
+                    <label for="variantId" class="form-label">Pilih variant : </label><br>
+                    <select name="variantId" class="form-select" id="variantId">
+                        <option value="" class="text-center">--Select Category First--</option>
+                       <!--  <option th:each="itemC:${variant}" th:if="${products.variantId == itemC.id}" th:text="${itemC.name}" th:value="${products.variantId}"></option>
+                        <option th:each="item:${variant}" th:if="${products.variantId != item.id}" th:value="${item.id}" th:text="${item.name}"></option> -->
+                    </select>
+                </div>
                 <div class="mt-3">
                 <label for="Setimage" class="form-label">Image : </label>
-                <input type="file" class="form-control" id="Setimage" name="Setimage" accept="image/*" >
-                <input type="hidden" name="image" th:value="${products.image}">
+                <input type="file" class="form-control" id="Setimage" name="Setimage" accept="image/*" placeholder="${products.image}" >
+                <input type="hidden" name="image" th:value=" ${products.image} ">
             <div class="form-group">
             <div class="d-flex justify-content-end mt-3">
                 <button type="submit" class="btn btn-success"><i class="fas fa-edit"></i> Update</button>
@@ -35,6 +46,27 @@
 
 <script>
     $(document).ready(function(){
+
+        $('#formEditProduct').on('change', '#categoryId', function(e){
+            var categoryId = $('#categoryId').val();
+            $.ajax({
+                url : "variant/category/"+categoryId,
+                success:function(apiResponse){
+                    console.log(apiResponse);
+                    $("#variantId").empty();
+                    $.each(
+                    apiResponse,
+                    function(idx, variant) {
+                        $("#variantId").append(`<option value='${variant.id}'>${variant.name}</option>`);
+                    }
+                 );
+                },
+                error:function(errResponse){
+                    alert("Error : "+errResponse.responseText);
+                }
+            });
+        })
+
         $('#staticBackdropLabel').text($('#txtTitle').text());
         $("#formEditProduct").validate({
             "rules" :{
