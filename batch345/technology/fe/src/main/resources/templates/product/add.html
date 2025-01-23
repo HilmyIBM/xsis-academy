@@ -1,11 +1,11 @@
 <span id="txtTitle" class="d-none" th:text="${title}"></span>
 <div class="card">
   <div class="card-body">
-    <form id="frmNewVariant">
+    <form th:action="@{~/product/save}" id="frmNewProduct" method="post">
 
       <div class="form-group">
         <label for="txtName" class="form-label"> Name </label>
-        <input type="text" class="form-control" id="txtName" name="name" />
+        <input type="text" class="form-control" id="txtName" name="productName" />
       </div>
       <div class="form-group">
         <label for="txtDescription" class="form-label"> Description </label>
@@ -16,18 +16,6 @@
           name="description"
         />
       </div>
-      <div class="form-group">
-        <label for="selCategory" class="form-label h6 fw-bold">Category</label>
-        <!-- <input type="text" class="form-control" id="txtDescription" name="description" /> -->
-        <select name="categoryId" id="selCategory" class="form-select">
-            <option value="">--Select Category--</option>
-            <option
-                th:if="${categories != null}"
-                th:each="item:${categories}"
-                th:value="${item.id}"
-                th:text="${item.categoryName}"></option>
-        </select>
-    </div>
       <div class="text-right">
         <button class="btn btn-success mt-3"><i class="fas fa-save" type="submit"></i>&nbsp; Save</button>
       </div>
@@ -40,41 +28,39 @@
   $(document).ready(function(){
       $("#staticModalLabel").text($("#txtTitle").text());
 
-      $("#frmNewVariant").validate({
+      $("#frmNewProduct").validate({
           "rules" : {
-              "name": {
+              "productName": {
                   "required": true,
                   "maxlength": 100,
                   "minlength": 3
               },
               "description": {
                   "maxlength": 100
-              }, 
-              "categoryId": {
-                "required": true
               }
           },
           "errorClass": "text-danger"
       });
 
-      $("#frmNewVariant").submit(function(e) {
+      $("#frmNewProduct").submit(function(e) {
           e.preventDefault();
 
-          if ($("#frmNewVariant").valid()) {
+          if ($("#frmNewProduct").valid()) {
+              debugger;
               $.ajax({
-                  url: "/variant/create",
+                  url: "/product/create",
                   type: "post",
-                  data: $("#frmNewVariant").serialize(),
+                  data: $("#frmNewProduct").serialize(),
                   dataType: "json",
                   beforeSend: () => {
                       // alert("mengirim data ke api");
                   },
                   success: function(response) {
-                      alert("Variant " + response.name + " succesfully created!");
+                      alert("product " + response.productName + " succesfully updated!");
                       location.reload();
                   },
                   error: function(errResponse) {
-                      console.error("Create new Variant Failed: " + errResponse.responseText);
+                      console.error("Create new product Failed: " + errResponse.responseText);
                   }
               });
           }

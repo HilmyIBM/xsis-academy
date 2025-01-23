@@ -14,7 +14,7 @@ public class ProductView {
     private boolean deleted;
     private int createBy;
     private Timestamp createDate;
-    private int updateBy;
+    private Integer updateBy;
     private Timestamp updateDate;
 
     private String categoryName;
@@ -105,11 +105,11 @@ public class ProductView {
         this.createDate = createDate;
     }
 
-    public int getUpdateBy() {
+    public Integer getUpdateBy() {
         return this.updateBy;
     }
 
-    public void setUpdateBy(int updateBy) {
+    public void setUpdateBy(Integer updateBy) {
         this.updateBy = updateBy;
     }
 

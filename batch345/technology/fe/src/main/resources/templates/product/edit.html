@@ -11,7 +11,7 @@
       <div class="form-group">
         <label for="txtPrice" class="form-label"> Price </label>
         <input
-          type="text"
+          type="number"
           class="form-control"
           id="txtPrice"
           name="price"
@@ -21,7 +21,7 @@
       <div class="form-group">
         <label for="txtStock" class="form-label"> Stock </label>
         <input
-          type="text"
+          type="number"
           class="form-control"
           id="txtStock"
           name="stock"
@@ -29,14 +29,24 @@
         />
       </div>
       <div class="form-group">
-        <label for="txtVariantName" class="form-label">Variant</label>
-        <select class="form-control" id="txtVariantName" name="variantName" required>
-          <option value="" disabled selected>Select a variant</option>
+        <label for="txtVariantId" class="form-label">Variant</label>
+        <select class="form-control" id="txtVariantId" name="variantId">
+          <option value="" disabled>Select a variant</option>
           <th:block th:each="variant : ${variant}">
             <option th:value="${variant.id}" th:text="${variant.name}" 
                     th:selected="${variant.id == product.variantId}"></option>
           </th:block>
-        </select>
+        </select>        
+      </div>
+      <div class="form-group">
+        <label for="txtImage" class="form-label"> Image </label>
+        <input
+          type="text"
+          class="form-control"
+          id="txtImage"
+          name="image"
+          th:value="${product.image}"
+        />
       </div>
       <div class="text-right">
         <button class="btn btn-success mt-3"><i class="fas fa-edit"></i>Update</button>
@@ -64,9 +74,9 @@
         "price" : {
           "required":true
         },
-        "variantName":{
-            "required":true
-        }
+        "variantId": {
+          "required": true
+        },
 
       }
     });

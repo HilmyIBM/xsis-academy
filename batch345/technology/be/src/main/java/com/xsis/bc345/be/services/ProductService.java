@@ -16,10 +16,10 @@ import com.xsis.bc345.be.repositories.ProductRepository;
 public class ProductService {
     private ProductRepository productRepo;
 
-    public ProductService(ProductRepository productRepo){
+    public ProductService(ProductRepository productRepo) {
         this.productRepo = productRepo;
     }
-    
+
     public List<Product> getAll() {
         try {
             return productRepo.findByDeleted(false).get();
@@ -29,11 +29,11 @@ public class ProductService {
         }
     }
 
-    public Product update(Product data) throws Exception{
-       Optional <Product> variantExisting = productRepo.findById(data.getId());
-        if (productRepo.findById(data.getId()).isPresent()){
+    public Product update(Product data) throws Exception {
+        Optional<Product> variantExisting = productRepo.findById(data.getId());
+        if (productRepo.findById(data.getId()).isPresent()) {
             // update fields
-            data.setCreateBy(variantExisting.get().getCreateBy()); 
+            data.setCreateBy(variantExisting.get().getCreateBy());
             data.setCreateDate(variantExisting.get().getCreateDate());
             data.setUpdateDate(LocalDateTime.now());
 
@@ -66,6 +66,16 @@ public class ProductService {
 
     public Optional<Product> getById(int id, boolean deleted) {
         // TODO Auto-generated method stub
-        return productRepo.findByIdAndDeleted(id, deleted);    }
+        return productRepo.findByIdAndDeleted(id, deleted);
+    }
+
+    public Map<String, Object> getByIdNative(int id) throws Exception {
+        try {
+            return productRepo.findByIdNative(id).get();
+        } catch (Exception e) {
+            // TODO: handle exception
+            throw e;
+        }
+    }
 
 }

@@ -98,10 +98,29 @@ public class ProductController {
      @GetMapping("/id/{id}")
     public ResponseEntity<?> getBy(@PathVariable int id) {
         try {
-           Optional <Product> data = productSvc.getById(id, false);
+           Map<String, Object> data = productSvc.getByIdNative(id);
+                if(data.size()>0){
+
+                        return new ResponseEntity <Map<String, Object>>( data, HttpStatus.OK);
+                } else {
+
+                    return new ResponseEntity <Map<String, Object>> (data, HttpStatus.NO_CONTENT);
+                }
+                
+            }
+         catch (Exception e) {
+            // TODO: handle exception
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+     @GetMapping("/id/old/{id}")
+    public ResponseEntity<?> getByIdOld(@PathVariable int id) {
+        try {
+            Optional <Product> data = productSvc.getById(id, false);
                 if(data.isPresent()){
 
-                    return new ResponseEntity <Product>(data.get(), HttpStatus.OK);
+                    return new ResponseEntity <Product>( data.get(), HttpStatus.OK);
                 } else {
 
                     return new ResponseEntity <Product> (data.get(), HttpStatus.NO_CONTENT);

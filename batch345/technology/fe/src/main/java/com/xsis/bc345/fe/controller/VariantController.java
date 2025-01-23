@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.xsis.bc345.fe.models.CategoryView;
+import com.xsis.bc345.fe.models.ProductView;
 import com.xsis.bc345.fe.models.VariantView;
 import com.xsis.bc345.fe.models.VariantView;
 
@@ -56,46 +58,44 @@ public class VariantController {
         return view;
     }
 
-    @GetMapping("/add")
+   @GetMapping("/add")
     public ModelAndView add() {
         ModelAndView view = new ModelAndView("/variant/add");
 
-        ResponseEntity<VariantView> apiResponse = null;
-
+        //Category List
+        ResponseEntity<CategoryView[]> apiCategoryResponse = null;
+        
         try {
-            apiResponse = restTemplate.getForEntity(apiUrl + "/add/", VariantView.class);
-
-            if (apiResponse.getStatusCode() == HttpStatus.OK) {
-                VariantView data = apiResponse.getBody();
-                view.addObject("variant", data);
-                // view.addObject("data", apiResponse.getBody()); ---ini juga bisa
-            } else {
-                throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
-            }
-
+            //Get all Categories
+            apiCategoryResponse = restTemplate.getForEntity("http://localhost:8080/api/category", CategoryView[].class);
+            view.addObject(
+                "categories", 
+                (apiCategoryResponse.getStatusCode() == HttpStatus.OK) ? apiCategoryResponse.getBody() : new CategoryView()
+            );
         } catch (Exception e) {
             // TODO: handle exception
             view.addObject("errorMsg", e.getMessage());
         }
 
-        view.addObject("Variant Detail");
+        view.addObject("title", "Add New Variant");
 
         return view;
     }
 
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<?> getByCategory(@PathVariable int categoryId) {
-        ResponseEntity<VariantView[]> apiResponse;
 
-        try {
-            apiResponse = restTemplate.getForEntity(apiUrl + "/variant/category" + categoryId, VariantView[].class);
-            return new ResponseEntity<VariantView[]>(apiResponse.getBody(), HttpStatus.OK);
+    // @GetMapping("/category/{categoryId}")
+    // public ResponseEntity<?> getByCategory(@PathVariable int categoryId) {
+    //     ResponseEntity<VariantView[]> apiResponse;
 
-        } catch (Exception e) {
-            // TODO: handle exception
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
+    //     try {
+    //         apiResponse = restTemplate.getForEntity(apiUrl + "/variant/category" + categoryId, VariantView[].class);
+    //         return new ResponseEntity<VariantView[]>(apiResponse.getBody(), HttpStatus.OK);
+
+    //     } catch (Exception e) {
+    //         // TODO: handle exception
+    //         return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    //     }
+    // }
 
     @PostMapping("/create")
     ResponseEntity<?> create(@ModelAttribute VariantView variant) {
@@ -120,12 +120,11 @@ public class VariantController {
 
         ResponseEntity<VariantView> apiResponse = null;
 
-        ResponseEntity<VariantView[]> categoryResponse = null;
-
+        ResponseEntity<CategoryView[]> categoryResponse = null;
 
         try {
             apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + id, VariantView.class);
-            
+
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 VariantView variant = apiResponse.getBody();
                 view.addObject("title", "Edit variant");
@@ -135,13 +134,13 @@ public class VariantController {
             }
 
             // Fetch categories for dropdown
-        categoryResponse = restTemplate.getForEntity("http://localhost:8080/api/category", VariantView[].class);
-        if (categoryResponse.getStatusCode() == HttpStatus.OK) {
-            VariantView[] categories = categoryResponse.getBody();
-            view.addObject("categories", categories);
-        } else {
-            throw new Exception("Error: " + categoryResponse.getStatusCode());
-        }
+            categoryResponse = restTemplate.getForEntity("http://localhost:8080/api/category", CategoryView[].class);
+            if (categoryResponse.getStatusCode() == HttpStatus.OK) {
+                CategoryView[] categories = categoryResponse.getBody();
+                view.addObject("categories", categories);
+            } else {
+                throw new Exception("Error: " + categoryResponse.getStatusCode());
+            }
         } catch (Exception e) {
             view.addObject("errorMsg", e.getMessage());
         }
@@ -209,17 +208,15 @@ public class VariantController {
         try {
             // restTemplate.delete(apiUrl + "/delete/" + id + "/" + userId);
             apiResponse = restTemplate.exchange(
-                apiUrl + "/delete/" + id + "/" + userId,
-                HttpMethod.DELETE,
-                new HttpEntity<VariantView>(variant),
-                VariantView.class
-            );
+                    apiUrl + "/delete/" + id + "/" + userId,
+                    HttpMethod.DELETE,
+                    new HttpEntity<VariantView>(variant),
+                    VariantView.class);
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 return new ResponseEntity<VariantView>(apiResponse.getBody(), HttpStatus.OK);
-            }
-            else {
-                throw new Exception(apiResponse.getStatusCode().toString() + ": " +  apiResponse.getBody().toString());
+            } else {
+                throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody().toString());
             }
         } catch (Exception e) {
             // TODO: handle exception
@@ -228,7 +225,7 @@ public class VariantController {
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView delete(@PathVariable int id){
+    public ModelAndView delete(@PathVariable int id) {
         ModelAndView view = new ModelAndView("/variant/delete");
 
         view.addObject("id", id);
@@ -237,5 +234,4 @@ public class VariantController {
         return view;
     }
 
-    
 }

@@ -1,0 +1,77 @@
+<input type="hidden" id="txtTitle"  th:value="${title}"/>
+<div class="card">
+  <div class="card-body">
+      <input type="text" name="id" id="txtId" th:value="${product.id}" readonly/>
+      <input type="hidden" name="updateBy" id="txtUpdateBy" value="2"/>
+      <div class="form-group">
+        <label for="txtName" class="form-label h6"> Name </label>
+        <input type="text" class="form-control" id="txtName" name="name" th:value="${product.name}" readonly />
+      </div>
+      <div class="form-group">
+        <label for="txtPrice" class="form-label h6" > Price </label>
+        <input
+          type="number"
+          class="form-control"
+          id="txtPrice"
+          name="price"
+          th:value="${product.price}"
+          readonly
+        />
+      </div>
+      <div class="form-group">
+        <label for="txtStock" class="form-label h6" > Stock </label>
+        <input
+          type="number"
+          class="form-control"
+          id="txtStock"
+          name="stock"
+          th:value="${product.stock}"
+          readonly
+        />
+      </div>
+      <div class="form-group">
+        <label for="txtVariantId" class="form-label h6" > Variant ID </label>
+        <input
+          type="text"
+          class="form-control"
+          id="txtVariant"
+          name="variant"
+          th:value="${product.variant}"
+          readonly
+        />
+      </div>
+      <div class="form-group">
+        <label for="txtVariant" class="form-label h6" > Variant </label>
+        <input
+          type="text"
+          class="form-control"
+          id="txtVariantId"
+          name="variantId"
+          th:value="${product.variantId}"
+          readonly
+        />
+      </div>
+      <div class="form-group">
+        <label for="txtName" class="form-label h6"> Create By </label>
+        <input type="text" class="form-control" id="txtCreateBy" name="createBy" th:value="${product.createBy}" readonly />
+        <label for="txtName" class="form-label h6"> Update By </label>
+        <input type="text" class="form-control" id="txtUpdateBy" name="updateBy" th:value="${product.updateBy}" readonly />
+      </div>
+      <div class="form-group">
+        <label for="txtName" class="form-label h6"> Create Date </label>
+        <input type="text" class="form-control" id="txtCreateDate" name="createDate" th:value="${product.createDate}" readonly />
+        <label for="txtName" class="form-label h6"> Update Date </label>
+        <input type="text" class="form-control" id="txtUpdateDate" name="updateDate" th:value="${product.updateDate}"  readonly/>
+      </div>
+      <div class="text-right">
+        <div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $("#staticModalLabel").text($("#txtTitle").val());
+    // $("#staticModalLabel").html();
+  });
+</script>
