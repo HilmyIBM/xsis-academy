@@ -116,6 +116,7 @@ public class ProductController {
                 Path imgPath = Paths.get(uploadDir + fileName);
                 Files.write(imgPath, imgFile.getBytes());
                 product.setImage(fileName);
+
             }
             apiResponse = restTemplate.postForEntity(apiUrl + "/products", product, ProductView.class);
 
@@ -159,11 +160,13 @@ public class ProductController {
     @SuppressWarnings("null")
     @PostMapping("/update")
     public ResponseEntity<?> update(@ModelAttribute ProductView product,
-            @RequestParam(value = "setImage", required = false) MultipartFile imgFile) throws IOException {
+            @RequestParam(value = "setImage", required = false) MultipartFile imgFile,
+            @RequestParam(value = "existingImage", required = false) String currImg) throws IOException {
         ResponseEntity<ProductView> response = null;
         try {
+            String fileName;
             if (imgFile != null && !imgFile.isEmpty()) {
-                String fileName = imgFile.getOriginalFilename();
+                fileName = imgFile.getOriginalFilename();
                 Path imgPath = Paths.get(uploadDir + fileName);
 
                 File uploadDirFile = new File(uploadDir);
@@ -173,6 +176,10 @@ public class ProductController {
 
                 Files.write(imgPath, imgFile.getBytes());
                 product.setImage(fileName);
+            } else {
+                if (currImg.length() > 0) {
+                    product.setImage(currImg);
+                }
             }
 
             restTemplate.put(apiUrl + "/products", product);

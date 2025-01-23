@@ -84,7 +84,11 @@
             <tbody th:if="${product!=null}">
               <tr th:each="item : ${product}">
                 <td class="align-middle">
-                  <div class="ratio ratio-1x1" style="width: 70px">
+                  <div
+                    th:if="${item.image!=null}"
+                    class="ratio ratio-1x1"
+                    style="width: 70px"
+                  >
                     <img
                       th:src="@{'lib/images/'+${item.image}}"
                       th:alt="${item.name}"

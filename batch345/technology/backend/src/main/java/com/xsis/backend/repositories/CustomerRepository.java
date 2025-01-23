@@ -1,6 +1,7 @@
 package com.xsis.backend.repositories;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,12 +19,13 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
     @Query(value = """
                 SELECT
-                    c.id, c.name, c.address, c.email, c.password, c.phone, c.role_id,
-                    c.is_deleted, c.create_by, c.create_date, c.update_by, c.update_date
+                    c.id, c.name, c.address, c.email, c.phone, c.role_id AS "roleId",
+                    c.is_deleted AS "deleted", c.create_by AS "createBy", c.create_date AS "createDate",
+                    c.update_by AS "updateBy", c.update_date AS "updateDate"
                 FROM tbl_m_customer AS c
                 WHERE (c.is_deleted IS FALSE) AND (LOWER(c.name) LIKE LOWER(CONCAT('%', :filter, '%')) OR
                     LOWER(c.email) LIKE LOWER(CONCAT('%', :filter, '%')) OR
                     LOWER(c.phone) LIKE LOWER(CONCAT('%', :filter, '%')))
             """, nativeQuery = true)
-    Optional<List<Customer>> findNativeByFilter(@Param("filter") String filter);
+    Optional<List<Map<String, Object>>> findNativeByFilter(@Param("filter") String filter);
 }

@@ -9,6 +9,12 @@
       enctype="multipart/form-data"
     >
       <input type="hidden" id="txtCreateBy" name="createBy" value="1" />
+      <!-- Image Preview Section -->
+      <div id="imagePreview" class="d-none d-flex justify-content-center">
+        <div class="ratio ratio-1x1" style="width: 250px">
+          <img src="#" alt="Image Preview" style="object-fit: cover" />
+        </div>
+      </div>
       <div class="form-group">
         <label for="formFile" class="form-label">Input Product Image</label>
         <input
@@ -18,6 +24,7 @@
           name="setImage"
           accept="image/*"
         />
+        <small id="fileError" class="text-danger d-none"></small>
       </div>
       <div class="form-group">
         <label for="txtName" class="form-label">Product Name</label>
@@ -57,17 +64,49 @@
 <script>
   $(document).ready(function () {
     $("#staticModalLabel").text($("#txtTitle").val());
+    const allowedExtensions = /\.(jpg|jpeg|png)$/i;
+
+    // Handle image preview and validation
+    $("#formFile").on("change", function () {
+      const file = this.files[0];
+      const errorElement = $("#fileError");
+      const previewContainer = $("#imagePreview");
+      const previewImage = $("#imagePreview img");
+      if (file) {
+        if (!allowedExtensions.test(file.name)) {
+          errorElement
+            .removeClass("d-none")
+            .text("Please upload a valid image file (JPEG or PNG only).");
+          $(this).val(null);
+          previewContainer.addClass("d-none");
+          previewImage.attr("src", "#");
+          return;
+        }
+
+        errorElement.addClass("d-none").text("");
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          previewContainer.removeClass("d-none");
+          previewImage.attr("src", e.target.result);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        previewContainer.addClass("d-none");
+        previewImage.attr("src", "#");
+      }
+    });
+
     $.validator.addMethod(
       "checkFileExtension",
       function (value, element) {
         if (value) {
-          const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
           return allowedExtensions.test(value);
         }
         return true;
       },
       "Please upload a valid image file (jpg, jpeg, png, gif)."
     );
+
     $("#formNewProduct").validate({
       rules: {
         name: {
@@ -79,7 +118,7 @@
           digits: true,
         },
         image: {
-          required: true,
+          checkFileExtension: true,
         },
         variantId: {
           required: true,
