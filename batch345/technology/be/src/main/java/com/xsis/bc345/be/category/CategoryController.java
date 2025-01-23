@@ -31,10 +31,7 @@ public class CategoryController {
     }
 
     @GetMapping("/all/{page}/{size}")
-    public ResponseEntity<?> getAllCategory(
-            @PathVariable Integer page,
-            @PathVariable Integer size) {
-
+    public ResponseEntity<?> getAllCategory(@PathVariable Integer page, @PathVariable Integer size) {
         if (page == null) page = 0;
         if (size == null) size = 10;
 
