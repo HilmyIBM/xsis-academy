@@ -66,11 +66,25 @@ public class CustomerController {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> getByEmail(@PathVariable String email) {
+        try {
+            Optional<Customer> data = customerSvc.getByEmail(email);
+
+            return new ResponseEntity<Customer>(
+                data.get(),
+                data.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT
+            );
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody Customer data) {
         try {
-            return new ResponseEntity<Customer>(customerSvc.create(data), HttpStatus.OK);
+            return new ResponseEntity<Customer>(customerSvc.create(data), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -103,4 +117,5 @@ public class CustomerController {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

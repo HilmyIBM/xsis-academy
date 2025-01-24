@@ -14,6 +14,7 @@ import java.util.Optional;
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     Optional<List<Customer>> findByDeleted(boolean deleted);
     Optional<Customer> findByIdAndDeleted(int id, boolean isDeleted);
+    Optional<Customer> findByEmailAndDeleted(String email, boolean isDeleted);
 
     @Query(
         nativeQuery = true,

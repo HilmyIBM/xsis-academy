@@ -2,6 +2,7 @@ package com.xsis.bc345.be.services;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +20,13 @@ public class CustomerService {
     private CustomerRepository customerRepo;
 
     //Hash SHA-256
-	private static String bytesToHex(byte[] hash) {
-	    StringBuilder hexString = new StringBuilder(2 * hash.length);
-	    for (int i = 0; i < hash.length; i++) {
-	        String hex = Integer.toHexString(0xff & hash[i]);
+	private static String stringToHex(String strInput) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hashByte = digest.digest(strInput.getBytes(StandardCharsets.UTF_8));
+
+	    StringBuilder hexString = new StringBuilder(2 * hashByte.length);
+	    for (int i = 0; i < hashByte.length; i++) {
+	        String hex = Integer.toHexString(0xff & hashByte[i]);
 	        if(hex.length() == 1) {
 	            hexString.append('0');
 	        }
@@ -35,6 +39,10 @@ public class CustomerService {
         return customerRepo.findAllNative().get();
     }
 
+    public Optional<Customer> getByEmail(String email) {
+        return customerRepo.findByEmailAndDeleted(email.toLowerCase(),false);
+    }
+
     public Optional<Map<String, Object>> getBy(int id) {
         return customerRepo.findByIdNative(id);
     };
@@ -44,9 +52,7 @@ public class CustomerService {
     }
 
     public Customer create(Customer data) throws Exception {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] encodehash = digest.digest(data.getPassword().getBytes(StandardCharsets.UTF_8));
-        data.setPassword(bytesToHex(encodehash));
+        data.setPassword(stringToHex(data.getPassword()));
 
         return customerRepo.save(data);
     }
@@ -55,9 +61,11 @@ public class CustomerService {
         Optional<Customer> existingCustomer = customerRepo.findByIdAndDeleted(data.getId(), false);
 
         if (existingCustomer.isPresent()) {
+            data.setPassword(stringToHex(data.getPassword()));
+            data.setUpdateDate(LocalDateTime.now());
+
             data.setCreateBy(existingCustomer.get().getCreateBy());
             data.setCreateDate(existingCustomer.get().getCreateDate());
-            data.setUpdateDate(LocalDateTime.now());
 
             return customerRepo.save(data);
         }
@@ -80,5 +88,4 @@ public class CustomerService {
             throw new Exception("Customer doesn't exist!");
         }
     };
-
 }
