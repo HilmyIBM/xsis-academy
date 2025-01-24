@@ -1,69 +1,155 @@
-<span id="txtTitle" class="d-none" th:text="${title}"></span>
+<input type="hidden" id="txtTitle" th:value="${title}" />
 <div class="card">
   <div class="card-body">
-    <form th:action="@{~/product/save}" id="frmNewProduct" method="post">
-
-      <div class="form-group">
-        <label for="txtName" class="form-label"> Name </label>
-        <input type="text" class="form-control" id="txtName" name="productName" />
+    <form
+      th:action="@{~/product/create}"
+      id="formNewProduct"
+      class="d-grid gap-3"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input type="hidden" id="txtCreateBy" name="createBy" value="1" />
+      <!-- Image Preview Section -->
+      <div id="imagePreview" class="d-none d-flex justify-content-center">
+        <div class="ratio ratio-1x1" style="width: 250px">
+          <img src="#" alt="Image Preview" style="object-fit: cover" />
+        </div>
       </div>
       <div class="form-group">
-        <label for="txtDescription" class="form-label"> Description </label>
+        <label for="formFile" class="form-label">Input Product Image</label>
         <input
-          type="text"
           class="form-control"
-          id="txtDescription"
-          name="description"
+          type="file"
+          id="formFile"
+          name="setImage"
+          accept="image/*"
         />
+        <small id="fileError" class="text-danger d-none"></small>
       </div>
-      <div class="text-right">
-        <button class="btn btn-success mt-3"><i class="fas fa-save" type="submit"></i>&nbsp; Save</button>
+      <div class="form-group">
+        <label for="txtName" class="form-label">Product Name</label>
+        <input type="text" class="form-control" id="txtName" name="name" />
+      </div>
+      <div class="form-group">
+        <label for="txtPrice" class="form-label">Price</label>
+        <input type="number" class="form-control" id="txtPrice" name="price" />
+      </div>
+      <div class="form-group">
+        <label for="txtStock" class="form-label">Stock</label>
+        <input type="number" class="form-control" id="txtStock" name="stock" />
+      </div>
+      <div class="form-group">
+        <label for="selVariant" class="form-label h6 fw-bold">Variant</label>
+        <select name="variantId" id="selVariant" class="form-select">
+            <option value="">--Select Variant--</option>
+            <option
+                th:if="${variants != null}"
+                th:each="item : ${variants}"
+                th:value="${item.id}"
+                th:text="${item.name}"></option>
+        </select>
+    </div>
+      <div class="text-right d-flex justify-content-end">
+        <button type="submit" class="btn btn-success">
+          <i class="fas fa-save"></i> Save
+        </button>
       </div>
     </form>
   </div>
 </div>
 
-
 <script>
-  $(document).ready(function(){
-      $("#staticModalLabel").text($("#txtTitle").text());
+  $(document).ready(function () {
+    $("#staticModalLabel").text($("#txtTitle").val());
+    const allowedExtensions = /\.(jpg|jpeg|png)$/i;
 
-      $("#frmNewProduct").validate({
-          "rules" : {
-              "productName": {
-                  "required": true,
-                  "maxlength": 100,
-                  "minlength": 3
-              },
-              "description": {
-                  "maxlength": 100
-              }
+    // Handle image preview and validation
+    $("#formFile").on("change", function () {
+      const file = this.files[0];
+      const errorElement = $("#fileError");
+      const previewContainer = $("#imagePreview");
+      const previewImage = $("#imagePreview img");
+      if (file) {
+        if (!allowedExtensions.test(file.name)) {
+          errorElement
+            .removeClass("d-none")
+            .text("Please upload a valid image file (JPEG or PNG only).");
+          $(this).val(null);
+          previewContainer.addClass("d-none");
+          previewImage.attr("src", "#");
+          return;
+        }
+
+        errorElement.addClass("d-none").text("");
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          previewContainer.removeClass("d-none");
+          previewImage.attr("src", e.target.result);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        previewContainer.addClass("d-none");
+        previewImage.attr("src", "#");
+      }
+    });
+
+    $.validator.addMethod(
+      "checkFileExtension",
+      function (value, element) {
+        if (value) {
+          return allowedExtensions.test(value);
+        }
+        return true;
+      },
+      "Please upload a valid image file (jpg, jpeg, png, gif)."
+    );
+
+    $("#formNewProduct").validate({
+      rules: {
+        name: {
+          required: true,
+          maxlength: 100,
+          minlength: 3,
+        },
+        stock: {
+          digits: true,
+        },
+        image: {
+          checkFileExtension: true,
+        },
+        variantId: {
+          required: true,
+        },
+      },
+      errorClass: "text-danger",
+    });
+
+    $("#formNewProduct").submit(function (e) {
+      e.preventDefault();
+
+      if ($("#formNewProduct").valid()) {
+        let formData = new FormData(this);
+        $.ajax({
+          url: "/product/create",
+          type: "post",
+          data: formData,
+          processData: false,
+          contentType: false,
+          // dataType: "json",
+          beforeSend: () => {
+            // alert("Mengirim data ke API");
           },
-          "errorClass": "text-danger"
-      });
-
-      $("#frmNewProduct").submit(function(e) {
-          e.preventDefault();
-
-          if ($("#frmNewProduct").valid()) {
-              debugger;
-              $.ajax({
-                  url: "/product/create",
-                  type: "post",
-                  data: $("#frmNewProduct").serialize(),
-                  dataType: "json",
-                  beforeSend: () => {
-                      // alert("mengirim data ke api");
-                  },
-                  success: function(response) {
-                      alert("product " + response.productName + " succesfully updated!");
-                      location.reload();
-                  },
-                  error: function(errResponse) {
-                      console.error("Create new product Failed: " + errResponse.responseText);
-                  }
-              });
-          }
-      });
+          success: function (response) {
+            alert("Product " + response.name + " successfully update!");
+            location.reload();
+          },
+          error: function (errResponse) {
+            console.error(
+              "Create new Product Failed: " + errResponse.responseText
+            );
+          },
+        });
+      }
+    });
   });
 </script>

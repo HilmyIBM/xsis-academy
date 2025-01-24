@@ -20,6 +20,12 @@ public class ProductService {
         this.productRepo = productRepo;
     }
 
+    public Product create(Product data) throws Exception {
+        return productRepo.save(data);
+        
+    
+}
+
     public List<Product> getAll() {
         try {
             return productRepo.findByDeleted(false).get();

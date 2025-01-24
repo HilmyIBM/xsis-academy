@@ -1,0 +1,29 @@
+<div class="d-none" th:text="${title}"></div>
+<form id="frmLogin">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="input-group">
+                    <label for="txtName" class="input-group-text"></label>
+                    <input type="text" id="txtName" name="name" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-group">
+                <label for="txtPassword" class="input-group-text">Password</label>
+                <input type="txtPassword" name="password" type="password" class="form-control"/>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="button btn btn-primary" type="submit">Login</div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    $(document).ready(function(e){
+        $("#staticModalLabel").text($("#txtTitle").text());
+    })
+</script>

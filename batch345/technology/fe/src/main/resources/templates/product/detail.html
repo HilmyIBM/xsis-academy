@@ -30,24 +30,24 @@
         />
       </div>
       <div class="form-group">
-        <label for="txtVariantId" class="form-label h6" > Variant ID </label>
+        <label for="txtVariant" class="form-label h6" > Variant ID </label>
+        <input
+        type="text"
+        class="form-control"
+        id="txtVariantId"
+        name="variantId"
+        th:value="${product.variantId}"
+        readonly
+        />
+      </div>
+      <div class="form-group">
+        <label for="txtVariantId" class="form-label h6" > Variant </label>
         <input
           type="text"
           class="form-control"
           id="txtVariant"
           name="variant"
           th:value="${product.variant}"
-          readonly
-        />
-      </div>
-      <div class="form-group">
-        <label for="txtVariant" class="form-label h6" > Variant </label>
-        <input
-          type="text"
-          class="form-control"
-          id="txtVariantId"
-          name="variantId"
-          th:value="${product.variantId}"
           readonly
         />
       </div>

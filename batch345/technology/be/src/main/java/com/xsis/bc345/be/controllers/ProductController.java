@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,6 +81,19 @@ public class ProductController {
          catch (Exception e) {
             // TODO: handle exception
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("")
+    public ResponseEntity <?> create(@RequestBody final Product data){
+        try {
+            Product newProduct = productSvc.create(data);
+                return new ResponseEntity <Product> (newProduct, HttpStatus.CREATED);
+            
+        } catch (Exception e) {
+            // TODO: handle exception
+            return new ResponseEntity <String> (e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
     }
 
