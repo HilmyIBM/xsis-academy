@@ -37,6 +37,11 @@ public class ProductService {
   public Optional<Map<String, Object>> getByIdNative(int id) throws Exception {
     return productRepo.nativeFindById(id);
   }
+
+  public Optional<Map<String, Object>> getByFilterNative(String filter) throws Exception {
+    return productRepo.nativeFindByFilter(filter);
+  }
+
   public Product create(Product data) throws Exception {
     return productRepo.save(data);
   }

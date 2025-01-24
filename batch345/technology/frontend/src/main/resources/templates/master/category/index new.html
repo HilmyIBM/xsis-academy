@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorate="~{fragments/layout}">
   <head>
-    <title>Customer</title> 
+    <title>Category</title>
   </head>
   <body>
     <div layout:fragment="content">
-      <h1>Welcome to Customer</h1>
+      <h1>Welcome to Category</h1>
+      
+      
       <hr style="opacity: 1" />
       <button
         type="button"
@@ -16,26 +18,20 @@
       >
         <i class="fas fa-plus"></i> Add
       </button>
-      <table class="table table-striped" id="tb-customer">
+      <table class="table table-striped" id="tb-category">
         <thead>
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Address</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Role ID</th>
+            <th scope="col">Description</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr th:each="item:${customer}">
+          <tr th:each="item:${category}">
             <td th:text="${item.id}"></td>
-            <td th:text="${item.name}">Appetizer</td>
-            <td th:text="${item.email}">Category of Appetizer</td>
-            <td th:text="${item.address}">Category of Appetizer</td>
-            <td th:text="${item.phone}">Category of Appetizer</td>
-            <td th:text="${item.roleId}">Category of Appetizer</td>
+            <td th:text="${item.categoryName}">Appetizer</td>
+            <td th:text="${item.description}">Category of Appetizer</td>
             <td>
               <div
                 class="btn-group"
@@ -69,25 +65,25 @@
         </tbody>
       </table>
       <script>
-        new DataTable("#tb-customer");
+        new DataTable("#tb-category");
         $("#btnAdd").click(function (e) {
-          $("#staticModalBody").load("/customer/add");
+          $("#staticModalBody").load("category/add");
         });
         $(".btn-warning").click(function (e) {
-          let custId = $(this).data("id");
+          let catId = $(this).data("id");
 
-          $("#staticModalBody").load("/customer/edit/" + custId);
+          $("#staticModalBody").load("/category/edit/" + catId);
           $("#staticModal").modal("show");
         });
         $(".btn-success").click(function (e) {
-          let custId = $(this).data("id");
+          let catId = $(this).data("id");
 
-          $("#staticModalBody").load("/customer/" + custId);
+          $("#staticModalBody").load("/category/" + catId);
           $("#staticModal").modal("show");
         });
         $(".btn-danger").click(function (e) {
-          let custId = $(this).data("id");
-          $("#staticModalBody").load("/customer/delete/" + custId);
+          let catId = $(this).data("id");
+          $("#staticModalBody").load("/category/delete/" + catId);
           $("#staticModal").modal("show");
         });
       </script>
