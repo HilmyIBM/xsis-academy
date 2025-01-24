@@ -1,0 +1,90 @@
+﻿<form id="frmNewCustomer">
+    <div id="txtTitle" class="card-header d-none" th:text="${title}"></div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="input-group col">
+                    <label class="col-4 input-group-text">Name <sup class="text-danger">*</sup></label>
+                    <input class="col-8 form-control" type="text" name="Name" />
+                </div>
+                <div class="input-group col">
+                    <label class="col-4 input-group-text">Role <sup class="text-danger">*</sup></label>
+                    <select class="col-8 form-select" name="RoleId">
+                        <option value="">-- Select a Role --</option>
+                        <option value="1">Admin</option>
+                        <option value="2">User</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="input-group col">
+                    <label class="col-4 input-group-text">Email <sup class="text-danger">*</sup></label>
+                    <input class="col-8 form-control" type="email" name="Email" />
+                </div>
+                <div class="input-group col">
+                    <label class="col-4 input-group-text">Password <sup class="text-danger">*</sup></label>
+                    <input class="col-8 form-control" type="password" name="Password" />
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <label class="col-2 input-group-text">Address</label>
+                <input class="col-10 form-control" name="Address" />
+            </div>
+            <div class="input-group mb-3">
+                <label class="col-2 input-group-text">Phone</label>
+                <input class="col-10 form-control" type="number" name="Phone" />
+            </div>
+        </div>
+        <div class="card-footer text-end">
+            <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Save</button>
+            <input type="hidden" name="CreateBy" value="1" />
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function(e) {
+        $("#staticModalLabelLg").text($("#txtTitle").text());
+    });
+
+    $("#frmNewCustomer").submit(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url:"/customer/add",
+            type:"post",
+            data: $(this).serialize(),
+            dataType: "json",
+            beforeSend: () => { },
+            success: function (response) {
+                alert("Customer " + response.name + " succesfully added!");
+                location.reload();
+            },
+            error: function (errResponse) {
+                console.log(errResponse);
+                debugger;
+            }
+        });
+
+        return false;
+    });
+
+    $("#frmNewCustomer").validate({
+        rules: {
+            Name: {
+                "required": true,
+                "minlength": 3
+            },
+            RoleId: "required",
+            Password: {
+                "required": true,
+                "minlength": 6
+            },
+            Email: {
+                "required": true,
+                "email": true
+            }
+        },
+        errorClass: "text-danger"
+    });
+</script>

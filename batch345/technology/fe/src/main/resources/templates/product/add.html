@@ -161,14 +161,8 @@
                 contentType: false,
                 beforeSend: () => {},
                 success: function(apiResponse) {
-                    debugger;
-                    if (true) {
-                        alert(apiResponse.id);
-                        location.reload();
-                    }
-                    else{
-                        alert();
-                    }
+                    alert("Product " + response.name + " succesfully added!");
+                    location.reload();
                 },
                 error: function(errResponse) {
                     alert(`Failed to Add the new Product!\n\n[${errResponse.status}] - ${errResponse.responseText}`);
