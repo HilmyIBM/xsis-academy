@@ -6,7 +6,11 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import com.xsis.bc345.backend.models.ProductModel;
 import com.xsis.bc345.backend.repositories.ProductRepo;
@@ -72,5 +76,9 @@ public class ProductService {
         }
     }
 
+    public Page<ProductModel> getPagination(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size,Sort.by("id").ascending());
+        return productrepo.findByIsDeleted(false,pageable);
+    }
 
 }

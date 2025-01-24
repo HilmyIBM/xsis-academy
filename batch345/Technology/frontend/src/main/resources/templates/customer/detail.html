@@ -1,0 +1,62 @@
+<span class="d-none" th:text="${title}" id="txtTitle"></span>
+<div class="card">
+    <div class="card-body">
+            <div class="input-group mt-2">
+                <label for="txtName" class="input-group-text col-lg-3">Name </label>
+                <input type="text" class="form-control col-lg-9" id="txtName" name="name" th:value="${customer.name}" disabled readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <label for="txtDeskripsi" class="input-group-text col-lg-3">Email </label>
+                <input type="text" class="form-control col-lg-9"th:value="${customer.email}" disabled readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <label for="txtDeskripsi" class="input-group-text col-lg-3">Address </label>
+                <input type="text" class="form-control col-lg-9" id="txtDeskripsi" name="deskripsi" th:value="${customer.address}" disabled readonly>
+            </div>
+            <div class="input-group mt-3">
+                <label for="txtDeskripsi" class="input-group-text col-lg-3">Phone</label>
+                <input type="text" class="form-control col-lg-9" id="txtDeskripsi" name="deskripsi" th:value="${customer.phone}" disabled readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <label for="txtDeskripsi" class="input-group-text col-lg-3">Role </label>
+                <div th:switch="${customer.roleId}" class="w-75">
+                    <span th:case="1" class="form-control col-lg-9">Admin</span>
+                    <span th:case="2" class="form-control col-lg-9">User</span>
+                </div>
+            </div>
+            <br>
+            <div class="grid border-top border-white">
+                <div class=" row">
+                    <div class="col-3">
+                        <label for="txtDeskripsi" class="form-label">Create By : </label>
+                        <input type="text" class="form-control-plaintext" id="txtDeskripsi" name="createBy" th:value="${customer.createBy}" readonly>
+                    </div>
+        
+                    <div class="col-9">
+                        <label for="txtDeskripsi" class="form-label">Create Date : </label>
+                        <input type="text" class="form-control-plaintext" id="txtDeskripsi" name="createDate" th:value="${customer.createDate}" readonly>
+                    </div>
+                </div>  
+                <div class="row">
+                    <div class="col-3">
+                        <label for="txtDeskripsi" class="form-label">Update By : </label>
+                        <input type="text" class="form-control-plaintext" id="txtDeskripsi" name="updateby" th:value="${customer.updateBy}" readonly>
+                    </div>
+        
+                    <div class="col-9">
+                        <label for="txtDeskripsi" class="form-label">Update Date : </label>
+                        <input type="text" class="form-control-plaintext" id="txtDeskripsi" name="updateDate" th:value="${customer.updateDate}" readonly>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#staticBackdropLabel').text($('#txtTitle').text());
+    });
+</script>

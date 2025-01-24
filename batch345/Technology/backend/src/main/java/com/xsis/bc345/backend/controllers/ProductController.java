@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xsis.bc345.backend.models.ProductModel;
@@ -106,4 +108,17 @@ public class ProductController {
 
     }  
     
+    @GetMapping("pagination/{page}/{size}")
+    public ResponseEntity<?> getpagination(@RequestParam int page,@RequestParam int size){
+        try {
+            final Page<ProductModel> data=productSVC.getPagination(page, size);
+            if (data.getSize()>0) {
+                return new ResponseEntity<Page<ProductModel>>(data,HttpStatus.OK);
+            } else {
+                return new ResponseEntity<Page<ProductModel>>(data,HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package com.xsis.bc345.backend.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -48,5 +50,7 @@ public interface  ProductRepo extends JpaRepository<ProductModel,Integer> {
             """
     ,nativeQuery = true)
     Optional<List<Map<String,Object>>> findByfilter(String filter);
+
+    Page<ProductModel> findByIsDeleted(boolean isDeleted,Pageable pageable);
 
 }

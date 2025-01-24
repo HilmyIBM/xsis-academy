@@ -13,6 +13,37 @@ layout:decorate="~{fragments/layout}">
             }
         </style>
         <h1>Home Customer</h1>
+        <div class="d-flex justify-content-between">
+          <button
+            class="btn btn-success"
+            type="button"
+            id="btnAdd"
+            data-bs-toggle="modal"
+            data-bs-target="#staticModal"
+          >
+            <i class="fas fa-plus"></i>&nbsp;&nbsp;Add
+          </button>
+          <form class="input-group w-25">
+            <input
+              th:if="${filter != null and !filter.isEmpty()}"
+              th:value="${filter}"
+              name="filter"
+              type="text"
+              class="form-control"
+              placeholder="Cari User"
+            />
+            <input
+              th:unless="${filter != null and !filter.isEmpty()}"
+              name="filter"
+              type="text"
+              class="form-control"
+              placeholder="Cari User"
+            />
+            <button type="submit" class="input-group-text" title="Filter">
+              <i class="fas fa-filter"></i>
+            </button>
+          </form>
+        </div>
         <hr style="opacity: 1;">
         <div>
             <table class="table table-bordered mt-2 table-hover border-white" id="tblCustomer">
@@ -41,7 +72,7 @@ layout:decorate="~{fragments/layout}">
                       role="group"
                       aria-label="Basic mixed styles example"
                     >
-                    <button th:data-id="${item.id}" type="button" class="btn btn-success" title="Edit"><i class="fas fa-edit"></i></button>
+                    <button th:data-id="${item.id}" type="button" class="btn btn-info" title="Edit"><i class="fas fa-edit"></i></button>
                     <button th:data-id="${item.id}" type="button" class="btn btn-warning" title="Detail"><i class="fas fa-info"></i></button>
                     <button th:data-id="${item.id}" type="button" class="btn btn-danger" title="Delete"><i class="fas fa-trash"></i></button>
                     </div>
@@ -51,7 +82,30 @@ layout:decorate="~{fragments/layout}">
             </table>
         </div>
         <script>
-            new DataTable('#tblCustomer');
+            new DataTable('#tblCustomer');   
+
+            $("#btnAdd").click(function (e) {
+                $("#staticModalBody").load("/customer/add");
+            });
+
+            $("#tblCustomer").on("click", ".btn-info", function (e) {
+              let catId = $(this).data("id");
+              $("#staticModalBody").load("/customer/edit/" + catId);
+              $("#staticModal").modal("show");
+            });
+
+            $("#tblCustomer").on("click", ".btn-warning", function (e) {
+              let catId = $(this).data("id");
+
+              $("#staticModalBody").load("/customer/detail/" + catId);
+              $("#staticModal").modal("show");
+            });
+
+            $("#tblCustomer").on("click", ".btn-danger", function (e) {
+                let catId = $(this).data("id");
+                $("#staticModalBody").load("/customer/delete/" + catId);
+                $("#staticModal").modal("show");
+            });
         </script>
     </div>
 </body>

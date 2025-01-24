@@ -1,12 +1,15 @@
 package com.xsis.bc345.backend.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +19,8 @@ import com.xsis.bc345.backend.services.CustomerService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -42,7 +47,7 @@ public class CustomerController {
     @PostMapping("")
     public ResponseEntity<?> addCustomer(@RequestBody final CustomerModel data) {
         try {
-            return new ResponseEntity<CustomerModel>(customerSVC.create(data),HttpStatus.CREATED);
+            return new ResponseEntity<CustomerModel>(customerSVC.addCustomer(data),HttpStatus.CREATED);
         }catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -56,5 +61,32 @@ public class CustomerController {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<?> getbyId(@PathVariable int id) {
+        try {
+            Optional<CustomerModel> data=customerSVC.getbyId(id);
+
+            if (data.isPresent()) {
+                return new ResponseEntity<CustomerModel>(data.get(),HttpStatus.OK);   
+            }else{
+                return new ResponseEntity<CustomerModel>(data.get(),HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            
+        }
+    }
+
+    @DeleteMapping("/delete/{id}/{userId}")
+    public ResponseEntity<?> delete(@PathVariable int id,@PathVariable int userId){ 
+        try {
+            CustomerModel data=customerSVC.delete(id,userId);
+            return new ResponseEntity<CustomerModel>(data,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
     
 }

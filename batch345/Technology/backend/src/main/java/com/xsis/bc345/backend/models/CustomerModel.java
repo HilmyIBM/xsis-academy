@@ -21,7 +21,7 @@ public class CustomerModel {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -30,7 +30,7 @@ public class CustomerModel {
     @Column(nullable = false)
     private String address;
 
-    @Column(nullable = true)
+    @Column(nullable = true,unique = true)
     private String phone;
 
     @Column(name = "role_id",nullable = true)

@@ -1,5 +1,6 @@
 package com.xsis.b345.frontend.models;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class customerView {
@@ -12,9 +13,9 @@ public class customerView {
     private Integer roleId;
     private boolean isDeleted;
     private Integer createBy;
-    private LocalDateTime createDate;
+    private Timestamp createDate;
     private Integer updateBy;
-    private LocalDateTime updateDate;
+    private Timestamp updateDate;
 
     /**
      * @return int return the id
@@ -145,14 +146,14 @@ public class customerView {
     /**
      * @return LocalDateTime return the createDate
      */
-    public LocalDateTime getCreateDate() {
+    public Timestamp getCreateDate() {
         return createDate;
     }
 
     /**
      * @param createDate the createDate to set
      */
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 
@@ -173,14 +174,14 @@ public class customerView {
     /**
      * @return LocalDateTime return the updateDate
      */
-    public LocalDateTime getUpdateDate() {
+    public Timestamp getUpdateDate() {
         return updateDate;
     }
 
     /**
      * @param updateDate the updateDate to set
      */
-    public void setUpdateDate(LocalDateTime updateDate) {
+    public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
     }
 }

@@ -1,42 +1,42 @@
 <span class="d-none" th:text="${title}" id="txtTitle"></span>
 <div class="card">
     <div class="card-body" th:each="item:${product}">
-            <div class="input-group">
-                <label for="txtName" class="input-group-text">Name </label>
-                <input type="text" class="form-control" id="txtName" name="name" th:value="${item.name}" disabled readonly>
-            </div>
-
-            <div class="input-group mt-3">
-                <label for="txtDeskripsi" class="input-group-text">Price </label>
-                <input type="text" class="form-control"th:value="${item.price}" disabled readonly>
-            </div>
-
-            <div class="input-group mt-3">
-                <label for="txtDeskripsi" class="input-group-text">Stock </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="deskripsi" th:value="${item.stock}" disabled readonly>
-            </div>
-            <div class="input-group mt-3">
-                <label for="txtDeskripsi" class="input-group-text">Variant </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="deskripsi" th:value="${item.variantName}" disabled readonly>
-            </div>
-
-            <div class="input-group mt-3">
-                <label for="txtDeskripsi" class="input-group-text">Category </label>
-                <input type="text" class="form-control" id="txtDeskripsi" name="deskripsi" th:value="${item.categoryName}" disabled readonly>
-            </div>
-
-            <div class="form-group mt-2">
-                <label for="txtDeskripsi" class="form-label">Image : </label><br>
+        <div class="form-group ">
+            <div class="d-flex justify-content-center">
                 <img
                 th:if="${item.image}!=null"
                 th:src="@{'lib/images/'+${item.image}}"
                 alt="product"
-                class="img-fluid">
+                class="img-thumbnail ">
                 
                 <img th:unless="${item.image}!=null"
                 th:src="@{'lib/no-image.png'}"
                 alt="product"
                 class="img-thumbnail">
+            </div>
+        </div>
+            <div class="input-group mt-2">
+                <label for="txtName" class="input-group-text col-lg-3">Name </label>
+                <input type="text" class="form-control col-lg-9" id="txtName" name="name" th:value="${item.name}" disabled readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <label for="txtDeskripsi" class="input-group-text col-lg-3">Price </label>
+                <input type="text" class="form-control col-lg-9"th:value="${item.price}" disabled readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <label for="txtDeskripsi" class="input-group-text col-lg-3">Stock </label>
+                <input type="text" class="form-control col-lg-9" id="txtDeskripsi" name="deskripsi" th:value="${item.stock}" disabled readonly>
+            </div>
+            <div class="input-group mt-3">
+                <label for="txtDeskripsi" class="input-group-text col-lg-3">Variant</label>
+                <input type="text" class="form-control col-lg-9" id="txtDeskripsi" name="deskripsi" th:value="${item.variantName}" disabled readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <label for="txtDeskripsi" class="input-group-text col-lg-3">Category </label>
+                <input type="text" class="form-control col-lg-9" id="txtDeskripsi" name="deskripsi" th:value="${item.categoryName}" disabled readonly>
             </div>
             <br>
             <div class="grid border-top border-white">

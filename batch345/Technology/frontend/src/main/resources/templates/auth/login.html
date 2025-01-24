@@ -1,0 +1,31 @@
+<div class="d-none" th:text="${title}" id="txtTitle"></div>
+<form id="frmLogin">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="input-group">
+                    <label for="txtName" class="input-group-text col-lg-3 col-12">Email</label>
+                    <input type="text" class="form-control col-12 col-lg-9" id="txtName" name="email">
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-group mt-3">
+                    <label class="input-group-text col-12 col-lg-3">Password</label>
+                    <input type="password" class="form-control col-lg-9 col-12" id="txtPassword" name="password">
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Login</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function(){
+        $('#staticBackdropLabel').text($('#txtTitle').text());
+    });
+</script>
