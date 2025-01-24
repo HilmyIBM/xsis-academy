@@ -1,10 +1,10 @@
 <span id="txtTitle" class="d-none" th:text="${title}"></span>
 <div class="card p-3">
     <form id="frmNewProduct" enctype="multipart/form-data">
+        <!-- Image Preview -->
         <div class="mb-3">
             <label for="inputImageProduct" class="form-label">Upload Image</label>
-            <input type="file" id="inputImageProduct" name="myImage" class="form-control"
-                accept="image/png, image/jpeg, image/jpg">
+            <input type="file" id="inputImageProduct" name="myImage" class="form-control" accept="image/*">
         </div>
 
         <div class="mb-3">
@@ -22,16 +22,28 @@
             <input type="number" name="stock" id="txtStock" class="form-control" required>
         </div>
 
-        <div class="mb-3">
-            <label for="variantCategory" class="form-label">Variant</label>
-            <select name="variantId" id="variantCategory" class="form-select">
-                <option value="">-- Select Variant --</option>
-                <!-- Example of dynamic population -->
-                <option th:if="${variants != null}" th:each="item:${variants}" th:value="${item.id}"
-                    th:text="${item.name}"></option>
-            </select>
-        </div>
+        <div class="d-flex justify-content-around">
+            <div class="mb-3 container-fluid">
+                <!-- Product Category -->
+                <label class="form-label" for="category">Category</label>
+                <select class="form-control col-lg-9 col-12" name="categoryId" id="category">
+                    <option value="">--Select Category--</option>
+                    <option th:if="${categories != null}" th:each="category:${categories}" th:value="${category.id}"
+                        th:text="${category.categoryName}"></option>
+                </select>
+            </div>
 
+            <div class="mb-3 container-fluid">
+                <!-- Product Category -->
+                <label for="variant" class="form-label">Variant</label>
+                <select name="variantId" id="variant" class="form-select">
+                    <option value="">-- Select Variant --</option>
+                    <!-- Example of dynamic population -->
+                    <option th:if="${variants != null}" th:each="item:${variants}" th:value="${item.id}"
+                        th:text="${item.name}"></option>
+                </select>
+            </div>
+        </div>
         <div class="d-flex justify-content-end mt-3">
             <button type="submit" class="btn btn-success">
                 <i class="fas fa-save"></i> Save
@@ -47,6 +59,27 @@
 
 <script>
     $(document).ready(function () {
+
+        // API get when on change categories
+        $("#category").on("change", function (e) {
+            // Based on the select tag
+            let catId = $(this).val()
+            $.ajax({
+                url: "variant/categories/" + catId,
+                beforeSend: () => { },
+                success: function (apiResponse) {
+                    $("#variant").empty();
+                    $.each(
+                        apiResponse,
+                        function (index, variant) {
+                            $("#variant").append(`<option value="${variant.id}">${variant.name}</option>`)
+                        }
+                    )
+                }
+            })
+        })
+
+
         // Define the custom file extension validation method
         $.validator.addMethod("extension", function (value, element, param) {
             var fileExtension = (value.substr(value.lastIndexOf('.') + 1) || '').toLowerCase();
@@ -102,18 +135,13 @@
             e.preventDefault();
 
             if ($("#frmNewProduct").valid()) {
-                console.log("Form is valid, submitting via AJAX");
-                console.log($("#txtNameProduct").val())
-                console.log($("#txtPrice").val())
-                console.log($("#txtStock").val())
-                console.log($("#variantCategory").val())
                 // Create a FormData object 
-                var formData = new FormData(this);
-                // // Add form fields to the FormData object
-                // formData.append("name", $("#txtNameProduct").val());
-                // formData.append("price", $("#txtPrice").val());
-                // formData.append("stock", $("#txtStock").val());
-                // formData.append("variantId", $("#variantCategory").val());
+                var formData = new FormData();
+                // Add form fields to the FormData object
+                formData.append("name", $("#txtNameProduct").val());
+                formData.append("price", $("#txtPrice").val());
+                formData.append("stock", $("#txtStock").val());
+                formData.append("variantId", $("#variant").val());
 
                 // Add the image file to the FormData object
                 var files = $("#inputImageProduct")[0].files;
@@ -133,7 +161,7 @@
                     contentType: false,  // Don't set content type (because of FormData)
                     processData: false,  // Don't process data (because of FormData)
                     beforeSend: function () {
-                        alert("Mengirim Data");
+                        alert("Creating product.....");
                     },
                     success: function (response) {
                         Swal.fire({
@@ -146,15 +174,14 @@
                         });
                     },
                     error: function (errResponse) {
-                       /*  Swal.fire({
+                        Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
                             text: `Error creating product: ${errResponse.responseText}`,
                             confirmButtonText: 'OK'
                         }).then(() => {
                             location.reload()
-                        }); */
-                        alert(errResponse.responseText);
+                        });
                     }
                 });
             } else {

@@ -68,6 +68,21 @@ public class VariantController {
         return view;
     }
 
+    @GetMapping("categories/{id}")
+    public ResponseEntity<?> getListByCategoriesId(@PathVariable int id) {
+        ResponseEntity<VariantView[]> apiResponse = null;
+        try {
+            apiResponse = restTemplate.getForEntity(apiUrl + "variant/category/" + id, VariantView[].class);
+            if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                VariantView[] variants = apiResponse.getBody();
+                return new ResponseEntity<VariantView[]>(variants, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("add")
     public ModelAndView add() {
         ModelAndView view = new ModelAndView("variant/add");
@@ -173,10 +188,9 @@ public class VariantController {
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 return new ResponseEntity<VariantView>(apiResponse.getBody(), HttpStatus.OK);
             }
-            throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody().toString());
+            throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }

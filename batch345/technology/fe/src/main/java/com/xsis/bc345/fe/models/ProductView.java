@@ -5,12 +5,13 @@ import java.sql.Timestamp;
 
 // View must be same as the response from the backend
 public class ProductView {
-    private Integer id;
+    private int id;
     private String name;
     private BigDecimal price;
-    private Integer stock;
+    private int stock;
+    private int categoryId;
     private String categoryName;
-    private Integer variantId;
+    private int variantId;
     private String variantName;
     private String image;
     private boolean deleted;
@@ -19,11 +20,11 @@ public class ProductView {
     private Integer updateBy;
     private Timestamp updateDate;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -43,19 +44,19 @@ public class ProductView {
         this.price = price;
     }
 
-    public Integer getStock() {
+    public int getStock() {
         return stock;
     }
 
-    public void setStock(Integer stock) {
+    public void setStock(int stock) {
         this.stock = stock;
     }
 
-    public Integer getVariantId() {
+    public int getVariantId() {
         return variantId;
     }
 
-    public void setVariantId(Integer variantId) {
+    public void setVariantId(int variantId) {
         this.variantId = variantId;
     }
 
@@ -123,4 +124,11 @@ public class ProductView {
         this.categoryName = categoryName;
     }
 
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
 }

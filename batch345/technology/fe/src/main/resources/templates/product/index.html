@@ -13,7 +13,7 @@
         <button type="button" class="btn btn-primary mt-2" id="btnAdd" data-bs-toggle="modal"
             data-bs-target="#staticModal">Add</button>
         <div class="d-flex flex-row justify-content-between mt-2">
-            <form action="#">
+            <form>
                 <div class="input-group container-fluid">
                     <input type="text" class="form-control" placeholder="Total Entries" aria-label="Total Entries"
                         aria-describedby="button-addon2">
@@ -31,7 +31,7 @@
         </div>
         <!-- Make the table center horizontally -->
         <div class="text-center">
-            <table class="table table-striped">
+            <table class="table table-striped" id="tblProduct">
                 <thead>
                     <tr>
                         <th scope="col">Image</th>
@@ -59,12 +59,12 @@
                         <td th:text="${prod.stock}"></td>
                         <td th:text="${prod.deleted}"></td>
                         <td>
-                            <div class="btn-group">
+                            <div class="btn-group" id="myButt">
                                 <button th:data-id="${prod.id}" type="button" class="btn btn-success"><i
                                         class="fas fa-edit" id="editProduct"></i></button>
                                 <button th:data-id="${prod.id}" type="button" class="btn btn-warning"><i
                                         class="fas fa-info-circle" id="detailProduct"></i></button>
-                                <button ty:data-id="${prod.id}" type="button" class="btn btn-danger"><i
+                                <button th:data-id="${prod.id}" type="button" class="btn btn-danger"><i
                                         class="fas fa-trash" id="deleteProduct"></i></button>
                             </div>
                         </td>
@@ -78,11 +78,38 @@
                     $("#staticModalBody").load("product/add")
                     $("#staticModal").modal("show")
                 })
-                $(".btn-group #editProduct").click(function (e) {
-                    let productId = $(this).data("id");
-                    console.log(productId);
-                    $("#staticModalBody").load("product/edit/" + productId)
-                    $("#staticModal").modal("show")
+
+                // When pressing the specific id of table and refering the .btn-success (edit)
+                $("#tblProduct").on("click", ".btn-success", function (e) {
+                    let productId = $(this).data("id"); // Access data-id attribute
+                    if (productId) {  // Ensure productId is not undefined or null
+                        $("#staticModalBody").load("product/edit/" + productId);
+                        $("#staticModal").modal("show");
+                    } else {
+                        console.log("No product ID found");
+                    }
+                })
+
+                // When pressing the specific id of table and refering the .btn-warning (detail)
+                $("#tblProduct").on("click", "#myButt > .btn-warning", function (e) {
+                    let productId = $(this).data("id")
+                    if (productId) {
+                        $("#staticModalBody").load("product/detail/" + productId)
+                        $("#staticModal").modal("show")
+                    } else {
+                        console.log("No product ID found")
+                    }
+                })
+
+                // When pressing the specific id of table and refering the .btn-warning (detail)
+                $("#tblProduct").on("click", "#myButt > .btn-danger", function (e) {
+                    let productId = $(this).data("id")
+                    if (productId) {
+                        $("#staticModalBody").load("product/delete/" + productId)
+                        $("#staticModal").modal("show")
+                    } else {
+                        console.log("No product ID found")
+                    }
                 })
             })
         </script>

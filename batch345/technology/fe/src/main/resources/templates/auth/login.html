@@ -1,0 +1,28 @@
+<form id="frmLogin">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="form-group mb-3">
+                    <label for="txtEmail" class="form-label col-lg-3 col-12">Email</label>
+                    <input type="text" class="form-control col-lg-9 col-12" id="txtEmail" name="email">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group mb-3">
+                    <label for="txtPassword" class="form-label col-lg-3 col-12">Password</label>
+                    <input id="txtPassword" name="password" type="password" class="form-control col-lg-9 col-12">
+                </div>
+            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-end">
+            <button class="btn btn-primary" type="submit">Log In</button>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    $(document).ready(function (e) {
+        $("#staticModalLabel").text(`[[${title}]]`)   
+    })
+</script>

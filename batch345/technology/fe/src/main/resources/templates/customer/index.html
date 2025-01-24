@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragments/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>customer-index</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <button type="button" class="btn btn-primary mt-2" id="btnAdd" data-bs-toggle="modal"
+            data-bs-target="#staticModal">Add</button>
+        <div>
+            <div class="d-flex flex-row justify-content-between mt-2">
+                <form>
+                    <div class="input-group container-fluid" th:if="${customers != null}">
+                        <input type="text" class="form-control" disabled placeholder="Total Entries"
+                            aria-label="Total Entries" aria-describedby="button-addon1"
+                            th:value="${#lists.size(customers)}">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon1">Enter</button>
+                    </div>
+                    <div class="input-group container-fluid" th:unless="${customers != null}">
+                        <input type="text" class="form-control" disabled placeholder="Total Entries"
+                            aria-label="Total Entries" aria-describedby="button-addon2" value="0">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Enter</button>
+                    </div>
+                </form>
+                <!-- filter -->
+                <form id="frmFilter" action="#" class="ms-auto d-flex flex-row">
+                    <input type="text" name="filter" id="txtFilter" class="form-control" placeholder="Search"
+                        aria-label="Search" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary input-group-text" type="submit" id="button-addon2"><i
+                            class="fas fa-search"></i></button>
+                </form>
+            </div>
+            <div class="text-center">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nama customer</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Password</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Role Id</th>
+                        </tr>
+                    </thead>
+                    <!-- if -->
+                    <tbody th:if="${customers != null}" class="align-middle">
+                        <!-- Auto using getter and looping -->
+                        <tr th:each="item:${customers}">
+                            <th scope="row" th:text="${item.id}">1</th>
+                            <td th:text="${item.name}">Appetizer</td>
+                            <td th:text="${item.email}">Category of Appetizer</td>
+                            <td th:text="${item.password}">False</td>
+                            <td th:text="${item.address}">False</td>
+                            <td th:text="${item.phone}">False</td>
+                            <td th:switch="${item.roleId}">
+                                <div th:case="1">Admin</div>
+                                <div th:case="2">Customer</div>
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button th:data-id="${item.id}" type="button" class="btn btn-success"
+                                        title="Edit..."><i class="fas fa-edit"></i></button>
+                                    <button th:data-id="${item.id}" type="button" class="btn btn-warning"
+                                        title="Detail..."><i class="fas fa-info-circle"></i></button>
+                                    <button th:data-id="${item.id}" type="button" class="btn btn-danger"
+                                        title="Delete..." data-bs-toggle="modal" data-bs-target="#staticModal"><i
+                                            class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+            <!-- else -->
+            <div th:unless="${customers != null}" class="text-center text-danger h6 fst-italic border-bottom pb-3"
+                th:text="${'Data Customer tidak ada'}">
+            </div>
+        </div>
+        <script>
+            // When the "Add" button is clicked
+            $("#btnAdd").click(function (e) {
+                // Load the entire page
+                $("#staticModalBody").load("customer/add", function (response, status, xhr) {
+                    if (status === "success") {
+                        // Extract the fragment with id="formAddContent" from the loaded content
+                        var formContent = $(response).find("#formAddContent").html();
+                        // Insert the extracted fragment into the modal body
+                        $("#staticModalBody").html(formContent);
+                    } else {
+                        console.error("Failed to load form: " + xhr.status + " " + xhr.statusText);
+                    }
+                });
+            });
+
+            // Edit
+            $(".btn-group > .btn-success").click(function (e) {
+                let catId = $(this).data("id")
+                $("#staticModalBody").load("category/edit/" + catId)
+                $("#staticModal").modal("show");
+            })
+
+            // Detail
+            $(".btn-group > .btn-warning").click(function (e) {
+                let catId = $(this).data("id");
+                // Sebagai path
+                $("#staticModalBody").load("category/" + catId);
+                $("#staticModal").modal("show")
+            })
+
+            // delete
+            $(".btn-group > .btn-danger").click(function (e) {
+                let catId = $(this).data("id")
+
+                $("#staticModalBody").load(`category/delete/${catId}`);
+                $("#staticModal").modal("show")
+            })
+
+            $(document).ready(function (e) {
+                $.ajax({
+                    url: "",
+                    dataType: 'json',
+                    beforeSend: function (e) {
+                        $("#dataTable").html('<div class="spinner-border" role="status"> <span class="sr-only">Loading...</span></div>');
+                    },
+                    success: function (response) {
+                        $("#dataTable").html(response);
+                    }
+                })
+            })
+        </script>
+    </div>
+
+</body>
+
+</html>

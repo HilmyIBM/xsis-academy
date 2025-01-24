@@ -1,0 +1,49 @@
+<input type="hidden" id="txtTitle" th:value="${title}">
+<div class="card" id="productDetail">
+    <div class="card-body">
+        <div>
+            <div class="form-group mb-1">
+                <label for="txtName" class="form-label">Name</label>
+                <input type="text" class="form-control" name="name" id="txtName" th:value="${product.name}" disabled />
+            </div>
+            <div class="form-group mb-1">
+                <label for="txtCategoryName" class="form-label">CategoryName</label>
+                <input type="text" class="form-control" name="categoryName" id="txtCategoryName"
+                    th:value="${product.categoryName}" disabled />
+            </div>
+            <div class="form-group mb-1">
+                <label for="txtVariantName" class="form-label">Variant Name</label>
+                <input type="text" class="form-control" name="description" id="txtVariantName"
+                    th:value="${product.variantName}" disabled />
+            </div>
+            <div class="form-group mb-1">
+                <label for="txtCreateBy" class="form-label">Created By</label>
+                <input type="text" class="form-control" name="createBy" id="txtCreateBy" th:value="${product.createBy}"
+                    disabled />
+            </div>
+            <div class="form-group mb-1">
+                <label for="txtCreateDate" class="form-label">Created Date</label>
+                <input type="text" class="form-control" name="createdDate" id="txtCreateDate"
+                    th:value="${product.createDate}" disabled />
+            </div>
+            <div class="form-group mb-1">
+                <label for="txtUpdateBy" class="form-label">Update By</label>
+                <input type="text" class="form-control" name="updateBy" id="txtUpdateBy" th:value="${product.updateBy}"
+                    disabled />
+            </div>
+            <div class="form-group mb-1">
+                <label for="txtUpdateDate" class="form-label">Update Date</label>
+                <input type="text" class="form-control" name="updateDate" id="txtUpdateDate"
+                    th:value="${product.updateDate}" disabled />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#staticModalLabel').text($("#txtTitle").val());
+        var productId = `[[${product.id}]]`;
+        console.log(productId);
+    })
+</script>
