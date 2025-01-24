@@ -1,0 +1,30 @@
+<div class="d-none" id="txtTitle" th:text="${title}"></div>
+<form id="frmLogin">
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="input-group">
+                    <label for="txtName" class="input-group-text col-lg-3 col-12">E-Mail</label>
+                    <input id="txtName" name="email" type="text" class="form-control col-lg-9 col-12" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-group">
+                    <label for="txtPassword" class="input-group-text col-lg-3 col-12">Password</label>
+                    <input id="txtPassword" name="password" type="password" class="form-control col-lg-9 col-12" />
+                </div>
+            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-end">
+            <span th:text="${#ctx.session.size()}"></span>
+            <span th:text="${#ctx.session.coba}"></span>
+            <button class="btn btn-primary" type="submit">Log In</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function(e) {
+        $("#staticModalLabel").text($("#txtTitle").text());
+    });
+</script>

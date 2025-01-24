@@ -106,7 +106,6 @@ public class ProductController {
         }
 
         view.addObject("title", "Add New Product");
-        view.addObject("cobaSession", sess.getAttribute("coba"));
 
         return view;
     }

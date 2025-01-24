@@ -9,7 +9,18 @@
     <div layout:fragment="content">
         <h1>Welcome to XsisPOS!</h1>
         <hr>
-        <button class="btn btn-primary w-25 rounded mx-auto" data-bs-toggle="modal" data-bs-target="#staticModal">Rounded Border</button>
+        <p>Ini adalah text dari Session['coba'] = 
+            <span th:if="${txtSesi!=null}" th:text="${txtSesi}"></span>
+            <span th:unless="${txtSesi!=null}">No txtSesi</span>
+        </p>
+        <div>
+            <form action="/setSesi">
+                <input type="text" name="txtSesi" class="form-control">
+                <button type="submit" class="btn btn-primary w-25 rounded mx-auto"
+                    data-bs-toggle="modal" data-bs-target="#staticModal">Update Session['coba']</button>
+            </form>
+        </div>
+        
     </div>
 </body>
 </html>
