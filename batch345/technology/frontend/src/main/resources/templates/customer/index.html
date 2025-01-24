@@ -86,7 +86,11 @@
                 <td th:text="${item.address}">Banyuwangi</td>
                 <td th:text="${item.email}">dirasuma@gmail.com</td>
                 <td th:text="${item.phone}"></td>
-                <td th:text="${item.roleId}">Management Trainee</td>
+                <td th:switch="${item.roleId}">
+                  <span th:case="1">Admin</span>
+                  <span th:case="2">User</span>
+                  <span th:case="*">Alien</span>
+                </td>
                 <td class="d-flex gap-2">
                   <button
                     th:data-id="${item.id}"
@@ -155,8 +159,8 @@
         });
         $(".btn-delete").click(function (e) {
           let catId = $(this).data("id");
-          $("#staticModalLgBody").load("/customer/delete/" + catId);
-          $("#staticModalLg").modal("show");
+          $("#staticModalBody").load("/customer/delete/" + catId);
+          $("#staticModal").modal("show");
         });
       </script>
     </div>

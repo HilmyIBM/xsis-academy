@@ -12,6 +12,24 @@
   <body>
     <div layout:fragment="content">
       <div th:replace="~{fragments/home/hero}"></div>
+      <p>
+        Ini adalah text dari session 'coba' =
+        <span th:if="${txtSession != null}" th:text="${txtSession}"></span>
+        <span th:unless="${txtSession != null}">No txtSession</span>
+      </p>
+      <div>
+        <form action="/setSession">
+          <input type="text" name="txtSession" class="form-control" />
+          <button
+            type="submit"
+            class="btn btn-warning"
+            data-bs-toggle="modal"
+            data-bs-target="#staticModal"
+          >
+            Update session
+          </button>
+        </form>
+      </div>
       <!-- <div th:replace="~{fragments/home/feature}"></div> -->
     </div>
   </body>

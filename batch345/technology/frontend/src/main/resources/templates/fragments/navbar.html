@@ -1,5 +1,5 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
+  <div class="container-fluid d-flex justify-content-between">
     <a class="navbar-brand" href="#">XsisPOS</a>
     <button
       class="navbar-toggler"
@@ -54,10 +54,23 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="transactionMenu">
             <li><a class="dropdown-item" href="/order">Order</a></li>
-            <li><a class="dropdown-item" href="/order-history">Order History</a></li>
+            <li>
+              <a class="dropdown-item" href="/order-history">Order History</a>
+            </li>
           </ul>
         </li>
       </ul>
+      <div class="d-flex gap-2">
+        <button class="btn btn-success shadow btn-login">Log in</button>
+        <button class="btn btn-danger shadow btn-logout">Log Out</button>
+      </div>
     </div>
   </div>
 </nav>
+
+<script>
+  $(".btn-login").click((e) => {
+    $("#staticModalBody").load("/auth/login");
+    $("#staticModal").modal("show");
+  });
+</script>

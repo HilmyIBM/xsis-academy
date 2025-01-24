@@ -164,15 +164,12 @@ public class CategoryController {
                     CategoryView.class);
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
-                System.out.println("if");
                 return new ResponseEntity<CategoryView>(apiResponse.getBody(), HttpStatus.OK);
             } else {
-                System.out.println("else");
                 throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody().toString());
             }
 
         } catch (Exception e) {
-            System.out.println("catch");
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -1,5 +1,6 @@
 package com.xsis.backend.services;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.google.common.hash.Hashing;
 import com.xsis.backend.models.Customer;
 import com.xsis.backend.repositories.CustomerRepository;
 
@@ -24,6 +26,9 @@ public class CustomerService {
     }
 
     public Customer create(Customer data) throws Exception {
+        String password = data.getPassword();
+        String hashPassword = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+        data.setPassword(hashPassword);
         return customerRepository.save(data);
     }
 

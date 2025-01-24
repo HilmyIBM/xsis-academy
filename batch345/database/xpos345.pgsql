@@ -31,7 +31,8 @@ create_by INTEGER NOT NULL,
 create_date TIMESTAMP DEFAULT NOW(),
 update_by INTEGER NULL,
 update_date TIMESTAMP NULL,
-CONSTRAINT UQ_Tbl_M_Customer UNIQUE (email,phone)
+CONSTRAINT UQ_Tbl_M_Customer_email UNIQUE (email),
+CONSTRAINT UQ_Tbl_M_Customer_phone UNIQUE (phone)
 );
 
 CREATE TABLE
