@@ -2,7 +2,24 @@
     <form id="frmNewProduct" enctype="multipart/form-data">
         <div id="txtTitle" class="card-header d-none" th:text="${title}"></div>
         <div class="card-body">
+            <div class="h3 text-center" th:text="${cobaSession}">Session Text</div>
+            
             <input type="hidden" name="createBy" value="1" />
+
+            <div id="previewContainer" class="row mx-auto mb-1 d-none">
+                <img id="imgPreview" class="card-img-top img-fluid rounded border" style="object-fit: contain; height: 15rem;" title="Image Preview" alt="Image Preview" />
+            </div>
+
+            <div class="row">
+                <div class="input-group">
+                    <!-- Product Image -->
+                    <label class="col-lg-2 col-12 input-group-text" for="fImage">Image</label>
+                    <input class="col-lg-10 col-12 form-control" type="file" id="imageFile" name="imageFile" accept="image/*" />
+                </div>
+            </div>
+
+            <hr />
+
             <div class="row">
                 <div class="input-group">
                     <!-- Product Name -->
@@ -46,16 +63,6 @@
                         <label class="input-group-text col-lg-4 col-12" for="price">Price</label>
                         <input class="form-control col-lg-8 col-1" type="number" name="price" id="price" min="0">
                     </div>
-                </div>
-            </div>
-
-            <hr />
-
-            <div class="row">
-                <div class="input-group">
-                    <!-- Product Image -->
-                    <label class="col-lg-2 col-12 input-group-text" for="fImage">Image</label>
-                    <input class="col-lg-10 col-12 form-control" type="file" id="fImage" name="imageFile" />
                 </div>
             </div>
 
@@ -149,7 +156,7 @@
                 url: "product/create",
                 type: "post",
                 data: formData,
-                dataType: "json",
+                // dataType: "json",
                 processData: false,
                 contentType: false,
                 beforeSend: () => {},
@@ -167,6 +174,26 @@
                     alert(`Failed to Add the new Product!\n\n[${errResponse.status}] - ${errResponse.responseText}`);
                 }
             });
+        }
+    });
+
+    $("#imageFile").change(function(e) {
+        const file = this.files[0];
+        const imagePreview = $("#imgPreview");
+        const previewContainer = $("#previewContainer");
+
+        //Process only if file uploaded
+        if (file) {
+            const fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                previewContainer.removeClass("d-none");
+                imagePreview.attr("src", e.target.result);
+            }
+            fileReader.readAsDataURL(file);
+        }
+        else {
+            previewContainer.addClass("d-none");
+            imagePreview.attr("src", "");
         }
     });
 
