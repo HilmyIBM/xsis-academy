@@ -14,7 +14,8 @@ import com.xsis.bc345.be.models.Customer;
 import com.xsis.bc345.be.services.CustomerService;
 
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @CrossOrigin("*")
@@ -28,15 +29,18 @@ public class CustomerController {
     public ResponseEntity<?> getAll() {
         try {
             List<Customer> data = customerSvc.getAll();
-
-            if (data.isEmpty()){
-                new ResponseEntity<List<Customer>>(new ArrayList<Customer>(),HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<List<Customer>>(data,HttpStatus.OK);
+            return new ResponseEntity<List<Customer>>(data, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
+    @PostMapping("")
+    public ResponseEntity<?> saveCustomer(@RequestBody Customer data) {
+        try {
+            return new ResponseEntity<Customer>(customerSvc.create(data), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

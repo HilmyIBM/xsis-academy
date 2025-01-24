@@ -34,7 +34,7 @@ public class Customer {
     @Column(name = "phone", length = 15, nullable = false)
     private String phone;
 
-    @Column(name = "role_id", nullable = true)
+    @Column(name = "role_id", nullable = false)
     private Integer roleId;
 
     @Column(name = "is_deleted", nullable = false)

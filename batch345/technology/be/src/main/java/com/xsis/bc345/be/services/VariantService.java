@@ -24,7 +24,12 @@ public class VariantService {
     }
 
     public List<Variant> getByNameOrDescription(String filter) throws Exception {
-        return variantRepo.findByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(filter, filter, false).get();
+        return variantRepo.findByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(filter, filter, false)
+                .get();
+    }
+
+    public List<Variant> getByCategoryId(int id) throws Exception {
+        return variantRepo.findByCategoryIdAndDeleted(id, false).get();
     }
 
     public Variant create(Variant data) throws Exception {

@@ -18,6 +18,9 @@ public interface VariantRepository extends JpaRepository<Variant, Integer> {
 
     Optional<Variant> findById(int id);
 
+    // List by categoryId
+    Optional<List<Variant>> findByCategoryIdAndDeleted(int categoryid, boolean isDeleted);
+
     // Filter 2 column and deleted is false
     Optional<List<Variant>> findByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(String name,
             String description, boolean deleted);

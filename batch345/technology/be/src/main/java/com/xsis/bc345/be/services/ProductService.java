@@ -1,7 +1,9 @@
 package com.xsis.bc345.be.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ import com.xsis.bc345.be.repositories.ProductRepository;
 @Service
 public class ProductService {
     private ProductRepository productRepo;
+    private Optional<Product> existingProduct;
 
     public ProductService(ProductRepository productRepo) {
         this.productRepo = productRepo;
@@ -35,5 +38,29 @@ public class ProductService {
     public List<Product> getFilter(String filter) throws Exception {
         return productRepo.findByCategoryContainsIgnoreCaseOrNameContainsIgnoreCaseAndDeleted(filter, filter, false)
                 .get();
+    }
+
+    public Product update(Product data) throws Exception {
+        existingProduct = productRepo.findById(data.getId());
+        if (existingProduct.isPresent()) {
+            data.setCreateBy(existingProduct.get().getCreateBy());
+            data.setCreateDate(existingProduct.get().getCreateDate());
+            data.setUpdateDate(LocalDateTime.now());
+            data.setUpdateBy(data.getUpdateBy());
+            return productRepo.save(data);
+        }
+        throw new Exception("Product doesn't exists");
+    }
+
+    public Product delete(int id, int userId) throws Exception {
+        existingProduct = productRepo.findById(id);
+        if (existingProduct.isPresent()) {
+            existingProduct.get().setDeleted(true);
+            existingProduct.get().setUpdateBy(userId);
+            existingProduct.get().setUpdateDate(LocalDateTime.now());
+            return productRepo.save(existingProduct.get());
+        } else {
+            throw new Exception("Product doesn't exists");
+        }
     }
 }

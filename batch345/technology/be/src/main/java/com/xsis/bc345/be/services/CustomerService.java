@@ -18,4 +18,8 @@ public class CustomerService {
     public List<Customer> getAll() throws Exception{
         return customerRepo.findByDeleted(false).get();
     }
+
+    public Customer create(Customer data) throws Exception{
+        return customerRepo.save(data);
+    }
 }

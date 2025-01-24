@@ -1,6 +1,7 @@
 package com.xsis.bc345.be.controllers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -60,6 +61,19 @@ public class VariantController {
                 return new ResponseEntity<Variant>(HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<Map<String, Object>>(data.get(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("category/{id}")
+    public ResponseEntity<?> getByCategoryId(@PathVariable int id) {
+        try {
+            List<Variant> data = variantSvc.getByCategoryId(id);
+            if (data.isEmpty()) {
+                return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);
+            }
+            return new ResponseEntity<List<Variant>>(data, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

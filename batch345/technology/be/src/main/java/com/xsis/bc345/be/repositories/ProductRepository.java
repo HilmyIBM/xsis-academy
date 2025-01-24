@@ -29,7 +29,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
                                c.category_name AS "categoryName", p.is_deleted AS "isDeleted",
                                p.create_by AS "createBy", p.create_date AS "createDate",
                                p.variant_id AS "variantId", p.update_by AS "updateBy",
-                               p.update_date AS "updateDate"
+                               p.update_date AS "updateDate", c.id as "categoryId"
                         FROM tbl_m_product AS p
                         INNER JOIN tbl_m_variant AS v ON p.variant_id = v.id
                         INNER JOIN tbl_m_categories AS c ON v.category_id = c.id
