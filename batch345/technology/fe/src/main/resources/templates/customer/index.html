@@ -21,34 +21,28 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>1</td>
-							<td>Suparman</td>
-							<td>Krypton</td>
-							<td>superman@krypton.planet</td>
-							<td>xxx-xxxx-xxxx</td>
-							<td>1</td>
+						<tr th:if="${customers != null}" th:each="customer : ${customers}">
+							<td th:text="${customer.id}">1</td>
+							<td th:text="${customer.name}">Suparman</td>
+							<td th:text="${customer.address}">Krypton</td>
+							<td th:text="${customer.email}">superman@krypton.planet</td>
+							<td th:text="${customer.phone}">xxx-xxxx-xxxx</td>
+							<td th:switch="${customer.role}">
+								<span th:case="1">Admin</span>
+								<span th:case="2">User</span>
+								<span th:case="*">Alien</span>
+							</td>
 							<td class="d-flex justify-content-center">
 								<div class="btn-group">
-									<a class="btn btn-sm btn-primary" title="Details..." href="/category/1"><i class="fas fa-list-alt"></i></a>
-									<button class="btn btn-sm btn-success" title="Edit..."><i class="fas fa-edit"></i></button>
-									<button class="btn btn-sm btn-danger" title="Delete..."><i class="fas fa-trash"></i></button>
+									<button th:data-id="${customer.id}" class="btn btn-sm btn-primary" title="Details..."><i class="fas fa-list-alt"></i></button>
+									<button th:data-id="${customer.id}" class="btn btn-sm btn-success" title="Edit..."><i class="fas fa-edit"></i></button>
+									<button th:data-id="${customer.id}" class="btn btn-sm btn-danger" title="Delete..."><i class="fas fa-trash"></i></button>
 								</div>
 							</td>
 						</tr>						
-						<tr>
-							<td>2</td>
-							<td>Dakocan</td>
-							<td>Negeri Dongeng</td>
-							<td>Dakoc@n.net</td>
-							<td>ddd-dddd-dddd</td>
-							<td>2</td>
-							<td class="d-flex justify-content-center">
-								<div class="btn-group">
-									<a class="btn btn-sm btn-primary" title="Details..." href="/category/2"><i class="fas fa-list-alt"></i></a>
-									<button class="btn btn-sm btn-success"><i class="fas fa-edit"></i></button>
-									<button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-								</div>
+						<tr th:unless="${customers != null}">
+							<td colspan="7">
+								<div class="text-center text-alert fst-italic">-- Customer Data doesn't exist ! --</div>
 							</td>
 						</tr>						
 					</tbody>
