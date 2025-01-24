@@ -1,5 +1,6 @@
 package com.xsis.bc345.be.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -14,6 +15,8 @@ import com.xsis.bc345.be.repositories.ProductRepository;
 public class ProductService {
     @Autowired
     private ProductRepository productRepo;
+
+    private Optional<Product> existingProduct;
 
     public Optional<List<Map<String, Object>>> getAll() {
         // return productRepo.findByDeleted(false).get();
@@ -32,5 +35,35 @@ public class ProductService {
 
     public Product create(Product data) {
         return productRepo.save(data);
+    }
+
+    public Product update(Product data) throws Exception {
+        existingProduct = productRepo.findById(data.getId());
+
+        if (existingProduct.isPresent()) {
+            data.setCreateBy(existingProduct.get().getCreateBy());
+            data.setCreateDate(existingProduct.get().getCreateDate());
+            data.setUpdateDate(LocalDateTime.now());
+
+            return productRepo.save(data);
+        }
+        else {
+            throw new Exception("Product doesn't exist!");
+        }
+    }
+
+    public Product delete(int id, int userId) throws Exception {
+        existingProduct = productRepo.findByIdAndDeleted(id, false);
+
+        if (existingProduct.isPresent()) {
+            existingProduct.get().setDeleted(true);
+            existingProduct.get().setUpdateBy(userId);
+            existingProduct.get().setUpdateDate(LocalDateTime.now());
+
+            return productRepo.save(existingProduct.get());
+        }
+        else {
+            throw new Exception("Variant doesn't exist!");
+        }
     }
 }

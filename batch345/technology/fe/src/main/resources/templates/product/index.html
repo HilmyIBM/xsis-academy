@@ -41,9 +41,9 @@
 							<td th:text="${item.categoryName}" class="d-none d-sm-table-cell">Bubur</td>
 							<td class="d-flex justify-content-center">
 								<div class="btn-group">
-									<button class="btn btn-info" title="Details..." href="/category/1"><i class="fas fa-list-alt"></i></button>
-									<button class="btn btn-primary" title="Edit..."><i class="fas fa-edit"></i></button>
-									<button class="btn btn-danger" title="Delete..."><i class="fas fa-trash"></i></button>
+									<button th:data-id="${item.id}" class="btn btn-info" title="Details..." href="/category/1"><i class="fas fa-list-alt"></i></button>
+									<button th:data-id="${item.id}" class="btn btn-primary" title="Edit..."><i class="fas fa-edit"></i></button>
+									<button th:data-id="${item.id}" class="btn btn-danger" title="Delete..."><i class="fas fa-trash"></i></button>
 								</div>
 							</td>
 						</tr>
@@ -61,6 +61,20 @@
 					// alert("Di sini!");
 					$("#staticModalBodyLg").load("/product/add");
 					$("#staticModalLg").modal("show");
+				});
+
+				$(".btn-primary").click(function(e) {
+					prodId = $(this).data("id");
+
+					$("#staticModalBodyLg").load("/product/edit/" + prodId);
+					$("#staticModalLg").modal("show");
+				});
+
+				$(".btn-danger").click(function(e) {
+					prodId = $(this).data("id");
+
+					$("#staticModalBody").load("/product/delete/" + prodId);
+					$("#staticModal").modal("show");
 				});
 			</script>
 		</div>

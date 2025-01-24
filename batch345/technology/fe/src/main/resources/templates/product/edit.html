@@ -1,0 +1,217 @@
+<div class="card">
+    <form id="frmNewProduct" enctype="multipart/form-data">
+        <div id="txtTitle" class="card-header d-none" th:text="${title}"></div>
+        <div class="card-body">
+            <input type="hidden" name="updateBy" value="2" />
+
+            <div id="previewContainer" class="row mb-1">
+                <img id="imgPreview" class="card-img-top img-fluid rounded border mx-auto" style="object-fit: contain; height: 10rem;" title="Image Preview" alt="Image Preview" />
+            </div>
+
+            <div class="row">
+                <div class="input-group">
+                    <!-- Product Image -->
+                    <label class="col-lg-2 col-12 input-group-text" for="fImage">Image</label>
+                    <input class="col-lg-10 col-12 form-control" type="file" id="imageFile" name="imageFile" accept="image/*" />
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="row">
+                <div class="input-group">
+                    <!-- Product Name -->
+                    <label class="col-lg-2 col-12 input-group-text">Name</label>
+                    <input class="col-lg-10 col-12 form-control" type="text" name="name" />
+                </div>
+            </div>
+
+            <hr />
+            
+            <div class="row mb-3">
+                <div class="col-lg-8 col-md-12">
+                    <div class="input-group">
+                        <!-- Product Category -->
+                        <label class="input-group-text col-lg-3 col-12" for="categoryId">Category</label>
+                        <select class="form-control col-lg-9 col-12" name="categoryId" id="categoryId">
+                            <option value="">--Select Category--</option>
+                            <option th:if="${categories != null}" th:each="category:${categories}" th:value="${category.id}" th:text="${category.categoryName}"></option> 
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                    <div class="input-group">
+                        <label class="input-group-text col-lg-4 col-12" for="stock">Stock</label>
+                        <input class="form-control col-lg-8 col-12" type="number" name="stock" id="stock" min="0">                        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+                    <div class="input-group">
+                        <!-- Product Variant -->
+                        <label class="input-group-text col-lg-3 col-12" for="variantId">Variant</label>
+                        <select class="form-control col-lg-9 col-1" name="variantId" id="variantId">
+                            <option value="">--Select Category First--</option>
+                        </select>                        
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                    <div class="input-group">
+                        <label class="input-group-text col-lg-4 col-12" for="price">Price</label>
+                        <input class="form-control col-lg-8 col-1" type="number" name="price" id="price" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <div id="errMsg" class="alert-warning mt-3 d-flex">
+                <ul class="list-group list-unstyled"></ul>
+            </div>
+        </div>
+        <div class="card-footer text-end">
+            <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Save</button>
+        </div>
+    </form>
+</div>
+    
+<script>
+    $(document).ready(function() {
+        $("#staticModalLabelLg").text($("#txtTitle").text());
+    });
+
+    $("#categoryId").change(function(e) {
+        var catId = $(this).val();
+
+        $.ajax({
+            url: "variant/category/" + catId,
+            beforeSend: function() {},
+            success: function(apiResponse) {
+                $("#variantId").empty();
+                $.each(
+                    apiResponse,
+                    function(idx, variant) {
+                        $("#variantId").append(`<option value="${variant.id}">${variant.name}</option>`);
+                    }
+                );
+            },
+            error: function(errResponse) {
+                alert("Get Variant process Failed!");
+            }
+        });
+    });
+
+    //JQuery Validate with Custom Massage Container
+    $("#frmNewProduct").validate({
+        errorClass: "alert-warning text-danger px-1",
+        errorContainer: "#errMsg",
+        errorLabelContainer: "#errMsg ul",
+        wrapper: "li",
+        rules: {
+            name: {
+                minlength: 3,
+                maxlength: 100,
+                required: true
+            },
+            categoryId: "required",
+            variantId: "required",
+            price: {
+                min: 0,
+                required: true
+            },
+            stock: {
+                min: 0,
+                required: true
+            }
+        },
+        messages: {
+            name: {
+                minlength: "Product Name must be at least 3 character long",
+                maxlength: "Product Name maximum at 100 character long",
+                required: "Product Name is required"
+            },
+            categoryId: "Product Category is required",
+            variantId: "Product Variant is required",
+            price: {
+                min: "Product Price cannot contain negative value",
+                required: "Product Price is required"
+            },
+            stock: {
+                min: "Product Stock cannot contain negative value",
+                required: "Product Stock is required"
+            }
+        }
+    });    
+
+    $("#frmNewProduct").submit(function(event) {
+        // Disable Form Submit
+        event.preventDefault();
+
+        // Submit Form Data with AJAX only if Data Valid
+        if ($("#frmNewProduct").valid()) {
+            var formData = new FormData($(this)[0]);
+
+            $.ajax({
+                url: "product/create",
+                type: "post",
+                data: formData,
+                // dataType: "json",
+                processData: false,
+                contentType: false,
+                beforeSend: () => {},
+                success: function(apiResponse) {
+                    debugger;
+                    if (true) {
+                        alert(apiResponse.id);
+                        location.reload();
+                    }
+                    else{
+                        alert();
+                    }
+                },
+                error: function(errResponse) {
+                    alert(`Failed to Add the new Product!\n\n[${errResponse.status}] - ${errResponse.responseText}`);
+                }
+            });
+        }
+    });
+
+    $("#imageFile").change(function(e) {
+        const file = this.files[0];
+        const imagePreview = $("#imgPreview");
+        const previewContainer = $("#previewContainer");
+
+        //Process only if file uploaded
+        if (file) {
+            const fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                previewContainer.removeClass("d-none");
+                imagePreview.attr("src", e.target.result);
+            }
+            fileReader.readAsDataURL(file);
+        }
+        else {
+            previewContainer.addClass("d-none");
+            imagePreview.attr("src", "");
+        }
+    });
+
+    // //Contoh JSon Object
+    // var respon = {
+    //     "success": true,
+    //     "message": "test message",
+    //     "data": [
+    //         {
+    //             "id": 1,
+    //             "CategoryName": "makanan",
+    //             "Description": "Ini makanan",
+    //             "IsDeleted": 0
+    //         },
+    //         {
+    //             "id": 2,
+    //             "CategoryName": "Minuman",
+    //             "Description": "Ini Minuman",
+    //             "IsDeleted": 0
+    //         }
+    //     ]
+    // };
+</script>
