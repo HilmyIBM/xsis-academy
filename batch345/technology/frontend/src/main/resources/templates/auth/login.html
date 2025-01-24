@@ -1,0 +1,27 @@
+<div class="d-none" th:text="${title}"> </div>
+<form id="formLogin">
+
+<div class="card">
+    <div class="card-body">
+        <div class="input-group">
+            <label for="txtName" class="input-group-text">Email</label>
+            <input id="txtName" type="text" name="email" class="form-control">
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-group">
+            <label for="txtPassword" class="input-group-text">Password</label>
+            <input id="txtPassword" type="password" name="password" class="form-control">
+        </div>
+    </div>
+    <div class="card-footer">
+        <button class="btn btn-primary" type="submit" >Login</button>
+    </div>
+</div>
+</form>
+
+<script>
+    $(document).ready(function(e){
+        $("#staticModalLabel").text($("#txtTitle").text());
+    });
+</script>

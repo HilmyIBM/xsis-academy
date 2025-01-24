@@ -12,6 +12,9 @@ public class HomeController {
         return view;
     }
 
+    @GetMapping("/")
+    
+
     @GetMapping("/about")
     public ModelAndView about() {
         ModelAndView view = new ModelAndView("/about");

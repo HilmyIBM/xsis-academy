@@ -37,7 +37,7 @@
             <li><a class="dropdown-item" href="/product">Product</a></li>
             <li><hr class="dropdown-divider" /></li>
             <li>
-              <a class="dropdown-item" href="/user">User</a>
+              <a class="dropdown-item" href="/customer">customer</a>
             </li>
           </ul>
         </li>
@@ -59,5 +59,17 @@
         </li>
       </ul>
     </div>
+    <div>
+      <button id="btnLogin" class="btn btn-primary shadow">Login</button>
+      <button id="btnLogout" class="btn btn-danger shadow">Log out</button>
+    </div>
+
   </div>
 </nav>
+
+<script>
+  $("#btnLogin").click(function(e){
+    $("#staticModalLabel").load("/auth/login");
+    $("#staticModalLabel").modal("show");
+  });
+</script>

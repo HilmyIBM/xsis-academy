@@ -20,6 +20,9 @@ update_by INTEGER NULL,
 update_date TIMESTAMP NULL
 );
 
+ALTER TABLE tbl_m_customer RENAME COLUMN id_deleted TO is_deleted;
+drop table tbl_m_customer 
+
 CREATE TABLE
 Tbl_M_Customer (
 id SERIAL PRIMARY KEY NOT NULL,
@@ -29,7 +32,7 @@ password VARCHAR(100) NOT NULL,
 address TEXT NOT NULL,
 phone VARCHAR(15) NULL,
 role_id INTEGER NULL,
-id_deleted BOOLEAN DEFAULT FALSE,
+is_deleted BOOLEAN DEFAULT FALSE,
 create_by INTEGER NOT NULL,
 create_date TIMESTAMP DEFAULT NOW(),
 update_by INTEGER NULL,
@@ -106,6 +109,7 @@ VALUES
 
 INSERT INTO Tbl_M_Customer (name, email, password, address, phone, role_id, create_by)
 VALUES 
+('testname', 'test@example', 'testpassword', 'testaddress', 'testphone', 1, 1)
 
 INSERT INTO Tbl_M_Product (name, price, stock, variant_id, image, create_by)
 VALUES 

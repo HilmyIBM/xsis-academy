@@ -14,11 +14,9 @@ import java.util.List;
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
         Optional<Category> findByIdAndDeleted(int id, boolean deleted);
 
-        Optional<List<Category>> findByCategoryNameIgnoreCaseOrDescriptionIgnoreCaseAndDeleted(String categoryName,
-                        String description, boolean deleted);
+        Optional<List<Category>> findByCategoryNameIgnoreCaseOrDescriptionIgnoreCaseAndDeleted(String categoryName, String description, boolean deleted);
 
-        Optional<List<Category>> findByDeletedFalseAndCategoryNameContainsIgnoreCaseOrDescriptionContainsIgnoreCase(
-                        String categoryName, String description);
+        Optional<List<Category>> findByDeletedFalseAndCategoryNameContainsIgnoreCaseOrDescriptionContainsIgnoreCase(String categoryName, String description);
 
         Optional<List<Category>> findByDeleted(boolean deleted);
 
