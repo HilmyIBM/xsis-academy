@@ -25,7 +25,7 @@ public class Customer {
     @Column(name="email", length = 50, nullable = false, unique = true)
     private String email;
 
-    @Column(name="password", length = 50, nullable = false)
+    @Column(name="password", length = 100, nullable = false)
     private String password;
 
     @Column(name="address", nullable = false)
@@ -35,7 +35,7 @@ public class Customer {
     private String phone;
 
     @Column(name="role_id", nullable = true)
-    private Integer roleID;
+    private Integer roleId;
 
     @Column(name="is_deleted")
     private boolean deleted;
@@ -101,12 +101,12 @@ public class Customer {
         this.phone = phone;
     }
 
-    public Integer getRoleID() {
-        return roleID;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setRoleID(Integer roleID) {
-        this.roleID = roleID;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     public boolean isDeleted() {

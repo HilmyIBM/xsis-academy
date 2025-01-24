@@ -8,7 +8,18 @@
 <body>
     <div layout:fragment="content">
         <h1>Welcome To Xsis POS!</h1>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticModal">Try modal</button>
+        <hr>
+        <p>
+            Ini adalah text dari Session['coba'] =
+            <span th:if="${txtSesi != null}" th:text="${txtSesi}"></span>
+            <span th:unless="${txtSesi != null}">No txtSesi</span>
+        </p>
+        <div>
+            <form action="/setSesi">
+                <input type="text" name="txtSesi" class="form-control">
+                <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticModal">Update Session['coba']</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

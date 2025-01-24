@@ -7,7 +7,103 @@
 </head>
 <body>
     <div layout:fragment="content">
-        <h1>Customer Index</h1>
+        <div class="d-flex justify-content-between align-items-center mt-3 mb-2">
+            <div class="h2">Customer List</div>
+            <div>
+                <button type="button" class="btn btn-dark" id="btnAdd" data-bs-toggle="modal" data-bs-target="#staticModal">
+                    <i class="fas fa-plus"></i> <b>Tambah Data</b>
+                </button>
+            </div>
+        </div>
+
+        <div class="dropdown-divider"></div>
+
+        <div class="d-flex justify-content-between mt-3">
+            <div>
+                <div class="input-group flex-nowrap input-group-sm">
+                    <span class="input-group-text" id="addon-wrapping">Show</span>
+                    <input th:if="${customer != null}" type="text" class="form-control" th:value="${#lists.size(customer)}">
+                    <input th:unless="${customer != null}" type="text" class="form-control" th:value=0>
+                    <span class="input-group-text" id="addon-wrapping">Entries</span>
+                </div>
+            </div>
+            <div style="width: 40%;">
+                <form id="frmFilter">
+                    <div class="input-group input-group-sm mb-3">
+                        <input th:if="${filter!=null}" th:value="${filter}" name="filter" id="txtFilter" type="text" class="form-control" placeholder="Search Customer"  aria-describedby="button-addon2">
+                        <input th:unless="${filter!=null}" name="filter" id="txtFilter" type="text" class="form-control" placeholder="Search Customer"  aria-describedby="button-addon2">
+                        <button class="btn btn-outline-dark" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- TABLE -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nama Customer</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Role ID</th>
+                    <th scope="col">Is Deleted</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item:${customer}" th:if="${customer != null}">
+                    <th scope="row" th:text="${item.id}">1</th>
+                    <td th:text="${item.name}"></td>
+                    <td th:text="${item.email}"></td>
+                    <td th:text="${item.address}"></td>
+                    <td th:text="${item.phone}"></td>
+                    <td th:switch="${item.roleId}">
+                        <div th:case="1">Admin</div>
+                        <div th:case="2">Customer</div>
+                    </td>
+                    <td th:text="${item.deleted}">False</td>
+                    <td>
+                        <div class="btn-group gap-2">
+                            <button th:data-id="${item.id}" type="button" class="btn btn-info btn-sm rounded-2 btnInfo" title="Details.."><i class="fas fa-eye"></i></button>
+                            <button th:data-id="${item.id}" type="button" class="btn btn-warning btn-sm rounded-2 btnEdit" title="Edit.."><i class="fas fa-edit"></i></button>
+                            <button th:data-id="${item.id}" type="button" class="btn btn-danger btn-sm rounded-2 btnDelete" title="Delete.."><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- TABLE END -->
+        
+        <div th:unless="${customer != null}" th:text="${'Data Tidak Ditemukan'}" class="text-danger text-center text fst-italic border-bottom pb-3"></div>
+    
+
+        <script>
+            $("#btnAdd").click(function(e){
+                $("#staticModalBody").load("/customer/add");
+            });
+
+            // $(".btnInfo").click(function(e){
+            //     let catId = $(this).data("id");
+
+            //     $("#staticModalBody").load("/customer/" + catId);
+            //     $("#staticModal").modal("show");
+            // })
+
+            // $(".btnEdit").click(function(e){
+            //     let catId = $(this).data("id");
+
+            //     $("#staticModalBody").load("/customer/edit/" + catId);
+            //     $("#staticModal").modal("show");
+            // })
+
+            // $(".btnDelete").click(function() {
+            //     let catId = $(this).data("id");
+
+            //     $("#staticModalBody").load("/customer/delete/" + catId);
+            //     $("#staticModal").modal("show");
+            // })
+        </script>
     </div>
 </body>
 </html>
