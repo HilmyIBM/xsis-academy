@@ -7,17 +7,24 @@
 </head>
 <body>
     <div layout:fragment="content">
-        <h1>Welcome to XsisPOS!</h1>
+        <div class="h1">Welcome to XsisPOS!</div>
         <hr>
-        <p>Ini adalah text dari Session['coba'] = 
+        <div class="h3 border-bottom">Session</div>
+        <p>['coba'] = 
             <span th:if="${txtSesi!=null}" th:text="${txtSesi}"></span>
-            <span th:unless="${txtSesi!=null}">No txtSesi</span>
+            <span th:unless="${txtSesi!=null}">[null]</span>
+        </p>
+        <p>['userName'] = 
+            <span th:if="${#ctx.session.userName!=null}" th:text="${#ctx.session.userName}"></span>
+            <span th:unless="${#ctx.session.userName!=null}">[null]</span>
         </p>
         <div>
             <form action="/setSesi">
-                <input type="text" name="txtSesi" class="form-control">
-                <button type="submit" class="btn btn-primary w-25 rounded mx-auto"
-                    data-bs-toggle="modal" data-bs-target="#staticModal">Update Session['coba']</button>
+                <div class="input-group">
+                    <input type="text" name="txtSesi" class="form-control">
+                    <button type="submit" class="btn btn-primary w-25 rounded mx-auto"
+                        data-bs-toggle="modal" data-bs-target="#staticModal">Update Session['coba']</button>                    
+                </div>
             </form>
         </div>
         

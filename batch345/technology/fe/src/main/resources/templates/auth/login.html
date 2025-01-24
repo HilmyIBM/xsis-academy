@@ -14,10 +14,12 @@
                     <input id="txtPassword" name="password" type="password" class="form-control col-lg-9 col-12" />
                 </div>
             </div>
+
+            <div id="errMsg" class="alert-warning mt-3 d-flex">
+                <ul class="list-group list-unstyled"></ul>
+            </div>
         </div>
         <div class="card-footer d-flex justify-content-end">
-            <span th:text="${#ctx.session.size()}"></span>
-            <span th:text="${#ctx.session.coba}"></span>
             <button class="btn btn-primary" type="submit">Log In</button>
         </div>
     </div>
@@ -26,5 +28,50 @@
 <script>
     $(document).ready(function(e) {
         $("#staticModalLabel").text($("#txtTitle").text());
+
+        $("#frmLogin").validate({
+            rules: {
+                email: {
+                    "email": true,
+                    "required": true
+                },
+                password: {
+                    "required": true,
+                    "minlength": 6
+                }
+            },
+            // errorClass: "alert-warning text-danger px-1",
+            // errorLabelContainer: "#errMsg ul",
+            // wrapper: "li",
+            
+            errorClass: "text-danger alert-warning px-1",
+            errorContainer: "#errMsg",
+            errorLabelContainer: "#errMsg ul",
+            wrapper: "li"
+        });
+
+        $("#frmLogin").submit(function(e) {
+            e.preventDefault();
+
+            if($(this).valid()) {
+                // alert("Submitting...");
+                $.ajax({
+                    url: "/auth/login",
+                    type: "post",
+                    data: $("#frmLogin").serialize(),
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.name) {
+                            alert(`Welcome ${response.name}!`);
+                            location.reload();
+                        }
+                    },
+                    error: function(errResponse) {
+                        alert("Login Failed");
+                        console.error(errResponse);
+                    }
+                });
+            }
+        });
     });
 </script>

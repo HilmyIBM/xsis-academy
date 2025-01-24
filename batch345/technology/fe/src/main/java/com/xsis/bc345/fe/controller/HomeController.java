@@ -22,7 +22,7 @@ public class HomeController {
 
     @GetMapping("/setSesi")
     public ModelAndView setSesi(@RequestParam() String txtSesi, HttpSession sess) {
-        sess.setAttribute("coba", txtSesi);
+        sess.setAttribute("coba", txtSesi == "" || txtSesi.isBlank() ? null : txtSesi);
 
         return new ModelAndView("redirect:/");
     }

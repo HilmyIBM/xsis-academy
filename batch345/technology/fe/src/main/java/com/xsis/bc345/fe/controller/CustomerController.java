@@ -90,7 +90,6 @@ public class CustomerController {
 
         return view;
     }
-
         
     @PostMapping("/edit/{id}")
     public ResponseEntity<?> edit(@ModelAttribute CustomerView data) {
