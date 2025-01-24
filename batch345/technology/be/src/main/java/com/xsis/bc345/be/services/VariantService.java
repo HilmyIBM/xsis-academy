@@ -42,6 +42,10 @@ public class VariantService {
         return variantRepo.findByNameContainsIgnoreCaseAndDeleted(name, false);
     }
 
+    public Optional<List<Variant>> getByCategory(int categoryId) {
+        return variantRepo.findByCategoryIdAndDeleted(categoryId, false);
+    }
+    
     public Variant create(Variant data) {
         return variantRepo.save(data);
     }
@@ -73,11 +77,7 @@ public class VariantService {
             return variantRepo.save(existingVariant.get());
         }
         else {
-            throw new Exception("Variant doesm't exist!");
+            throw new Exception("Variant doesn't exist!");
         }
-    }
-
-    public Optional<List<Variant>> getByCategory(int categoryId) {
-       return variantRepo.findByCategoryIdAndDeleted(categoryId, false);
     }
 }
