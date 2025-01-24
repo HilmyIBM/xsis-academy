@@ -33,18 +33,6 @@ public class VariantController {
         ModelAndView view = new ModelAndView("variant/index");
         ResponseEntity<VariantView[]> apiResponse;
         try {
-            apiResponse = restTemplate.getForEntity(apiUrl +"/variant", VariantView[].class);
-
-            System.out.println(apiResponse.getBody().toString());
-
-            // if(apiResponse.getStatusCode() == HttpStatus.OK){
-            //     VariantView[] data = apiResponse.getBody();
-            //     view.addObject("variant", data);
-            // }else{
-            //     throw new Exception(apiResponse.getStatusCode().toString()+ ": "+ apiResponse.getBody());
-            // }
-
-
             if(filter == null || filter.isBlank()){
                 apiResponse = restTemplate.getForEntity(apiUrl + "/variant", VariantView[].class);
             }else{

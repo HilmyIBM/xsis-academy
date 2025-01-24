@@ -11,7 +11,18 @@
 <body>
     <div layout:fragment="content">
         <h1>Welcome to XsisPOS</h1>
-        <p>this is home</p>
+        <hr>
+        <p>this is home dari session['coba'] 
+            <span th:if="${txtSesi != null}" th:text="${txtSesi}"></span>
+            <span th:unless="${txtSesi != null}">no txtSesi</span>
+        </p>
+        <div>
+            <form action="/setSesi">
+                <input type="text" class="form-control">
+                <button class="btn btn-primary w-25 rounded mx-auto" 
+                data-bs-toggle="modal" data-bs-target="#staticModal">Update Sssion['coba']</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

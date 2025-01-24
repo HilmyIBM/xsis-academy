@@ -13,7 +13,8 @@ CREATE TABLE Tbl_M_Product(
 	update_by int NULL,
 	update_date TIMESTAMP NULL,
  	CONSTRAINT PK_Tbl_M_Product PRIMARY KEY(id)
-)
+);
+
 INSERT INTO Tbl_M_Product(name, price,stock, variant_id, create_by) 
 VALUES
 ('Chabu', 5000, 200, 1, 2),

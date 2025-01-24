@@ -32,4 +32,14 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
     + "WHERE (p.is_deleted IS NOT TRUE AND v.is_deleted IS NOT TRUE AND c.is_deleted IS NOT TRUE AND :inputId = p.id)",
     nativeQuery = true)
     Optional<Map<String,Object>> findIdByNativeQuery(@Param("inputId") int inputId);
+
+    @Query(value = "SELECT p.id AS \"id\", p.name AS \"name\", price, stock,  c.category_name AS \"categoryName\", variant_id AS \"variantId\", v.name AS \"variantName\", image, "
+    + "p.is_deleted AS \"deleted\", p.create_by AS \"createBy\", p.create_date AS \"createDate\", "
+    + "p.update_by AS \"updateBy\", p.update_date AS \"updateDate\" "
+    + "FROM tbl_m_product AS p INNER JOIN tbl_m_variant AS v ON v.id = p.variant_id "
+    + "INNER JOIN tbl_m_categories c ON c.id = v.category_id "
+    + "WHERE p.is_deleted IS NOT TRUE AND v.is_deleted IS NOT TRUE AND c.is_deleted IS NOT TRUE "
+    + "AND ((LOWER(v.name) LIKE LOWER(CONCAT('%', :filter, '%')) OR LOWER(p.name) LIKE LOWER(CONCAT('%', :filter, '%'))))",
+    nativeQuery = true)
+    Optional<List<Map<String,Object>>> findByNativeQueryFilter(@Param("filter") String filter);
 }

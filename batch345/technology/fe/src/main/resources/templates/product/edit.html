@@ -17,6 +17,7 @@
                         <h6>No image to show</h6>
                      </div>
                 </div>
+                <input type="hidden" name="currImage" th:value="${product.image}">
                 <input class="form-control" type="file" id="formSetimg" accept="image/*" name="setImage">
             </div>
             <div class="mt-3 form-group">
@@ -100,7 +101,6 @@
                         location.reload();
                     },
                     error: function(errResponse){
-                        debugger;
                         console.error("update Category failed " + errResponse.responseText);
                     }
                 });

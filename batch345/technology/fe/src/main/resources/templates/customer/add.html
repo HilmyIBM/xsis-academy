@@ -1,0 +1,101 @@
+<span id="txtTitle" class="d-none" th:text="${title}"></span>
+<div class="card">
+    <div class="card-body">
+        <form id="formNewCustomer"  class="container">
+            <div class="form-group">
+                <label for="txtName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="txtName" name="name"/>
+            </div>
+            <div class="form-group">
+                <label for="txtEmail" class="form-label">email</label>
+                <input type="text" class="form-control" id="txtEmail" name="email"/>
+            </div>
+            <!-- <div class="form-group">
+                <label for="txtPassword" class="form-label">password</label>
+                <input type="text" class="form-control" id="txtPassword" name="password"/>
+            </div> -->
+            <div class="form-group">
+                <label for="txtPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="txtPassword" name="password">
+            </div>
+            <div class="form-group">
+                <label for="txtPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="txtPassword" name="confirmPassword">
+            </div>
+            <div class="form-group">
+                <label for="txtAddress" class="form-label">address</label>
+                <input type="text" class="form-control" id="txtAddress" name="address"/>
+            </div>
+            <div class="form-group">
+                <label for="txtPhone" class="form-label">phone</label>
+                <input type="text" class="form-control" id="txtPhone" name="phone"/>
+            </div>
+
+            <div class="form-group">
+                <label for="slcRole" class="form-label">Select Role</label>
+                <select id="slcRole" class="form-select" name="roleId">
+                    <option value="">--Select Role--</option>
+                    <option
+                      th:if="${roles!=null}"
+                      th:each="item:${roles}"
+                      th:text="${item.roleName}"
+                      th:value="${item.id}"
+                    > 
+                      Role Name
+                    </option>
+                </select>
+            </div>
+            <input type="hidden" class="form-control" id="txtDesc" name="createBy" value="1"/>
+            <div class="text-right d-flex justify-content-end mt-3">
+                <button class="btn btn-success btnActionMaster" type="submit"><i class="fas fa-save"></i> Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#staticModalLabel").text($("#txtTitle").text());
+        $("#formNewCustomer").validate({
+            "rules": {
+                "name": {
+                    "required" : true,
+                    "maxlength" : 100,
+                    "minlength" : 3
+                },
+                "password": {
+                    "required" : true,
+                    "minlength" : 8
+                },
+                "email": {
+                    "required" : true
+                },
+                "phone": {
+                    "required" : true
+                }
+            },
+            errorClass: "text-danger",
+        });
+        $("#formNewCustomer").submit(function(e){
+            e.preventDefault(); 
+            if($("#formNewCustomer").valid()){
+                $.ajax({
+                    url: "/customer/create",
+                    type: "post",
+                    data: $("#formNewCustomer").serialize(),
+                    dataType: "json",
+                    beforeSend: () => {
+                        alert("mengirim data ke api");
+                    },
+                    success: function(response){
+                        alert("customer " + response.name + " succesfully updated!");
+                        location.reload();
+                    },
+                    error: function(errResponse){
+                        alert("update customer failed: " + errResponse.responseText)
+                        console.error("update customer failed: " + errResponse.responseText);
+                    }
+                });
+            }
+        });
+    })
+</script>

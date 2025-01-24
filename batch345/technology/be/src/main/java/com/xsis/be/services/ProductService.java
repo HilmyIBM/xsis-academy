@@ -14,7 +14,7 @@ import com.xsis.be.repositories.ProductRepository;
 @Service
 public class ProductService {
     private ProductRepository productRepo;
-    private Optional<Product> exsistingVariant;
+    private Optional<Product> exsistingProduct;
 
     public ProductService(ProductRepository productRepo){
         this.productRepo = productRepo;
@@ -22,6 +22,11 @@ public class ProductService {
     public List<Map<String,Object>> getAll() throws Exception{
         return productRepo.findByNativeQuery().get();
     }
+    public List<Map<String,Object>> getAllFilter(String filter) throws Exception{
+        return productRepo.findByNativeQueryFilter(filter).get();
+    }
+
+
     public Product create(Product product) throws Exception{
         return productRepo.save(product);
     }
@@ -29,16 +34,27 @@ public class ProductService {
         return productRepo.findIdByNativeQuery(id).get();
     }
     public Product update(Product data) throws Exception{
-        exsistingVariant = productRepo.findById(data.getId());
-        if(exsistingVariant.isPresent()){
+        exsistingProduct = productRepo.findById(data.getId());
+        if(exsistingProduct.isPresent()){
             // update field
-            data.setCreateBy(exsistingVariant.get().getCreateBy());
-            data.setCreateDate(exsistingVariant.get().getCreateDate());
+            data.setCreateBy(exsistingProduct.get().getCreateBy());
+            data.setCreateDate(exsistingProduct.get().getCreateDate());
             data.setUpdateDate(LocalDateTime.now());
 
             // update table
             return productRepo.save(data);
         }
-        throw new Exception("Category doesn't exsist");
+        throw new Exception("Product doesn't exsist");
+    }
+
+    public Product delete(int id, int userId) throws Exception{
+        exsistingProduct = productRepo.findById(id);
+        if(exsistingProduct.isPresent()){
+            exsistingProduct.get().setDeleted(true);
+            exsistingProduct.get().setUpdateBy(userId);
+            exsistingProduct.get().setUpdateDate(LocalDateTime.now());
+            return productRepo.save(exsistingProduct.get());
+        }
+        throw new Exception("Product doesn't exsist");
     }
 }

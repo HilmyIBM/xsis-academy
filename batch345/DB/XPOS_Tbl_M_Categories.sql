@@ -1,5 +1,6 @@
 CREATE DATABASE xpos345;
-USE [XPOS329]
+USE [XPOS329];
+
 DROP TABLE Tbl_M_Categories
 
 CREATE TABLE Tbl_M_Categories(
