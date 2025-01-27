@@ -93,30 +93,27 @@
               <td th:text="${item.variantName}">Pasta</td>
               <td th:text="${item.price}">Rp 35000</td>
               <td th:text="${item.stock}">1</td>
-              <td class="d-flex gap-2">
+              <td class="d-flex gap-1">
                 <button
                   th:data-id="${item.id}"
                   type="button"
                   class="btn btn-success btn-edit"
-                  title="Edit..."
-                >
-                  <i class="fas fa-edit"></i>
+                  title="Edit"
+                >Edit
                 </button>
                 <button
                   th:data-id="${item.id}"
                   type="button"
                   class="btn btn-warning btn-detail"
-                  title="Details..."
-                >
-                  <i class="fas fa-list"></i>
+                  title="Details"
+                >Details
                 </button>
                 <button
                   th:data-id="${item.id}"
                   type="button"
                   class="btn btn-danger btn-delete"
-                  title="Delete..."
-                >
-                  <i class="fas fa-trash-alt"></i>
+                  title="Delete"
+                >Delete
                 </button>
               </td>
             </tr>

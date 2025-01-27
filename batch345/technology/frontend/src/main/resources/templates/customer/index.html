@@ -10,88 +10,157 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Customer List</h2>
             </div>
+
             <div class="container bg-light mt-3 p-2">
                 <div class="d-flex justify-content-between">
-                    <button id="btnAdd" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticModal">Add</button>
-
-                    <div class="input-group mb-3 align-items-center w-25">
-                        <label for="show" class="me-3">Show</label>
-                        <input type="number" class="form-control" th:if="${customer != null}" th:value="${#lists.size(customer)}" />
-                        <input type="number" class="form-control" th:unless="${customer != null}" value="0" />
-                        <button class="btn btn-secondary">Entries</button>
-                    </div>
-                    <div class="input-group mb-3 justify-content-end align-items-center w-50">
-                        <form id="formFilter">
-                            <div class="input-group align-items-center">
-                                <label for="search" class="me-3">Search</label>
-                                <input th:if="${filter!=null}" name="filter" type="text" id="txtFilter" class="form-control" placeholder="Search" th:value="${filter}" />
-                                <input th:unless="${filter!=null}" name="filter" type="text" id="txtFilter" class="form-control" placeholder="Search" />
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                  <button
+                  id="btnAdd"
+                  type="button"
+                  class="btn btn-success"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticModal"
+                >Add
+                </button>
+      
+                <div class="input-group mb-3 align-items-center w-25">
+                  <label for="show" class="me-3">Show</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    th:if="${category != null}"
+                    th:value="${#lists.size(category)}"
+                  />
+                  <input
+                    type="number"
+                    class="form-control"
+                    th:unless="${category != null}"
+                    value="0"
+                  />
+                  <button class="btn btn-secondary">Entries</button>
                 </div>
+                <div
+                  class="input-group mb-3 justify-content-end align-items-center w-50"
+                >
+                  <form id="formFilter">
+                    <div class="input-group align-items-center">
+                      <label for="search" class="me-3">Search</label>
+                      <input
+                        th:if="${filter!=null}"
+                        name="filter"
+                        type="text"
+                        id="txtFilter"
+                        class="form-control"
+                        placeholder="Search"
+                        th:value="${filter}"
+                      />
+                      <input
+                        th:unless="${filter!=null}"
+                        name="filter"
+                        type="text"
+                        id="txtFilter"
+                        class="form-control"
+                        placeholder="Search"
+                      />
+                      <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="container bg-light border border-1 rounded">
                 <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Nama</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Addres</th>
-                            <th scope="col">Phone</th>
-                            <th scope="col">Role</th>
-                        </tr>
-                    </thead>
-                    <tbody th:if="${customers!=null}">
-                        <tr th:each="item:${customers}">
-                            <th scope="row" th:text="${item.id}"></th>
-                            <td th:text="${item.name}"></td>
-                            <td th:text="${item.email}"></td>
-                            <td th:text="${item.phone}"></td>
-                            <td th:text="${item.role}"></td>
-                            <td class="d-flex gap-1">
-                                <button th:data-id="${item.id}" type="button" class="btn btn-success btn-edit" title="Edit">Edit</button>
-                                <button th:data-id="${item.id}" type="button" class="btn btn-warning btn-detail" title="Details">Details</button>
-                                <button th:data-id="${item.id}" type="button" class="btn btn-danger btn-delete" title="Delete">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
+                  <thead>
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">Nama</th>
+                      <th scope="col">Alamat</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Phone</th>
+                      <th scope="col">Role</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody th:if="${customer!=null}">
+                    <tr th:each="item : ${customer}">
+                      <th scope="row" th:text="${item.id}"></th>
+                      <td th:text="${item.name}"></td>
+                      <td th:text="${item.address}"></td>
+                      <td th:text="${item.email}"></td>
+                      <td th:text="${item.phone}"></td>
+                      <td th:switch="${item.roleId}">
+                        <span th:case="1">Admin</span>
+                        <span th:case="2">User</span>
+                        <span th:case="*">Alien</span>
+                      </td>
+                      <td class="d-flex gap-1">
+                        <button
+                          th:data-id="${item.id}"
+                          type="button"
+                          class="btn btn-success btn-edit"
+                          title="Edit"
+                        >Edit
+                        </button>
+                        <button
+                          th:data-id="${item.id}"
+                          type="button"
+                          class="btn btn-warning btn-detail"
+                          title="Details"
+                        >Details
+                        </button>
+                        <button
+                          th:data-id="${item.id}"
+                          type="button"
+                          class="btn btn-danger btn-delete"
+                          title="Delete"
+                        >Delete
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
-                <div th:unless="${customers!=null}" class="text-center text-danger" th:text="${errorMsg}">Error</div>
-                <div class="d-flex justify-content-between align-items-center">
-                    <p>Page <span>1</span>of <span>2</span></p>
-                    <ul class="pagination">
-                        <li class="page-item disabled">
-                            <span class="page-link">Previous</span>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
+                <div
+                  th:unless="${customer != null}"
+                  class="text-center text-danger"
+                  style="min-height: 250px"
+                  th:text="${errorMsg}"
+                >
+                  Error
                 </div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <p>Page <span>1</span>of <span>2</span></p>
+                <ul class="pagination">
+                  <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                  </li>
+                </ul>
+              </div>
             </div>
             <script>
-                $("#btnAdd").click(function (e) {
-                    $("#staticModalBody").load("/category/add");
-                });
-                $(".btn-edit").click(function (e) {
-                    let catId = $(this).data("id");
-
-                    $("#staticModalBody").load("/category/edit/" + catId);
-                    $("#staticModal").modal("show");
-                });
-                $(".btn-detail").click(function (e) {
-                    let catId = $(this).data("id");
-                    $("#staticModalBody").load("/category/" + catId);
-                    $("#staticModal").modal("show");
-                });
-                $(".btn-delete").click(function (e) {
-                    let catId = $(this).data("id");
-                    $("#staticModalBody").load("/category/delete/" + catId);
-                    $("#staticModal").modal("show");
-                });
+              $("#btnAdd").click(function (e) {
+                $("#staticModalLgBody").load("/customer/add");
+                $("#staticModalLg").modal("show");
+              });
+              $(".btn-edit").click(function (e) {
+                let catId = $(this).data("id");
+      
+                $("#staticModalLgBody").load("/customer/edit/" + catId);
+                $("#staticModalLg").modal("show");
+              });
+              $(".btn-detail").click(function (e) {
+                let catId = $(this).data("id");
+                $("#staticModalLgBody").load("/customer/" + catId);
+                $("#staticModalLg").modal("show");
+              });
+              $(".btn-delete").click(function (e) {
+                let catId = $(this).data("id");
+                $("#staticModalBody").load("/customer/delete/" + catId);
+                $("#staticModal").modal("show");
+              });
             </script>
         </div>
     </body>

@@ -1,0 +1,145 @@
+<input type="hidden" id="txtTitle" th:value="${title}" />
+<div class="card">
+  <div class="card-body">
+    <form th:action="@{~/customer/create}" id="formNewCustomer">
+      <input type="hidden" id="txtCreateBy" name="createBy" value="1" />
+      <div class="row row-cols-1 row-cols-lg-2 g-3">
+        <div class="form-group">
+          <label for="txtName" class="form-label">Name</label>
+          <input type="text" class="form-control" id="txtName" name="name" />
+        </div>
+        <div class="form-group">
+          <label for="txtEmail" class="form-label">Email</label>
+          <input type="email" class="form-control" id="txtEmail" name="email" />
+        </div>
+        <div class="form-group">
+          <label for="txtPassword" class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="txtPassword"
+            name="password"
+          />
+        </div>
+        <div class="form-group">
+          <label for="txtConfirmPassword" class="form-label"
+            >Confirm Password</label
+          >
+          <input
+            type="password"
+            class="form-control"
+            id="txtConfirmPassword"
+            name="confirmPassword"
+          />
+        </div>
+        <div class="form-group">
+          <label for="txtAddress" class="form-label">Address</label>
+          <input
+            type="text"
+            class="form-control"
+            id="txtAddress"
+            name="address"
+          />
+        </div>
+        <div class="form-group">
+          <label for="phoneNum" class="form-label">Phone Number</label>
+          <input
+            type="number"
+            class="form-control"
+            id="phoneNum"
+            name="phone"
+          />
+        </div>
+        <div class="form-group">
+          <label for="slcRole" class="form-label">Role</label>
+          <select id="slcRole" class="form-select" name="roleId">
+            <option value="">--Select Role--</option>
+            <option value="1">Admin</option>
+            <option value="2">User</option>
+          </select>
+        </div>
+      </div>
+      <div class="text-right d-flex justify-content-end mt-3">
+        <button type="submit" class="btn btn-success">
+          <i class="fas fa-save"></i> Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $("#staticModalLabel").text($("#txtTitle").val());
+
+    $("#formNewCustomer").validate({
+      rules: {
+        name: {
+          required: true,
+          maxlength: 50,
+          minlength: 3,
+        },
+        email: {
+          required: true,
+          maxlength: 50,
+        },
+        password: {
+          required: true,
+          maxlength: 50,
+          minlength: 6,
+        },
+        confirmPassword: {
+          required: true,
+          equalTo: "#txtPassword",
+        },
+        stock: {
+          digits: true,
+        },
+        image: {
+          checkFileExtension: true,
+        },
+        roleId: {
+          required: true,
+        },
+      },
+      messages: {
+        confirmPassword: {
+          equalTo: "Password and Confirm Password must match.",
+        },
+      },
+      errorClass: "text-danger",
+    });
+
+    $("#formNewCustomer").submit(function (e) {
+      e.preventDefault();
+
+      if ($("#formNewCustomer").valid()) {
+        $.ajax({
+          url: "/customer/create",
+          type: "post",
+          data: $("#formNewCustomer").serialize(),
+          dataType: "json",
+          beforeSend: () => {
+            // alert("Mengirim data ke API");
+          },
+          success: function (response) {
+            alert("Customer " + response.name + " successfully update!");
+            location.reload();
+          },
+          error: function (errResponse) {
+            if (errResponse.responseJSON) {
+              alert(
+                errResponse.responseJSON.error +
+                  ": " +
+                  errResponse.responseJSON.message
+              );
+            } else {
+              alert(errResponse.responseText);
+            }
+            console.error(errResponse);
+          },
+        });
+      }
+    });
+  });
+</script>
