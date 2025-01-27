@@ -1,0 +1,67 @@
+<form id="frmDeleteCustomer">
+    <input type="hidden" id="txtTitle" th:value="${title}"/>
+    <div class="card">
+        <div class="card-body">
+
+            <div class="form-group">
+                <label for="txtName" class="form-label h6">Name</label>
+                <input type="text" class="form-control" id="txtName"th:value="${customer.getName()}"/>
+            </div>
+            <div class="form-group">
+                <label for="email" class="form-label h6">Email</label>
+                <input type="text" class="form-control" id="email"
+                       th:value="${customer.getEmail()}"/>
+            </div>
+            <div class="form-group">
+                <label for="address" class="form-label h6">Address</label>
+                <input type="text" class="form-control" id="address"
+                       th:value="${customer.getAddress()}"/>
+            </div>
+            <div class="form-group">
+                <label for="phone" class="form-label h6">Phone</label>
+                <input type="text" class="form-control" id="phone"
+                       th:value="${customer.getPhone()}"/>
+            </div>
+            <div class="form-group">
+                <label for="role" class="form-label h6">Role</label>
+                <div th:switch="${customer.getRoleId()}">
+                    <input type="text" class="form-control" id="role" th:case="1" value="Admin">
+                    <input type="text" class="form-control" id="role" th:case="2" value="User">
+                    <input type="text" class="form-control" id="role" th:case="*" value="Goblin">
+                </div>
+            </div>
+
+            <div class="card-footer text-end">
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Delete</button>
+                <input type="hidden" name="updateBy" value="1"/>
+                <input type="hidden" name="id" th:value="${customer.getId()}"/>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $(document).ready(() => {
+        $('#staticModalLabel').text($("#txtTitle").text());
+
+        $('#frmDeleteCustomer').submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: "user/delete",
+                type: "delete",
+                data: $("#frmDeleteCustomer").serialize(),
+                dataType: "json",
+                beforeSend: () => {
+                    // alert("mengirim data ke api");
+                },
+                success: function (response) {
+                    alert("Customer " + response.name + " succesfully deleted!");
+                    location.reload();
+                },
+                error: function (errResponse) {
+                    console.error("Deleted new customer Failed: " + errResponse.message);
+                }
+            });
+        })
+    })
+</script>

@@ -1,0 +1,74 @@
+<form id="frmNewCustomer" accept-charset="utf-8">
+    <div id="txtTitle" class="card-header d-none" th:text="${title}"></div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="input-group col">
+                    <label class="col-4 input-group-text">Name <sup class="text-danger">*</sup></label>
+                    <input class="col-8 form-control" type="text" name="name" th:value="${customer.getName()}" />
+                </div>
+                <div class="input-group col">
+                    <label class="col-4 input-group-text">Role <sup class="text-danger">*</sup></label>
+                    <select class="col-8 form-select" name="roleId">
+                        <div th:switch="${customer.getRoleId()}">
+                            <option th:case="1" value="1" selected>Admin</option>
+                            <option th:case="2" value="2" selected>User</option>
+                            <option th:case="*" value="*" selected>GOBLIN</option>
+                        </div>
+                        <option value="1">Admin</option>
+                        <option value="2">User</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="input-group col">
+                    <label class="col-4 input-group-text">Email <sup class="text-danger">*</sup></label>
+                    <input class="col-8 form-control" type="email" name="email" th:value="${customer.getEmail()}"/>
+                </div>
+                <div class="input-group col">
+                    <label class="col-4 input-group-text">Password <sup class="text-danger">*</sup></label>
+                    <input class="col-8 form-control" type="password" name="password"/>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <label class="col-2 input-group-text">Address</label>
+                <input class="col-10 form-control" name="address" th:value="${customer.getAddress()}"/>
+            </div>
+            <div class="input-group mb-3">
+                <label class="col-2 input-group-text">Phone</label>
+                <input class="col-10 form-control" type="text" name="phone" th:value="${customer.getPhone()}"/>
+            </div>
+        </div>
+        <div class="card-footer text-end">
+            <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Update</button>
+            <input type="hidden" name="updateBy" value="1"/>
+            <input type="hidden" name="id" th:value="${customer.getId()}"/>
+        </div>
+    </div>
+</form>
+<script>
+    $(document).ready(() => {
+        $('#staticModalLabel').text($("#txtTitle").text());
+
+        $('#frmNewCustomer').submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: "user/update",
+                type: "put",
+                data: $("#frmNewCustomer").serialize(),
+                dataType: "json",
+                beforeSend: () => {
+                    // alert("mengirim data ke api");
+                },
+                success: function(response) {
+                    alert("Customer " + response.name + " succesfully updated!");
+                    location.reload();
+                },
+                error: function(errResponse) {
+                    console.error("Update new customer Failed: " + errResponse.message);
+                }
+            });
+        })
+    })
+</script>

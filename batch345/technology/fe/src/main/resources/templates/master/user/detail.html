@@ -1,0 +1,60 @@
+<div th:if="${customer != null}">
+    <input type="hidden" id="txtTitle" th:value="${title}" />
+    <div class="card">
+        <div class="card-body">
+            <div class="form-group">
+                <label for="txtName" class="form-label h6">Name</label>
+                <input type="text" class="form-control" id="txtName" name="name" th:value="${customer.getName()}" />
+            </div>
+            <div class="form-group">
+                <label for="email" class="form-label h6">Email</label>
+                <input type="text" class="form-control" id="email" name="description" th:value="${customer.getEmail()}" />
+            </div>
+            <div class="form-group">
+                <label for="address" class="form-label h6">Address</label>
+                <input type="text" class="form-control" id="address" name="description" th:value="${customer.getAddress()}" />
+            </div>
+            <div class="form-group">
+                <label for="phone" class="form-label h6">Phone</label>
+                <input type="text" class="form-control" id="phone" name="description" th:value="${customer.getPhone()}" />
+            </div>
+            <div class="form-group">
+                <label for="role" class="form-label h6">Role</label>
+                <div th:switch="${customer.getRoleId()}">
+                    <input type="text" class="form-control" id="role" name="description" th:case="1" value="Admin">
+                    <input type="text" class="form-control" id="role" name="description" th:case="2" value="User">
+                    <input type="text" class="form-control" id="role" name="description" th:case="*" value="Goblin">
+                </div>
+
+            </div>
+            <div class="mt-3 border-top row">
+                <div class="col">
+                    <label for="txtCreateBy" class="form-label h6">Create By</label>
+                    <input type="text" class="form-control" id="txtCreateBy" name="createBy" th:value="${customer.getCreateBy()}" />
+                </div>
+                <div class="col">
+                    <label for="txtUpdateBy" class="form-label h6">Update By</label>
+                    <input type="text" class="form-control" id="txtUpdateBy" name="updateBy" th:value="${customer.getUpdateBy()}" />
+                </div>
+            </div>
+            <div class="mt-3 row">
+                <div class="col">
+                    <label for="txtCreateDate" class="form-label h6">Create Date</label>
+                    <input type="text" class="form-control" id="txtCreateDate" name="createDate" th:value="${customer.getCreateDate()}" />
+                </div>
+                <div class="col">
+                    <label for="txtUpdateDate" class="form-label h6">Update Date</label>
+                    <input type="text" class="form-control" id="txtUpdateDate" name="updateDate" th:value="${customer.getUpdateDate()}" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $("#staticModalLabel").text($("#txtTitle").val());
+        });
+    </script>
+</div>
+<div th:unless="${error != null}">
+    <p th:text="${error}"></p>
+</div>
