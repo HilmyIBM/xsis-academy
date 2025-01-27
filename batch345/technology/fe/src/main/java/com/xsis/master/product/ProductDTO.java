@@ -1,7 +1,5 @@
 package com.xsis.master.product;
 
-import java.util.Objects;
-
 public class ProductDTO {
     private int id;
     private String name;
