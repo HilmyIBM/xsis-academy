@@ -11,11 +11,11 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Objects;
 
 @Component
-public class ProcessAPI<T, RESP> {
+public class ProcessAPI<DATA, RESP> {
     private static final Logger log = LoggerFactory.getLogger(ProcessAPI.class);
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public ResponseEntity<?> send(T model, Class<RESP> response, HttpMethod method, HttpStatus successStatus, String url) {
+    public ResponseEntity<?> send(DATA model, Class<RESP> response, HttpMethod method, HttpStatus successStatus, String url) {
         ResponseEntity<RESP> apiResponse;
 
         try {
@@ -26,9 +26,10 @@ public class ProcessAPI<T, RESP> {
 
             apiResponse = restTemplate.exchange(url, method, httpEntity, response);
 
-            if (apiResponse.getStatusCode() == successStatus) {
-                log.info("Request Code: {}", apiResponse.getStatusCode());
-                return new ResponseEntity<>(apiResponse.getBody(), successStatus);
+            if (apiResponse.getStatusCode().is2xxSuccessful()) {
+                log.info("Request from {}", model.getClass().getName());
+                log.info("Method {} return with success response code {}", method.name(), apiResponse.getStatusCode());
+                return new ResponseEntity<>(apiResponse.getBody(), apiResponse.getStatusCode());
             }
 
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, Objects.requireNonNull(apiResponse.getBody()).toString());
