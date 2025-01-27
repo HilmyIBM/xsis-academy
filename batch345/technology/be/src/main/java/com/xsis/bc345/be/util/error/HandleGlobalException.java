@@ -1,5 +1,6 @@
 package com.xsis.bc345.be.util.error;
 
+import com.xsis.bc345.be.util.exception.PasswordMismatchException;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -50,7 +51,19 @@ public class HandleGlobalException {
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorMessage> handleRuntimeException(Exception e) {
+    public ResponseEntity<ErrorMessage> handlePasswordMismatch(PasswordMismatchException ex) {
+        ErrorMessage err = new ErrorMessage(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(),
+                ex.getClass().getSimpleName(),
+                LocalDateTime.now()
+        );
+
+        return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorMessage> handleRuntimeException(RuntimeException e) {
         ErrorMessage err = new ErrorMessage(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 e.getMessage(),
@@ -59,6 +72,18 @@ public class HandleGlobalException {
         );
 
         return new ResponseEntity<>(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorMessage> handleException(Exception e) {
+        ErrorMessage err = new ErrorMessage(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                e.getMessage(),
+                e.getClass().getSimpleName(),
+                LocalDateTime.now()
+        );
+
+        return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
     }
 
 }
