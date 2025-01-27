@@ -11,4 +11,6 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Long> {
     Optional<List<CustomerModel>> findAllByDeleted(boolean deleted);
 
     Optional<CustomerModel> findByIdAndDeleted(Long id, boolean deleted);
+
+    Optional<CustomerModel> findByEmailEqualsIgnoreCaseAndDeleted(String email, boolean deleted);
 }
