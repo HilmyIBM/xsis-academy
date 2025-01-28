@@ -6,10 +6,18 @@
 	</head>
 	<body>
 		<div layout:fragment="content">
-			<div class="d-flex justify-content-between my-1">
-				<div class="h2">Product Index</div>
+			<div class="d-flex justify-content-between py-2 my-1 border-bottom">
 				<div>
-					<a id="btnAdd" class="btn btn-sm btn-success rounded mx-1"><i class="fas fa-plus text-white"></i></a>
+					<span class="h2">Product Index</span>
+					<span class="align-top"><a id="btnAdd" class="btn btn-success rounded mx-1"><i class="fas fa-plus text-white"></i></a></span>
+				</div>
+				<div class="col-6">
+					<form id="frmFilter">
+						<div class="input-group">
+							<input th:value="${filter}" name="filter" type="text" id="txtFilter" class="form-control" placeholder="Name or Description..." />
+							<button type="submit" class="input-group-text"><i class="fas fa-filter" title="Filter by Name or Description..."></i></button>
+						</div>
+					</form>
 				</div>
 			</div>
 			<div>
@@ -30,7 +38,8 @@
 						<tr th:if="${product != null}" th:each="item:${product}">
 							<td class="d-none d-sm-table-cell">
 								<div class="rounded">
-									<img class="img-fluid" />
+									<img class="img-fluid" th:if="${item.image != null}"
+										th:src="${imgFolder + item.image}" />
 								</div>
 							</td>
 							<td th:text="${item.id}">1</td>
@@ -39,11 +48,13 @@
 							<td th:text="${item.stock}" class="d-none d-sm-table-cell">99</td>
 							<td th:text="${item.variantName}" class="d-none d-sm-table-cell">Bubur</td>
 							<td th:text="${item.categoryName}" class="d-none d-sm-table-cell">Bubur</td>
-							<td class="d-flex justify-content-center">
-								<div class="btn-group">
-									<button th:data-id="${item.id}" class="btn btn-info" title="Details..." href="/category/1"><i class="fas fa-list-alt"></i></button>
-									<button th:data-id="${item.id}" class="btn btn-primary" title="Edit..."><i class="fas fa-edit"></i></button>
-									<button th:data-id="${item.id}" class="btn btn-danger" title="Delete..."><i class="fas fa-trash"></i></button>
+							<td>
+								<div class="d-flex justify-content-center">
+									<div class="btn-group align-mid">
+										<button th:data-id="${item.id}" class="btn btn-info" title="Details..." href="/category/1"><i class="fas fa-list-alt"></i></button>
+										<button th:data-id="${item.id}" class="btn btn-primary" title="Edit..."><i class="fas fa-edit"></i></button>
+										<button th:data-id="${item.id}" class="btn btn-danger" title="Delete..."><i class="fas fa-trash"></i></button>
+									</div>
 								</div>
 							</td>
 						</tr>

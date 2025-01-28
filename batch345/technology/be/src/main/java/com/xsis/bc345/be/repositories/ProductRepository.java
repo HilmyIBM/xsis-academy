@@ -83,5 +83,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
                 )
         """
     )
-    Optional<Map<String, Object>> findByNative(@Param("filter") String filter);
+    Optional<List<Map<String, Object>>> findByNative(@Param("filter") String filter);
 }

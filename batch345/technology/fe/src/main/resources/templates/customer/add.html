@@ -1,5 +1,5 @@
-﻿<form id="frmNewCustomer" accept-charset="utf-8">
-    <div id="txtTitle" class="card-header d-none" th:text="${title}"></div>
+﻿<form id="frmNewCustomer">
+    <div id="txtCustomerTitle" class="card-header d-none" th:text="${title}"></div>
     <div class="card">
         <div class="card-body">
             <div class="row mb-3">
@@ -18,60 +18,45 @@
             </div>
             <div class="row mb-3">
                 <div class="input-group col">
+                    <label class="col-4 input-group-text">Password <sup class="text-danger">*</sup></label>
+                    <input class="col-8 form-control" id="txtCustPassword" type="password" name="custPassword" />
+                </div>
+                <div class="input-group col">
+                    <label class="col-4 input-group-text">Confirm Pass <sup class="text-danger">*</sup></label>
+                    <input class="col-8 form-control" type="password" name="confirmCustPassword" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="input-group col">
                     <label class="col-4 input-group-text">Email <sup class="text-danger">*</sup></label>
                     <input class="col-8 form-control" type="email" name="email" />
                 </div>
                 <div class="input-group col">
-                    <label class="col-4 input-group-text">Password <sup class="text-danger">*</sup></label>
-                    <input class="col-8 form-control" type="password" name="password" />
+                    <label class="col-4 input-group-text">Phone</label>
+                    <input class="col-8 form-control" type="text" name="phone" />
                 </div>
             </div>
             <div class="input-group mb-3">
                 <label class="col-2 input-group-text">Address</label>
                 <input class="col-10 form-control" name="address" />
             </div>
-            <div class="input-group mb-3">
-                <label class="col-2 input-group-text">Phone</label>
-                <input class="col-10 form-control" type="text" name="phone" />
+            <div id="errMsg" class="alert-warning mt-3 d-flex">
+                <ul class="list-group list-unstyled"></ul>
             </div>
         </div>
-        <div class="card-footer text-end">
+        <div class="card-footer text-end d-flex justify-content-between">
+            <div>
+                <sup class="text-danger">*</sup><span class="fst-italic">Mandatory Fields</span>
+            </div>
             <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Save</button>
-            <input type="hidden" name="createBy" value="1" />
         </div>
     </div>
+    <input type="hidden" name="createBy" value="1" />
 </form>
 
 <script>
     $(document).ready(function(e) {
-        $("#staticModalLabelLg").text($("#txtTitle").text());
-    });
-
-    $("#frmNewCustomer").submit(function (e) {
-        e.preventDefault();
-
-        $.ajax({
-            url:"/customer/create",
-            type:"post",
-            data: $(this).serialize(),
-            dataType: "json",
-            beforeSend: () => { },
-            success: function (response) {
-                alert("Customer " + response.name + " succesfully added!");
-                location.reload();
-            },
-            error: function (errResponse) {
-                console.error(errResponse);
-                if (errResponse.responseJSON) {
-                    alert(errResponse.responseJSON.error + ": " + errResponse.responseJSON.message);
-                }
-                else {
-                    alert(errResponse.responseText);
-                }
-            }
-        });
-
-        return false;
+        $("#staticModalLabelLg").text($("#txtCustomerTitle").text());
     });
 
     $("#frmNewCustomer").validate({
@@ -81,15 +66,54 @@
                 "minlength": 3
             },
             roleId: "required",
-            password: {
+            custPassword: {
                 "required": true,
                 "minlength": 6
+            },
+            confirmCustPassword: {
+                "required": true,
+                "minlength": 6,
+                equalTo: "#txtCustPassword"
             },
             email: {
                 "required": true,
                 "email": true
             }
         },
-        errorClass: "text-danger"
+        
+        errorClass: "text-danger alert-warning px-1",
+        errorContainer: "#errMsg",
+        errorLabelContainer: "#errMsg ul",
+        wrapper: "li"
+    });
+
+    $("#frmNewCustomer").submit(function (e) {
+        e.preventDefault();
+
+        if ($(this).valid()) {
+            $.ajax({
+                url:"/customer/create",
+                type:"post",
+                data: $(this).serialize(),
+                dataType: "json",
+                beforeSend: () => { },
+                success: function (response) {
+                    debugger
+                    alert("Customer " + response.name + " succesfully added!");
+                    location.reload();
+                },
+                error: function (errResponse) {
+                    debugger
+                    console.error(errResponse);
+                    if (errResponse.responseJSON) {
+                        alert(errResponse.responseJSON.error + ": " + errResponse.responseJSON.message);
+                    }
+                    else {
+                        alert(errResponse.responseText);
+                    }
+                }
+            });            
+        }
+        return false;
     });
 </script>

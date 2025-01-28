@@ -18,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.xsis.bc345.fe.models.CustomerView;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 @RequestMapping("/auth")
@@ -30,7 +32,7 @@ public class AuthController {
     private String apiUrl;
 
     //Hash SHA-256
-	private static String stringToHex(String strInput) throws NoSuchAlgorithmException {
+	public static String stringToHex(String strInput) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hashByte = digest.digest(strInput.getBytes(StandardCharsets.UTF_8));
 
@@ -71,18 +73,18 @@ public class AuthController {
                     return new ResponseEntity<CustomerView>(customer, HttpStatus.OK);
                 }
                 else {
-                    sess.invalidate();
+                    // sess.invalidate();
                     sess.setAttribute("errorMsg", "Invalid Password");
                     return new ResponseEntity<String>("Invalid Password", HttpStatus.UNAUTHORIZED);
                 }
             }
             else{
-                sess.invalidate();
+                // sess.invalidate();
                 sess.setAttribute("errorMsg", "Invalid E-Mail");
                 return new ResponseEntity<String>("Invalid E-Mail", HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
-            sess.invalidate();
+            // sess.invalidate();
             sess.setAttribute("errorMsg", e.getMessage());
             
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -95,4 +97,10 @@ public class AuthController {
 
         return new ModelAndView("redirect:/");
     }
+    
+    @GetMapping("/register")
+    public ModelAndView register() {
+        return new ModelAndView("redirect:/customer/add");
+    }
+    
 }

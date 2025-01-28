@@ -18,6 +18,10 @@
             <span th:if="${#ctx.session.userName!=null}" th:text="${#ctx.session.userName}"></span>
             <span th:unless="${#ctx.session.userName!=null}">[null]</span>
         </p>
+        <p>['errorMsg'] = 
+            <span th:if="${#ctx.session.errorMsg!=null}" th:text="${#ctx.session.errorMsg}"></span>
+            <span th:unless="${#ctx.session.errorMsg!=null}">[null]</span>
+        </p>
         <div>
             <form action="/setSesi">
                 <div class="input-group">

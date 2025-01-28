@@ -59,11 +59,11 @@ public class ProductController {
     @GetMapping("/filter/{filter}")
     public ResponseEntity<?> getBy(@PathVariable final String filter) {
         try {
-            Optional<Map<String, Object>> data = productSvc.getBy(filter);
+            List<Map<String, Object>> data = productSvc.getBy(filter);
             
-            return new ResponseEntity<Map<String, Object>>(
-                data.get(),
-                data.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT
+            return new ResponseEntity<List<Map<String, Object>>>(
+                data,
+                data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT
             );
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

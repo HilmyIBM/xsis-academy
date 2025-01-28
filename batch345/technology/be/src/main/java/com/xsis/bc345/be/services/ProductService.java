@@ -28,9 +28,9 @@ public class ProductService {
         return productRepo.findByNative(id);
     }
 
-    public Optional<Map<String, Object>> getBy(String filter) {
+    public List<Map<String, Object>> getBy(String filter) {
         // return productRepo.findByDeleted(false).get();
-        return productRepo.findByNative(filter.toLowerCase());
+        return productRepo.findByNative(filter.toLowerCase()).get();
     }
 
     public Product create(Product data) {

@@ -1,4 +1,5 @@
-<div class="d-none" id="txtTitle" th:text="${title}"></div>
+<div class="d-none" id="txtLoginTitle" th:text="${title}"></div>
+<div class="d-none" id="errorMsg" ></div>
 <form id="frmLogin">
     <div class="card">
         <div class="card-body">
@@ -8,18 +9,18 @@
                     <input id="txtName" name="email" type="text" class="form-control col-lg-9 col-12" />
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="input-group">
                     <label for="txtPassword" class="input-group-text col-lg-3 col-12">Password</label>
                     <input id="txtPassword" name="password" type="password" class="form-control col-lg-9 col-12" />
                 </div>
             </div>
-
             <div id="errMsg" class="alert-warning mt-3 d-flex">
                 <ul class="list-group list-unstyled"></ul>
             </div>
         </div>
         <div class="card-footer d-flex justify-content-end">
+            <button id="btnRegister" class="btn btn-link me-2">Register</button>
             <button class="btn btn-primary" type="submit">Log In</button>
         </div>
     </div>
@@ -27,23 +28,34 @@
 
 <script>
     $(document).ready(function(e) {
-        $("#staticModalLabel").text($("#txtTitle").text());
+        $("#staticModalLabel").text($("#txtLoginTitle").text());
 
         $("#frmLogin").validate({
             rules: {
                 email: {
                     "email": true,
-                    "required": true
+                    "required": true,
                 },
                 password: {
                     "required": true,
-                    "minlength": 6
+                    "minlength": 6,
+                },
+                confirmPassword: {
+                    required: true,
+                    "minlength": 6,
+                    equalTo: "#txtPassword"
                 }
             },
-            // errorClass: "alert-warning text-danger px-1",
-            // errorLabelContainer: "#errMsg ul",
-            // wrapper: "li",
-            
+            messages: {
+                email: {
+                    "required": "Email is required.",
+                },
+                password: {
+                    "required": "Password is required.",
+                    "minlength": "Password must at least 6 characters.",
+                }
+            },
+        
             errorClass: "text-danger alert-warning px-1",
             errorContainer: "#errMsg",
             errorLabelContainer: "#errMsg ul",
@@ -52,7 +64,6 @@
 
         $("#frmLogin").submit(function(e) {
             e.preventDefault();
-
             if($(this).valid()) {
                 // alert("Submitting...");
                 $.ajax({
@@ -65,13 +76,25 @@
                             alert(`Welcome ${response.name}!`);
                             location.reload();
                         }
+                        else {
+                            debugger;
+                            alert(response.responseText);
+                            console.error(response);
+                        }
                     },
                     error: function(errResponse) {
-                        alert("Login Failed");
+                        alert(
+                            "Login Failed: " + errResponse.responseText
+                        );
                         console.error(errResponse);
                     }
                 });
             }
         });
-    });
+
+        $("#btnRegister").click(function(e) {
+            $("#staticModalBodyLg").load("/auth/register");
+            $("#staticModalLg").modal("show");
+        });
+});
 </script>

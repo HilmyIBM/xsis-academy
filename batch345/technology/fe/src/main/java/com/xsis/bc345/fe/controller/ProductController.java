@@ -1,5 +1,6 @@
 package com.xsis.bc345.fe.controller;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -63,6 +64,9 @@ public class ProductController {
             view.addObject("errorMsg", e.getMessage());
         }
 
+        view.addObject("filter", filter);
+        view.addObject("imgFolder", IMG_FOLDER);
+        
         return view;
     }
 
@@ -112,16 +116,17 @@ public class ProductController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@ModelAttribute ProductView data, @RequestParam("imageFile") MultipartFile imageFile) throws Exception {
-        //Upload Image File Process
-        if(imageFile.getOriginalFilename() != null || imageFile.getOriginalFilename() != ""){
-            String fileName = imageFile.getOriginalFilename();
-            Path path = Paths.get(IMG_FOLDER+"/"+ fileName);
-            Files.write(path, imageFile.getBytes());
-
-            data.setImage(fileName);
-        }
-
         try {
+            //Upload Image File Process
+            if(imageFile.getOriginalFilename() != null || imageFile.getOriginalFilename() != ""){
+                String fileName = imageFile.getOriginalFilename();
+                byte[] fileSize = imageFile.getBytes();
+                Path path = Paths.get(IMG_FOLDER + fileName);
+                Files.write(path, fileSize);
+    
+                data.setImage(fileName);
+            }
+    
             ResponseEntity<ProductView> apiResponse = restTemplate.postForEntity(apiUrl + "/product", data, ProductView.class);
             
             if (apiResponse.getStatusCode() == HttpStatus.CREATED){
@@ -130,7 +135,11 @@ public class ProductController {
             else{
                 throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
             }
-        } catch (Exception e) {
+        }
+        catch (IOException ioe) {
+            return new ResponseEntity<String>("File Process Error: " + ioe.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
