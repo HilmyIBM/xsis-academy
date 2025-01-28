@@ -13,22 +13,22 @@
           <input type="email" class="form-control" id="txtEmail" name="email" />
         </div>
         <div class="form-group">
-          <label for="txtPassword" class="form-label">Password</label>
+          <label for="txtCustPassword" class="form-label">Password</label>
           <input
             type="password"
             class="form-control"
-            id="txtPassword"
+            id="txtCustPassword"
             name="password"
           />
         </div>
         <div class="form-group">
-          <label for="txtConfirmPassword" class="form-label"
+          <label for="txtConfirmCustPassword" class="form-label"
             >Confirm Password</label
           >
           <input
             type="password"
             class="form-control"
-            id="txtConfirmPassword"
+            id="txtConfirmCustPassword"
             name="confirmPassword"
           />
         </div>
@@ -70,7 +70,7 @@
 
 <script>
   $(document).ready(function () {
-    $("#staticModalLabel").text($("#txtTitle").val());
+    $("#staticModalLgLabel").text($("#txtTitle").val());
 
     $("#formNewCustomer").validate({
       rules: {
@@ -90,20 +90,25 @@
         },
         confirmPassword: {
           required: true,
-          equalTo: "#txtPassword",
+          maxlength: 50,
+          minlength: 6,
+          equalTo: "#txtCustPassword",
         },
         stock: {
           digits: true,
-        },
-        image: {
-          checkFileExtension: true,
         },
         roleId: {
           required: true,
         },
       },
       messages: {
+        password: {
+          required: "Password is required.",
+          maxlength: "Password must not exceed 50 characters.",
+          minlength: "Password must be at least 6 characters long.",
+        },
         confirmPassword: {
+          required: "Please confirm your password.",
           equalTo: "Password and Confirm Password must match.",
         },
       },

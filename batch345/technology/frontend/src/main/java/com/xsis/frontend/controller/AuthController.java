@@ -3,6 +3,7 @@ package com.xsis.frontend.controller;
 import java.nio.charset.StandardCharsets;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -35,24 +36,39 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@ModelAttribute CustomerView loginReq) {
+    public ResponseEntity<?> login(@ModelAttribute CustomerView loginReq, HttpSession session) {
         ResponseEntity<CustomerView> response = null;
 
         String password = loginReq.getPassword();
         String hashPassword = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
-        loginReq.setPassword(hashPassword);
 
         try {
-            response = restTemplate.postForEntity(apiUrl + "/auth/login", loginReq, CustomerView.class);
+            // response = restTemplate.getForEntity(apiUrl + "/customers/email/" +
+            // loginReq.getEmail(),
+            // CustomerView.class);
+
+            response = restTemplate.exchange(apiUrl + "/customers/email/" + loginReq.getEmail(), HttpMethod.GET, null,
+                    CustomerView.class);
 
             if (response.getStatusCode() == HttpStatus.OK) {
-                return new ResponseEntity<CustomerView>(response.getBody(), HttpStatus.OK);
+                CustomerView customer = response.getBody();
+                if (hashPassword.equals(customer.getPassword())) {
+                    session.setAttribute("userId", customer.getId());
+                    session.setAttribute("email", customer.getEmail());
+                    session.setAttribute("roleId", customer.getRoleId());
+                    session.setAttribute("userName", customer.getName());
+
+                    return new ResponseEntity<CustomerView>(customer, HttpStatus.OK);
+                } else {
+                    session.setAttribute("errorMsg", "Invalid Password");
+                    return new ResponseEntity<String>("Invalid Password", HttpStatus.UNAUTHORIZED);
+                }
             } else {
-                return new ResponseEntity<String>("""
-                            {"error":"Invalid Email and Password"}
-                        """, HttpStatus.UNAUTHORIZED);
+                session.setAttribute("errorMsg", "Invalid Email");
+                return new ResponseEntity<String>("Invalid Email", HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
+            session.setAttribute("errorMsg", e.getMessage());
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

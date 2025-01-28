@@ -11,8 +11,10 @@
       />
     </div>
     <div class="col-lg-6">
-      <h2 class="display-5 fw-normal lh-1 mb-3">Welcome to</h2>
-      <h1 class="display-5 fw-bold lh-1 mb-3">Xsis POS</h1>
+      <h2 class="display-5 fw-normal lh-1 mb-3">
+        Welcome, <span th:text="${#ctx.session.userName}"></span>
+      </h2>
+      <h1 class="display-5 fw-bold lh-1 mb-3"><span class="">to</span> Xsis POS</h1>
       <p class="lead">
         Quickly design and customize responsive mobile-first sites with
         Bootstrap, the world’s most popular front-end open source toolkit,

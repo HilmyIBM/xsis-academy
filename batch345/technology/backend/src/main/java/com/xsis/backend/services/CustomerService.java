@@ -36,6 +36,10 @@ public class CustomerService {
         return customerRepository.findByIdAndDeleted(id, false);
     }
 
+    public Optional<Customer> getByEmail(String email) {
+        return customerRepository.findByEmailAndDeleted(email, false);
+    }
+
     public List<Map<String, Object>> getListByFilter(String filter) throws Exception {
         return customerRepository.findNativeByFilter(filter).get();
     }

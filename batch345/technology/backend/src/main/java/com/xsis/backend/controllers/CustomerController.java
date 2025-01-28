@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xsis.backend.models.Customer;
 import com.xsis.backend.services.CustomerService;
 
-
 @RestController
 @CrossOrigin("*")
 @RequestMapping("api/customers")
@@ -55,6 +54,19 @@ public class CustomerController {
             List<Map<String, Object>> data = customerService.getListByFilter(filter);
             return new ResponseEntity<List<Map<String, Object>>>(data,
                     (data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT));
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> getByEmail(@PathVariable String email) {
+        try {
+            Optional<Customer> data = customerService.getByEmail(email);
+
+            return new ResponseEntity<Customer>(
+                    data.get(),
+                    (data.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT));
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -17,6 +17,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
     Optional<Customer> findByIdAndDeleted(int id, boolean deleted);
 
+    Optional<Customer> findByEmailAndDeleted(String email, boolean isDeleted);
+
     @Query(value = """
                 SELECT
                     c.id, c.name, c.address, c.email, c.phone, c.role_id AS "roleId",
