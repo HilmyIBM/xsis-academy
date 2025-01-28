@@ -12,6 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.b345.frontend.models.categoryView;
 import com.xsis.b345.frontend.models.customerView;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -22,20 +25,24 @@ public class customer {
     private final String apiUrl = "http://localhost:8080/api/customer";
 
     @GetMapping("/customer")
-    public ModelAndView user() {
-        ModelAndView view = new ModelAndView("/customer/index");
-        ResponseEntity<customerView[]> apiResponse = null;
-        try {
-            apiResponse = restTemplate.getForEntity(apiUrl, customerView[].class);
-            if (apiResponse.getStatusCode() == HttpStatus.OK) {
-                view.addObject("customer", apiResponse.getBody());
-            } else {
-                throw new Exception(apiResponse.getStatusCode().toString() + " : " + apiResponse.getBody());
+    public ModelAndView user(HttpSession session) {
+        if (session.getAttribute("role")!=null && session.getAttribute("role").equals(1) ) {
+            ModelAndView view = new ModelAndView("/customer/index");
+            ResponseEntity<customerView[]> apiResponse = null;
+            try {
+                apiResponse = restTemplate.getForEntity(apiUrl, customerView[].class);
+                if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                    view.addObject("customer", apiResponse.getBody());
+                } else {
+                    throw new Exception(apiResponse.getStatusCode().toString() + " : " + apiResponse.getBody());
+                }
+            } catch (Exception e) {
+                view.addObject("errorMSG", e.getMessage());
             }
-        } catch (Exception e) {
-            view.addObject("errorMSG", e.getMessage());
+            return view;
+        }else{
+            return new ModelAndView("redirect:/");
         }
-        return view;
     }
 
     @GetMapping("/customer/edit/{id}")

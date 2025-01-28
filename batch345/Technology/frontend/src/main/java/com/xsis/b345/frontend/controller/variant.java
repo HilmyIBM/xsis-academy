@@ -18,6 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.b345.frontend.models.categoryView;
 import com.xsis.b345.frontend.models.variantView;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,24 +34,29 @@ public class variant {
     private final String apiCategory = "http://localhost:8080/api/category";
 
     @GetMapping("/variant")
-    public ModelAndView index( String filter) {
-        ModelAndView view = new ModelAndView("/variant/index");
-        ResponseEntity<variantView[]> apiResponse = null;
-        try {
-            if (filter == null || filter.isEmpty()) {
-                apiResponse = restTemplate.getForEntity(apiUrl + "/variant", variantView[].class);
-            } else {
-                apiResponse = restTemplate.getForEntity(apiUrl + "/variant/filter/" + filter, variantView[].class);
+    public ModelAndView index( String filter,HttpSession session) {
+        if (session.getAttribute("role")!=null && session.getAttribute("role").equals(1) ){
+            ModelAndView view = new ModelAndView("/variant/index");
+            ResponseEntity<variantView[]> apiResponse = null;
+            try {
+                if (filter == null || filter.isEmpty()) {
+                    apiResponse = restTemplate.getForEntity(apiUrl + "/variant", variantView[].class);
+                } else {
+                    apiResponse = restTemplate.getForEntity(apiUrl + "/variant/filter/" + filter, variantView[].class);
+                }
+                if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                    view.addObject("variant", apiResponse.getBody());
+                } else {
+                    throw new Exception(apiResponse.getStatusCode().toString() + " : " + apiResponse.getBody());
+                }
+            } catch (Exception e) {
+                view.addObject("errorMSG", e.getMessage());
             }
-            if (apiResponse.getStatusCode() == HttpStatus.OK) {
-                view.addObject("variant", apiResponse.getBody());
-            } else {
-                throw new Exception(apiResponse.getStatusCode().toString() + " : " + apiResponse.getBody());
-            }
-        } catch (Exception e) {
-            view.addObject("errorMSG", e.getMessage());
+            return view;
         }
-        return view;
+        else{
+            return new ModelAndView("redirect:/");            
+        }
     }
 
     @GetMapping("/variant/add")

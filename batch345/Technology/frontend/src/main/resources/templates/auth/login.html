@@ -1,5 +1,5 @@
-<div class="d-none" th:text="${title}" id="txtTitle"></div>
-<form id="frmLogin">
+<div class="d-none" th:text="${txtTitleLogin}" id="txtTitleLogin"></div>
+<form id="frmLogin" th:action="@{~/auth/login}" method="post">
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -16,9 +16,14 @@
             </div>
         </div>
 
+        <div id="errMSG" class="alert-warning mt-3">
+            <ul class="list-group list-unstyled"></ul>
+        </div>
+
         <div class="card-footer">
             <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Login</button>
+                <a class="link-opacity-50-hover me-3 mt-1" id="linkRegister">Register</a>
+                <button type="submit" class="btn btn-success" id="errorMSG"><i class="fas fa-sign-in-alt"></i> Login</button>
             </div>
         </div>
     </div>
@@ -26,6 +31,66 @@
 
 <script>
     $(document).ready(function(){
-        $('#staticBackdropLabel').text($('#txtTitle').text());
+        $("#frmLogin").on("click", "#linkRegister", function (e) {
+            $("#staticModalBody-2").load("/customer/add");
+            $('#staticBackdropLabel-2').text($('#txtTitle').text());
+            $("#staticModal-2").modal("show");
+        });
+
+        $('#staticBackdropLabel').text($('#txtTitleLogin').text());
+
+        $("#frmLogin").validate({
+            "rules" :{
+                "email" : {
+                    "required":true,
+                    "email":true,
+                    "maxlength" : 100,
+                    "minlength" : 3
+                },
+                "password" : {
+                    "required":true,
+                    "maxlength" : 255,
+                    "minlength" : 6
+                }
+            },
+            "errorClass" : "text-danger",
+            "errorLabelContainer": "#errMSG ul",
+            "errorContainer" : "#errMSG",
+            "wrapper" : "li"
+        });
+
+        $("#frmLogin").submit(function(e){
+            e.preventDefault();
+
+            if($("#frmLogin").valid()){
+                $.ajax({
+                    url :"/auth/login",
+                    type : "post",
+                    data : $("#frmLogin").serialize(),
+                    dataType : "text",
+                    success:function(response){
+                        Swal.fire({ 
+                            title: "success",
+                            text: "Login Berhasil",
+                            icon: "success",  
+                            confirmButtonColor: "#3085d6",
+                            confirmButtonText: "Ok"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        });
+                    },
+                    error:function(errResponse){
+                        Swal.fire({
+                            title: "Error",
+                            text: "Email atau Password Salah",
+                            icon: "error"
+                        }); 
+                        console.log(errResponse.responseText);
+                    }
+                });
+            }
+        });
     });
 </script>

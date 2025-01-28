@@ -19,6 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.xsis.b345.frontend.models.categoryView;
 import com.xsis.b345.frontend.models.productView;
 import com.xsis.b345.frontend.models.variantView;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,27 +31,32 @@ public class product {
     @Value("${application.api.url}")
     private String apiUrl;
     private RestTemplate restTemplate = new RestTemplate();
-    private final String apiVariant = "http://localhost:8080/api/variant";
 
     @GetMapping("/product")
-    public ModelAndView product(String filter) {
-        ModelAndView view = new ModelAndView("/product/index");
-        ResponseEntity<productView[]> apiResponse = null;
-        try {
-            if (filter==null || filter.isEmpty()) {
-                apiResponse = restTemplate.getForEntity(apiUrl + "/product", productView[].class);
-            } else {
-                apiResponse = restTemplate.getForEntity(apiUrl + "/product/filter/" + filter, productView[].class);      
-            } 
-            if (apiResponse.getStatusCode() == HttpStatus.OK) {
-                view.addObject("product", apiResponse.getBody());
-            } else {
-                throw new Exception(apiResponse.getStatusCode().toString() + " : " + apiResponse.getBody());
+    public ModelAndView product(String filter,HttpSession session) {
+        if (session.getAttribute("role")!=null && session.getAttribute("role").equals(1) ){
+            ModelAndView view = new ModelAndView("/product/index");
+            ResponseEntity<productView[]> apiResponse = null;
+            try {
+                if (filter == null || filter.isEmpty()) {
+                    apiResponse = restTemplate.getForEntity(apiUrl + "/product", productView[].class);
+                } else {
+                    apiResponse = restTemplate.getForEntity(apiUrl + "/product/filter/" + filter, productView[].class);
+                }
+                if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                    view.addObject("product", apiResponse.getBody());
+                } else {
+                    throw new Exception(apiResponse.getStatusCode().toString() + " : " + apiResponse.getBody());
+                }
+            } catch (Exception e) {
+                view.addObject("errorMSG", e.getMessage());
             }
-        } catch (Exception e) {
-            view.addObject("errorMSG", e.getMessage());
+            return view;
         }
-        return view;
+        else{
+            return new ModelAndView("redirect:/");
+            
+        }
     }
 
     @GetMapping("/product/add")

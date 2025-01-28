@@ -84,4 +84,8 @@ public class CustomerService {
             throw new RuntimeException("Data Tidak Ada");
         }
     }
+
+    public Optional<CustomerModel> getByEmail(String email){
+        return customerepo.findByEmailAndIsDeleted(email,false);
+    }
 }

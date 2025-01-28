@@ -13,8 +13,8 @@ public class HomeController {
     @GetMapping("/")
     public ModelAndView index(HttpSession session) {
         ModelAndView view = new ModelAndView("index");
-        view.addObject("txtSesi",session.getAttribute("coba"));
-
+        view.addObject("txtSesi",session.getAttribute("email"));
+        view.addObject("username", session.getAttribute("userName"));
         return view;
     }
 

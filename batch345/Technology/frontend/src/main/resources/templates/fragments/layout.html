@@ -19,7 +19,7 @@ xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
     <div th:replace="~{fragments/modal}"></div>
     <div th:replace="~{fragments/navbar}"></div>
 
-    <div id="content">
+    <div id="content" class="d-flex flex-column min-vh-100 justify-content">
         <section layout:fragment="content" class="container"></section>
     </div>
 

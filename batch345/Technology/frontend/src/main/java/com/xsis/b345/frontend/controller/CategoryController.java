@@ -14,6 +14,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import com.xsis.b345.frontend.models.*;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/category")
 public class CategoryController {
@@ -23,26 +25,31 @@ public class CategoryController {
     // private final String apiUrl="http://localhost:8080/api/category";
 
     @GetMapping("")
-    public ModelAndView index(String filter) {
-        ModelAndView view = new ModelAndView("/category/index");
-        ResponseEntity<categoryView[]> apiResponse = null;
-        try {
-            if (filter == null || filter.isEmpty()) {
-                apiResponse = restTemplate.getForEntity(apiUrl + "/category", categoryView[].class);
-            } else {
-                apiResponse = restTemplate.getForEntity(apiUrl + "/category" + "/filter/" + filter,
-                        categoryView[].class);
+    public ModelAndView index(String filter,HttpSession session) {
+        if (session.getAttribute("role")!=null && session.getAttribute("role").equals(1) ){
+            ModelAndView view = new ModelAndView("/category/index");
+            ResponseEntity<categoryView[]> apiResponse = null;
+            try {
+                if (filter == null || filter.isEmpty()) {
+                    apiResponse = restTemplate.getForEntity(apiUrl + "/category", categoryView[].class);
+                } else {
+                    apiResponse = restTemplate.getForEntity(apiUrl + "/category" + "/filter/" + filter,
+                            categoryView[].class);
+                }
+                if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                    view.addObject("category", apiResponse.getBody());
+                } else {
+                    throw new Exception(apiResponse.getStatusCode().toString() + " : " + apiResponse.getBody());
+                }
+            } catch (Exception e) {
+                view.addObject("errorMSG", e.getMessage());
             }
-            if (apiResponse.getStatusCode() == HttpStatus.OK) {
-                view.addObject("category", apiResponse.getBody());
-            } else {
-                throw new Exception(apiResponse.getStatusCode().toString() + " : " + apiResponse.getBody());
-            }
-        } catch (Exception e) {
-            view.addObject("errorMSG", e.getMessage());
+            view.addObject("filter", filter);
+            return view;
         }
-        view.addObject("filter", filter);
-        return view;
+        else{
+            return new ModelAndView("redirect:/");
+        }
     }
 
     @GetMapping("/add")

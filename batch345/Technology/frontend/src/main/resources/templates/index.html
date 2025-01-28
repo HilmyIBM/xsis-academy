@@ -6,18 +6,8 @@ layout:decorate="~{fragments/layout}">
 </head>
 <body>
     <div layout:fragment="content">
-        <h1>Welcome</h1>
+        <h1>Welcome, <span th:text="${username}"></span></h1>
         <hr style="opacity: 1;">
-        <p>Ini adalah text dari Session['coba'] = 
-            <span th:if=" ${txtSesi != null} " th:text=" ${txtSesi} "></span>
-            <span th:unless="${txtSesi != null} " th:text="${txtSesi}"></span>
-        </p>
-        <div>
-            <form action="/setSesi">
-                <input type="text" name="sesi" class="form-control">
-                <button type="submit" class="btn btn-primary" data-bs-toogle="modal" data-bs-target="#staticModal">Update Session['coba']</button>
-            </form>
-        </div>
     </div>
 </body>
 </html>

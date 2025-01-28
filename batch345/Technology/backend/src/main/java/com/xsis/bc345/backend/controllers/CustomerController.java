@@ -87,6 +87,21 @@ public class CustomerController {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> getByEmail(@PathVariable String email) {
+        try {
+            Optional<CustomerModel> data=customerSVC.getByEmail(email);
+
+            if (data.isPresent()) {
+                return new ResponseEntity<CustomerModel>(data.get(),HttpStatus.OK);   
+            }else{
+                return new ResponseEntity<CustomerModel>(data.get(),HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            
+        }
+    }
     
 }

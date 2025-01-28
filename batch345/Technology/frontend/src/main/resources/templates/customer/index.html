@@ -65,7 +65,10 @@ layout:decorate="~{fragments/layout}">
                   <td th:text="${item.email}" class="text-center">Appetizer</td>
                   <td th:text="${item.address}" class="text-center">Appetizer</td>
                   <td th:text="${item.phone}" class="text-center">Appetizer</td>
-                  <td th:text="${item.roleId}" class="text-center">Variant of bread</td>
+                  <div th:switch="${item.roleId}">
+                    <td th:case="1" class="text-center">Admin</td>
+                    <td th:case="2" class="text-center">User</td>
+                  </div>
                   <td>
                     <div
                       class="btn-group d-flex justify-content-center"
