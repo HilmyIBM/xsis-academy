@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <div layout:fragment="content">
+    <div layout:fragment="content" th:if="${#ctx.session.roleId == 1}">
         <button type="button" class="btn btn-primary mt-2" id="btnAdd" data-bs-toggle="modal"
             data-bs-target="#staticModal">Add</button>
         <div>
@@ -42,7 +42,6 @@
                             <th scope="col">ID</th>
                             <th scope="col">Nama customer</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Password</th>
                             <th scope="col">Address</th>
                             <th scope="col">Phone</th>
                             <th scope="col">Role Id</th>
@@ -55,7 +54,6 @@
                             <th scope="row" th:text="${item.id}">1</th>
                             <td th:text="${item.name}">Appetizer</td>
                             <td th:text="${item.email}">Category of Appetizer</td>
-                            <td th:text="${item.password}">False</td>
                             <td th:text="${item.address}">False</td>
                             <td th:text="${item.phone}">False</td>
                             <td th:switch="${item.roleId}">

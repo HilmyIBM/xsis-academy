@@ -12,13 +12,12 @@
   <section layout:fragment="content">
     <h1>Index XSIS POS!</h1>
     <br>
-    <p>Ini adalah text dari Session['coba'] = <span th:if="${txtSesi}" th:text="txtSess"></span><span
-        th:unless="${txtSesi}">No txtSesi</span></p>
+    <p>Ini adalah text dari Session['coba'] = <span th:if="${isiSession}" th:text="${isiSession}"></span><span
+        th:unless="${isiSession}">No txtSesi</span></p>
     <div>
-      <form action="/setSesi">
-        <input type="text" class="form-control" name="txtSesi">
-        <button type="submit" class="btn btn-primary w-25 text-center mx-auto" data-bs-toggle="modal"
-          data-bs-target="#staticModal">Update Session['coba']</button>
+      <form action="/setSess">
+        <input type="text" class="form-control" name="txtSess">
+        <button type="submit" class="btn btn-primary w-25 text-center mx-auto">Update Session['coba']</button>
 
       </form>
     </div>
@@ -26,3 +25,12 @@
 </body>
 
 </html>
+<script>
+  var txtSessValue = `[[${isiSession}]]`;  // Thymeleaf will inject the session value here
+  if (txtSessValue) {
+    sessionStorage.setItem('txtSess', txtSessValue || "");  // Store it in sessionStorage
+  }
+
+  // Optionally, you can display it in the console for debugging
+  console.log(sessionStorage.getItem('txtSess'));
+</script>

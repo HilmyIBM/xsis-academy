@@ -13,9 +13,14 @@
                     <input id="txtPassword" name="password" type="password" class="form-control col-lg-9 col-12">
                 </div>
             </div>
+            <div id="errMsg" class="alert-warning mt-3 d-flex">
+                <ul class="list-group list-unstyled"></ul>
+            </div>
         </div>
         <div class="card-footer d-flex justify-content-end">
-            <button class="btn btn-primary" type="submit">Log In</button>
+            <button class="btn btn-primary mx-2" type="submit" id="registerCustomer" data-bs-target="#staticModal"
+                data-bs-toggle="modal">Register</button>
+            <button class="btn btn-success" type="submit" id="loginInCustomer">Log In</button>
         </div>
     </div>
 </form>
@@ -23,6 +28,74 @@
 
 <script>
     $(document).ready(function (e) {
-        $("#staticModalLabel").text(`[[${title}]]`)   
+        $("#staticModalLabel").text(`[[${title}]]`)
+
+        $("#frmLogin").validate({
+            rules: {
+                email: {
+                    required: true,
+                    minlength: 6
+                },
+                password: {
+                    required: true,
+                    minlength: 6
+                }
+            },
+            messages: {
+                email: {
+                    required: "email is required",
+                    minlength: "Email minimum length must 6"
+                },
+                password: {
+                    required: "password is required",
+                    minlength: "Password minimum length must 6"
+                }
+            },
+            errorClass: "text-danger",
+            errorContainer: "#errMsg",
+            errorLabelContainer: "#errMsg ul",
+            wrapper: "li"
+        })
+
+        $("#loginInCustomer").on("click", function (e) {
+            e.preventDefault()
+            if ($("#frmLogin").valid()) {
+                $.ajax({
+                    url: "auth/login",
+                    type: "post",
+                    data: $("#frmLogin").serialize(),
+                    dataType: "json",
+                    beforeSend: function () {
+
+                    },
+                    success: function (response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: `Customer name ${response.name} successfully login!`,
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function (errResponse) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: `Error login: ${errResponse.responseText}`,
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            location.reload()
+                        });
+                    }
+                })
+            }
+        })
+
+        $("#registerCustomer").on("click", function (e) {
+            $("#staticModalLabelLg").text("Register New Customer")
+            $("#staticModalBodyLg").load("auth/register")
+            $("#staticModalLg").modal("show")
+        })
     })
 </script>

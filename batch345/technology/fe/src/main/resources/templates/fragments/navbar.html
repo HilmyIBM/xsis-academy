@@ -22,8 +22,13 @@
                             <li><a class="dropdown-item" href="/category">Category</a></li>
                             <li><a class="dropdown-item" href="/variant">Variant</a></li>
                             <li><a class="dropdown-item" href="/product">Product</a></li>
-                            <hr class="dropdown-divider" />
-                            <li><a class="dropdown-item" href="/customer">User</a></li>
+                            <div th:if="${#ctx.session.roleId==1}">
+                                <hr class="dropdown-divider" />
+                                <li>
+                                    <a class="dropdown-item" href="/customer">User</a>
+                                </li>
+                            </div>
+
                         </ul>
                     </li>
                     </li>
@@ -43,8 +48,9 @@
                 </ul>
             </div>
             <div>
-                <button class="btn btn-primary" id="btnLogin">Log In</button>
-                <button class="btn btn-danger">Log Out</button>
+                <button th:if="${#ctx.session.userId == null}" class="btn btn-primary" id="btnLogin">Log In</button>
+                <span th:if="${#ctx.session.userId != null}"  th:text="${'Halo '+ #ctx.session.username}" href="#" class="text-light"></span>
+                <button th:if="${#ctx.session.userId != null}" class="btn btn-danger" id="btnLogout">Log Out</button>
             </div>
         </div>
     </div>
@@ -56,5 +62,10 @@
     $("#btnLogin").on("click", function (e) {
         $("#staticModalBody").load("auth/login")
         $("#staticModal").modal("show")
+    })
+
+    $("#btnLogout").on("click", function (e) {
+        // Harus complete ada trailing '/' di depan
+        location.href = "/auth/logout"
     })
 </script>

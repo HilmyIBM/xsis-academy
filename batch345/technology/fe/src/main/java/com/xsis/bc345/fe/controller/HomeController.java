@@ -13,7 +13,7 @@ public class HomeController {
     public ModelAndView index(HttpSession sess) {
         ModelAndView view = new ModelAndView("index");
 
-        view.addObject("txtSess", sess.getAttribute("coba"));
+        view.addObject("isiSession", sess.getAttribute("coba"));
 
         return view;
     }

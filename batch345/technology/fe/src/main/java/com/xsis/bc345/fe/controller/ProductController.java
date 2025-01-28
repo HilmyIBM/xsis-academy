@@ -3,7 +3,6 @@ package com.xsis.bc345.fe.controller;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -24,7 +23,6 @@ import com.xsis.bc345.fe.models.CategoryView;
 import com.xsis.bc345.fe.models.ProductView;
 import com.xsis.bc345.fe.models.VariantView;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("product")

@@ -13,8 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.xsis.bc345.fe.models.CustomerView;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("customer")
@@ -51,7 +51,7 @@ public class CustomerController {
     }
 
     @PostMapping("create")
-    public ResponseEntity<?> createCustomer(@RequestBody CustomerView data) {
+    public ResponseEntity<?> createCustomer(@ModelAttribute CustomerView data) {
         ResponseEntity<CustomerView> apiResponse = null;
         try {
             apiResponse = restTemplate.exchange(apiUrl + "customer", HttpMethod.POST,
