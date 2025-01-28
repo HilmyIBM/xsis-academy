@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import com.xsis.bc345.be.models.Customer;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer,Integer> {
+public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     Optional<List<Customer>> findByDeleted(boolean deleted);
+
+    Optional<Customer> findByEmailIgnoreCaseAndDeleted(String email, boolean deleted);
 }
