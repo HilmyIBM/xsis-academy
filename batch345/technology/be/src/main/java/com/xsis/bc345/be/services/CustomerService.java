@@ -3,6 +3,7 @@ package com.xsis.bc345.be.services;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,12 +36,16 @@ public class CustomerService {
         }
     }
 
+    public Optional<Customer> getByEmail(String email) {
+        return customerRepo.findByEmailAndDeleted(email.toLowerCase(),false);
+    }
+
     public Customer create(Customer data) throws Exception {
         // Hash
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         String pass = data.getPassword();
         byte[] encodehash = digest.digest(pass.getBytes(StandardCharsets.UTF_8));
-        System.out.println(encodehash);
+        // System.out.println(encodehash);
         data.setPassword(bytesToHex(encodehash));
         return customerRepo.save(data);
     }

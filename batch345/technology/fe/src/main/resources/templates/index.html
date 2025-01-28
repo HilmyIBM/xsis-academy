@@ -10,14 +10,14 @@
         <h1>Welcome To Xsis POS!</h1>
         <hr>
         <p>
-            Ini adalah text dari Session['coba'] =
+            Ini adalah text dari Session ['coba'] =
             <span th:if="${txtSesi != null}" th:text="${txtSesi}"></span>
-            <span th:unless="${txtSesi != null}">No txtSesi</span>
+            <span th:unless="${txtSesi != null}">[null]</span>
         </p>
         <div>
             <form action="/setSesi">
                 <input type="text" name="txtSesi" class="form-control">
-                <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticModal">Update Session['coba']</button>
+                <button type="submit" class="btn btn-primary">Update Session['coba']</button>
             </form>
         </div>
     </div>

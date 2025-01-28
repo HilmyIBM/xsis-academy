@@ -5,15 +5,17 @@
                 <label for="txtEmail" class="form-label col-lg-3 col-12">Email</label>
                 <input type="text" id="txtEmail" name="email" class="form-control col-lg-8 col-12">
             </div>
-            <div class="form-group mb-2">
+            <div class="form-group mb-1">
                 <label for="txtPassword" class="form-label col-lg-3 col-12">Password</label>
                 <input type="password" id="txtPassword" name="password" class="form-control col-lg-8 col-12">
             </div>
+            <div id="errMsg" class="alert-warning mt-3 d-flex">
+                <ul class="list-group list-unstyled"></ul>
+            </div>
         </div>
         <div class="card-footer">
-            <div class="d-flex justify-content-end">
-                <button class="btn btn-dark" type="submit">Login</button>
-            </div>
+            <button class="btn btn-dark w-100 mt-2" type="submit">Login</button>
+            <button class="btn text-secondary w-100 mt-2" id="btnReg" type="button">Don't have an account? Register</button>
         </div>
     </div>
 </form>
@@ -21,5 +23,61 @@
 <script>
     $(document).ready(function(e){
         $("#staticModalLabel").text(`[[${title}]]`);
+
+        $("#frmLogin").validate({
+            rules:{
+                email:{
+                    "email": true,
+                    "required": true
+                },
+                password:{
+                    "required": true,
+                    "minlength": 6
+                }
+            },
+            messages: {
+                email:{
+                    email: "Please enter valid email",
+                    required: "Please Enter Email"
+                },
+                password:{
+                    required: "Please Enter Password",
+                    minlength: "Enter Password min 6 character"
+                }
+
+            },
+            errorClass: "text-danger alert-warning px-1",
+            errorContainer: "#errMsg",
+            errorLabelContainer: "#errMsg ul",
+            wrapper: "li"
+        })
+
+        $("#frmLogin"). submit(function(e){
+            e.preventDefault();
+            if($(this).valid()){
+                $.ajax({
+                    url: "auth/login",
+                    type: "post",
+                    data: $("#frmLogin").serialize(),
+                    dataType: "json",
+                    success: function(response){
+                        if(response.name){
+                            alert(`Welcome ${response.name}!`);
+                            location.reload();
+                        }
+                    },
+                    error: function(errResponse){
+                        alert("Login Failed");
+                        console.error(errResponse.text)
+                    }
+                })
+            }
+        })
+    
+        $("#btnReg").click(function(){
+            $("#staticModalLabelLg").text("Register New Customer");
+            $("#staticModalBodyLg").load("/auth/register");
+            $("#staticModalLg").modal("show");
+        })
     })
 </script>

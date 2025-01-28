@@ -11,7 +11,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/">Home</a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li th:if="${#ctx.session.roleId==1}" class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="/master" id="masterMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Master
                         </a>
@@ -38,8 +38,17 @@
                 </ul>
             </div>
             <div class="">
-                <button id="btnLogin" class="btn btn-warning">Login</button>
-                <button id="btnLogout" class="btn text-light">Logout</button>
+                <button th:if="${#ctx.session.userId == null}" id="btnLogin" class="btn btn-warning"><b>LOGIN</b></button>
+                <!-- <button th:unless="${#ctx.session.userId == null}" class="btn text-light" th:text="${'Hai ' + #ctx.session.userName}"></button>
+                <button th:unless="${#ctx.session.userId == null}" id="btnLogout" class="btn text-light">Logout</button> -->
+                <div th:unless="${#ctx.session.userId == null}" class="btn-group">
+                    <a th:text="${'Hai ' + #ctx.session.userName + ' '}" class="nav-link dropdown-toggle text-light" href="#" id="transactionMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-end">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><button class="dropdown-item" id="btnLogout" type="button">Logout</button></li>
+                    </ul>
+                  </div>
             </div>
         </div>
     </div>
@@ -50,5 +59,9 @@
         $("#staticModalBody").load("/auth/login");
         $("#staticModal").modal("show");
     })
+
+    $("#btnLogout").click(function(e) {
+        location.href= "/auth/logout";
+    });
 </script>
 <!-- NAVBAR END -->
