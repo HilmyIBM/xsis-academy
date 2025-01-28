@@ -1,15 +1,15 @@
-﻿<form id="frmNewCustomer">
+﻿<form id="frmNewCustomer" accept-charset="utf-8">
     <div id="txtTitle" class="card-header d-none" th:text="${title}"></div>
     <div class="card">
         <div class="card-body">
             <div class="row mb-3">
                 <div class="input-group col">
                     <label class="col-4 input-group-text">Name <sup class="text-danger">*</sup></label>
-                    <input class="col-8 form-control" type="text" name="Name" />
+                    <input class="col-8 form-control" type="text" name="name" />
                 </div>
                 <div class="input-group col">
                     <label class="col-4 input-group-text">Role <sup class="text-danger">*</sup></label>
-                    <select class="col-8 form-select" name="RoleId">
+                    <select class="col-8 form-select" name="roleId">
                         <option value="">-- Select a Role --</option>
                         <option value="1">Admin</option>
                         <option value="2">User</option>
@@ -19,25 +19,25 @@
             <div class="row mb-3">
                 <div class="input-group col">
                     <label class="col-4 input-group-text">Email <sup class="text-danger">*</sup></label>
-                    <input class="col-8 form-control" type="email" name="Email" />
+                    <input class="col-8 form-control" type="email" name="email" />
                 </div>
                 <div class="input-group col">
                     <label class="col-4 input-group-text">Password <sup class="text-danger">*</sup></label>
-                    <input class="col-8 form-control" type="password" name="Password" />
+                    <input class="col-8 form-control" type="password" name="password" />
                 </div>
             </div>
             <div class="input-group mb-3">
                 <label class="col-2 input-group-text">Address</label>
-                <input class="col-10 form-control" name="Address" />
+                <input class="col-10 form-control" name="address" />
             </div>
             <div class="input-group mb-3">
                 <label class="col-2 input-group-text">Phone</label>
-                <input class="col-10 form-control" type="number" name="Phone" />
+                <input class="col-10 form-control" type="text" name="phone" />
             </div>
         </div>
         <div class="card-footer text-end">
             <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Save</button>
-            <input type="hidden" name="CreateBy" value="1" />
+            <input type="hidden" name="createBy" value="1" />
         </div>
     </div>
 </form>
@@ -51,7 +51,7 @@
         e.preventDefault();
 
         $.ajax({
-            url:"/customer/add",
+            url:"/customer/create",
             type:"post",
             data: $(this).serialize(),
             dataType: "json",
@@ -61,8 +61,13 @@
                 location.reload();
             },
             error: function (errResponse) {
-                console.log(errResponse);
-                debugger;
+                console.error(errResponse);
+                if (errResponse.responseJSON) {
+                    alert(errResponse.responseJSON.error + ": " + errResponse.responseJSON.message);
+                }
+                else {
+                    alert(errResponse.responseText);
+                }
             }
         });
 
@@ -71,16 +76,16 @@
 
     $("#frmNewCustomer").validate({
         rules: {
-            Name: {
+            name: {
                 "required": true,
                 "minlength": 3
             },
-            RoleId: "required",
-            Password: {
+            roleId: "required",
+            password: {
                 "required": true,
                 "minlength": 6
             },
-            Email: {
+            email: {
                 "required": true,
                 "email": true
             }

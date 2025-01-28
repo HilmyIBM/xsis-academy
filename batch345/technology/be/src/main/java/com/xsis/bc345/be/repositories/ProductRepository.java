@@ -75,7 +75,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
                 INNER JOIN tbl_m_variant AS v ON p.variant_id=v.id
                 INNER JOIN tbl_m_categories AS c ON v.category_id=c.id
             WHERE
-                p.is_deleted = false AND (
+                p.is_deleted = false
+                AND (
                     LOWER(p.name) LIKE %?1%
                     OR LOWER(v.name) LIKE %?1%
                     OR LOWER(c.category_name) LIKE %?1%
