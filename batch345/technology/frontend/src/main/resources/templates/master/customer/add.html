@@ -30,6 +30,15 @@
         />
       </div>
       <div class="form-group">
+        <label for="txtConfirmPassword" class="form-label">Confirm Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="txtConfirmPassword"
+          name="confirmPassword"
+        />
+      </div>
+      <div class="form-group">
         <label for="txtAddress" class="form-label">Address</label>
         <input
           type="text"
@@ -49,7 +58,7 @@
       </div>
       <select name="roleId">
         <option value="1"> Admin </option>
-        <option valie="2"> User </option>
+        <option value="2"> User </option>
       </select>
       <div class="text-right">
         <button class="btn btn-success">
@@ -81,6 +90,11 @@
         password : {
           required: true,
           minlength: 6,
+        },
+        confirmPassword: {
+          required: true,
+          minlength: 6,
+          equalTo: "#txtPassword"
         },
         roleId : {
           required: true,

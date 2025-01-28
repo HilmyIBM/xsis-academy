@@ -1,5 +1,5 @@
 <div class="d-none" id="txtTitle" th:text="${title}"></div>
-<form action="" id="frmLogin">
+<form action="${~/auth/login}" id="frmLogin">
   <div class="card">
     <div class="card-body">
       <div class="row">
@@ -8,12 +8,15 @@
           <input id="txtEmail" name="email" type="text" class="form-control">
         </div>
       </div>
-      <div class="row">
+      <div class="row mt-2">
         <div class="input-group">
           <label for="txtPassword" class="input-group-text">Password</label>
-          <input id="txtPassword" name="password" type="text" class="form-control">
+          <input id="txtPassword" name="password" type="password" class="form-control">
         </div>
       </div>
+    </div>
+    <div id="errMsg" class="alert-warning mt-3 d-felx">
+      <ul class="list-group list-unstyled"></ul>
     </div>
     <div class="card-footer">
       <button class="btn btn-primary" type="submit">Login</button>
@@ -23,6 +26,58 @@
 
 <script>
   $(document).ready(function (e) {
-    $("staticModalLabel").text($("#txtTitle").text());
+    $("#staticModalLabel").text($("#txtTitle").text());
+  });
+
+  $("#frmLogin").validate({
+    "rules": {
+      email: {
+        "email" : true,
+        "required" : true
+      },
+      password: {
+        "required" : true,
+        "minlength" : 6
+      }
+    },
+    messages: {
+      email : {
+        "required" : "Email Required.",
+      },
+      password : {
+        "required" : "Password Required."
+      }
+    },
+    errorClass: "text-danger alert-warning px-1",
+    errorContainer: "#errMsg",
+    errorLabelContainer: "#errMsg ul",
+    wrapper: "li"
+  });
+
+  $("#frmLogin").submit(function(e) {
+    e.preventDefault();
+    if ($("#frmLogin").valid()) {
+        $.ajax({
+          url: "/auth/login",
+          type: "post",
+          data: $("#frmLogin").serialize(),
+          dataType: "json",
+          beforeSend: () => {
+            // alert("mengirim data ke api");
+          },
+          success: function (response) {
+            if (response.name) {
+            alert(`Welcome ${response.name}!`);
+            location.reload();
+            }
+          },
+          error: function (errResponse) {
+            alert("Login Failed")
+            console.error(
+              "Login failed : " + errResponse.responseText
+            );
+          },
+        });
+      }
   });
 </script>

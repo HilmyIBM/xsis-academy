@@ -61,4 +61,32 @@ public class CustomerController {
     }
   }
 
+  @GetMapping("/getuser/{email}/{password}")
+  public ResponseEntity<?> getUser(@PathVariable String email, @PathVariable String password) {
+      
+    try {
+      Optional<Customer> data = customerSvc.getCredentials(email, password);
+
+      return new ResponseEntity<Customer>(
+          data.get(),
+          data.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT);
+    } catch (Exception e) {
+      return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @GetMapping("/email/{email}")
+  public ResponseEntity<?> getByEmail(@PathVariable String email) {
+      
+    try {
+      Optional<Customer> data = customerSvc.getByEmail(email);
+
+      return new ResponseEntity<Customer>(
+          data.get(),
+          data.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT);
+    } catch (Exception e) {
+      return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+  
 }

@@ -54,5 +54,13 @@ public class CustomerService {
     return customerRepo.findByIdAndDeleted(id, false);
   }
 
+  public Optional<Customer> getCredentials(String email, String password) throws Exception{
+    MessageDigest digest = MessageDigest.getInstance("SHA-256");
+    byte[] encodehash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+    return customerRepo.findByEmailAndPasswordAndDeleted(email, bytesToHex(encodehash), false);
+  }
 
+  public Optional<Customer> getByEmail(String email) {
+    return customerRepo.findByEmailAndDeleted(email, false);
+  }
 }     

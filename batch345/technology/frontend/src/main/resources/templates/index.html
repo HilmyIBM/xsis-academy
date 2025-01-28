@@ -9,7 +9,6 @@ layout:decorate="~{fragments/layout}">
     <h1>Welcome to Home</h1>
     <hr style="opacity: 1;"/>
     <p>Ini adalah text dari Session['coba'] - 
-      <span th:text="${txtSesi}"></span>
       <span th:if="${txtSesi != null}" th:text="${txtSesi}"></span>
       <span th:unless="${txtSesi != null}">No txtSesi</span></p>
     <div>

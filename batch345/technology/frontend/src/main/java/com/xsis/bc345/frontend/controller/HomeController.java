@@ -14,8 +14,9 @@ public class HomeController {
   @GetMapping("/")
   public ModelAndView home(HttpSession sess) {
       ModelAndView view = new ModelAndView("index");
-      view.addObject("txtSesi", sess.getAttribute("coba"));
-      return new ModelAndView("index");
+      view.addObject("txtSesi", sess.getAttribute("userName"));
+
+      return view;
   }
 
   @GetMapping("/setSesi")

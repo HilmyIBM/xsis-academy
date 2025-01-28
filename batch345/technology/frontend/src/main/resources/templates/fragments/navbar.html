@@ -9,7 +9,7 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" th:if="${#ctx.session.roleId == 1}">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-cubes"></i> Master
           </a>
@@ -33,8 +33,15 @@
       </ul>
     </div>
     <div>
-      <button class="btn btn-primary">Log In</button>
-      <button class="btn btn-dark">Log Out</button>
+      <button th:if="${#ctx.session.userId == null}"id="btnLogin" class="btn btn-primary">Log In</button>
+      <a th:unless="${#ctx.session.userId == null}" href="/auth/logout"><button class="btn btn-dark">Log Out</button></a>
     </div>
   </div>
 </nav>
+
+<script>
+    $("#btnLogin").click(function (e) {
+    $("#staticModalBody").load("auth/login");
+    $("#staticModal").modal("show");
+  });
+</script>
