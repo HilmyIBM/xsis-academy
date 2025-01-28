@@ -21,6 +21,12 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
+    public boolean login(String email, String password) {
+        Optional<Customer> customer = customerRepository.findByEmail(email);
+
+        return customer.isPresent() && customer.get().getPassword().equals(password);
+    }
+
     public List<Customer> getAll() throws Exception {
         return customerRepository.findByDeleted(false).get();
     }

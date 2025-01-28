@@ -15,6 +15,8 @@ import com.xsis.backend.models.Customer;
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     Optional<List<Customer>> findByDeleted(boolean deleted);
 
+    Optional<Customer> findByEmail(String email);
+
     Optional<Customer> findByIdAndDeleted(int id, boolean deleted);
 
     @Query(value = """
