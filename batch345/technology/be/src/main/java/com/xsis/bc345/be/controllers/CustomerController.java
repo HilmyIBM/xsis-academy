@@ -81,7 +81,7 @@ public class CustomerController {
         }
     }
     
-    @PostMapping("/create")
+    @PostMapping("")
     public ResponseEntity<?> create(@RequestBody Customer data) {
         try {
             return new ResponseEntity<Customer>(customerSvc.create(data), HttpStatus.CREATED);
@@ -90,7 +90,7 @@ public class CustomerController {
         }
     }
     
-    @PutMapping("/update")
+    @PutMapping("")
     public ResponseEntity<?> update(@RequestBody Customer data) {
         try {
             return new ResponseEntity<Customer>(customerSvc.update(data), HttpStatus.OK);

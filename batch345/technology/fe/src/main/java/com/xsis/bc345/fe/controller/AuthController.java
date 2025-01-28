@@ -22,29 +22,29 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
-    //HTTP Client
+    // HTTP Client
     private RestTemplate restTemplate = new RestTemplate();
-    
-    //API URL
+
+    // API URL
     @Value("${application.api.url}")
     private String apiUrl;
 
-    //Hash SHA-256
-	private static String stringToHex(String strInput) throws NoSuchAlgorithmException {
+    // Hash SHA-256
+    private static String stringToHex(String strInput) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hashByte = digest.digest(strInput.getBytes(StandardCharsets.UTF_8));
 
-	    StringBuilder hexString = new StringBuilder(2 * hashByte.length);
-	    for (int i = 0; i < hashByte.length; i++) {
-	        String hex = Integer.toHexString(0xff & hashByte[i]);
-	        if(hex.length() == 1) {
-	            hexString.append('0');
-	        }
-	        hexString.append(hex);
-	    }
-	    return hexString.toString();
-	}
-    
+        StringBuilder hexString = new StringBuilder(2 * hashByte.length);
+        for (int i = 0; i < hashByte.length; i++) {
+            String hex = Integer.toHexString(0xff & hashByte[i]);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+
     @GetMapping("/login")
     public ModelAndView login() {
         ModelAndView view = new ModelAndView("/auth/login");
@@ -57,7 +57,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@ModelAttribute CustomerView data, HttpSession sess) {
         try {
-            ResponseEntity<CustomerView> apiResponse = restTemplate.getForEntity(apiUrl + "/customer/email/" + data.getEmail(), CustomerView.class);
+            ResponseEntity<CustomerView> apiResponse = restTemplate
+                    .getForEntity(apiUrl + "/customer/email/" + data.getEmail(), CustomerView.class);
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 CustomerView customer = apiResponse.getBody();
@@ -69,14 +70,12 @@ public class AuthController {
                     sess.setAttribute("userName", customer.getName());
 
                     return new ResponseEntity<CustomerView>(customer, HttpStatus.OK);
-                }
-                else {
+                } else {
                     sess.invalidate();
                     sess.setAttribute("errorMsg", "Invalid Password");
                     return new ResponseEntity<String>("Invalid Password", HttpStatus.UNAUTHORIZED);
                 }
-            }
-            else{
+            } else {
                 sess.invalidate();
                 sess.setAttribute("errorMsg", "Invalid E-Mail");
                 return new ResponseEntity<String>("Invalid E-Mail", HttpStatus.NOT_FOUND);
@@ -84,15 +83,37 @@ public class AuthController {
         } catch (Exception e) {
             sess.invalidate();
             sess.setAttribute("errorMsg", e.getMessage());
-            
+
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @GetMapping("/logout")
     public ModelAndView logout(HttpSession sess) {
         sess.invalidate();
 
         return new ModelAndView("redirect:/");
     }
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@ModelAttribute CustomerView data) {
+        try {
+            // Hash the password
+            String hashedPassword = stringToHex(data.getPassword());
+            data.setPassword(hashedPassword);
+
+            // Call API to create the customer
+            ResponseEntity<String> apiResponse = restTemplate.postForEntity(apiUrl + "/customer", data, String.class);
+
+            if (apiResponse.getStatusCode() == HttpStatus.CREATED) {
+                return ResponseEntity.ok("User registered successfully!");
+            } else {
+                return ResponseEntity.status(apiResponse.getStatusCode()).body(apiResponse.getBody());
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Registration failed: " + e.getMessage());
+        }
+    }
+
 }

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,9 @@ public class CategoryController {
     private RestTemplate restTemplate = new RestTemplate();
     
     // API Url
-    private final String apiUrl = "http://localhost:8080/api/category";
+    @Value("${application.api.url}")
+    private String apiUrl;
+    // private final String apiUrl = "http://localhost:8080/api/category";
 
     @GetMapping("")
     public ModelAndView index(String filter) {
@@ -41,9 +44,9 @@ public class CategoryController {
         try {
             if (filter == null || filter.isBlank()) {
 
-                apiResponse = restTemplate.getForEntity(apiUrl, CategoryView[].class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/category", CategoryView[].class);
             } else {
-                apiResponse = restTemplate.getForEntity(apiUrl+"/filter/" +filter, CategoryView[].class);
+                apiResponse = restTemplate.getForEntity(apiUrl+"/category/filter/" +filter, CategoryView[].class);
                 
             }
             
@@ -70,7 +73,7 @@ public class CategoryController {
         ResponseEntity<CategoryView> apiResponse = null;
 
         try {
-            apiResponse = restTemplate.getForEntity(apiUrl+"/add/", CategoryView.class);
+            apiResponse = restTemplate.getForEntity(apiUrl + "/category/add/", CategoryView.class);
             
             if (apiResponse.getStatusCode() == HttpStatus.OK){
                 CategoryView data = apiResponse.getBody();
@@ -96,7 +99,7 @@ public class CategoryController {
         ResponseEntity<CategoryView> apiResponse = null;
 
         try {
-            apiResponse = restTemplate.postForEntity(apiUrl, category, CategoryView.class);
+            apiResponse = restTemplate.postForEntity(apiUrl +"/category", category, CategoryView.class);
 
             if(apiResponse.getStatusCode() == HttpStatus.CREATED) {
                 return new ResponseEntity<CategoryView>(apiResponse.getBody(), HttpStatus.CREATED);
@@ -117,7 +120,7 @@ public class CategoryController {
     ResponseEntity<CategoryView> apiResponse = null;
 
     try {
-        apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + id, CategoryView.class);
+        apiResponse = restTemplate.getForEntity(apiUrl + "/category/id/" + id, CategoryView.class);
 
         if (apiResponse.getStatusCode() == HttpStatus.OK) {
             CategoryView category = apiResponse.getBody();
@@ -142,7 +145,7 @@ public class CategoryController {
         ResponseEntity<CategoryView> apiResponse = null;
 
         try {
-            apiResponse = restTemplate.getForEntity(apiUrl+"/id/"+id, CategoryView.class);
+            apiResponse = restTemplate.getForEntity(apiUrl+"/category/id/"+id, CategoryView.class);
             
             if (apiResponse.getStatusCode() == HttpStatus.OK){
                 CategoryView data = apiResponse.getBody();
@@ -168,8 +171,8 @@ public class CategoryController {
         ResponseEntity<CategoryView> apiResponse = null;
         
         try {
-            restTemplate.put(apiUrl, category);
-            apiResponse = restTemplate.getForEntity(apiUrl+"/id/"+category.getId(), CategoryView.class);
+            restTemplate.put(apiUrl+"/category", category);
+            apiResponse = restTemplate.getForEntity(apiUrl+"/category/id/"+category.getId(), CategoryView.class);
 
             if(apiResponse.getStatusCode()==HttpStatus.OK){
                 return new ResponseEntity<CategoryView>(apiResponse.getBody(), HttpStatus.OK);
@@ -206,7 +209,7 @@ public class CategoryController {
         try {
             // restTemplate.delete(apiUrl + "/delete/" + id + "/" + userId);
             apiResponse = restTemplate.exchange(
-                apiUrl + "/delete/" + id + "/" + userId,
+                apiUrl + "/category/delete/" + id + "/" + userId,
                 HttpMethod.DELETE,
                 new HttpEntity<CategoryView>(category),
                 CategoryView.class

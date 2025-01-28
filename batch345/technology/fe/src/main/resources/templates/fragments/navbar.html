@@ -6,35 +6,48 @@
               <li class="nav-item">
                   <a class="nav-link" href="/" aria-current="page">Home</a>
               </li>
-              <li class="nav-item dropdown">
+
+              <!-- Master Dropdown -->
+              <li class="nav-item dropdown" th:if="${#ctx.session.roleId == 1}">
                   <a class="nav-link dropdown-toggle" href="/master" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="masterMenu">Master</a>
                   <ul class="dropdown-menu" aria-labelledby="masterMenu">
                       <li><a href="/category" class="dropdown-item d-flex justify-content-between" aria-current="page"><span>Category</span> <i class="fas fa-list text-danger"></i></a></li>
                       <li><a href="/variant" class="dropdown-item d-flex justify-content-between"><span>Variant</span> <i class="fas fa-stream text-success"></i></a></li>
                       <li><a href="/product" class="dropdown-item d-flex justify-content-between"><span>Product</span> <i class="fas fa-boxes text-primary"></i></a></li>
-                      <li th:if="${#ctx.session.roleId==1}"><hr class="dropdown-divider" /></li>
-                      <li th:if="${#ctx.session.roleId==1}"><a href="/customer" class="dropdown-item d-flex justify-content-between"><span>Customer</span> <i class="fas fa-users"></i></a></li>
+                      <li><hr class="dropdown-divider" /></li>
+                      <li><a href="/customer" class="dropdown-item d-flex justify-content-between"><span>Customer</span> <i class="fas fa-users"></i></a></li>
                   </ul>
               </li>
+
               <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="/transaction" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="transactionMenu">Transaction</a>
                   <ul class="dropdown-menu" aria-labelledby="transactionMenu">
-                      <li><a href="#" class="dropdown-item"> Order</a></li>
-                      <li><a href="#" class="dropdown-item"> Order History</a></li>
+                      <li><a href="#" class="dropdown-item">Order</a></li>
+                      <li><a href="#" class="dropdown-item">Order History</a></li>
                   </ul>
               </li>
               <li class="nav-item">
                   <a class="nav-link" href="/about">About</a>
               </li>
           </ul>
+
+          <!-- Log Out Button -->
           <button th:unless="${#ctx.session.userId == null}" id="btnLogout" class="btn btn-danger shadow">Log Out</button>
       </div>
+
+      <!-- Log In Button -->
       <div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
           </button>
-          <button th:if="${#ctx.session.userId == null}" id="btnLogin" class="btn btn-success shadow">Log In</button>
+          <button th:if="${#ctx.session.userId == null}" id="btnLogin" class="btn btn-success shadow mx-2">Log In</button>
       </div>
+      <div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <button th:if="${#ctx.session.userId == null}" id="btnSignUp" class="btn btn-success shadow mx-2">Sign Up</button>
+    </div>
   </div>
 </nav>
 
@@ -43,7 +56,11 @@
       $("#staticModalBody").load("/auth/login");
       $("#staticModal").modal("show");
   });
+  $("#btnSignUp").click(function(e) {
+      $("#staticModalBody").load("/auth/signup");
+      $("#staticModal").modal("show");
+  });
   $("#btnLogout").click(function(e) {
-      location.href= "/auth/logout";
+      location.href = "/auth/logout";
   });
 </script>
