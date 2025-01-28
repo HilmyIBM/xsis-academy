@@ -13,22 +13,24 @@ public class HomeController {
     @GetMapping("/")
     public ModelAndView index(HttpSession sess) {
         ModelAndView view = new ModelAndView("/index");
-        // sess.setAttribute("coba");
+
+        //Session Variables
         view.addObject("txtSesi", sess.getAttribute("coba"));
+
         return view;
     }
+
     @GetMapping("/setSesi")
-    public ModelAndView setSesi(HttpSession sess, @RequestParam() String txtSesi) {
-        sess.setAttribute("userEmail", txtSesi);
-        sess.setAttribute("userEmail", txtSesi);
-        sess.setAttribute("userEmail", txtSesi); 
-        ModelAndView view = new ModelAndView("/index");
-        // sess.setAttribute("coba");
-        view.addObject("txtSesi", sess.getAttribute("coba"));
-        return view;
+    public ModelAndView setSesi(@RequestParam() String txtSesi, HttpSession sess) {
+        sess.setAttribute("coba", txtSesi == "" || txtSesi.isBlank() ? null : txtSesi);
+
+        return new ModelAndView("redirect:/");
     }
+
     @GetMapping("/about")
     public ModelAndView about() {
-        return new ModelAndView("/about");
-    }
+        ModelAndView view = new ModelAndView("/about");
+
+        return view;
+    } 
 }

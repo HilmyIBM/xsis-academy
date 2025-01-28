@@ -21,8 +21,8 @@
                 <li><a class="dropdown-item" href="/category">Category</a></li>
                 <li><a class="dropdown-item" href="/variant">Variant</a></li>
                 <li><a class="dropdown-item" href="/product">Product</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="/customer">User</a></li>
+                <li th:if="${#ctx.session.roleId==1}"><hr class="dropdown-divider" /></li>
+                <li th:if="${#ctx.session.roleId==1}"><a href="/customer" class="dropdown-item d-flex justify-content-between"><span>Customer</span> <i class="fas fa-users"></i></a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -36,8 +36,8 @@
             </li>
           </ul>
           <div>
-            <button id="btnLogin" class="btn btn-success shadow">Login</button>
-            <button id="btnLogout" class="btn btn-danger shadow">Logout</button>
+            <button th:if="${#ctx.session.userId == null}" id="btnLogin" class="btn btn-success shadow">Login</button>
+            <button th:unless="${#ctx.session.userId == null}" id="btnLogout" class="btn btn-danger shadow">Logout</button>
           </div>
         </div>
       </div>

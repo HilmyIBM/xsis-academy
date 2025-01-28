@@ -112,7 +112,8 @@
         </div>
         <script>
             $("#btnAdd").click(function(e){
-                $("#staticModalBody").load("/customer/add");
+                $("#staticModalBodyLg").load("/customer/add");
+                $("#staticModalLg").modal("show");
             });
             $(".btnActionMaster").click(function(e){
                 let varID = $(this).data("id");

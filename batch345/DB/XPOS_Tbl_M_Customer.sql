@@ -14,11 +14,13 @@ CREATE TABLE Tbl_M_Customer(
 	update_by int NULL,
 	update_date TIMESTAMP NULL,
  	CONSTRAINT PK_Tbl_M_Customer PRIMARY KEY(id),
-  	CONSTRAINT UQ_Tbl_M_Customer UNIQUE(email,phone)
-)
-DROP TABLE Tbl_M_Customer
+  	CONSTRAINT UQ_Tbl_M_Customer_Email UNIQUE(email),
+	CONSTRAINT UQ_Tbl_M_Customer_Phone UNIQUE(phone)
+);
 
-SELECT * FROM Tbl_M_Customer
+DROP TABLE Tbl_M_Customer;
+
+SELECT * FROM Tbl_M_Customer;
 
 INSERT INTO Tbl_M_Customer(name, email, password, address,phone, role_id, create_by) 
 VALUES

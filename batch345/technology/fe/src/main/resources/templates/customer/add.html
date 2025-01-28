@@ -7,20 +7,20 @@
                 <input type="text" class="form-control" id="txtName" name="name"/>
             </div>
             <div class="form-group">
-                <label for="txtEmail" class="form-label">email</label>
-                <input type="text" class="form-control" id="txtEmail" name="email"/>
+                <label for="txtEmailRegister" class="form-label">email</label>
+                <input type="text" class="form-control" id="txtEmailRegister" name="email"/>
             </div>
             <!-- <div class="form-group">
                 <label for="txtPassword" class="form-label">password</label>
                 <input type="text" class="form-control" id="txtPassword" name="password"/>
             </div> -->
             <div class="form-group">
-                <label for="txtPassword" class="form-label">Password</label>
-                <input type="password" class="form-control" id="txtPassword" name="password">
+                <label for="passwordRegister" class="form-label">Password</label>
+                <input type="password" class="form-control" id="passwordRegister" name="password">
             </div>
             <div class="form-group">
-                <label for="txtPassword" class="form-label">Password</label>
-                <input type="password" class="form-control" id="txtPassword" name="confirmPassword">
+                <label for="txtConfirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="txtConfirmPassword" name="confirmPassword">
             </div>
             <div class="form-group">
                 <label for="txtAddress" class="form-label">address</label>
@@ -54,7 +54,7 @@
 </div>
 <script>
     $(document).ready(function(){
-        $("#staticModalLabel").text($("#txtTitle").text());
+        $("#staticModalLabelLg").text($("#txtTitle").text());
         $("#formNewCustomer").validate({
             "rules": {
                 "name": {
@@ -64,7 +64,12 @@
                 },
                 "password": {
                     "required" : true,
-                    "minlength" : 8
+                    "minlength" : 6
+                },
+                "confirmPassword":{
+                    "required" :true,
+                    "minlength" :6,
+                    "equalTo" : "#passwordRegister"
                 },
                 "email": {
                     "required" : true
