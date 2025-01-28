@@ -126,6 +126,7 @@ public class CustomerController {
     }
 
     @SuppressWarnings("null")
+    @PostMapping("/update")
     public ResponseEntity<?> update(@ModelAttribute CustomerView customer) {
         ResponseEntity<CustomerView> response = null;
 
@@ -153,6 +154,7 @@ public class CustomerController {
     }
 
     @SuppressWarnings("null")
+    @PostMapping("/delete/{id}/{userId}")
     public ResponseEntity<?> deleteCustomer(@PathVariable int id, @PathVariable int userId) {
         ResponseEntity<CustomerView> response = null;
         CustomerView customer = new CustomerView();
