@@ -1,4 +1,4 @@
-package com.xsis.master.util;
+package com.xsis.util.error;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -7,24 +7,33 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.Objects;
+
 @ControllerAdvice
 public class ErrorsHandler {
 
     private static final Log log = LogFactory.getLog(ErrorsHandler.class);
 
     @ExceptionHandler
-    public ResponseEntity<ErrorModel> handleHttpClientErr(HttpClientErrorException ex) {
-        return new ResponseEntity<>(ex.getResponseBodyAs(ErrorModel.class), ex.getStatusCode());
+    public ResponseEntity<ErrorMessage> handleHttpClientErr(HttpClientErrorException ex) {
+        ErrorMessage err = ex.getResponseBodyAs(ErrorMessage.class);
+
+        log.trace("==== HttpClientError ====");
+        log.trace(Objects.requireNonNull(err).toString());
+
+        return new ResponseEntity<>(err, ex.getStatusCode());
     }
 
     @ExceptionHandler
     public void handleRuntimeExc(RuntimeException ex) {
-        log.error(ex.getMessage());
+        log.trace("==== RuntimeException ====");
+        log.trace(ex.getMessage());
     }
 
     @ExceptionHandler
     public void handleGeneralException(Exception ex) {
-        log.error(ex.getMessage());
+        log.trace("==== General Exception ====");
+        log.trace(ex.getMessage());
     }
 
 }

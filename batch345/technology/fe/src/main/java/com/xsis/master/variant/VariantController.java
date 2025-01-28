@@ -1,9 +1,8 @@
 package com.xsis.master.variant;
 
 import com.xsis.master.category.CategoryModel;
-import com.xsis.master.util.ErrorModel;
-import com.xsis.master.util.ProcessAPI;
-import com.xsis.master.util.RequestType;
+import com.xsis.util.ProcessAPI;
+import com.xsis.util.RequestType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -75,7 +73,8 @@ public class VariantController {
         apiResps = restTemplate.exchange(API_URL + "/category/" + id,
                 HttpMethod.GET,
                 new HttpEntity<>(new ArrayList<>(), header),
-                new ParameterizedTypeReference<>() {});
+                new ParameterizedTypeReference<>() {
+                });
 
         if (apiResps.getStatusCode() == HttpStatus.OK) {
             Objects.requireNonNull(apiResps.getBody())
@@ -137,21 +136,16 @@ public class VariantController {
 
         ResponseEntity<VariantModel> apiResponse;
 
-        try {
-            var header = new HttpHeaders();
-            header.setContentType(MediaType.APPLICATION_JSON);
+        var header = new HttpHeaders();
+        header.setContentType(MediaType.APPLICATION_JSON);
 
-            var httpEntity = new HttpEntity<>(header);
+        var httpEntity = new HttpEntity<>(header);
 
-            apiResponse = restTemplate.exchange(API_URL + "/" + id,
-                    HttpMethod.GET, httpEntity, VariantModel.class);
+        apiResponse = restTemplate.exchange(API_URL + "/" + id,
+                HttpMethod.GET, httpEntity, VariantModel.class);
 
-            if (apiResponse.getStatusCode() == HttpStatus.OK)
-                view.addObject("variant", apiResponse.getBody());
-
-        } catch (HttpClientErrorException e) {
-            view.addObject("error", e.getResponseBodyAs(ErrorModel.class));
-        }
+        if (apiResponse.getStatusCode() == HttpStatus.OK)
+            view.addObject("variant", apiResponse.getBody());
 
         return view;
     }

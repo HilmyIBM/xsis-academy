@@ -1,4 +1,4 @@
-package com.xsis.master.util;
+package com.xsis.util;
 
 public enum RequestType {
     DETAIL,

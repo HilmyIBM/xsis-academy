@@ -28,11 +28,10 @@ public class CategoryService {
         return categoryRepository.findAllByDeleted(false).orElse(List.of());
     }
 
-    public List<CategoryModel> getAll(int page, int size) {
+    public Page<CategoryModel> getAllPaging(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<CategoryModel> pageCategory = categoryRepository.findAllByDeleted(false, pageable);
 
-        return pageCategory.getContent();
+        return categoryRepository.findAllByDeleted(false, pageable);
     }
 
     public CategoryModel getById(int id, boolean deleted) {

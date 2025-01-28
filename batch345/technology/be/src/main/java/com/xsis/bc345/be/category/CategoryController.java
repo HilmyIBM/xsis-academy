@@ -3,6 +3,7 @@ package com.xsis.bc345.be.category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +31,11 @@ public class CategoryController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
-    @GetMapping("/all/{page}/{size}")
-    public ResponseEntity<?> getAllCategory(@PathVariable Integer page, @PathVariable Integer size) {
-        if (page == null) page = 0;
-        if (size == null) size = 10;
-
-        return new ResponseEntity<>(categoryService.getAll(page,size), HttpStatus.OK);
-
+    @GetMapping("/all")
+    public Page<?> getAllCategoryPaging(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+        return categoryService.getAllPaging(page,size);
     }
 
     @GetMapping("/{id}")

@@ -1,26 +1,25 @@
 package com.xsis.bc345.be.customer;
 
-import com.xsis.bc345.be.util.exception.PasswordMismatchException;
+import com.xsis.bc345.be.util.encryption.Encrypt;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final Encrypt encrypt;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    @Autowired
+    public CustomerService(CustomerRepository customerRepository, Encrypt encrypt) {
         this.customerRepository = customerRepository;
+        this.encrypt = encrypt;
     }
 
     public List<CustomerModel> getAllCustomer() {
@@ -41,25 +40,14 @@ public class CustomerService {
         if (data.isEmpty())
             throw new EntityNotFoundException("Customer with id %s doesn't exists".formatted(id));
 
-        return data.get();
-    }
+        CustomerModel userData = data.get();
+        userData.setPassword(null);
 
-    public CustomerModel login(CustomerModel customer) {
-        var data = customerRepository.findByEmailEqualsIgnoreCaseAndDeleted(customer.getEmail(), false);
-
-        if (data.isEmpty())
-            throw new EntityNotFoundException("Customer with email %s doesn't exists".formatted(customer.getEmail()));
-
-        String loginPassword = digestString(customer.getPassword());
-
-        if (!loginPassword.equals(data.get().getPassword()))
-            throw new PasswordMismatchException("Wrong password");
-
-        return data.get();
+        return userData;
     }
 
     public CustomerModel createCustomer(CustomerModel customerModel) {
-        customerModel.setPassword(digestString(customerModel.getPassword()));
+        customerModel.setPassword(encrypt.sha256Algorithm(customerModel.getPassword()));
 
         return customerRepository.save(customerModel);
     }
@@ -73,7 +61,7 @@ public class CustomerService {
         var existingData = data.get();
 
         if (customerModel.getPassword() != null)
-            customerModel.setPassword(digestString(customerModel.getPassword()));
+            customerModel.setPassword(encrypt.sha256Algorithm(customerModel.getPassword()));
 
         customerModel.setCreateBy(existingData.getCreateBy());
         customerModel.setCreateDate(existingData.getCreateDate());
@@ -95,27 +83,5 @@ public class CustomerService {
         existingData.setDeleted(true);
 
         return customerRepository.save(existingData);
-    }
-
-    private static String digestString(String input) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
-
-            StringBuilder hexString = new StringBuilder(2 * hash.length);
-
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-
-                if (hex.length() == 1) hexString.append('0');
-
-                hexString.append(hex);
-            }
-
-            return hexString.toString();
-
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

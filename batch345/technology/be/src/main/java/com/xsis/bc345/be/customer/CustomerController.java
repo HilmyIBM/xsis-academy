@@ -1,7 +1,5 @@
 package com.xsis.bc345.be.customer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/customer")
 public class CustomerController {
 
-    private static final Logger log = LoggerFactory.getLogger(CustomerController.class);
     private final CustomerService customerService;
 
     public CustomerController(CustomerService customerService) {
@@ -36,11 +33,6 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity<?> saveCustomer(@RequestBody CustomerModel customerModel) {
         return new ResponseEntity<>(customerService.createCustomer(customerModel), HttpStatus.CREATED);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody CustomerModel customerModel) {
-        return new ResponseEntity<>(customerService.login(customerModel), HttpStatus.OK);
     }
 
     @PutMapping

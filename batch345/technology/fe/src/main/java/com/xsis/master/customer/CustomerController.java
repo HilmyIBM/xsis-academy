@@ -1,9 +1,8 @@
 package com.xsis.master.customer;
 
-import com.xsis.master.category.CategoryModel;
-import com.xsis.master.util.ErrorModel;
-import com.xsis.master.util.ProcessAPI;
-import com.xsis.master.util.RequestType;
+import com.xsis.util.error.ErrorMessage;
+import com.xsis.util.ProcessAPI;
+import com.xsis.util.RequestType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
@@ -37,6 +36,17 @@ public class CustomerController {
         var view = new ModelAndView("master/user/add");
 
         view.addObject("title", "Create Customer");
+        view.addObject("button", "Save");
+
+        return view;
+    }
+
+    @GetMapping("/register")
+    public ModelAndView register() {
+        var view = new ModelAndView("master/user/add");
+
+        view.addObject("title", "Register User");
+        view.addObject("button", "Register");
 
         return view;
     }
@@ -60,7 +70,7 @@ public class CustomerController {
                 view.addObject("customer", apiResponse.getBody());
 
         } catch (HttpClientErrorException e) {
-            ErrorModel er = e.getResponseBodyAs(ErrorModel.class);
+            ErrorMessage er = e.getResponseBodyAs(ErrorMessage.class);
 
             log.error(Objects.requireNonNull(er).toString());
             view.addObject("error", er);

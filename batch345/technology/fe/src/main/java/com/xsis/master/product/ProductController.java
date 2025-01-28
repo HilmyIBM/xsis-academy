@@ -1,9 +1,9 @@
 package com.xsis.master.product;
 
 import com.xsis.master.category.CategoryModel;
-import com.xsis.master.util.ErrorModel;
-import com.xsis.master.util.ProcessAPI;
-import com.xsis.master.util.RequestType;
+import com.xsis.util.error.ErrorMessage;
+import com.xsis.util.ProcessAPI;
+import com.xsis.util.RequestType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
@@ -95,7 +95,7 @@ public class ProductController {
             }
 
         } catch (HttpClientErrorException e) {
-            ErrorModel er = e.getResponseBodyAs(ErrorModel.class);
+            ErrorMessage er = e.getResponseBodyAs(ErrorMessage.class);
             log.error(Objects.requireNonNull(er).toString());
             view.addObject("error", er);
         } catch (Exception ex) {
@@ -126,7 +126,7 @@ public class ProductController {
                 view.addObject("product", apiResponse.getBody());
 
         } catch (HttpClientErrorException e) {
-            ErrorModel er = e.getResponseBodyAs(ErrorModel.class);
+            ErrorMessage er = e.getResponseBodyAs(ErrorMessage.class);
             log.error(Objects.requireNonNull(er).toString());
             view.addObject("error", er);
         } catch (Exception ex) {

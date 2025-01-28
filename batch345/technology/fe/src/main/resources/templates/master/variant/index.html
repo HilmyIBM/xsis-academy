@@ -46,32 +46,30 @@
         </div>
         <script>
             $(document).ready( function () {
-                $('#variant-table').DataTable({
-                    paging: false
-                });
+                $('#variant-table').DataTable();
 
                 $('#btnAddCategory').click(function (e) {
                     // $('#staticModalLabel').append("<span th:text='${add_title}'></span>")
                     $('#staticModalBody').load("variant/add");
                 });
 
-                $(".btn-info").click(function (e) {
-                    let varId = $(this).data("id");
+                $("#variant-table").on("click", ".btn-info", function (e) {
+                    let catId = $(this).data("id");
                     let type = "DETAIL";
-                    $("#staticModalBody").load("variant/" + type + "/" + varId);
+                    $("#staticModalBody").load("variant/" + type + "/" + catId);
                     $("#staticModal").modal("show");
                 });
 
-                $(".btn-warning").click(function(e) {
-                    let varId = $(this).data("id");
-                    $("#staticModalBody").load("variant/edit/" + varId);
+                $("#variant-table").on("click", ".btn-warning", function (e) {
+                    let catId = $(this).data("id");
+                    $("#staticModalBody").load("variant/edit/" + catId);
                     $("#staticModal").modal("show");
                 });
 
-                $(".btn-danger").click(function (e) {
-                    let varId = $(this).data("id");
+                $("#variant-table").on("click", ".btn-danger", function (e) {
+                    let catId = $(this).data("id");
                     let type = "DELETE";
-                    $("#staticModalBody").load("variant/" + type + "/" + varId);
+                    $("#staticModalBody").load("variant/" + type + "/" + catId);
                     $("#staticModal").modal("show");
                 });
             } );

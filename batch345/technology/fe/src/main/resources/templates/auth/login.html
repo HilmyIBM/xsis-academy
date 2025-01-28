@@ -1,0 +1,57 @@
+<div class="d-none" id="title" th:text="${title}"></div>
+<div class="card">
+    <div class="card-body">
+        <form id="formLogin">
+            <div class="row">
+                <div class="input-group mb-3">
+                    <label for="txtUsername" class="input-group-text">Email</label>
+                    <input type="text" class="form-control" id="txtUsername" name="email">
+                </div>
+            </div>
+            <div class="row">
+                <div class="row">
+                    <div class="input-group mb-3">
+                        <label for="txtPassword" class="input-group-text">Password</label>
+                        <input type="password" class="form-control" id="txtPassword" name="password">
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <button class="btn btn-link" id="btnRegister" type="button">Register</button>
+                <button class="btn btn-primary" type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function (e) {
+        $('#staticModalLabel').text($('#title').text())
+
+        $('#btnRegister').click(function (e) {
+            $('#staticModalBody').load("user/register");
+        })
+
+        $('#formLogin').submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: "/auth/login",
+                type: "post",
+                data: $("#formLogin").serialize(),
+                dataType: "json",
+                beforeSend: () => {
+                    // alert("mengirim data ke api");
+                },
+                success: function(succ) {
+                    alert(`Welcome ${succ.name}`);
+                    location.reload();
+                },
+                error: function(err) {
+                    let errResp = JSON.parse(err.responseText);
+
+                    alert(errResp.message)
+                }
+            });
+        });
+    })
+</script>

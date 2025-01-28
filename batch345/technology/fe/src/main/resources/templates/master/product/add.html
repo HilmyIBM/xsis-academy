@@ -58,11 +58,15 @@
                 url: "variant/category/" + id,
                 success: function (resp) {
                     $("#selVariants").empty();
-                    $.each(resp, function (n, variant) {
-                        $("#selVariants").append(`
+                    if (resp.length === 0) {
+                        alert("This Category doesn't have any variant");
+                    } else {
+                        $.each(resp, function (n, variant) {
+                            $("#selVariants").append(`
                             <option value="${variant.id}">${variant.name}</option>
                         `);
-                    });
+                        });
+                    }
                 },
                 error: function (resp) {
                     alert(resp.body);

@@ -57,23 +57,23 @@
                     $('#staticModalBody').load("product/add");
                 });
 
-                $(".btn-info").click(function (e) {
-                    let varId = $(this).data("id");
+                $("#product-table").on("click", ".btn-info", function (e) {
+                    let catId = $(this).data("id");
                     let type = "DETAIL";
-                    $("#staticModalBody").load("product/" + type + "/" + varId);
+                    $("#staticModalBody").load("product/" + type + "/" + catId);
                     $("#staticModal").modal("show");
                 });
 
-                $(".btn-warning").click(function(e) {
-                    let varId = $(this).data("id");
-                    $("#staticModalBody").load("product/edit/" + varId);
+                $("#product-table").on("click", ".btn-warning", function (e) {
+                    let catId = $(this).data("id");
+                    $("#staticModalBody").load("product/edit/" + catId);
                     $("#staticModal").modal("show");
                 });
 
-                $(".btn-danger").click(function (e) {
-                    let varId = $(this).data("id");
+                $("#product-table").on("click", ".btn-danger", function (e) {
+                    let catId = $(this).data("id");
                     let type = "DELETE";
-                    $("#staticModalBody").load("product/" + type + "/" + varId);
+                    $("#staticModalBody").load("product/" + type + "/" + catId);
                     $("#staticModal").modal("show");
                 });
             });

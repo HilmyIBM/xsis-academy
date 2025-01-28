@@ -1,8 +1,8 @@
 package com.xsis.master.category;
 
-import com.xsis.master.util.ErrorModel;
-import com.xsis.master.util.ProcessAPI;
-import com.xsis.master.util.RequestType;
+import com.xsis.util.error.ErrorMessage;
+import com.xsis.util.ProcessAPI;
+import com.xsis.util.RequestType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
@@ -54,7 +53,7 @@ public class CategoryController {
                 view.addObject("category", apiResponse.getBody());
 
         } catch (HttpClientErrorException e) {
-            ErrorModel er = e.getResponseBodyAs(ErrorModel.class);
+            ErrorMessage er = e.getResponseBodyAs(ErrorMessage.class);
 
             log.error(Objects.requireNonNull(er).toString());
             view.addObject("error", er);

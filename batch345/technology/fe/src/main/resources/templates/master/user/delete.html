@@ -41,7 +41,7 @@
 </form>
 <script>
     $(document).ready(() => {
-        $('#staticModalLabel').text($("#txtTitle").text());
+        $('#staticModalLabel').text($("#txtTitle").val());
 
         $('#frmDeleteCustomer').submit(function (e) {
             e.preventDefault();

@@ -41,10 +41,6 @@
             </div>
         </div>
         <script>
-            // $(document).before( function () {
-            //     $('#staticModalLabel').append("<span th:text='${add_title}'></span>");
-            // });
-
             $(document).ready( function () {
                 $('#category-table').DataTable();
 
@@ -53,21 +49,21 @@
                     $('#staticModalBody').load("category/add");
                 });
 
-                $(".btn-warning").click(function(e) {
-                    let catId = $(this).data("id");
-                    let type = "EDIT";
-                    $("#staticModalBody").load("category/" + type + "/" + catId);
-                    $("#staticModal").modal("show");
-                });
-
-                $(".btn-info").click(function (e) {
+                $("#category-table").on("click", ".btn-info", function (e) {
                     let catId = $(this).data("id");
                     let type = "DETAIL";
                     $("#staticModalBody").load("category/" + type + "/" + catId);
                     $("#staticModal").modal("show");
                 });
 
-                $(".btn-danger").click(function (e) {
+                $("#category-table").on("click", ".btn-warning", function (e) {
+                    let catId = $(this).data("id");
+                    let type = "EDIT";
+                    $("#staticModalBody").load("category/" + type + "/" + catId);
+                    $("#staticModal").modal("show");
+                });
+
+                $("#category-table").on("click", ".btn-danger", function (e) {
                     let catId = $(this).data("id");
                     let type = "DELETE";
                     $("#staticModalBody").load("category/" + type + "/" + catId);
