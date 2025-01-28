@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class CustomerModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(name = "name", length = 50, nullable = false)
     private String name;
@@ -46,11 +46,11 @@ public class CustomerModel {
     @Column(name = "update_date")
     private LocalDateTime updateDate;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -122,7 +122,7 @@ public class CustomerModel {
         return updateBy;
     }
 
-    public void setUpdateBy(Integer updateBy) {
+    public void setUpdateBy(int updateBy) {
         this.updateBy = updateBy;
     }
 
@@ -140,5 +140,23 @@ public class CustomerModel {
 
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", address='" + address + '\'' +
+                ", roleId=" + roleId +
+                ", phone='" + phone + '\'' +
+                ", deleted=" + deleted +
+                ", createBy=" + createBy +
+                ", createDate=" + createDate +
+                ", updateBy=" + updateBy +
+                ", updateDate=" + updateDate +
+                '}';
     }
 }
