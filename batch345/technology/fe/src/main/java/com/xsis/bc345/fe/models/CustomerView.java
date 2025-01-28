@@ -1,5 +1,7 @@
 package com.xsis.bc345.fe.models;
 
+import java.sql.Timestamp;
+
 public class CustomerView {
 	private int id;
 	private String name;
