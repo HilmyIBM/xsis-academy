@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,6 +39,17 @@ public class ProductController {
                 data,
                 data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT
             );
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }        
+    }
+    
+    @GetMapping("/paginated/{page}/{size}")
+    public ResponseEntity<?> getAll(@PathVariable int page, @PathVariable int size) {
+        try {
+            Page<Map<String, Object>> data = productSvc.getAll(PageRequest.of(page, size));
+            
+            return new ResponseEntity<Page<Map<String, Object>>>(data, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }        
@@ -69,7 +82,21 @@ public class ProductController {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+     
+    @GetMapping("/paginatedfilter/{filter}/{page}/{size}")
+    public ResponseEntity<?> getBy(@PathVariable final String filter, @PathVariable int page, @PathVariable int size) {
+        try {
+            Page<Map<String, Object>> data = productSvc.getBy(filter, PageRequest.of(page, size));
+            
+            return new ResponseEntity<Page<Map<String, Object>>>(
+                data,
+                data.getNumberOfElements() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT
+            );
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("")
     public ResponseEntity<?> create(@RequestBody Product data) {
         try {

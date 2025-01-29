@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.bc345.fe.models.CategoryView;
 import com.xsis.bc345.fe.models.ProductView;
+import com.xsis.bc345.fe.models.ResponseView;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -41,17 +42,26 @@ public class ProductController {
     @Value("${application.api.url}")
     private String apiUrl;
 
+    //Row per Page
+    @Value("${application.page.size}")
+    private Integer pageSize;
+
     @GetMapping("")
-    public ModelAndView index(String filter, HttpSession sess) {
+    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, HttpSession sess) {
         ModelAndView view = new ModelAndView("/product/index");
-        ResponseEntity<ProductView[]> apiResponse = null;
+        ResponseEntity<ResponseView> apiResponse = null;
+
+        currPageSize = (currPageSize != null) ? currPageSize : pageSize;
+        pageNumber = (pageNumber != null) ? pageNumber : 0;
 
         try {
             if (filter == null || filter.isBlank()){
-                apiResponse = restTemplate.getForEntity(apiUrl + "/product", ProductView[].class);
+                // apiResponse = restTemplate.getForEntity(apiUrl + "/product", ProductView[].class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginated/" + pageNumber + "/" + currPageSize, ResponseView.class);
             }
             else {
-                apiResponse = restTemplate.getForEntity(apiUrl + "/product/filter/" + filter, ProductView[].class);
+                // apiResponse = restTemplate.getForEntity(apiUrl + "/product/filter/" + filter, ProductView[].class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginatedfilter/" + filter + "/" + pageNumber + "/" + currPageSize, ResponseView.class);
             }
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
@@ -66,6 +76,7 @@ public class ProductController {
 
         view.addObject("filter", filter);
         view.addObject("imgFolder", IMG_FOLDER);
+        view.addObject("currPageSize", currPageSize);
         
         return view;
     }
@@ -118,7 +129,7 @@ public class ProductController {
     public ResponseEntity<?> create(@ModelAttribute ProductView data, @RequestParam("imageFile") MultipartFile imageFile) throws Exception {
         try {
             //Upload Image File Process
-            if(imageFile.getOriginalFilename() != null || imageFile.getOriginalFilename() != ""){
+            if(imageFile.getOriginalFilename() != null && !imageFile.getOriginalFilename().isBlank()){
                 String fileName = imageFile.getOriginalFilename();
                 byte[] fileSize = imageFile.getBytes();
                 Path path = Paths.get(IMG_FOLDER + fileName);

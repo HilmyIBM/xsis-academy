@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.xsis.bc345.be.models.Product;
@@ -23,6 +25,10 @@ public class ProductService {
         return productRepo.findAllNative();
     }
 
+    public Page<Map<String, Object>> getAll(Pageable pageable) {
+        return productRepo.findAllNative(pageable);
+    }
+
     public Optional<Map<String, Object>> getBy(int id) {
         // return productRepo.findByDeleted(false).get();
         return productRepo.findByNative(id);
@@ -31,6 +37,10 @@ public class ProductService {
     public List<Map<String, Object>> getBy(String filter) {
         // return productRepo.findByDeleted(false).get();
         return productRepo.findByNative(filter.toLowerCase()).get();
+    }
+
+    public Page<Map<String, Object>> getBy(String filter, Pageable pageable) {
+        return productRepo.findByNative(filter.toLowerCase(), pageable);
     }
 
     public Product create(Product data) {

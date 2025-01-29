@@ -14,8 +14,8 @@
 				<div class="col-6">
 					<form id="frmFilter">
 						<div class="input-group">
-							<input th:value="${filter}" name="filter" type="text" id="txtFilter" class="form-control" placeholder="Name or Description..." />
-							<button type="submit" class="input-group-text"><i class="fas fa-filter" title="Filter by Name or Description..."></i></button>
+							<input th:value="${filter}" name="filter" type="text" id="txtFilter" class="form-control" placeholder="Name, Variant or Category..." />
+							<button type="submit" class="input-group-text"><i class="fas fa-filter" title="Filter by Name, Variant or Category..."></i></button>
 						</div>
 					</form>
 				</div>
@@ -35,7 +35,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:if="${product != null}" th:each="item:${product}">
+						<tr th:if="${!product.empty}" th:each="item:${product.content}">
 							<td class="d-none d-sm-table-cell">
 								<div class="rounded">
 									<img class="img-fluid" th:if="${item.image != null}"
@@ -62,14 +62,31 @@
 							<td colspan="8" class="text-danger text-center fst-italic" th:text="${errorMsg}">-- No Product data available! --</td>
 						</tr>					
 					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="8" class="text-center">
+								<div class="btn-group">
+									<button id="btnPrev" title="Previous Page..." class="btn btn-secondary"><i class="fas fa-backward"></i></button>
+									<span class="input-group-text text-end" id="pagePosition" th:text="|Page ${product.number+1} of ${product.totalPages}|"></span>
+									<button id="btnNext" title="Next Page..." class="btn btn-secondary"><i class="fas fa-forward"></i></button>
+								</div>
+							</td>
+						</tr>
+					</tfoot>
 				</table>
 			</div>
 			
-			<script>
+			<script th:inline="javascript">
 				let prodId;
+				$(document).ready(function(e) {
+					let isFistPage = /*[[${product.first}]]*/true;
+					let isLastPage = /*[[${product.last}]]*/false;
+
+					$( "#btnPrev" ).prop( "disabled", isFistPage );
+					$( "#btnNext" ).prop( "disabled", isLastPage );
+				});
 
 				$("#btnAdd").click(function(e) {
-					// alert("Di sini!");
 					$("#staticModalBodyLg").load("/product/add");
 					$("#staticModalLg").modal("show");
 				});
@@ -86,6 +103,23 @@
 
 					$("#staticModalBody").load("/product/delete/" + prodId);
 					$("#staticModal").modal("show");
+				});
+
+				$("#btnPrev").click(function(e){
+					let filter = $("#txtFilter").val();
+					let currPageSize = /*[[${currPageSize}]]*/0;
+					let pageNumber = /*[[${product.number}]]*/0;
+
+					location.href = `/product?filter=${filter}&pageNumber=${(pageNumber-1)}&currPageSize=${currPageSize}`;
+				});
+
+
+				$("#btnNext").click(function(e){
+					let filter = $("#txtFilter").val();
+					let currPageSize = /*[[${currPageSize}]]*/0;
+					let pageNumber = /*[[${product.number}]]*/0;
+					
+					location.href = `/product?filter=${filter}&pageNumber=${(pageNumber+1)}&currPageSize=${currPageSize}`;
 				});
 			</script>
 		</div>
