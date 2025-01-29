@@ -1,4 +1,4 @@
-package com.xsis.master.auth;
+package com.xsis.auth;
 
 public class AuthDTO {
     private String email;

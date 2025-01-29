@@ -1,4 +1,4 @@
-package com.xsis.master.auth;
+package com.xsis.auth;
 
 import com.xsis.master.customer.CustomerModel;
 import com.xsis.util.ProcessAPI;

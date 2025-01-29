@@ -1,6 +1,6 @@
 package com.xsis.util.authentication;
 
-import com.xsis.master.auth.AuthRole;
+import com.xsis.auth.AuthRole;
 import com.xsis.master.customer.CustomerModel;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

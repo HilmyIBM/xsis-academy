@@ -18,22 +18,25 @@ public class ErrorsHandler {
     public ResponseEntity<ErrorMessage> handleHttpClientErr(HttpClientErrorException ex) {
         ErrorMessage err = ex.getResponseBodyAs(ErrorMessage.class);
 
-        log.trace("==== HttpClientError ====");
+        log.trace("============ HttpClientError =============");
         log.trace(Objects.requireNonNull(err).toString());
+        log.trace("========= End of HttpClientError =========");
 
         return new ResponseEntity<>(err, ex.getStatusCode());
     }
 
     @ExceptionHandler
     public void handleRuntimeExc(RuntimeException ex) {
-        log.trace("==== RuntimeException ====");
+        log.trace("======= RuntimeException ========");
         log.trace(ex.getMessage());
+        log.trace("==== End of RuntimeException ====");
     }
 
     @ExceptionHandler
     public void handleGeneralException(Exception ex) {
-        log.trace("==== General Exception ====");
+        log.trace("======== General Exception =======");
         log.trace(ex.getMessage());
+        log.trace("==== End of General Exception ====");
     }
 
 }
