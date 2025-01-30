@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.xsis.backend.models.Product;
@@ -22,6 +24,10 @@ public class ProductService {
     public List<Map<String, Object>> getAll() throws Exception {
         return productRepository.findAllNative().get();
     }
+    
+    public Page<Map<String, Object>> getAll(Pageable pageable) {
+        return productRepository.findAllNative(pageable);
+    }
 
     public Product create(Product data) throws Exception {
         return productRepository.save(data);
@@ -38,6 +44,10 @@ public class ProductService {
 
     public List<Map<String, Object>> getListByFilter(String filter) throws Exception {
         return productRepository.findByFilter(filter).get();
+    }
+
+    public Page<Map<String, Object>> getListByFilter(String filter, Pageable pageable) throws Exception {
+        return productRepository.findByFilter(filter, pageable);
     }
 
     public Product update(Product data) throws Exception {

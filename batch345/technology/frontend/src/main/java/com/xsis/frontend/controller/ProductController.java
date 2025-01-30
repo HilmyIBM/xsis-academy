@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.frontend.model.ProductView;
+import com.xsis.frontend.model.ResponseView;
 import com.xsis.frontend.model.VariantView;
 
 @Controller
@@ -25,21 +26,26 @@ public class ProductController {
     @Value("${application.api.url}")
     private String apiUrl;
 
+    @Value("${aplication.page.size}")
+    private Integer pageSize;
+
     @GetMapping("")
-    public ModelAndView index(String filter) {
+    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber) {
         ModelAndView view = new ModelAndView("product/index");
-        ResponseEntity<ProductView[]> response = null;
+        ResponseEntity<ResponseView> response = null;
+
+        currPageSize = (currPageSize != null) ? currPageSize : pageSize;
+        pageNumber = (pageNumber != null) ? pageNumber : 0;
 
         try {
             if (filter == null || filter.isBlank()) {
-                response = restTemplate.getForEntity(apiUrl + "/products", ProductView[].class);
+                response = restTemplate.getForEntity(apiUrl + "/products/paginated/" +pageNumber+"/" +currPageSize, ResponseView.class);
             } else {
-                response = restTemplate.getForEntity(apiUrl + "/products/filter/" + filter, ProductView[].class);
+                response = restTemplate.getForEntity(apiUrl + "/products/paginationfilter/" + filter + "/" +pageNumber+ "/" + currPageSize, ResponseView.class);
             }
 
             if (response.getStatusCode() == HttpStatus.OK) {
-                ProductView[] data = response.getBody();
-                view.addObject("product", data);
+                view.addObject("product", response.getBody());
             } else {
                 throw new Exception(response.getStatusCode().toString() + ": " + response.getBody());
             }
@@ -47,6 +53,8 @@ public class ProductController {
             view.addObject("errorMsg", e.getMessage());
         }
         view.addObject("filter", filter);
+        view.addObject("currPageSize", currPageSize);
+
         return view;
     }
 

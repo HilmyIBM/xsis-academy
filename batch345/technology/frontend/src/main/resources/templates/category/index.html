@@ -80,8 +80,8 @@
               <th scope="col">Action</th>
             </tr>
           </thead>
-          <tbody th:if="${category!=null}">
-            <tr th:each="item:${category}">
+          <tbody th:if="${!category.empty}">
+            <tr th:each="item:${category.content}">
               <th scope="row" th:text="${item.id}"></th>
               <td th:text="${item.categoryName}"></td>
               <td th:text="${item.description}"></td>
@@ -110,6 +110,17 @@
               </td>
             </tr>
           </tbody>
+          <tfoot>
+						<tr>
+							<td colspan="8" class="text-center">
+								<div class="btn-group">
+									<button id="btnPrev" title="Previous Page..." class="btn btn-secondary"><i class="fas fa-backward"></i></button>
+									<span class="input-group-text text-end" id="pagePosition" th:text="|Page ${product.number+1} of ${product.totalPages}|"></span>
+									<button id="btnNext" title="Next Page..." class="btn btn-secondary"><i class="fas fa-forward"></i></button>
+								</div>
+							</td>
+						</tr>
+					</tfoot>
         </table>
         <div
           th:unless="${category!=null}"
@@ -118,19 +129,15 @@
         >
           Error
         </div>
-        <div class="d-flex justify-content-between align-items-center">
-          <p>Page <span>1</span>of <span>2</span></p>
-          <ul class="pagination">
-            <li class="page-item disabled">
-              <span class="page-link">Previous</span>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#">Next</a>
-            </li>
-          </ul>
-        </div>
       </div>
-      <script>
+      <script th:inline="javascript">
+        $(document).ready(function(e) {
+				let isFistPage = /*[[${category.first}]]*/true;
+				let isLastPage = /*[[${category.last}]]*/false;
+				$( "#btnPrev" ).prop( "disabled", isFistPage );
+				$( "#btnNext" ).prop( "disabled", isLastPage );
+			  });
+
         $("#btnAdd").click(function (e) {
           $("#staticModalBody").load("/category/add");
         });
@@ -150,6 +157,20 @@
           $("#staticModalBody").load("/category/delete/" + catId);
           $("#staticModal").modal("show");
         });
+
+        $("#btnPrev").click(function(e){
+					let filter = $("#txtFilter").val();
+					let currPageSize = /*[[${currPageSize}]]*/0;
+					let pageNumber = /*[[${product.number}]]*/0;
+					location.href = `/category?filter=${filter}&pageNumber=${(pageNumber-1)}&currPageSize=${currPageSize}`;
+				});
+				$("#btnNext").click(function(e){
+					let filter = $("#txtFilter").val();
+					let currPageSize = /*[[${currPageSize}]]*/0;
+					let pageNumber = /*[[${product.number}]]*/0;
+					
+					location.href = `/category?filter=${filter}&pageNumber=${(pageNumber+1)}&currPageSize=${currPageSize}`;
+				});
       </script>
     </div>
   </body>

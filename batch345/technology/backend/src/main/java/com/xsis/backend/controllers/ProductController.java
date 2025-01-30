@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,12 +39,32 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/paginated/{page}/{size}")
+    public ResponseEntity<?> getAll(@PathVariable int page, @PathVariable int size) {
+        try {
+            final Page<Map<String, Object>> data = productService.getAll(PageRequest.of(page, size));
+            return new ResponseEntity<Page<Map<String, Object>>>(data,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/filter/{filter}")
     public ResponseEntity<?> getByFilter(@PathVariable String filter) {
         try {
             List<Map<String, Object>> data = productService.getListByFilter(filter);
             return new ResponseEntity<List<Map<String, Object>>>(data,
                     (data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT));
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/paginationfilter/{filter}/{page}/{size}")
+    public ResponseEntity<?> getByFilter(@PathVariable String filter, @PathVariable int page, @PathVariable int size) {
+        try {
+            Page<Map<String, Object>> data = productService.getListByFilter(filter,PageRequest.of(page, size));
+            return new ResponseEntity<Page<Map<String, Object>>>(data, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

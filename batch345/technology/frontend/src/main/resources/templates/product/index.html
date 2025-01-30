@@ -84,15 +84,15 @@
               <th scope="col">Action</th>
             </tr>
           </thead>
-          <tbody th:if="${product!=null}">
-            <tr th:each="item : ${product}">
-              <td th:text="${item.image}">Image</td>
-              <th scope="row" th:text="${item.id}">6</th>
-              <td th:text="${item.name}">Carbonara</td>
-              <td th:text="${item.categoryName}">Main Course</td>
-              <td th:text="${item.variantName}">Pasta</td>
-              <td th:text="${item.price}">Rp 35000</td>
-              <td th:text="${item.stock}">1</td>
+          <tbody th:if="${!product.empty}">
+            <tr th:each="item : ${product.content}">
+              <td th:text="${item.image}"></td>
+              <th scope="row" th:text="${item.id}"></th>
+              <td th:text="${item.name}"></td>
+              <td th:text="${item.categoryName}"></td>
+              <td th:text="${item.variantName}"></td>
+              <td th:text="${item.price}"></td>
+              <td th:text="${item.stock}"></td>
               <td class="d-flex gap-1">
                 <button
                   th:data-id="${item.id}"
@@ -118,6 +118,17 @@
               </td>
             </tr>
           </tbody>
+          <tfoot>
+						<tr>
+							<td colspan="8" class="text-center">
+								<div class="btn-group">
+									<button id="btnPrev" title="Previous Page..." class="btn btn-secondary"><i class="fas fa-backward"></i></button>
+									<span class="input-group-text text-end" id="pagePosition" th:text="|Page ${product.number+1} of ${product.totalPages}|"></span>
+									<button id="btnNext" title="Next Page..." class="btn btn-secondary"><i class="fas fa-forward"></i></button>
+								</div>
+							</td>
+						</tr>
+					</tfoot>
         </table>
         <div
           th:unless="${product!=null}"
@@ -126,19 +137,16 @@
         >
           Error
         </div>
-        <div class="d-flex justify-content-between align-items-center">
-          <p>Page <span>1</span>of <span>3</span></p>
-          <ul class="pagination">
-            <li class="page-item disabled">
-              <span class="page-link">Previous</span>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#">Next</a>
-            </li>
-          </ul>
-        </div>
       </div>
-      <script>
+      <script th:inline="javascript">
+        $(document).ready(function(e) {
+					let isFistPage = /*[[${product.first}]]*/true;
+					let isLastPage = /*[[${product.last}]]*/false;
+					$( "#btnPrev" ).prop( "disabled", isFistPage );
+					$( "#btnNext" ).prop( "disabled", isLastPage );
+				});
+
+
         $("#btnAdd").click(function (e) {
           $("#staticModalBody").load("/product/add");
         });
@@ -158,6 +166,21 @@
           $("#staticModalBody").load("/product/delete/" + catId);
           $("#staticModal").modal("show");
         });
+
+
+        $("#btnPrev").click(function(e){
+					let filter = $("#txtFilter").val();
+					let currPageSize = /*[[${currPageSize}]]*/0;
+					let pageNumber = /*[[${product.number}]]*/0;
+					location.href = `/product?filter=${filter}&pageNumber=${(pageNumber-1)}&currPageSize=${currPageSize}`;
+				});
+				$("#btnNext").click(function(e){
+					let filter = $("#txtFilter").val();
+					let currPageSize = /*[[${currPageSize}]]*/0;
+					let pageNumber = /*[[${product.number}]]*/0;
+					
+					location.href = `/product?filter=${filter}&pageNumber=${(pageNumber+1)}&currPageSize=${currPageSize}`;
+				});
       </script>
     </div>
   </body>

@@ -2,8 +2,11 @@ package com.xsis.backend.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.xsis.backend.models.Category;
@@ -22,6 +25,10 @@ public class CategoryService {
         return categoryRepo.findByDeleted(false).get();
     }
 
+    public Page<Map<String, Object>> getAll(Pageable pageable) {
+        return categoryRepo.findAllNative(pageable);
+    }
+
     public Optional<Category> getById(int id) throws Exception {
         return categoryRepo.findByIdAndDeleted(id, false);
     }
@@ -30,6 +37,11 @@ public class CategoryService {
         return categoryRepo
                 .getNativeByDeletedFalseAndCategoryNameOrDescription(filter)
                 .get();
+    }
+
+    public Page<Map<String, Object>> getByNameOrDescription(String filter, Pageable pageable) throws Exception {
+        return categoryRepo
+                .getNativeByDeletedFalseAndCategoryNameOrDescription(filter, pageable);
     }
 
     public List<Category> getByName(String categoryName) throws Exception {

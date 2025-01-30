@@ -112,8 +112,31 @@ INSERT INTO Tbl_M_Customer (name, email, password, address, phone, role_id, crea
 VALUES 
 ('testname', 'test@example', 'testpassword', 'testaddress', 'testphone', 1, 1)
 
+INSERT INTO Tbl_M_Categories (category_name, description, create_by) VALUES
+('Makanan Cepat Saji', 'Kategori untuk makanan yang dapat disiapkan dengan cepat seperti burger dan pizza', 2),
+('Makanan Ringan', 'Kategori untuk camilan seperti keripik, biskuit, dan kacang-kacangan', 2),
+('Makanan Beku', 'Kategori untuk makanan beku seperti nugget, sosis, dan daging olahan', 2),
+('Makanan Instan', 'Kategori untuk makanan siap saji seperti mie instan dan bubur instan', 2),
+('Makanan Tradisional', 'Kategori untuk makanan khas daerah seperti rendang, gudeg, dan pempek', 2),
+('Makanan Sehat', 'Kategori untuk makanan sehat seperti granola, salad, dan makanan organik', 2),
+('Camilan Manis', 'Kategori untuk makanan manis seperti cokelat, permen, dan kue kering', 2),
+('Camilan Asin', 'Kategori untuk makanan asin seperti kerupuk, kacang asin, dan popcorn', 2),
+('Olahan Susu', 'Kategori untuk makanan berbasis susu seperti keju, yogurt, dan mentega', 2),
+('Roti & Kue', 'Kategori untuk berbagai jenis roti dan kue seperti donat, bolu, dan croissant', 2);
+
+
 INSERT INTO Tbl_M_Product (name, price, stock, variant_id, image, create_by)
 VALUES 
+('Produk A', 10000, 50, 2, NULL, 1),
+('Produk B', 15000, 30, 2, NULL, 1),
+('Produk C', 20000, 20, 2, NULL, 1),
+('Produk D', 25000, 40, 2, NULL, 1),
+('Produk E', 30000, 10, 2, NULL, 1),
+('Produk F', 18000, 25, 2, NULL, 1),
+('Produk G', 22000, 35, 2, NULL, 1),
+('Produk H', 27000, 15, 2, NULL, 1),
+('Produk I', 32000, 5, 2, NULL, 1),
+('Produk J', 12000, 60, 2, NULL, 1);
 
 INSERT INTO Tbl_M_Variant (category_id, name, description, create_by)
 VALUES 

@@ -1,9 +1,14 @@
 package com.xsis.backend.controllers;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,6 +39,16 @@ public class CategoryController {
             return new ResponseEntity<List<Category>>(data,
                     (data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT));
 
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/paginated/{page}/{size}")
+    public ResponseEntity<?> getAll(@PathVariable int page, @PathVariable int size) {
+        try {
+            final Page<Map<String, Object>> data = categorySvc.getAll(PageRequest.of(page, size));
+            return new ResponseEntity<Page<Map<String, Object>>>(data,HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -70,6 +85,16 @@ public class CategoryController {
             List<Category> data = categorySvc.getByNameOrDescription(filter);
             return new ResponseEntity<List<Category>>(
                     data, (data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT));
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/paginationfilter/{filter}/{page}/{size}")
+    public ResponseEntity<?> getByFilter(@PathVariable String filter, @PathVariable int page, @PathVariable int size) {
+        try {
+            final Page<Map<String, Object>> data = categorySvc.getByNameOrDescription(filter, PageRequest.of(page, size));
+            return new ResponseEntity<Page<Map<String, Object>>>(data, HttpStatus.OK );
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
