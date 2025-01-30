@@ -16,10 +16,4 @@ public interface CategoryRepository extends JpaRepository<CategoryModel, Integer
     Optional<CategoryModel> findByIdAndDeleted(int id, boolean deleted);
 
     Page<CategoryModel> findAllByDeleted(boolean deleted, Pageable pageable);
-
-    Optional<List<CategoryModel>> findAllByCategoryNameLikeIgnoreCaseOrDescriptionLikeIgnoreCaseAndDeleted(String categoryName, String description, boolean deleted);
-
-    Optional<List<CategoryModel>> findAllByDescriptionLikeIgnoreCase(String description);
-
-    Optional<List<CategoryModel>> findAllByCategoryNameLikeIgnoreCase(String categoryName);
 }

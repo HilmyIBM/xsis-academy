@@ -16,9 +16,6 @@ public class VariantModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-//    @Column(name = "category_id", nullable = false)
-//    private int categoryId;
-
     @Column(name = "name", nullable = false)
     private String name;
 

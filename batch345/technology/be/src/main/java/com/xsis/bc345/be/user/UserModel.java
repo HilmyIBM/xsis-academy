@@ -142,6 +142,19 @@ public class UserModel {
         this.roleId = roleId;
     }
 
+    public UserModel setNulls() {
+        this.setPassword(null);
+        this.setAddress(null);
+        this.setPhone(null);
+        this.setDeleted(false);
+        this.setCreateBy(0);
+        this.setUpdateBy(0);
+        this.setCreateDate(null);
+        this.setUpdateDate(null);
+
+        return this;
+    }
+
     @Override
     public String toString() {
         return "UserModel{" +

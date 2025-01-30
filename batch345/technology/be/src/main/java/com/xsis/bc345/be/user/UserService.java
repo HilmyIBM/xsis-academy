@@ -1,6 +1,7 @@
 package com.xsis.bc345.be.user;
 
 import com.xsis.bc345.be.util.encryption.Encrypt;
+import com.xsis.bc345.be.util.exception.PasswordMismatchException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,11 +68,7 @@ public class UserService {
         userModel.setCreateDate(existingData.getCreateDate());
         userModel.setUpdateDate(LocalDateTime.now());
 
-        var updatedUser = userRepository.save(userModel);
-
-        updatedUser.setPassword(null);
-
-        return updatedUser;
+        return userRepository.save(userModel).setNulls();
     }
 
     public UserModel deleteCustomer(UserModel model) {
@@ -86,9 +83,21 @@ public class UserService {
         existingData.setUpdateDate(LocalDateTime.now());
         existingData.setDeleted(true);
 
-        var deletedUser = userRepository.save(existingData);
-        deletedUser.setPassword(null);
+        return userRepository.save(existingData).setNulls();
+    }
 
-        return deletedUser;
+    public UserModel userLogin(UserModel userModel) {
+        var data = userRepository.findByEmailEqualsAndDeleted(userModel.getEmail(), false);
+
+        if (data.isEmpty())
+            throw new EntityNotFoundException("Customer with email %s doesn't exists".formatted(userModel.getEmail()));
+
+        String loginPassword = encrypt.sha256Algorithm(userModel.getPassword());
+        String userPassword = data.get().getPassword();
+
+        if (!loginPassword.equals(userPassword))
+            throw new PasswordMismatchException("Wrong password");
+
+        return data.get().setNulls();
     }
 }

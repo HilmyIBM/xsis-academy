@@ -81,21 +81,4 @@ public class CategoryService {
 
         return categoryRepository.save(existingCategory);
     }
-
-//    public Optional<List<CategoryModel>> getByNameOrDescription(String filter) {
-//        return categoryRepository
-//                .findAllByCategoryNameLikeIgnoreCaseOrDescriptionLikeIgnoreCaseAndDeleted(filter, filter, false);
-//    }
-//
-//    public Optional<List<CategoryModel>> getByName(String categoryName) {
-//        return categoryRepository.
-//                findAllByCategoryNameLikeIgnoreCase(categoryName);
-//    }
-//
-//    public Optional<List<CategoryModel>> getByDesc(String description) {
-//        return categoryRepository.
-//                findAllByDescriptionLikeIgnoreCase(description);
-//    }
-
-
 }

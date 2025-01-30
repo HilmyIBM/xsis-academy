@@ -12,5 +12,5 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
 
     Optional<UserModel> findByIdAndDeleted(Long id, boolean deleted);
 
-    Optional<UserModel> findByEmailEqualsIgnoreCaseAndDeleted(String email, boolean deleted);
+    Optional<UserModel> findByEmailEqualsAndDeleted(String email, boolean deleted);
 }

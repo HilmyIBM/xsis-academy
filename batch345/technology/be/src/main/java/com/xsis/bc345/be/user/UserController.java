@@ -30,6 +30,11 @@ public class UserController {
         return new ResponseEntity<>(userService.getCustomer(id), HttpStatus.OK);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserModel userModel) {
+        return new ResponseEntity<>(userService.userLogin(userModel), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<?> saveCustomer(@RequestBody UserModel userModel) {
         return new ResponseEntity<>(userService.createCustomer(userModel), HttpStatus.CREATED);

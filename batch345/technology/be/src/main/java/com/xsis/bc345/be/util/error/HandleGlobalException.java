@@ -67,30 +67,6 @@ public class HandleGlobalException {
         return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
     }
 
-//    @ExceptionHandler
-//    public ResponseEntity<ErrorMessage> handleRuntimeException(RuntimeException e) {
-//        ErrorMessage err = new ErrorMessage(
-//                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-//                e.getMessage(),
-//                e.getClass().getSimpleName(),
-//                LocalDateTime.now()
-//        );
-//
-//        return new ResponseEntity<>(err, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-//
-//    @ExceptionHandler
-//    public ResponseEntity<ErrorMessage> handleException(Exception e) {
-//        ErrorMessage err = new ErrorMessage(
-//                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-//                e.getMessage(),
-//                e.getClass().getSimpleName(),
-//                LocalDateTime.now()
-//        );
-//
-//        return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
-//    }
-
     @ExceptionHandler
     public ResponseEntity<ErrorMessage> handleDataAccessException(DataAccessException e) {
         ErrorMessage err = new ErrorMessage(
