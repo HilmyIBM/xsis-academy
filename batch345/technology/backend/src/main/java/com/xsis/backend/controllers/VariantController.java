@@ -45,7 +45,7 @@ public class VariantController {
 
     @GetMapping("/paginated/{page}/{size}")
     public ResponseEntity<?> getAll(@PathVariable int page, @PathVariable int size,
-            @RequestParam(defaultValue = " v.name") String sort, @RequestParam(defaultValue = "ASC") String sd) {
+            @RequestParam(defaultValue = "id") String sort, @RequestParam(defaultValue = "ASC") String sd) {
         try {
             final Page<Map<String, Object>> data = variantService
                     .getAllNative(PageRequest.of(page, size, Sort.by(Direction.fromString(sd), sort)));
@@ -67,9 +67,11 @@ public class VariantController {
     }
 
     @GetMapping("/paginated/filter/{filter}/{page}/{size}")
-    public ResponseEntity<?> getByFilter(@PathVariable String filter, @PathVariable int page, @PathVariable int size) {
+    public ResponseEntity<?> getByFilter(@PathVariable String filter, @PathVariable int page, @PathVariable int size,
+            @RequestParam(defaultValue = "id") String sort, @RequestParam(defaultValue = "ASC") String sd) {
         try {
-            Page<Map<String, Object>> data = variantService.getByFilter(filter, PageRequest.of(page, size));
+            Page<Map<String, Object>> data = variantService.getByFilter(filter, PageRequest.of(page, size,
+                    Sort.by(Direction.fromString(sd), sort)));
             return new ResponseEntity<Page<Map<String, Object>>>(data, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

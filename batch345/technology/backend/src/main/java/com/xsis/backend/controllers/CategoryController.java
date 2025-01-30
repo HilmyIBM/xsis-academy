@@ -47,7 +47,7 @@ public class CategoryController {
 
     @GetMapping("/paginated/{page}/{size}")
     public ResponseEntity<?> getAll(@PathVariable int page, @PathVariable int size,
-            @RequestParam(defaultValue = "category_name") String sort, @RequestParam(defaultValue = "ASC") String sd) {
+            @RequestParam(defaultValue = "id") String sort, @RequestParam(defaultValue = "ASC") String sd) {
         try {
             final Page<Map<String, Object>> data = categoryService
                     .getAll(PageRequest.of(page, size, Sort.by(Direction.fromString(sd), sort)));
@@ -93,9 +93,11 @@ public class CategoryController {
     }
 
     @GetMapping("/paginated/filter/{filter}/{page}/{size}")
-    public ResponseEntity<?> getByFilter(@PathVariable String filter, @PathVariable int page, @PathVariable int size) {
+    public ResponseEntity<?> getByFilter(@PathVariable String filter, @PathVariable int page, @PathVariable int size,
+            @RequestParam(defaultValue = "id") String sort, @RequestParam(defaultValue = "ASC") String sd) {
         try {
-            Page<Category> data = categoryService.getByFilter(filter, PageRequest.of(page, size));
+            Page<Category> data = categoryService.getByFilter(filter, PageRequest.of(page, size,
+                    Sort.by(Direction.fromString(sd), sort)));
             return new ResponseEntity<Page<Category>>(data, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

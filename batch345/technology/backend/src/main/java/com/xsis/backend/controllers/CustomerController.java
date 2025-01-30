@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xsis.backend.models.Customer;
@@ -41,9 +44,11 @@ public class CustomerController {
     }
 
     @GetMapping("/paginated/{page}/{size}")
-    public ResponseEntity<?> getAll(@PathVariable int page, @PathVariable int size) {
+    public ResponseEntity<?> getAll(@PathVariable int page, @PathVariable int size,
+            @RequestParam(defaultValue = "id") String sort, @RequestParam(defaultValue = "ASC") String sd) {
         try {
-            final Page<Map<String, Object>> data = customerService.getAll(PageRequest.of(page, size));
+            final Page<Map<String, Object>> data = customerService
+                    .getAll(PageRequest.of(page, size, Sort.by(Direction.fromString(sd), sort)));
             return new ResponseEntity<Page<Map<String, Object>>>(data, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -72,9 +77,11 @@ public class CustomerController {
     }
 
     @GetMapping("/paginated/filter/{filter}/{page}/{size}")
-    public ResponseEntity<?> getByFilter(@PathVariable String filter, @PathVariable int page, @PathVariable int size) {
+    public ResponseEntity<?> getByFilter(@PathVariable String filter, @PathVariable int page, @PathVariable int size,
+            @RequestParam(defaultValue = "id") String sort, @RequestParam(defaultValue = "ASC") String sd) {
         try {
-            Page<Map<String, Object>> data = customerService.getListByFilter(filter, PageRequest.of(page, size));
+            Page<Map<String, Object>> data = customerService.getListByFilter(filter, PageRequest.of(page, size,
+                    Sort.by(Direction.fromString(sd), sort)));
             return new ResponseEntity<Page<Map<String, Object>>>(data, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
