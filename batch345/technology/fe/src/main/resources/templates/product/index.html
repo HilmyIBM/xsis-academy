@@ -20,18 +20,18 @@
                     <button class="btn btn-outline-secondary" type="button" id="button-addon2">Enter</button>
                 </div>
             </form>
-            <form action="#">
-                <div class="input-group container-fluid">
-                    <input type="text" class="form-control" placeholder="Search" aria-label="Search"
-                        aria-describedby="button-addon2">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i
-                            class="fas fa-search"></i></button>
-                </div>
+            <form id="frmFilter" class="ms-auto d-flex flex-row">
+                <input th:if="${filter != null}" th:value="${filter}" type="text" name="search" id="txtSearch"
+                    class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+                <input th:unless="${filter != null}" type="text" name="search" id="txtSearch" class="form-control"
+                    placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary input-group-text" type="submit" id="button-addon2"><i
+                        class="fas fa-search"></i></button>
             </form>
         </div>
         <!-- Make the table center horizontally -->
         <div class="text-center">
-            <table class="table table-striped" id="tblProduct">
+            <table class="table table-striped mb-lg-5" id="tblProduct">
                 <thead>
                     <tr>
                         <th scope="col">Image</th>
@@ -46,7 +46,7 @@
                     </tr>
                 </thead>
                 <tbody class="align-middle">
-                    <tr th:each="prod:${products}">
+                    <tr th:each="prod:${products.content}">
                         <td><img th:src="@{'/lib/images/' + ${prod.image}}"
                                 src="https://images2.minutemediacdn.com/image/upload/c_crop,w_1458,h_820,x_0,y_0/c_fill,w_1440,ar_16:9,f_auto,q_auto,g_auto/images/voltaxMediaLibrary/mmsport/video_games/01j6sekt06zwfkneznn5.jpg"
                                 alt="product" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
@@ -69,14 +69,85 @@
                             </div>
                         </td>
                     </tr>
+
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="9">
+                            <div class="mt-2 text-center"> <!-- Center content horizontally -->
+                                <div class="row justify-content-between">
+                                    <div class="col-auto"> <!-- Auto-width column for the select menu -->
+                                        <div class="input-group">
+                                            <span class="input-group-text">Page Size</span>
+                                            <select class="form-select" aria-label="Select Page Size" name="sizeData"
+                                                id="sizeData">
+                                                <option th:each="i:${#numbers.sequence(5,20,5)}" th:text="${i}"
+                                                    th:value="${i}" th:selected="${i == currPageSize}">Open this select
+                                                    menu</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto"> <!-- Auto-width column for the pagination -->
+                                        <nav aria-label="Page navigation example">
+                                            <ul class="pagination">
+                                                <li class="page-item">
+                                                    <button id="btnPrev" class="page-link">Previous</button>
+                                                </li>
+                                                <li class="page-item">
+                                                    <span class="page-link"
+                                                        th:text="|Page ${products.number+1} of ${products.totalPages}|">1</span>
+                                                </li>
+                                                <li class="page-item">
+                                                    <button id="btnNext" class="page-link">Next</button>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                    <div class="col-auto"> <!-- Auto-width column for the text -->
+                                        <p>Lorem ipsum dolor sit amet</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
-        <script>
+
+        <!-- This is for inject the javascript with thymeleaf for getting the data value direct -->
+        <script th:inline="javascript">
             $(document).ready(function (e) {
                 $("#btnAdd").click(function (e) {
                     $("#staticModalBody").load("product/add")
                     $("#staticModal").modal("show")
+                })
+
+                let isFirstPage = /*[[${products.first}]]*/true;
+                let isLastPage = /*[[${products.last}]]*/false;
+
+                $("#btnPrev").prop("disabled", isFirstPage)
+                $("#btnNext").prop("disabled", isLastPage)
+
+                $("#btnPrev").on("click", function (e) {
+                    let search = $("#txtSearch").val()
+                    let page = /*[[${products.number}]]*/0;
+                    let sizeData = /*[[${currPageSize}]]*/0;
+                    location.href = `product?search=${search}&pageNumber=${page - 1}&currPageSize=${sizeData}`
+                })
+
+                $("#btnNext").on("click", function (e) {
+                    let search = $("#txtSearch").val()
+                    let page = /*[[${products.number}]]*/0;
+                    let sizeData = /*[[${currPageSize}]]*/0;
+                    location.href = "/product?search=" + search + "&pageNumber=" + (page + 1) + "&currPageSize=" + sizeData
+                })
+
+
+                $("#sizeData").on("change", function (e) {
+                    let search = $("#txtSearch").val()
+                    let page = /*[[${products.number}]]*/0;
+                    let sizeData = $("#sizeData").val()
+                    location.href = "/product?search=" + search + "&pageNumber=" + page + "&currPageSize=" + sizeData
                 })
 
                 // When pressing the specific id of table and refering the .btn-success (edit)
@@ -113,6 +184,7 @@
                 })
             })
         </script>
+
     </div>
 </body>
 

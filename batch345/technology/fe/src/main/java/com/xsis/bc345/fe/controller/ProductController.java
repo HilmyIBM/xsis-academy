@@ -20,8 +20,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.bc345.fe.models.CategoryView;
+import com.xsis.bc345.fe.models.PagingView;
 import com.xsis.bc345.fe.models.ProductView;
 import com.xsis.bc345.fe.models.VariantView;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -32,12 +36,30 @@ public class ProductController {
     @Value("${application.api.url}")
     private String apiUrl;
 
+    @Value("${application.page.size}")
+    private Integer pageSize;
+
     @GetMapping("")
-    public ModelAndView categoryProduct() {
+    public ModelAndView categoryProduct(String search, Integer pageNumber, Integer currPageSize, HttpSession sess) {
         ModelAndView view = new ModelAndView("product/index");
-        ResponseEntity<ProductView[]> apiResponse = null;
+        ResponseEntity<PagingView> apiResponse = null;
+
+        currPageSize = (currPageSize != null) ? currPageSize : pageSize;
+        pageNumber = (pageNumber != null) ? pageNumber : 0;
         try {
-            apiResponse = restTemplate.getForEntity(apiUrl + "product", ProductView[].class);
+            if (search == null || search.isBlank()) {
+                // apiResponse = restTemplate.getForEntity(apiUrl + "product",
+                // ProductView[].class);
+                apiResponse = restTemplate.getForEntity(
+                        apiUrl + "product/pagination/" + pageNumber + "/" + currPageSize, PagingView.class);
+            } else {
+                // apiResponse = restTemplate.getForEntity(apiUrl + "product/filter/" + search,
+                // ProductView[].class);
+                apiResponse = restTemplate.getForEntity(
+                        apiUrl + "product/paginationFilter/" + search + "/" + pageNumber + "/" + currPageSize,
+                        PagingView.class);
+            }
+
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 view.addObject("products", apiResponse.getBody());
             } else {
@@ -46,6 +68,9 @@ public class ProductController {
         } catch (Exception e) {
             view.addObject("errorMsg", e.getMessage());
         }
+
+        view.addObject("filter", search);
+        view.addObject("currPageSize", currPageSize);
         return view;
     }
 

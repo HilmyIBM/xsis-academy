@@ -26,11 +26,16 @@ public class CustomerController {
     private String apiUrl;
 
     @GetMapping("")
-    public ModelAndView getAllCustomer() {
+    public ModelAndView getAllCustomer(String filter) {
         ModelAndView view = new ModelAndView("customer/index");
         ResponseEntity<CustomerView[]> apiResponse = null;
         try {
-            apiResponse = restTemplate.exchange(apiUrl + "customer", HttpMethod.GET, null, CustomerView[].class);
+            if (filter == null || filter.isBlank()) {
+                apiResponse = restTemplate.exchange(apiUrl + "customer", HttpMethod.GET, null, CustomerView[].class);
+            } else {
+                apiResponse = restTemplate.exchange(apiUrl + "customer/filter/" + filter, HttpMethod.GET, null,
+                        CustomerView[].class);
+            }
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 CustomerView[] data = apiResponse.getBody();
                 view.addObject("customers", data);

@@ -18,8 +18,10 @@
             </div>
         </div>
         <div class="card-footer d-flex justify-content-end">
-            <button class="btn btn-primary mx-2" type="submit" id="registerCustomer" data-bs-target="#staticModal"
+            <!-- change the type to button, not submit (if submit it will trigger the first login and register) -->
+            <button class="btn btn-primary mx-2" type="button" id="registerCustomer" data-bs-target="#staticModal"
                 data-bs-toggle="modal">Register</button>
+            <!-- keep this into the submit, it will refering the form -->
             <button class="btn btn-success" type="submit" id="loginInCustomer">Log In</button>
         </div>
     </div>
@@ -57,7 +59,7 @@
             wrapper: "li"
         })
 
-        $("#loginInCustomer").on("click", function (e) {
+        $("#frmLogin").on("submit", function (e) {
             e.preventDefault()
             if ($("#frmLogin").valid()) {
                 $.ajax({
