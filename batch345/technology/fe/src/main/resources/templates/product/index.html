@@ -26,16 +26,12 @@
                 <div class="d-flex align-items-center gap-3">
                     <p class="m-0">show</p>
                     <div class="">
-                        <div class="dropdown">
-                            <button class="btn btn-outline-secondary rounded-0 pe-5" type="button" id="dropdownShowMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                              10
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownShowMenu">
-                              <li><a class="dropdown-item" href="#">20</a></li>
-                              <li><a class="dropdown-item" href="#">40</a></li>
-                              <li><a class="dropdown-item" href="#">All</a></li>
-                            </ul>
-                        </div>
+                        <select id="slsEntries" class="form-select" name="currPageSize">
+                            <option value="3" th:selected="${product.size == 3}">3</option>
+                            <option value="5" th:selected="${product.size == 5}">5</option>
+                            <option value="10" th:selected="${product.size == 10}">10</option>
+                            <option th:value="${product.totalElements}" th:selected="${product.size == product.totalElements}">Show All</option>
+                        </select>
                     </div>
                     <p class="m-0">Entries</p>
                 </div>
@@ -71,19 +67,19 @@
                 <table class="table table-striped table-hover w-75">
                     <thead>
                         <tr class="text-center">
-                            <td scope="col" class="text-primary">image</td>
-                            <td scope="col" class="text-primary">id</td>
-                            <td scope="col" class="text-primary">nama product</td>
-                            <td scope="col">category</td>
-                            <td scope="col">variant</td>
-                            <td scope="col">price</td>
-                            <td scope="col">stock</td>
-                            <td scope="col">is delete</td>
-                            <td scope="col">action</td>
+                            <td scope="col" style="cursor: pointer;  transition: transform 0.2s ease-in-out;" onclick="">image</td>
+                            <td scope="col" style="cursor: pointer;  transition: transform 0.2s ease-in-out;" onclick="">id</td>
+                            <td scope="col" style="cursor: pointer;  transition: transform 0.2s ease-in-out;">nama product</td>
+                            <td scope="col" style="cursor: pointer;">category</td>
+                            <td scope="col" style="cursor: pointer;">variant</td>
+                            <td scope="col" style="cursor: pointer;">price</td>
+                            <td scope="col" style="cursor: pointer;">stock</td>
+                            <td scope="col" style="cursor: pointer;">is delete</td>
+                            <td scope="col" style="cursor: pointer;">action</td>
                         </tr>
                     </thead>
-                    <tbody class="" style="border-top: white;" th:if="${product!=null}">
-                      <tr th:each="item:${[product]}" class="text-center align-middle">
+                    <tbody class="" style="border-top: white;" th:if="${!product.empty}">
+                      <tr th:each="item:${product.content}" class="text-center align-middle">
                             <td class="ratio ratio-1x1 text-center" style="width: 70px;">
                                 <!-- <img th:src="@{'lib/images/' + ${item.image}}" th:alt="${item.name}" class="img-thumbnail rounded-circle w-75 h-75"> -->
                                 <img th:if="${item.image} != null" th:src="@{'lib/images/' + ${item.image}}" class="img-thumbnail rounded-circle w-75 h-75">
@@ -109,17 +105,26 @@
                     </tbody>
                 </table>
             </div>
-            <div class="d-flex justify-content-between">
-                <div>
-                    <p class="m-0">Page 1 of 2</p>
-                </div>
-                <div>
-                    <button type="button" class="btn btn-primary disabled">Previous</button>
-                    <button type="button" class="btn btn-primary">Next</button>
+            <div class="d-flex justify-content-end">
+                <div class="btn-group">
+                    <button id="btnPrev" type="button" class="btn btn-primary">Previous</button>
+                    <span id="pagePosition" class="input-group-text text-end" th:text="|Page ${product.number+1} of ${product.totalPages}|"></span>
+                    <button id="btnNext" type="button" class="btn btn-primary">Next</button>
                 </div>
             </div>
         </div>
-        <script>
+        <script th:inline="javascript">
+            document.getElementById("slsEntries").addEventListener("change", function() {
+                let filter = $("#txtFilter").val();
+                let currPageSize = this.value;
+                location.href = `/product?filter=${filter}&pageNumber=${0}&currPageSize=${currPageSize}`;
+            });
+            $(document).ready(function(e){
+                let isFirstPage = /*[[${product.first}]]*/true;
+                let isLastPage = /*[[${product.last}]]*/false;
+                $("#btnPrev").prop("disabled", isFirstPage);
+                $("#btnNext").prop("disabled", isLastPage);
+            });
             $("#btnAdd").click(function(e){
                 $("#staticModalBody").load("/product/add");
             });
@@ -137,6 +142,18 @@
                 let varID = $(this).data("id");
                 $("#staticModalBody").load("/product/" + varID);
                 $("#staticModal").modal("show");
+            });
+            $("#btnPrev").click(function(e){
+                let filter = $("#txtFilter").val();
+                let currPageSize = /*[[${currPageSize}]]*/0;
+                let pageNow = /*[[${product.number}]]*/0;
+                location.href = `/product?filter=${filter}&pageNumber=${pageNumber-1}&currPageSize=${currPageSize}`;
+            });
+            $("#btnNext").click(function(e){
+                let filter = $("#txtFilter").val();
+                let currPageSize = /*[[${currPageSize}]]*/0;
+                let pageNumber = /*[[${product.number}]]*/0;
+                location.href = `/product?filter=${filter}&pageNumber=${pageNumber+1}&currPageSize=${currPageSize}`;
             });
         </script>
     </div>

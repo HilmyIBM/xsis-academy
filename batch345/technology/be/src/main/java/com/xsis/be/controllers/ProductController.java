@@ -5,6 +5,11 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,12 +46,33 @@ public class ProductController {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    @GetMapping("paginate/{page}/{size}")
+    public ResponseEntity<?> getAll(@PathVariable int page,  @PathVariable int size, @RequestParam(defaultValue = "name") String sort, @RequestParam(defaultValue = "ASC") String sd) {
+        try {
+            Page<Map<String,Object>> data = productSvc.getAll(PageRequest.of(page, size, Sort.by(Direction.fromString(sd), sort))); 
+            return new ResponseEntity<Page<Map<String,Object>>>(data, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @GetMapping("/filter/{filter}")
     public ResponseEntity<?> getByFilter(@PathVariable String filter) {
         try {
             List<Map<String,Object>> data = productSvc.getAllFilter(filter);
             return new ResponseEntity<List<Map<String,Object>>>(
                 data, data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT
+            );
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/paginate/filter/{filter}/{page}/{size}")
+    public ResponseEntity<?> getByFilter(@PathVariable String filter, @PathVariable int page, @PathVariable int size) {
+        try {
+            Page<Map<String,Object>> data = productSvc.getAllFilter(filter, PageRequest.of(page, size));
+            return new ResponseEntity<Page<Map<String,Object>>>(
+                data, HttpStatus.OK
             );
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.xsis.be.models.Category;
@@ -23,6 +25,10 @@ public class VariantService {
 
     public List<Map<String,Object>> getAllNative() throws Exception{
         return variantRepo.findByNativeQuery().get();
+    }
+
+    public Page<Map<String,Object>> getAllNative(Pageable page) throws Exception{
+        return variantRepo.findByNativeQuery(page);
     }
     public Variant create(Variant data) throws Exception{
         return variantRepo.save(data);

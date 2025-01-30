@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +17,8 @@ import com.xsis.be.models.Category;
 public interface CategoryRepository extends JpaRepository<Category, Integer>{
     // Optional<Category> findById(Integer id);
     Optional<List<Category>> findByDeleted(boolean deleted);
+    
+    Page<Category> findByDeleted(boolean deleted, Pageable page);
     Optional<Category> findByIdAndDeleted(Integer id, boolean deleted);
     Optional<List<Category>> findByCategoryNameIgnoreCaseAndDeleted(String categoryName, boolean deleted);
     Optional<List<Category>> findByCategoryNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(String categoryName, String description, boolean deleted);

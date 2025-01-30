@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.xsis.be.models.Category;
@@ -21,6 +23,10 @@ public class CategoryService {
     }
     public List<Category> getAll() throws Exception{
         return categoryRepo.findByDeleted(false).get();
+    }
+
+    public Page<Category> getAll(Pageable page) throws Exception{
+        return categoryRepo.findByDeleted(false, page);
     }
 
     public Optional<Category> getById(Integer id) throws Exception{

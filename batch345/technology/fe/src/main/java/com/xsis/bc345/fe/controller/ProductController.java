@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -22,8 +23,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.bc345.fe.models.CategoryView;
+import com.xsis.bc345.fe.models.PagingView;
 import com.xsis.bc345.fe.models.ProductView;
 import com.xsis.bc345.fe.models.VariantView;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -36,20 +39,22 @@ public class ProductController {
     // private  final String apiUrl = "http://localhost:8080/api/category";
     @Value("${application.api.url}")
     private String apiUrl;
-    
+    @Value("${application.page.size}")
+    private Integer pageSize;
     @GetMapping("")
-    public ModelAndView index(String filter) {
+    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber) {
         ModelAndView view = new ModelAndView("product/index");
-        ResponseEntity<ProductView[]> apiResponse = null;
+        ResponseEntity<PagingView> apiResponse = null;
+        currPageSize = (currPageSize != null) ? currPageSize : pageSize;
+        pageNumber = (pageNumber != null) ? pageNumber : 0;
         try {
             if(filter == null || filter.isBlank()){
-                apiResponse = restTemplate.getForEntity(apiUrl + "/product", ProductView[].class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginate/" + pageNumber + "/" +currPageSize, PagingView.class);
             }else{
-                apiResponse = restTemplate.getForEntity(apiUrl + "/product/filter/" + filter, ProductView[].class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginate/filter/" + filter + "/" + pageNumber + "/" +currPageSize, PagingView.class);
             }
             if(apiResponse.getStatusCode() == HttpStatus.OK){
-                ProductView[] data = apiResponse.getBody();
-                view.addObject("product", data);
+                view.addObject("product", apiResponse.getBody());
             }else{
                 throw new Exception(apiResponse.getStatusCode().toString()+ ": "+ apiResponse.getBody());
             }
@@ -57,6 +62,7 @@ public class ProductController {
             view.addObject("errorMsg", e.getMessage());
         }
         view.addObject("filter", filter);
+        view.addObject("currPageSize", currPageSize);
         return view;
     }
     @GetMapping("/add")
