@@ -5,11 +5,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xsis.bc345.be.models.Product;
@@ -36,6 +41,44 @@ public class ProductController {
             if (data.size() == 0) {
                 return new ResponseEntity<List<Product>>(new ArrayList<Product>(), HttpStatus.OK);
             }
+            return new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // Request Param dari nama field database asli dan sortDirection berdasarkan
+    // default value
+    @GetMapping("pagination/{page}/{size}")
+    public ResponseEntity<?> getPagination(@PathVariable int page, @PathVariable int size,
+            @RequestParam(defaultValue = "v.name") String sort,
+            @RequestParam(defaultValue = "ASC") String sortDirection) {
+        try {
+            // Berdasarkan Mapping (nama tabel harus sesuai + aliasnya) MAP
+            // Memakai model (dipanggil nama entitasnya saja yang di model).
+            Page<Map<String, Object>> data = productSvc
+                    .getAllNativePage(PageRequest.of(page, size, Sort.by(Direction.fromString(sortDirection), sort)));
+            return new ResponseEntity<Page<Map<String, Object>>>(data, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("paginationFilter/{filter}/{page}/{size}")
+    public ResponseEntity<?> getPaginationFilter(@PathVariable String filter, @PathVariable int page,
+            @PathVariable int size) {
+        try {
+            Page<Map<String, Object>> data = productSvc.getAllPaginationFilter(filter, PageRequest.of(page, size));
+            return new ResponseEntity<Page<Map<String, Object>>>(data, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("filter/{filter}")
+    public ResponseEntity<?> getMethodName(@PathVariable String filter) {
+        try {
+            List<Map<String, Object>> data = productSvc.getFilter(filter);
             return new ResponseEntity<List<Map<String, Object>>>(data, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

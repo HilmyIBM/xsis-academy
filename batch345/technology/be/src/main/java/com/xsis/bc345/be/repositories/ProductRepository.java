@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,13 +18,35 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
                         String Name,
                         boolean deleted);
 
+        // Pagination tidak memakai list, langsung menjadi Page
+        @Query(value = """
+                        Select p.id,p.price,p.stock,p.image,
+                                v.id as "variantId",
+                                v.name AS "variantName",
+                                c.id as "categoryId",
+                                p.name as "name",
+                                c.category_name as "categoryName",
+                                p.is_deleted as "deleted",
+                                p.create_by as "createBy",
+                                p.create_date as "createDate",
+                                p.update_by as "updateBy",
+                                p.update_date as "updateDate",
+                                v.name as "variantName",
+                                c.category_name as "categoryName"
+                        from tbl_m_product p
+                                inner join tbl_m_variant v on v.id = p.variant_id
+                                inner join tbl_m_categories c on c.id = v.category_id
+                        where p.is_deleted is not true
+                        """, nativeQuery = true)
+        Page<Map<String, Object>> findAllNativePage(Pageable page);
+
         @Query(value = """
                         SELECT a.*, b.name as "variantName", c.category_name as "categoryName" from tbl_m_product a
                         inner join tbl_m_variant b on b.id = a.variant_id
                         inner join tbl_m_categories c on c.id = b.category_id
-                        where a.is_deleted is not true;
+                        where a.is_deleted is not true
                         """, nativeQuery = true)
-        Optional<List<Map<String, Object>>> findAllData();
+        Optional<List<Map<String, Object>>> findAllNative();
 
         @Query(value = """
                         SELECT p.id, p.name, p.price, p.stock, p.image, v.name AS "variantName",
@@ -40,9 +64,11 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
         @Query(value = """
                         Select p.id,p.price,p.stock,p.image,
                                 v.id as "variantId", v.name AS "variantName",
-                                c.id as "categoryId", c.category_name as "categoryName",
+                                c.id as "categoryId",
+                                p.name as "name"
+                                ,c.category_name as "categoryName",
                                 p.is_deleted as "deleted",
-                                p.created_by as "createdBy", p.create_date as "createDate",
+                                p.create_by as "createBy", p.create_date as "createDate",
                                 p.update_by as "updateBy", p.update_date as "updateDate"
                         FROM tbl_m_product p
                                 inner join tbl_m_variant v on p.variant_id = v.id
@@ -53,5 +79,28 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
                                 OR LOWER(c.category_name) LIKE %?1%
                         )
                                 """, nativeQuery = true)
-        Optional<Map<String, Object>> findByFilter(String filter);
+        Optional<List<Map<String, Object>>> findByFilter(String filter);
+
+        @Query(value = """
+                        Select p.id,p.price,p.stock,p.image,
+                                v.id as "variantId",
+                                v.name AS "variantName",
+                                c.id as "categoryId",
+                                p.name as "name",
+                                c.category_name as "categoryName",
+                                p.is_deleted as "deleted",
+                                p.create_by as "createBy",
+                                p.create_date as "createDate",
+                                p.update_by as "updateBy",
+                                p.update_date as "updateDate"
+                        FROM tbl_m_product p
+                                inner join tbl_m_variant v on p.variant_id = v.id
+                                inner join tbl_m_categories c on v.category_id = c.id
+                        WHERE p.is_deleted is false AND (
+                                LOWER(p.name) LIKE %?1%
+                                OR LOWER(v.name) LIKE %?1%
+                                OR LOWER(c.category_name) LIKE %?1%
+                        )
+                                """, nativeQuery = true)
+        Page<Map<String, Object>> findByPaginationFilter(String filter, Pageable page);
 }

@@ -20,6 +20,10 @@ public class CustomerService {
         return customerRepo.findByDeleted(false).get();
     }
 
+    public List<Customer> getByNameOrEmail(String filter) throws Exception {
+        return customerRepo.findByEmailContainsIgnoreCaseOrNameContainsIgnoreCaseAndDeleted(filter, filter, false).get();
+    }
+
     public Customer create(Customer data) throws Exception {
         String password = stringToHex(data.getPassword());
         data.setCreateBy(100);
