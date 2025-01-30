@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -33,10 +35,28 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
   Optional<Map<String, Object>> nativeFindById(@Param("id") int id);
 
   @Query(
-    value="SELECT p.id, p.name, p.price, p.stock, p.variant_id, p.image, v.name AS \"variantName\", c.category_name AS \"categoryName\", "+
+    value="SELECT p.id, p.name, p.price, p.stock, p.variant_id AS variantId, p.image, v.name AS \"variantName\", c.category_name AS \"categoryName\", "+
           "p.is_deleted AS \"deleted\", p.create_by AS \"createBy\", p.create_date AS \"createDate\", p.update_by AS \"updateBy\", p.update_date AS \"updateDate\" " + 
           "FROM tbl_m_product AS p INNER JOIN tbl_m_variant AS v ON p.variant_id = v.id INNER JOIN tbl_m_categories AS c ON v.category_id = c.id WHERE p.is_deleted IS NOT TRUE AND (LOWER(p.name) LIKE %:filter% OR LOWER(c.category_name) LIKE %:filter% OR LOWER(v.name) LIKE %:filter%)",
     nativeQuery = true
   )
   Optional<Map<String, Object>> nativeFindByFilter(@Param("filter") String filter);
+
+  @Query(
+    value="SELECT p.id, p.name, p.price, p.stock, p.variant_id, p.image, v.name AS \"variantName\", c.category_name AS \"categoryName\", " +
+          "p.is_deleted AS \"deleted\", p.create_by AS \"createBy\", p.create_date AS \"createDate\", p.update_by AS \"updateBy\", p.update_date AS \"updateDate\" " + 
+          "FROM tbl_m_product AS p INNER JOIN tbl_m_variant AS v ON p.variant_id = v.id INNER JOIN tbl_m_categories AS c ON v.category_id = c.id WHERE p.is_deleted IS NOT TRUE",
+    nativeQuery = true
+  )
+  Page<Map<String, Object>> nativeFindAllPaginated(Pageable pageable);
+
+  @Query(
+    value="SELECT p.id, p.name, p.price, p.stock, p.variant_id, p.image, v.name AS \"variantName\", c.category_name AS \"categoryName\", " +
+          "p.is_deleted AS \"deleted\", p.create_by AS \"createBy\", p.create_date AS \"createDate\", p.update_by AS \"updateBy\", p.update_date AS \"updateDate\" " + 
+          "FROM tbl_m_product AS p INNER JOIN tbl_m_variant AS v ON p.variant_id = v.id INNER JOIN tbl_m_categories AS c ON v.category_id = c.id WHERE p.is_deleted IS NOT TRUE AND (LOWER(p.name) LIKE %:filter% OR LOWER(c.category_name) LIKE %:filter% OR LOWER(v.name) LIKE %:filter%)" ,
+    nativeQuery = true
+  )
+  Page<Map<String, Object>> nativeFindFilteredAndPaginated(Pageable pageable, @Param("filter") String filter);
+
+
 }

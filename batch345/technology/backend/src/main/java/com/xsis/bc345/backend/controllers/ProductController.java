@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -46,18 +48,30 @@ public class ProductController {
       }
   }
 
-  @GetMapping("/native")
-    public ResponseEntity<?> getAllNative() {
-      try {
-        final List<Map<String, Object>> data = productSvc.getAllNative();
-        return new ResponseEntity<List<Map<String, Object>>>(
-          data,
-          data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT
-        );
-      } catch (Exception e) {
-        return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-      }
+
+  @GetMapping("/native/paginated/{page}/{size}")
+  public ResponseEntity<?> getAllNative(@PathVariable int page, @PathVariable int size) { 
+    try {
+      Page<Map<String, Object>> data = productSvc.getAllNative(PageRequest.of(page, size));
+      return new ResponseEntity<Page<Map<String, Object>>>(
+        data, HttpStatus.OK
+      );
+    } catch (Exception e) {
+      return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  @GetMapping("/native/paginatedfilter/{filter}/{page}/{size}")
+  public ResponseEntity<?> getByFilterNative(@PathVariable String filter, @PathVariable int page, @PathVariable int size) {
+    try {
+      Page<Map<String, Object>> data = productSvc.getByFilterNative(PageRequest.of(page, size),filter);
+      return new ResponseEntity<Page<Map<String, Object>>>(
+        data, HttpStatus.OK
+      );
+    } catch (Exception e) {
+      return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 
   @GetMapping("/id/{id}")
   public ResponseEntity<?> getBy(@PathVariable int id) {

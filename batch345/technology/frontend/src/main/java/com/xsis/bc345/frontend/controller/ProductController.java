@@ -21,8 +21,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.xsis.bc345.frontend.models.Pagination;
 import com.xsis.bc345.frontend.models.ProductView;
 import com.xsis.bc345.frontend.models.VariantView;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/product")
@@ -33,6 +36,8 @@ public class ProductController {
   @Value("${application.api.url}")
   private String apiUrl;
 
+  @Value("${application.page.size}")
+  private Integer pageSize;
   // @GetMapping("")
   // public ModelAndView index() {
   // ModelAndView view = new ModelAndView("master/product/index");
@@ -54,13 +59,13 @@ public class ProductController {
   // return view;
   // }
 
-  @GetMapping("")
-  public ModelAndView index() {
+  @GetMapping("/paginated/{page}/{size}")
+  public ModelAndView index(@PathVariable int page, @PathVariable int size) {
     ModelAndView view = new ModelAndView("master/product/index");
-    ResponseEntity<ProductView[]> apiResponse = null;
+    ResponseEntity<Pagination> apiResponse = null;
 
     try {
-      apiResponse = restTemplate.getForEntity(apiUrl + "/product/native", ProductView[].class);
+      apiResponse = restTemplate.getForEntity(apiUrl + "/product/native/paginated/" + page + "/" + size , Pagination.class);
       if (apiResponse.getStatusCode() == HttpStatus.OK) {
         view.addObject("product", apiResponse.getBody());
       } else {
@@ -70,8 +75,28 @@ public class ProductController {
       // TODO: handle exception
       view.addObject("errorMsg", e.getMessage());
     }
+    view.addObject("currPageSize", pageSize);
     return view;
   }
+
+  // @GetMapping("")
+  // public ModelAndView index() {
+  //   ModelAndView view = new ModelAndView("master/product/index");
+  //   ResponseEntity<ProductView[]> apiResponse = null;
+
+  //   try {
+  //     apiResponse = restTemplate.getForEntity(apiUrl + "/product/native", ProductView[].class);
+  //     if (apiResponse.getStatusCode() == HttpStatus.OK) {
+  //       view.addObject("product", apiResponse.getBody());
+  //     } else {
+  //       throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
+  //     }
+  //   } catch (Exception e) {
+  //     // TODO: handle exception
+  //     view.addObject("errorMsg", e.getMessage());
+  //   }
+  //   return view;
+  // }
 
   @GetMapping("/{id}")
   public ModelAndView detail(@PathVariable int id) {
@@ -272,4 +297,38 @@ public class ProductController {
         return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
       }
   }
+
+  @GetMapping("")
+  public ModelAndView getAll(String filter, Integer page, Integer size, HttpSession sess) {  
+    ModelAndView view = null;
+    if (sess.getAttribute("roleId") != null && sess.getAttribute("roleId").equals(1)){
+      view = new ModelAndView("master/product/index");
+      ResponseEntity<Pagination> apiResponse = null;
+
+      size = (size != null) ? size : pageSize;
+      page = (page != null) ? page : 0;
+      try {
+       if (filter == null || filter.isBlank()) {
+        apiResponse = restTemplate.getForEntity(apiUrl + "/product/native/paginated/" + page + "/" + size, Pagination.class);
+       } else {
+        apiResponse = restTemplate.getForEntity(apiUrl + "/produt/native/paginatedfilter/" + filter + "/" + page + "/" + size, Pagination.class);
+       }
+
+       if (apiResponse.getStatusCode() == HttpStatus.OK) {
+        view.addObject("product", apiResponse.getBody());
+       } else {
+        throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
+       }
+      } catch (Exception e) { 
+        // TODO: handle
+        view.addObject("errorMsg", e.getMessage());
+      }
+      view.addObject("filter", filter);
+      view.addObject("currPageSize", size);
+    } else {
+      return new ModelAndView("redirect:/auth/login");
+    }
+    return view;
+  }
+  
 }
