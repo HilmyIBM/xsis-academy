@@ -24,7 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.bc345.fe.models.CategoryView;
 import com.xsis.bc345.fe.models.ProductView;
-import com.xsis.bc345.fe.models.ResponseView;
+import com.xsis.bc345.fe.models.PagingView;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -49,22 +49,24 @@ public class ProductController {
     @GetMapping("")
     public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, HttpSession sess) {
         ModelAndView view = new ModelAndView("/product/index");
-        ResponseEntity<ResponseView> apiResponse = null;
+        ResponseEntity<PagingView> apiResponse = null;
 
+        //Paging page and size
         currPageSize = (currPageSize != null) ? currPageSize : pageSize;
         pageNumber = (pageNumber != null) ? pageNumber : 0;
 
         try {
             if (filter == null || filter.isBlank()){
                 // apiResponse = restTemplate.getForEntity(apiUrl + "/product", ProductView[].class);
-                apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginated/" + pageNumber + "/" + currPageSize, ResponseView.class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginated/" + pageNumber + "/" + currPageSize, PagingView.class);
             }
             else {
                 // apiResponse = restTemplate.getForEntity(apiUrl + "/product/filter/" + filter, ProductView[].class);
-                apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginatedfilter/" + filter + "/" + pageNumber + "/" + currPageSize, ResponseView.class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginatedfilter/" + filter + "/" + pageNumber + "/" + currPageSize, PagingView.class);
             }
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
+                // apiResponse.getBody().getContent().sort((a, b) -> a.getClass().getName().compareTo(b.getClass().getName()));
                 view.addObject("product", apiResponse.getBody());
             }
             else {

@@ -1,6 +1,7 @@
 package com.xsis.bc345.be.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xsis.bc345.be.models.Product;
@@ -13,6 +14,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -45,9 +48,9 @@ public class ProductController {
     }
     
     @GetMapping("/paginated/{page}/{size}")
-    public ResponseEntity<?> getAll(@PathVariable int page, @PathVariable int size) {
+    public ResponseEntity<?> getAll(@PathVariable int page, @PathVariable int size, @RequestParam(defaultValue = "id") String sort, @RequestParam(defaultValue = "ASC") String sd) {
         try {
-            Page<Map<String, Object>> data = productSvc.getAll(PageRequest.of(page, size));
+            Page<Map<String, Object>> data = productSvc.getAll(PageRequest.of(page, size, Sort.by(Direction.fromString(sd), sort)));
             
             return new ResponseEntity<Page<Map<String, Object>>>(data, HttpStatus.OK);
         } catch (Exception e) {

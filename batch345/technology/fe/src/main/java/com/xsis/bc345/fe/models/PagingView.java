@@ -2,7 +2,7 @@ package com.xsis.bc345.fe.models;
 
 import java.util.List;
 
-public class ResponseView {
+public class PagingView {
     private List<?> content;
     private boolean empty;
     private boolean first;
@@ -10,6 +10,7 @@ public class ResponseView {
     private int number;
     private int totalPages;
     private long totalElements;
+    private int size;
 
     public List<?> getContent() {
         return this.content;
@@ -79,4 +80,11 @@ public class ResponseView {
         this.totalElements = totalElements;
     }
 
+    public int getSize() {
+        return this.size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
 }

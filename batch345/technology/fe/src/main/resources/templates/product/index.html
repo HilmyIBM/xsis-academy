@@ -38,8 +38,7 @@
 						<tr th:if="${!product.empty}" th:each="item:${product.content}">
 							<td class="d-none d-sm-table-cell">
 								<div class="rounded">
-									<img class="img-fluid" th:if="${item.image != null}"
-										th:src="${imgFolder + item.image}" />
+									<img class="img-fluid" th:if="${item.image != null}" th:src="${imgFolder + item.image}" />
 								</div>
 							</td>
 							<td th:text="${item.id}">1</td>
@@ -64,11 +63,23 @@
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colspan="8" class="text-center">
-								<div class="btn-group">
-									<button id="btnPrev" title="Previous Page..." class="btn btn-secondary"><i class="fas fa-backward"></i></button>
-									<span class="input-group-text text-end" id="pagePosition" th:text="|Page ${product.number+1} of ${product.totalPages}|"></span>
-									<button id="btnNext" title="Next Page..." class="btn btn-secondary"><i class="fas fa-forward"></i></button>
+							<td colspan="8">
+								<div class="d-flex justify-content-between">
+									<div class="w-auto input-group">
+										<label class="input-group-text">Page Size</label>
+										<select class="form-select" name="currPageSize" id="pageSize">
+											<option th:each="i : ${#numbers.sequence(5,20,5)}" th:value="${i}" th:text="${i}" th:selected="${i == currPageSize}"></option>
+										</select>
+									</div>
+									<div class="w-auto input-group">
+										<button id="btnPrev" title="Previous Page..." class="btn btn-secondary"><i class="fas fa-backward"></i></button>
+										<span class="input-group-text text-end" id="pagePosition" th:text="|Page ${product.number+1} of ${product.totalPages}|"></span>
+										<button id="btnNext" title="Next Page..." class="btn btn-secondary"><i class="fas fa-forward"></i></button>
+									</div>
+									<div class="input-group" style="width: 10rem;">
+										<input class="form-control text-end" type="text" th:value="${product.totalElements}" />
+										<label class="input-group-text">Entries</label>
+									</div>
 								</div>
 							</td>
 						</tr>
@@ -120,6 +131,14 @@
 					let pageNumber = /*[[${product.number}]]*/0;
 					
 					location.href = `/product?filter=${filter}&pageNumber=${(pageNumber+1)}&currPageSize=${currPageSize}`;
+				});
+
+				$("#pageSize").change(function(e) {
+					let filter = $("#txtFilter").val();
+					let currPageSize = $(this).val();
+					let pageNumber = /*[[${product.number}]]*/0;
+
+					location.href = `/product?filter=${filter}&pageNumber=${(pageNumber)}&currPageSize=${currPageSize}`;
 				});
 			</script>
 		</div>
