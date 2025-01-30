@@ -1,6 +1,6 @@
-package com.xsis.util.authentication;
+package com.xsis.master.user;
 
-import com.xsis.auth.AuthRole;
+import com.xsis.authentication.AuthenticationRoles;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,14 +11,14 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class UserAuthentication implements Authentication {
-    private final String email;
-    private final AuthRole role;
+    private final UserModel userModel;
+    private final AuthenticationRoles role;
     private final boolean authenticated;
 
-    private final EnumSet<AuthRole> roles = EnumSet.allOf(AuthRole.class);
+    private final EnumSet<AuthenticationRoles> roles = EnumSet.allOf(AuthenticationRoles.class);
 
-    public UserAuthentication(String email, AuthRole role) {
-        this.email = email;
+    public UserAuthentication(UserModel userModel, AuthenticationRoles role) {
+        this.userModel = userModel;
         this.role = role;
         this.authenticated = isValidRole(role);
     }
@@ -28,8 +28,9 @@ public class UserAuthentication implements Authentication {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         switch (this.role) {
-            case ADMIN -> authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            case USER -> authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+            case ROLE_ADMIN -> authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            case ROLE_USER -> authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+            default -> authorities.add(new SimpleGrantedAuthority("ROLE_GOBLIN"));
         }
 
         return authorities;
@@ -47,7 +48,7 @@ public class UserAuthentication implements Authentication {
 
     @Override
     public Object getPrincipal() {
-        return email;
+        return userModel.getEmail();
     }
 
     @Override
@@ -62,10 +63,10 @@ public class UserAuthentication implements Authentication {
 
     @Override
     public String getName() {
-        return email;
+        return userModel.getEmail();
     }
 
-    private boolean isValidRole(AuthRole role) {
+    private boolean isValidRole(AuthenticationRoles role) {
         return roles.contains(role);
     }
 }

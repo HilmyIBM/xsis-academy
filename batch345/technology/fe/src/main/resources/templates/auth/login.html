@@ -34,8 +34,10 @@
         $('#formLogin').submit(function (e) {
             e.preventDefault();
 
+            console.log($("#formLogin").serialize());
+
             $.ajax({
-                url: "/auth/login",
+                url: "/user/login",
                 type: "post",
                 data: $("#formLogin").serialize(),
                 dataType: "json",

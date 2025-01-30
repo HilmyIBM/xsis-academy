@@ -1,4 +1,4 @@
-package com.xsis.bc345.be.customer;
+package com.xsis.bc345.be.user;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -6,8 +6,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tbl_m_customer")
-public class CustomerModel {
+@Table(name = "tbl_m_user")
+public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -144,7 +144,7 @@ public class CustomerModel {
 
     @Override
     public String toString() {
-        return "CustomerModel{" +
+        return "UserModel{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +

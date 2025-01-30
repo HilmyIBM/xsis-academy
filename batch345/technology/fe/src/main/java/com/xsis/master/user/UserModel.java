@@ -1,6 +1,8 @@
-package com.xsis.master.customer;
+package com.xsis.master.user;
 
-public class CustomerDTO {
+import java.time.LocalDateTime;
+
+public class UserModel {
     private int id;
     private String name;
     private String password;
@@ -8,6 +10,10 @@ public class CustomerDTO {
     private String phone;
     private String email;
     private int roleId;
+
+    private boolean deleted;
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
     private int createBy;
     private int updateBy;
 
@@ -25,14 +31,6 @@ public class CustomerDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getAddress() {
@@ -59,6 +57,31 @@ public class CustomerDTO {
         this.email = email;
     }
 
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
+
+    public LocalDateTime getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(LocalDateTime updateDate) {
+        this.updateDate = updateDate;
+    }
+
     public int getCreateBy() {
         return createBy;
     }
@@ -83,16 +106,26 @@ public class CustomerDTO {
         this.roleId = roleId;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
-        return "CustomerDTO{" +
+        return "UserModel{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", roleId=" + roleId +
+                ", deleted=" + deleted +
+                ", createDate=" + createDate +
+                ", updateDate=" + updateDate +
                 ", createBy=" + createBy +
                 ", updateBy=" + updateBy +
                 '}';

@@ -1,8 +1,8 @@
 package com.xsis.master.category;
 
-import com.xsis.util.error.ErrorMessage;
 import com.xsis.util.ProcessAPI;
 import com.xsis.util.RequestType;
+import com.xsis.util.error.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +80,8 @@ public class CategoryController {
         try {
             apiResponse = restTemplate.exchange(API_URL, HttpMethod.GET,
                     new HttpEntity<>(new ArrayList<>()),
-                    new ParameterizedTypeReference<>(){});
+                    new ParameterizedTypeReference<>() {
+                    });
 
             if (apiResponse.getStatusCode() == HttpStatus.OK || apiResponse.getStatusCode() == HttpStatus.NO_CONTENT) {
                 view.addObject("category", apiResponse.getBody());
@@ -131,13 +132,16 @@ public class CategoryController {
         switch (type) {
             case DETAIL -> {
                 attributes.put("title", "Category Details");
-                return new ModelAndView("master/category/detail", attributes); }
+                return new ModelAndView("master/category/detail", attributes);
+            }
             case EDIT -> {
                 attributes.put("title", "Edit Category");
-                return new ModelAndView("master/category/edit", attributes); }
+                return new ModelAndView("master/category/edit", attributes);
+            }
             case DELETE -> {
                 attributes.put("title", "Delete Category");
-                return new ModelAndView("master/category/delete", attributes); }
+                return new ModelAndView("master/category/delete", attributes);
+            }
             default -> throw new UnsupportedOperationException();
         }
     }
