@@ -81,4 +81,12 @@ public class ProductService {
         return productrepo.findByIsDeleted(false,pageable);
     }
 
+    public Page<Map<String,Object>> getPagination(Pageable pageable) {
+        return productrepo.findByNativeQuery(pageable);
+    }
+
+    public Page<Map<String,Object>> getfilterNative(String filter,Pageable pageable) throws Exception{
+        return productrepo.findByfilter(pageable,filter);
+    }
+
 }

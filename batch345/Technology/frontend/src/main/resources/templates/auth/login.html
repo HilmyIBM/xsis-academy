@@ -31,12 +31,6 @@
 
 <script>
     $(document).ready(function(){
-        $("#frmLogin").on("click", "#linkRegister", function (e) {
-            $("#staticModalBody-2").load("/customer/add");
-            $('#staticBackdropLabel-2').text($('#txtTitle').text());
-            $("#staticModal-2").modal("show");
-        });
-
         $('#staticBackdropLabel').text($('#txtTitleLogin').text());
 
         $("#frmLogin").validate({
@@ -92,5 +86,10 @@
                 });
             }
         });
+        $("#frmLogin").on("click", "#linkRegister", function (e) {
+            $("#staticModalBody-2").load("/auth/register");
+            $("#staticModal-2").modal("show");
+        });
+
     });
 </script>

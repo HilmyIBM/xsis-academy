@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.b345.frontend.models.categoryView;
+import com.xsis.b345.frontend.models.pagingView;
 import com.xsis.b345.frontend.models.productView;
 import com.xsis.b345.frontend.models.variantView;
 
@@ -31,17 +32,24 @@ public class product {
     @Value("${application.api.url}")
     private String apiUrl;
     private RestTemplate restTemplate = new RestTemplate();
+    @Value("${application.page.size}")
+    private int pageSize;
 
     @GetMapping("/product")
-    public ModelAndView product(String filter,HttpSession session) {
+    public ModelAndView product(String filter,HttpSession session,Integer page, Integer number) {
         if (session.getAttribute("role")!=null && session.getAttribute("role").equals(1) ){
             ModelAndView view = new ModelAndView("/product/index");
-            ResponseEntity<productView[]> apiResponse = null;
+            //isi halaman
+            page=(page!=null)?page:pageSize;
+            //nomor halaman
+            number = (number != null) ? number : 0 ;
+            ResponseEntity<pagingView> apiResponse = null;
+
             try {
                 if (filter == null || filter.isEmpty()) {
-                    apiResponse = restTemplate.getForEntity(apiUrl + "/product", productView[].class);
+                    apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginated/"+number+"/"+page, pagingView.class);
                 } else {
-                    apiResponse = restTemplate.getForEntity(apiUrl + "/product/filter/" + filter, productView[].class);
+                    apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginated/filter/" + filter+"/"+number+"/"+page, pagingView.class);
                 }
                 if (apiResponse.getStatusCode() == HttpStatus.OK) {
                     view.addObject("product", apiResponse.getBody());
@@ -51,11 +59,12 @@ public class product {
             } catch (Exception e) {
                 view.addObject("errorMSG", e.getMessage());
             }
+            view.addObject("filter", filter);
+            view.addObject("pageSize", page);
             return view;
         }
         else{
             return new ModelAndView("redirect:/");
-            
         }
     }
 

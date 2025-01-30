@@ -5,28 +5,54 @@
   </head>
   <body>
     <div layout:fragment="content">
-      <style>
-        nav{
-            background-color: 	#6C757D;
-            color: white;
-        }
-    </style>
       <div class="">
         <h1>Category List</h1>
+        <button
+        class="btn btn-success"
+        type="button"
+        id="btnAdd"
+        data-bs-toggle="modal"
+        data-bs-target="#staticModal"
+      >
+        <i class="fas fa-plus"></i>&nbsp;&nbsp;Add
+      </button>
+        <hr style="opacity: 1" />
         <div class="d-flex justify-content-between">
-          <button class="btn btn-success" type="button" id="btnAdd" data-bs-toggle="modal" data-bs-target="#staticModal">
-            <i class="fas fa-plus"></i> Add
-          </button>
+          <div class="form-group">
+            <div class="input-group">
+                <input type="text" th:value="${category.totalElements}" style="width: 50px;" class="form-control" disabled readonly>
+                <span class="input-group-text">Entries</span>
+            </div>
+          </div>
           <form class="input-group w-25">
-            <input th:if="${filter != null and !filter.isEmpty()}" th:value="${filter}" name="filter" type="text" class="form-control" placeholder="Cari Categori atau deskripsi">
-            <input th:unless="${filter != null and !filter.isEmpty()}" name="filter" type="text" class="form-control" placeholder="Cari Categori atau deskripsi">
-            <button type="submit" class="input-group-text" title="Filter"><i class="fas fa-filter" ></i></button>
+            <input
+              th:if="${filter != null and !filter.isEmpty()}"
+              th:value="${filter}"
+              name="filter"
+              type="text"
+              id="txtFilter"
+              class="form-control"
+              placeholder="Cari Product atau Category atau Variant"
+            />
+            <input
+              th:unless="${filter != null and !filter.isEmpty()}"
+              name="filter"
+              type="text"
+              id="txtFilter"
+              class="form-control"
+              placeholder="Cari Product, Category, Variant"
+            />
+            <button type="submit" class="input-group-text" title="Filter">
+              <i class="fas fa-filter"></i>
+            </button>
           </form>
         </div>
-        <hr style="opacity: 1" />
       </div>
       <div class="">
-        <table class="table table-bordered mt-2 table-hover text-center border-white" id="tblCategory">
+        <table
+          class="table table-bordered mt-2 table-hover text-center border-white"
+          id="tblCategory"
+        >
           <thead>
             <tr>
               <th class="col-1">Id</th>
@@ -36,50 +62,140 @@
             </tr>
           </thead>
           <tbody>
-            <tr th:each="item:${category}">
+            <tr th:each="item:${category.content}">
               <td th:text="${item.id}">1</td>
               <td th:text="${item.categoryName}">appetizer</td>
-              <td th:text="${item.description}" class="text-center">kategori makanan</td>
+              <td th:text="${item.description}" class="text-center">
+                kategori makanan
+              </td>
               <td>
                 <div
                   class="btn-group d-flex justify-content-center"
                   role="group"
                   aria-label="Basic mixed styles example"
                 >
-                <button type="button" class="btn btn-info" title="Edit" th:data-id="${item.id}"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-warning" title="Detail" th:data-id="${item.id}"><i class="fas fa-info"></i></button>
-                <button type="button" class="btn btn-danger" title="Delete" th:data-id="${item.id}"><i class="fas fa-trash"></i></button>
+                  <button
+                    type="button"
+                    class="btn btn-info"
+                    title="Edit"
+                    th:data-id="${item.id}"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    title="Detail"
+                    th:data-id="${item.id}"
+                  >
+                    <i class="fas fa-info"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    title="Delete"
+                    th:data-id="${item.id}"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
                 </div>
               </td>
             </tr>
           </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="8">
+                <div class="d-flex justify-content-between">
+                  <div class="input-group" style="width: 15%;">
+                    <label class="input-group-text">Show</label>
+                    <select name="pageSize" id="pageSize" class="form-control">
+                      <option th:each="i : ${#numbers.sequence(10, 20, 5)}" th:value="${i}" th:text="${i}" th:selected="${i == pageSize}"></option>
+                    </select>
+                    <div class="input-group-append">
+                      <span class="input-group-text">Entries</span>
+                    </div>
+                  </div>
+                  <div>
+                        <button
+                        type="button"
+                        class="btn btn-primary"
+                        id="prevBTN"
+                        title="Previous">
+                        <i class="fas fa-arrow-left"></i>
+                      </button>
+                      <span
+                        th:text="|Page ${category.number+1} of ${category.totalPages}|"
+                        >Page 1</span
+                      >
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        id="nextBTN"
+                        title="Next"
+                      >
+                        <i class="fas fa-arrow-right"></i>
+                  </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
-      <script>
-        new DataTable('#tblCategory');
-        $('#btnAdd').click(
-          function(e){
-          $('#staticModalBody').load("/category/add");
+      <script th:inline="javascript">
+        $(document).ready(function () {
+          let isFirstpage = /*[[${category.first}]]*/ true;
+          let isLastPage = /*[[${category.last}]]*/ false;
+          $("#prevBTN").prop("disabled", isFirstpage);
+          $("#nextBTN").prop("disabled", isLastPage);
         });
 
-        $('#tblCategory').on('click','.btn-info',function(e){
-          let catId=$(this).data('id');
+        $("#btnAdd").click(function (e) {
+          $("#staticModalBody").load("/category/add");
+        });
 
-          $('#staticModalBody').load("/category/edit/"+catId);
-          $('#staticModal').modal("show");
+        $("#tblCategory").on("click", ".btn-info", function (e) {
+          let catId = $(this).data("id");
+
+          $("#staticModalBody").load("/category/edit/" + catId);
+          $("#staticModal").modal("show");
+        });
+
+        $("#tblCategory").on("click", ".btn-warning", function (e) {
+          let catId = $(this).data("id");
+          $("#staticModalBody").load("/category/" + catId);
+          $("#staticModal").modal("show");
+        });
+
+        $("#tblCategory").on("click", ".btn-danger", function (e) {
+          let catId = $(this).data("id");
+          $("#staticModalBody").load("/category/delete/" + catId);
+          $("#staticModal").modal("show");
+        });
+
+        $("#prevBTN").click(function(e){
+          let filter=$("#txtFilter").val();
+          let currPageSize=/*[[${pageSize}]]*/0;
+          let page=/*[[${category.number}]]*/0;
+          
+          location.href="/category?filter="+filter+"&number="+(page-1)+"&page="+currPageSize;
         })
 
-        $('#tblCategory').on('click','.btn-warning',function(e){
-          let catId=$(this).data('id');
-          $('#staticModalBody').load("/category/"+catId);
-          $('#staticModal').modal("show");
+        $("#nextBTN").click(function(e){
+          let filter=$("#txtFilter").val();
+          let currPageSize=/*[[${pageSize}]]*/0;
+          let page=/*[[${category.number}]]*/0;
+          
+          location.href="/category?filter="+filter+"&number="+(page+1)+"&page="+currPageSize;
         })
 
-        $('#tblCategory').on('click','.btn-danger',function(e){
-          let catId=$(this).data('id');
-          $('#staticModalBody').load("/category/delete/"+catId);
-          $('#staticModal').modal("show");
-        })
+        $("#pageSize").change(function(e){
+              let filter=$("#txtFilter").val();
+              let currPageSize=$("#pageSize").val();
+              let page=/*[[${category.number}]]*/0;
+              
+              location.href="/category?filter="+filter+"&number="+page+"&page="+currPageSize;
+            })
       </script>
     </div>
   </body>

@@ -15,22 +15,30 @@
       </style>
       <div class="">
         <h1>Product List</h1>
+        <button
+        class="btn btn-success"
+        type="button"
+        id="btnAdd"
+        data-bs-toggle="modal"
+        data-bs-target="#staticModal"
+      >
+        <i class="fas fa-plus"></i>&nbsp;&nbsp;Add
+      </button>
+        <hr style="opacity: 1" />
         <div class="d-flex justify-content-between">
-          <button
-            class="btn btn-success"
-            type="button"
-            id="btnAdd"
-            data-bs-toggle="modal"
-            data-bs-target="#staticModal"
-          >
-            <i class="fas fa-plus"></i>&nbsp;&nbsp;Add
-          </button>
+          <div class="form-group">
+            <div class="input-group">
+                <input type="text" th:value="${product.totalElements}" style="width: 50px;" class="form-control" disabled readonly>
+                <span class="input-group-text">Entries</span>
+            </div>
+          </div>
           <form class="input-group w-25">
             <input
               th:if="${filter != null and !filter.isEmpty()}"
               th:value="${filter}"
               name="filter"
               type="text"
+              id="txtFilter"
               class="form-control"
               placeholder="Cari Product atau Category atau Variant"
             />
@@ -38,6 +46,7 @@
               th:unless="${filter != null and !filter.isEmpty()}"
               name="filter"
               type="text"
+              id="txtFilter"
               class="form-control"
               placeholder="Cari Product, Category, Variant"
             />
@@ -46,7 +55,6 @@
             </button>
           </form>
         </div>
-        <hr style="opacity: 1" />
       </div>
       <div class="">
         <table
@@ -66,7 +74,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr th:each="item:${product}" class="text-center">
+            <tr th:each="item:${product.content}" class="text-center">
               <td th:text="${item.id}" class="text-center">1</td>
               <td>
                 <img
@@ -124,10 +132,54 @@
               </td>
             </tr>
           </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="8">
+                <div class="d-flex justify-content-between">
+                  <div class="input-group" style="width: 15%;">
+                    <label class="input-group-text">Show</label>
+                    <select name="pageSize" id="pageSize" class="form-control">
+                      <option th:each="i : ${#numbers.sequence(10, 20, 5)}" th:value="${i}" th:text="${i}" th:selected="${i == pageSize}"></option>
+                    </select>
+                    <div class="input-group-append">
+                      <span class="input-group-text">Entries</span>
+                    </div>
+                  </div>
+                  <div>
+                        <button
+                        type="button"
+                        class="btn btn-primary"
+                        id="prevBTN"
+                        title="Previous">
+                        <i class="fas fa-arrow-left"></i>
+                      </button>
+                      <span
+                        th:text="|Page ${product.number+1} of ${product.totalPages}|"
+                        >Page 1</span
+                      >
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        id="nextBTN"
+                        title="Next"
+                      >
+                        <i class="fas fa-arrow-right"></i>
+                  </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
-      <script>
-        new DataTable("#tblProduct");
+      <script th:inline="javascript">
+        $(document).ready(function(){          
+          let isFirstpage=/*[[${product.first}]]*/true;
+          let isLastPage=/*[[${product.last}]]*/false;
+          $("#prevBTN").prop("disabled",isFirstpage);
+          $("#nextBTN").prop("disabled",isLastPage);
+        });
+
         $("#btnAdd").click(function (e) {
           $("#staticModalBody").load("/product/add");
         });
@@ -150,6 +202,30 @@
           $("#staticModalBody").load("/product/delete/" + catId);
           $("#staticModal").modal("show");
         });
+
+        $("#prevBTN").click(function(e){
+          let filter=$("#txtFilter").val();
+          let currPageSize=/*[[${pageSize}]]*/0;
+          let page=/*[[${product.number}]]*/0;
+          
+          location.href="/product?filter="+filter+"&number="+(page-1)+"&page="+currPageSize;
+        })
+
+        $("#nextBTN").click(function(e){
+          let filter=$("#txtFilter").val();
+          let currPageSize=/*[[${pageSize}]]*/0;
+          let page=/*[[${product.number}]]*/0;
+          
+          location.href="/product?filter="+filter+"&number="+(page+1)+"&page="+currPageSize;
+        })
+
+        $("#pageSize").change(function(e){
+              let filter=$("#txtFilter").val();
+              let currPageSize=$("#pageSize").val();
+              let page=/*[[${product.number}]]*/0;
+              
+              location.href="/product?filter="+filter+"&number="+page+"&page="+currPageSize;
+        })
       </script>
     </div>
   </body>

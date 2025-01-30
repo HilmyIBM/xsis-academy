@@ -2,9 +2,12 @@ package com.xsis.bc345.backend.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.xsis.bc345.backend.models.CategoryModel;
@@ -62,5 +65,13 @@ public class CategoryService {
         }else{
             throw new Exception("Data Tidak Adak");
         }
+    }
+
+    public Page<CategoryModel> getbyfilter(String filter,Pageable pageable){
+        return categoryrepo.findByCategoryNameIgnoreCaseContainingOrDescriptionIgnoreCaseContainingAndIsDeleted(filter,filter,false,pageable);
+    }
+
+    public Page<CategoryModel> getAll(Pageable pageable){
+        return categoryrepo.findByIsDeleted(false,pageable);
     }
 }

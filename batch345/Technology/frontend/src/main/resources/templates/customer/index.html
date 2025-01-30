@@ -17,34 +17,41 @@ layout:decorate="~{fragments/layout}">
           <button
             class="btn btn-success"
             type="button"
-            id="btnAdd"
-            data-bs-toggle="modal"
-            data-bs-target="#staticModal"
-          >
+            id="btnAdd">
             <i class="fas fa-plus"></i>&nbsp;&nbsp;Add
           </button>
+        </div>
+        <hr style="opacity: 1;">
+        <div class="d-flex justify-content-between">
+          <div class="form-group">
+            <div class="input-group">
+                <input type="text" th:value="${customer.totalElements}" style="width: 50px;" class="form-control" disabled readonly>
+                <span class="input-group-text">Entries</span>
+            </div>
+          </div>
           <form class="input-group w-25">
             <input
               th:if="${filter != null and !filter.isEmpty()}"
               th:value="${filter}"
               name="filter"
               type="text"
+              id="txtFilter"
               class="form-control"
-              placeholder="Cari User"
+              placeholder="Cari Nama Customer"
             />
             <input
               th:unless="${filter != null and !filter.isEmpty()}"
               name="filter"
               type="text"
+              id="txtFilter"
               class="form-control"
-              placeholder="Cari User"
+              placeholder="Cari Nama Customer"
             />
             <button type="submit" class="input-group-text" title="Filter">
               <i class="fas fa-filter"></i>
             </button>
           </form>
         </div>
-        <hr style="opacity: 1;">
         <div>
             <table class="table table-bordered mt-2 table-hover border-white" id="tblCustomer">
               <thead>
@@ -59,7 +66,7 @@ layout:decorate="~{fragments/layout}">
                 </tr>
               </thead>
               <tbody>
-                <tr th:each="item:${customer}">
+                <tr th:each="item:${customer.content}">
                   <td th:text="${item.id}" class="text-center">1</td>
                   <td th:text="${item.name}" class="text-center">Bread</td>
                   <td th:text="${item.email}" class="text-center">Appetizer</td>
@@ -82,13 +89,57 @@ layout:decorate="~{fragments/layout}">
                   </td>
                 </tr>
               </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="8">
+                    <div class="d-flex justify-content-between">
+                      <div class="input-group" style="width: 15%;">
+                        <label class="input-group-text">Show</label>
+                        <select name="pageSize" id="pageSize" class="form-control">
+                          <option th:each="i : ${#numbers.sequence(10, 20, 5)}" th:value="${i}" th:text="${i}" th:selected="${i == pageSize}"></option>
+                        </select>
+                        <div class="input-group-append">
+                          <span class="input-group-text">Entries</span>
+                        </div>
+                      </div>
+                      <div>
+                            <button
+                            type="button"
+                            class="btn btn-primary"
+                            id="prevBTN"
+                            title="Previous">
+                            <i class="fas fa-arrow-left"></i>
+                          </button>
+                          <span
+                            th:text="|Page ${customer.number+1} of ${customer.totalPages}|"
+                            >Page 1</span
+                          >
+                          <button
+                            type="button"
+                            class="btn btn-primary"
+                            id="nextBTN"
+                            title="Next"
+                          >
+                            <i class="fas fa-arrow-right"></i>
+                      </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
             </table>
         </div>
-        <script>
-            new DataTable('#tblCustomer');   
+        <script th:inline="javascript">
+          $(document).ready(function () {
+            let isFirstpage = /*[[${customer.first}]]*/ true;
+            let isLastPage = /*[[${customer.last}]]*/ false;
+            $("#prevBTN").prop("disabled", isFirstpage);
+            $("#nextBTN").prop("disabled", isLastPage);
+          });
 
             $("#btnAdd").click(function (e) {
-                $("#staticModalBody").load("/customer/add");
+                $("#staticModalBody-2").load("/customer/add");
+                $("#staticModal-2").modal("show");
             });
 
             $("#tblCustomer").on("click", ".btn-info", function (e) {
@@ -109,6 +160,30 @@ layout:decorate="~{fragments/layout}">
                 $("#staticModalBody").load("/customer/delete/" + catId);
                 $("#staticModal").modal("show");
             });
+
+            $("#prevBTN").click(function(e){
+              let filter=$("#txtFilter").val();
+              let currPageSize=/*[[${pageSize}]]*/0;
+              let page=/*[[${customer.number}]]*/0;
+              
+              location.href="/customer?filter="+filter+"&number="+(page-1)+"&page="+currPageSize;
+            })
+
+            $("#nextBTN").click(function(e){
+              let filter=$("#txtFilter").val();
+              let currPageSize=/*[[${pageSize}]]*/0;
+              let page=/*[[${customer.number}]]*/0;
+              
+              location.href="/customer?filter="+filter+"&number="+(page+1)+"&page="+currPageSize;
+            })
+
+            $("#pageSize").change(function(e){
+              let filter=$("#txtFilter").val();
+              let currPageSize=$("#pageSize").val();
+              let page=/*[[${customer.number}]]*/0;
+              
+              location.href="/customer?filter="+filter+"&number="+page+"&page="+currPageSize;
+            })
         </script>
     </div>
 </body>

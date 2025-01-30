@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -101,6 +104,27 @@ public class CustomerController {
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
             
+        }
+    }
+
+    @GetMapping("/paginated/{page}/{size}")
+    public ResponseEntity<?> getPaginated(@PathVariable int page,@PathVariable int size) {
+        try {
+                Page<CustomerModel> data=customerSVC.getAll(PageRequest.of(page, size,Sort.by("id").ascending()));
+                return new ResponseEntity<Page<CustomerModel>>(data,HttpStatus.OK);   
+            }
+            catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/filter/{filter}/{page}/{size}")
+    public ResponseEntity<?> getbyFilter(@PathVariable String filter,@PathVariable int page,@PathVariable int size) {
+        try {
+            Page<CustomerModel> data=customerSVC.getbyfilter(filter,PageRequest.of(page, size,Sort.by("id").ascending()));
+            return new ResponseEntity<Page<CustomerModel>>(data,HttpStatus.OK);   
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     

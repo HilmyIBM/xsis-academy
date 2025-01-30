@@ -74,4 +74,9 @@ public class authController {
         session.invalidate();
         return new ModelAndView("redirect:/");
     }
+
+    @GetMapping("/register")
+    public ModelAndView register() {
+        return new ModelAndView("redirect:/customer/add");
+    }
 }

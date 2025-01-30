@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.b345.frontend.models.categoryView;
+import com.xsis.b345.frontend.models.pagingView;
 import com.xsis.b345.frontend.models.variantView;
 
 import jakarta.servlet.http.HttpSession;
@@ -30,19 +31,22 @@ public class variant {
     @Value("${application.api.url}")
     private String apiUrl;
     private RestTemplate restTemplate = new RestTemplate();
-    // private final String apiUrl="http://localhost:8080/api/variant";
     private final String apiCategory = "http://localhost:8080/api/category";
+    @Value("${application.page.size}")
+    private int pageSize;
 
     @GetMapping("/variant")
-    public ModelAndView index( String filter,HttpSession session) {
+    public ModelAndView index( String filter,HttpSession session,Integer page, Integer number) {
         if (session.getAttribute("role")!=null && session.getAttribute("role").equals(1) ){
             ModelAndView view = new ModelAndView("/variant/index");
-            ResponseEntity<variantView[]> apiResponse = null;
+            ResponseEntity<pagingView> apiResponse = null;
+            page=(page!=null)?page:pageSize;
+            number = (number != null) ? number : 0 ;
             try {
                 if (filter == null || filter.isEmpty()) {
-                    apiResponse = restTemplate.getForEntity(apiUrl + "/variant", variantView[].class);
+                    apiResponse = restTemplate.getForEntity(apiUrl + "/variant/paginated/"+number+"/"+page, pagingView.class);
                 } else {
-                    apiResponse = restTemplate.getForEntity(apiUrl + "/variant/filter/" + filter, variantView[].class);
+                    apiResponse = restTemplate.getForEntity(apiUrl + "/variant/filter/" + filter+"/"+number+"/"+page, pagingView.class);
                 }
                 if (apiResponse.getStatusCode() == HttpStatus.OK) {
                     view.addObject("variant", apiResponse.getBody());
@@ -52,6 +56,8 @@ public class variant {
             } catch (Exception e) {
                 view.addObject("errorMSG", e.getMessage());
             }
+            view.addObject("filter", filter);
+            view.addObject("pageSize", page);
             return view;
         }
         else{

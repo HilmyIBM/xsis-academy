@@ -2,9 +2,13 @@ package com.xsis.bc345.backend.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -110,6 +114,29 @@ public class CategoryController{
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/paginated/{page}/{size}")
+    public ResponseEntity<?> getAll(@PathVariable int page,@PathVariable int size){
+         try {
+            final Page<CategoryModel> data= categorySVC.getAll(PageRequest.of(page, size,Sort.by("id").ascending()));
+            return new ResponseEntity<Page<CategoryModel>> (data,HttpStatus.OK);   
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+    
+    @GetMapping("/filter/{filter}/{page}/{size}")
+    public ResponseEntity<?> getbyfilter(@PathVariable String filter,@PathVariable int page,@PathVariable int size){
+        try {
+            final Page<CategoryModel> data= categorySVC.getbyfilter(filter,PageRequest.of(page, size,Sort.by("id").ascending()));
+            return new ResponseEntity<Page<CategoryModel>> (data,HttpStatus.OK);   
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }
 
 

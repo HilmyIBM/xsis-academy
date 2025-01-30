@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.xsis.bc345.backend.models.CustomerModel;
@@ -87,5 +89,13 @@ public class CustomerService {
 
     public Optional<CustomerModel> getByEmail(String email){
         return customerepo.findByEmailAndIsDeleted(email,false);
+    }
+
+    public Page<CustomerModel> getbyfilter(String filter,Pageable pageable){
+        return customerepo.findByEmailIgnoreCaseContainingOrNameIgnoreCaseContainingAndIsDeleted(filter,filter,false,pageable);
+    }
+
+    public Page<CustomerModel> getAll(Pageable pageable){
+        return customerepo.findByIsDeleted(false,pageable);
     }
 }

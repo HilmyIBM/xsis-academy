@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.xsis.bc345.backend.models.CategoryModel;
@@ -73,5 +75,13 @@ public class VariantService {
 
     public Optional<List<VariantModel>> getbyCategory(int categoryId) {
         return variantrepo.findByCategoryIdAndIsDeleted(categoryId, false);
+    }
+
+    public Page<Map<String,Object>> getbyfilter(String filter,Pageable pageable){
+        return variantrepo.findByfilter(filter,pageable);
+    }
+
+    public Page<Map<String,Object>> getAll(Pageable pageable){
+        return variantrepo.findByNativeQuery(pageable);
     }
 }

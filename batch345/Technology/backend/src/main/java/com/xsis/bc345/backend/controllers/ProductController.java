@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -121,4 +123,26 @@ public class ProductController {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/paginated/{page}/{size}")
+    public ResponseEntity<?> getAll(@PathVariable int page,@PathVariable int size,@RequestParam(defaultValue = "id") String sort, @RequestParam(defaultValue = "asc") String order){
+         try {
+            final Page<Map<String,Object>> data= productSVC.getPagination(PageRequest.of(page, size,Sort.Direction.fromString(order),sort));
+            return new ResponseEntity<Page<Map<String,Object>>> (data,HttpStatus.OK);   
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    } 
+
+    @GetMapping("/paginated/filter/{filter}/{page}/{size}")
+    public ResponseEntity<?> getFilter(@PathVariable int page,@PathVariable int size,@PathVariable String filter){
+         try {
+            final Page<Map<String,Object>> data= productSVC.getfilterNative(filter,PageRequest.of(page, size,Sort.by("id").ascending()));
+            return new ResponseEntity<Page<Map<String,Object>>> (data,HttpStatus.OK);   
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    } 
 }

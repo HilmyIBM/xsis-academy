@@ -1,5 +1,6 @@
 package com.xsis.b345.frontend.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.b345.frontend.models.categoryView;
 import com.xsis.b345.frontend.models.customerView;
+import com.xsis.b345.frontend.models.pagingView;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -21,16 +23,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class customer {
+    @Value("${application.api.url}")
+    private String apiUrl;
     private RestTemplate restTemplate = new RestTemplate();
-    private final String apiUrl = "http://localhost:8080/api/customer";
+    @Value("${application.page.size}")
+    private int pageSize;
 
     @GetMapping("/customer")
-    public ModelAndView user(HttpSession session) {
+    public ModelAndView user(HttpSession session, Integer page, Integer number, String filter) {
         if (session.getAttribute("role")!=null && session.getAttribute("role").equals(1) ) {
             ModelAndView view = new ModelAndView("/customer/index");
-            ResponseEntity<customerView[]> apiResponse = null;
+            ResponseEntity<pagingView> apiResponse = null;
+            page = (page != null) ? page : pageSize;
+            number = (number != null) ? number : 0;
             try {
-                apiResponse = restTemplate.getForEntity(apiUrl, customerView[].class);
+                if (filter == null || filter.isEmpty()) {
+                    apiResponse = restTemplate.getForEntity(apiUrl + "/customer/paginated/" + number + "/" + page, pagingView
+                            .class);
+                } else {
+                    apiResponse = restTemplate.getForEntity(apiUrl + "/customer/filter/" + filter + "/" + number + "/" + page, pagingView
+                            .class);
+                }
                 if (apiResponse.getStatusCode() == HttpStatus.OK) {
                     view.addObject("customer", apiResponse.getBody());
                 } else {
@@ -39,6 +52,8 @@ public class customer {
             } catch (Exception e) {
                 view.addObject("errorMSG", e.getMessage());
             }
+            view.addObject("filter", filter);
+            view.addObject("pageSize", page);
             return view;
         }else{
             return new ModelAndView("redirect:/");
@@ -50,7 +65,7 @@ public class customer {
         ModelAndView view = new ModelAndView("/customer/edit");
         ResponseEntity<customerView> apiResponse = null;
         try {
-            apiResponse = restTemplate.getForEntity(apiUrl + "/id/"+id, customerView.class);
+            apiResponse = restTemplate.getForEntity(apiUrl + "/customer/id/"+id, customerView.class);
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 view.addObject("customer", apiResponse.getBody());
             } else {
@@ -74,7 +89,7 @@ public class customer {
     public ResponseEntity<?> save(@ModelAttribute customerView customer) {
         ResponseEntity<customerView> apiResponse = null;
         try {
-            apiResponse = restTemplate.postForEntity(apiUrl, customer,customerView.class);
+            apiResponse = restTemplate.postForEntity(apiUrl+"/customer", customer,customerView.class);
             if (apiResponse.getStatusCode() == HttpStatus.CREATED) {
                 return new ResponseEntity<customerView>(apiResponse.getBody(), HttpStatus.OK);
             } else {
@@ -90,7 +105,7 @@ public class customer {
         ModelAndView view = new ModelAndView("customer/detail");
         ResponseEntity<customerView> apiResponse = null;
         try {
-            apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + id, customerView.class);
+            apiResponse = restTemplate.getForEntity(apiUrl + "/customer/id/" + id, customerView.class);
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 view.addObject("customer", apiResponse.getBody());
             } else {
@@ -107,8 +122,8 @@ public class customer {
     public ResponseEntity<?> editData(@ModelAttribute customerView customer){
         ResponseEntity<customerView> apiResponse = null;
         try {
-            restTemplate.put(apiUrl, customer);
-            apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + customer.getId(), customerView.class);
+            restTemplate.put(apiUrl+"/customer", customer);
+            apiResponse = restTemplate.getForEntity(apiUrl + "/customer/id/" + customer.getId(), customerView.class);
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 return new ResponseEntity<customerView>(apiResponse.getBody(), HttpStatus.OK);
             } else {
@@ -131,7 +146,7 @@ public class customer {
     public ResponseEntity<?> deleteData(@PathVariable int id, @PathVariable int userId) {
         ResponseEntity<customerView> apiResponse = null;
         try {
-            apiResponse = restTemplate.exchange(apiUrl + "/delete/" + id + "/" + userId, HttpMethod.DELETE,
+            apiResponse = restTemplate.exchange(apiUrl + "/customer/delete/" + id + "/" + userId, HttpMethod.DELETE,
                     null,
                     customerView.class);
             if (apiResponse.getStatusCode() == HttpStatus.OK) {

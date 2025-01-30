@@ -22,19 +22,24 @@ public class CategoryController {
     @Value("${application.api.url}")
     private String apiUrl;
     private RestTemplate restTemplate = new RestTemplate();
-    // private final String apiUrl="http://localhost:8080/api/category";
+    @Value("${application.page.size}")
+    private int pageSize;
 
     @GetMapping("")
-    public ModelAndView index(String filter,HttpSession session) {
+    public ModelAndView index(String filter,HttpSession session,Integer page, Integer number) {
         if (session.getAttribute("role")!=null && session.getAttribute("role").equals(1) ){
             ModelAndView view = new ModelAndView("/category/index");
-            ResponseEntity<categoryView[]> apiResponse = null;
+            ResponseEntity<pagingView> apiResponse = null;
+             //isi halaman
+             page=(page!=null)?page:pageSize;
+             //nomor halaman
+             number = (number != null) ? number : 0 ;
             try {
                 if (filter == null || filter.isEmpty()) {
-                    apiResponse = restTemplate.getForEntity(apiUrl + "/category", categoryView[].class);
+                    apiResponse = restTemplate.getForEntity(apiUrl + "/category/paginated/"+number+"/"+page, pagingView.class);
                 } else {
-                    apiResponse = restTemplate.getForEntity(apiUrl + "/category" + "/filter/" + filter,
-                            categoryView[].class);
+                    apiResponse = restTemplate.getForEntity(apiUrl + "/category/filter/"+ filter+"/"+number+"/"+page,
+                    pagingView.class);
                 }
                 if (apiResponse.getStatusCode() == HttpStatus.OK) {
                     view.addObject("category", apiResponse.getBody());
@@ -45,6 +50,7 @@ public class CategoryController {
                 view.addObject("errorMSG", e.getMessage());
             }
             view.addObject("filter", filter);
+            view.addObject("pageSize", page);
             return view;
         }
         else{
