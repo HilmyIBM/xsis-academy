@@ -33,18 +33,22 @@
           class="d-flex justify-content-between mb-4"
           th:if="${product != null}"
         >
-          <div class="w-50">
-            <div class="input-group w-75">
-              <span class="input-group-text">Show</span>
-              <input
-                type="text"
-                th:value="${#lists.size(product)}"
-                class="form-control bg-white"
-                readonly
-              />
-              <span class="input-group-text">Entries</span>
-            </div>
+        <div class="w-50">
+          <div class="input-group">
+            <span class="input-group-text">Show</span>
+            <input
+              type="number"
+              th:value="${product.size}"
+              class="form-control bg-white"
+              name="size"
+              id="txtSize"
+              min="1"
+              max="100" 
+            />
+            <span class="input-group-text">Entries</span>
           </div>
+        </div>
+        
           <span class="w-50">&nbsp;</span>
           <div class="col-12 col-lg-6">
             <form id="frmFilter">
@@ -89,8 +93,8 @@
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody th:if="${product != null}">
-            <tr th:each="item:${product}">
+          <tbody th:if="${product.empty != null}">
+            <tr th:if="${!product.empty}" th:each="item:${product.content}">
               <td>
                 <img
                   th:src="@{'/lib/images/' + ${item.image}}"
@@ -124,6 +128,17 @@
               </td>
             </tr>
           </tbody>
+          <tfoot>
+						<tr>
+							<td colspan="8" class="text-center">
+								<div class="btn-group">
+									<button id="btnPrev" title="Previous Page..." class="btn btn-secondary"><i class="fas fa-backward"></i></button>
+									<span class="input-group-text text-end" id="pagePosition" th:text="|Page ${product.number+1} of ${product.totalPages}|"></span>
+									<button id="btnNext" title="Next Page..." class="btn btn-secondary"><i class="fas fa-forward"></i></button>
+								</div>
+							</td>
+						</tr>
+					</tfoot>
         </table>
         <div
           th:unless="${product != null}"
@@ -132,7 +147,34 @@
         ></div>
         <div class="mb-5"></div>
       </div>
-      <script>
+      <script th:inline="javascript">
+        let prodId;
+
+        $(document).ready(function(e){
+          let isFirstPage = /*[[${product.first}]]*/true;
+          let isLastPage = /*[[${product.last}]]*/false;
+
+          $("#btnPrev").prop("disabled", isFirstPage);
+          $("#btnNext").prop("disabled", isLastPage);
+        });
+
+        $("#btnPrev").click(function(e){
+          let filter = $("#txtFilter").val();
+          let currPageSize = /*[[${currPageSize}]]*/0;
+          let pageNumber = /*[[${product.number}]]*/0;
+
+          location.href=`/product?filter=${filter}&pageNumber=${(pageNumber-1)}&currPageSize=${currPageSize}`;
+        })
+
+        $("#btnNext").click(function(e){
+          let filter = $("#txtFilter").val();
+          let currPageSize = /*[[${currPageSize}]]*/0;
+          let pageNumber = /*[[${product.number}]]*/0;
+
+          location.href=`/product?filter=${filter}&pageNumber=${(pageNumber+1)}&currPageSize=${currPageSize}`;
+        })
+
+
         $("#btnAdd").click(function (e) {
           $("#staticModalBody").load("product/add");
         });

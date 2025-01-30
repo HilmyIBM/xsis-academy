@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,19 +23,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.bc345.fe.models.CategoryView;
+import com.xsis.bc345.fe.models.PagingView;
 import com.xsis.bc345.fe.models.ProductView;
 import com.xsis.bc345.fe.models.VariantView;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("product")
 public class ProductController {
-
-    // @GetMapping("")
-    // public ModelAndView index() {
-    // ModelAndView view = new ModelAndView("/product/index");
-
-    // return view;
-    // }
 
     // HTTP Client
     private RestTemplate restTemplate = new RestTemplate();
@@ -44,22 +41,28 @@ public class ProductController {
 
     private String uploadDir = "src/main/resources/static/lib/images/";
 
+    @Value("${application.page.size}")
+    private Integer pageSize;
+
     @GetMapping("")
-    public ModelAndView index(String filter) {
+    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, HttpSession sess) {
         ModelAndView view = new ModelAndView("/product/index");
 
-        ResponseEntity<ProductView[]> apiResponse = null;
+        ResponseEntity<PagingView> apiResponse = null;
+
+        currPageSize = (currPageSize != null) ? currPageSize : pageSize;
+        pageNumber = (pageNumber!= null) ? pageNumber : 0;
 
         try {
             if (filter == null || filter.isBlank()) {
 
-                apiResponse = restTemplate.getForEntity(apiUrl, ProductView[].class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/paginated/" + pageNumber + "/" + currPageSize, PagingView.class);
             } else {
-                apiResponse = restTemplate.getForEntity(apiUrl + "/filter/" + filter, ProductView[].class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/paginated/filter/" + filter + "/" + pageNumber + "/" + currPageSize, PagingView.class);
 
             }
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
-                ProductView[] data = apiResponse.getBody();
+                PagingView data = apiResponse.getBody();
                 view.addObject("product", data);
                 // view.addObject("data", apiResponse.getBody()); ---ini juga bisa
             } else {
@@ -71,6 +74,11 @@ public class ProductController {
             view.addObject("errorMsg", e.getMessage());
         }
 
+        view.addObject("filter", filter);
+        // view.addObject("imgFolder", filter);
+        view.addObject("currPageSize", currPageSize);
+
+
         return view;
     }
 
@@ -79,40 +87,6 @@ public class ProductController {
         ModelAndView view = new ModelAndView("/product/edit");
 
         ResponseEntity<ProductView> apiResponse = null;
-        ResponseEntity<ProductView[]> variantApiResponse = null;
-
-        try {
-            apiResponse = restTemplate.getForEntity(apiUrl + "/id/" + id, ProductView.class);
-
-            if (apiResponse.getStatusCode() == HttpStatus.OK) {
-                ProductView product = apiResponse.getBody();
-                view.addObject("title", "Edit Product");
-                view.addObject("product", product);
-            } else {
-                throw new Exception("Error: " + apiResponse.getStatusCode());
-            }
-
-            // Fetch Variants for dropdown
-            variantApiResponse = restTemplate.getForEntity("http://localhost:8080/api/variant", ProductView[].class);
-            if (variantApiResponse.getStatusCode() == HttpStatus.OK) {
-                ProductView[] variant = variantApiResponse.getBody();
-                view.addObject("variant", variant);
-            } else {
-                throw new Exception("Error: " + variantApiResponse.getStatusCode());
-            }
-        } catch (Exception e) {
-            view.addObject("errorMsg", e.getMessage());
-        }
-
-        return view;
-    }
-
-    @GetMapping("/edit/old/{id}")
-    public ModelAndView editOld(@PathVariable int id) {
-        ModelAndView view = new ModelAndView("/product/edit");
-
-        ResponseEntity<ProductView> apiResponse = null;
-
         ResponseEntity<ProductView[]> variantApiResponse = null;
 
         try {
@@ -260,5 +234,7 @@ public class ProductController {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+   
 
 }

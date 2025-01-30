@@ -5,6 +5,10 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xsis.bc345.be.models.Category;
@@ -65,6 +70,19 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/paginated/{page}/{size}")
+    public ResponseEntity<?> getAllNative(@PathVariable int page, @PathVariable int size){
+        try {
+            final Page<Map<String, Object>> data = productSvc.getAllNative(PageRequest.of(page, size));
+
+                return new ResponseEntity <Page<Map<String, Object>>>(data, HttpStatus.OK);
+                
+        } catch (Exception e) {
+            // TODO: handle exception
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/filter/{filter}")
     public ResponseEntity<?> getByFilterNative(@PathVariable String filter) {
         try {
@@ -76,6 +94,21 @@ public class ProductController {
 
                     return new ResponseEntity <List<Map<String, Object>>>( data, HttpStatus.NO_CONTENT);
                 }
+                
+            }
+         catch (Exception e) {
+            // TODO: handle exception
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/paginated/filter/{filter}/{page}/{size}")
+    public ResponseEntity<?> getByFilterNative(@PathVariable String filter, @PathVariable int page, @PathVariable int size, @RequestParam(defaultValue = "id") String sort, @RequestParam(defaultValue = "ASC") String sortDirection) {
+        try {
+           Page<Map<String, Object>> data = productSvc.getFilterNative(PageRequest.of(page, size, Sort.by(Direction.fromString(sortDirection), sort)) ,filter);
+
+                    return new ResponseEntity <Page<Map<String, Object>>>( data, HttpStatus.OK);
+
                 
             }
          catch (Exception e) {
@@ -128,24 +161,4 @@ public class ProductController {
         }
     }
 
-     @GetMapping("/id/old/{id}")
-    public ResponseEntity<?> getByIdOld(@PathVariable int id) {
-        try {
-            Optional <Product> data = productSvc.getById(id, false);
-                if(data.isPresent()){
-
-                    return new ResponseEntity <Product>( data.get(), HttpStatus.OK);
-                } else {
-
-                    return new ResponseEntity <Product> (data.get(), HttpStatus.NO_CONTENT);
-                }
-                
-            }
-         catch (Exception e) {
-            // TODO: handle exception
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    
 }
