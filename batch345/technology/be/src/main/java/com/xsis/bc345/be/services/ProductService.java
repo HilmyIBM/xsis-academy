@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.xsis.bc345.be.models.Product;
@@ -35,13 +37,19 @@ public class ProductService {
         }
     }
 
-    public List<Map<String, Object>> getByFilter(String filter){
-        try {
-            return productRepo.findByFilter(filter).get();
-        } catch (Exception e) {
-            throw e;
-        }
+    public Page<Map<String, Object>> getAll(Pageable pageable){
+        return productRepo.findAllNative(pageable);
     }
+
+    public List<Map<String, Object>> getBy(String filter) {
+        // return productRepo.findByDeleted(false).get();
+        return productRepo.findByNative(filter.toLowerCase()).get();
+    }
+
+    public Page<Map<String, Object>> getBy(String filter, Pageable pageable) {
+        return productRepo.findByNative(filter.toLowerCase(), pageable);
+    }
+
 
     public Map<String, Object> getByIdNative(int id){
         try {

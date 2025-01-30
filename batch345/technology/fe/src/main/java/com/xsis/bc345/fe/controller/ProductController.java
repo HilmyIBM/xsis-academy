@@ -25,8 +25,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.xsis.bc345.fe.models.PagingView;
 import com.xsis.bc345.fe.models.ProductView;
 import com.xsis.bc345.fe.models.VariantView;
+
+import jakarta.servlet.http.HttpSession;
 
 
 @Controller
@@ -40,24 +43,42 @@ public class ProductController {
     private String apiUrl;
     // private final String apiUrl="http://localhost:8080/api/product";
 
+    // Row per Page
+    @Value("${application.page.size}")
+    private Integer pageSize;
+
     @GetMapping("")
-    public ModelAndView index(){
+    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, HttpSession sess) {
         ModelAndView view = new ModelAndView("/product/index");
-        ResponseEntity<ProductView[]> apiResponse = null; 
+        ResponseEntity<PagingView> apiResponse = null;
+
+        currPageSize = (currPageSize != null) ? currPageSize : pageSize;
+        pageNumber = (pageNumber != null) ? pageNumber : 0;
 
         try {
-            apiResponse = restTemplate.getForEntity(apiUrl + "/product", ProductView[].class);
+            if (filter == null || filter.isBlank()){
+                // apiResponse = restTemplate.getForEntity(apiUrl + "/product", ProductView[].class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginated/" + pageNumber + "/" + currPageSize, PagingView.class);
+            }
+            else {
+                // apiResponse = restTemplate.getForEntity(apiUrl + "/product/filter/" + filter, ProductView[].class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginatedfilter/" + filter + "/" + pageNumber + "/" + currPageSize, PagingView.class);
+            }
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
-                ProductView[] data = apiResponse.getBody();
-                view.addObject("product", data);
-            } else {
+                view.addObject("product", apiResponse.getBody());
+            }
+            else {
                 throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
             }
         } catch (Exception e) {
             view.addObject("errorMsg", e.getMessage());
         }
 
+        view.addObject("filter", filter);
+        // view.addObject("imgFolder", IMG_FOLDER);
+        view.addObject("currPageSize", currPageSize);
+        
         return view;
     }
 

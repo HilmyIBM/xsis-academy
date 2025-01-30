@@ -22,21 +22,26 @@
             <div>
                 <div class="input-group flex-nowrap input-group-sm">
                     <span class="input-group-text" id="addon-wrapping">Show</span>
-                    <input th:if="${product != null}" type="text" class="form-control" th:value="${#lists.size(product)}">
-                    <input th:unless="${product != null}" type="text" class="form-control" th:value=0>                    
-                    <span class="input-group-text" id="addon-wrapping">Entries</span>
+                    <!-- <input type="text" class="form-control" th:value="${product.totalElements}">                  
+                    <span class="input-group-text" id="addon-wrapping">Entries</span> -->
+                    <select class="form-select" aria-label="Default select example" name="currPageSize" id="currPageSize">
+                        <option th:each="i : ${#numbers.sequence(5,20,5)}" th:text="${i}" th:value="${i}" th:selected="${i == currPageSize}">Open this select menu</option>
+                    </select>
                 </div>
             </div>
             <div style="width: 40%;">
-                <div class="input-group input-group-sm mb-3">
-                    <input type="text" class="form-control" placeholder="Search Categories"  aria-describedby="button-addon2">
-                    <button class="btn btn-outline-dark" type="button" id="button-addon2"><i class="fas fa-search"></i></button>
-                </div>
+                <form id="frmFilter">
+                    <div class="input-group input-group-sm mb-3">
+                        <input th:if="${filter!=null}" th:value="${filter}" name="filter" id="txtFilter" type="text" class="form-control" placeholder="Search Product"  aria-describedby="button-addon2">
+                        <input th:unless="${filter!=null}" name="filter" id="txtFilter" type="text" class="form-control" placeholder="Search Product"  aria-describedby="button-addon2">
+                        <button class="btn btn-outline-dark" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+                    </div>
+                </form>
             </div>
         </div>
 
         <!-- TABLE -->
-        <table class="table table-striped">
+        <table class="table table-striped mb-5">
             <thead>
                 <tr>
                     <th scope="col">Image</th>
@@ -51,7 +56,7 @@
                 </tr>
             </thead>
             <tbody class="align-middle">
-                <tr th:each="item:${product}">
+                <tr th:each="item:${product.content}">
                     <th>
                         <div style="width: 50px; height: 50px; overflow: hidden; border-radius: 50%; display: inline-block;">
                             <img th:if="${item.image != null}" th:src="@{/assets/img/{imageName}(imageName=${item.image})}" class="img-fluid" alt="gambar ID" style="width: 100%; height: 100%; object-fit: cover;">
@@ -74,12 +79,35 @@
                     </td>
                 </tr>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="9" class="text-center">
+                        <div class="d-flex justify-content-end mt-2 mb-2">
+                            <div class="btn-group">
+                                <button id="btnPrev" class="btn btn-dark">Previous</button>
+                                <span class="page-link text-dark" th:text="|Page ${product.number+1} of ${product.totalPages}|"></span>
+                                <button id="btnNext" class="btn btn-dark">Next</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
         <!-- TABLE END -->
 
-        <div th:unless="${product != null}" th:text="${'Data Tidak Ditemukan'}" class="text-danger text-center text fst-italic border-bottom pb-3"></div>
+        <div th:unless="${!product.empty}" th:text="${'Data Tidak Ditemukan'}" class="text-danger text-center text fst-italic border-bottom pb-3"></div>
 
-        <script>
+        <script th:inline="javascript">
+            let prodId;
+            $(document).ready(function(e) {
+                let isFirstPage = /*[[${product.first}]]*/true;
+                let isLastPage = /*[[${product.last}]]*/false;
+
+                $( "#btnPrev" ).prop( "disabled", isFirstPage );
+                $( "#btnNext" ).prop( "disabled", isLastPage );
+            });
+
+
             $("#btnAdd").click(function(e){
                 $("#staticModalBody").load("/product/add");
             });
@@ -104,6 +132,30 @@
                 $("#staticModalBody").load("/product/delete/" + catId);
                 $("#staticModal").modal("show");
             })
+
+            $("#btnPrev").click(function(e){
+                let filter = $("#txtFilter").val();
+                let currPageSize = /*[[${currPageSize}]]*/0;
+                let pageNumber = /*[[${product.number}]]*/0;
+
+                location.href = `/product?filter=${filter}&pageNumber=${(pageNumber-1)}&currPageSize=${currPageSize}`;
+            });
+
+
+            $("#btnNext").click(function(e){
+                let filter = $("#txtFilter").val();
+                let currPageSize = /*[[${currPageSize}]]*/0;
+                let pageNumber = /*[[${product.number}]]*/0;
+                location.href = `/product?filter=${filter}&pageNumber=${(pageNumber+1)}&currPageSize=${currPageSize}`;
+            });
+
+            $("#currPageSize").change(function(e){
+                let filter = $("#txtFilter").val();
+                let currPageSize = $("#currPageSize").val();
+                let pageNumber = /*[[${product.number}]]*/0;
+
+                location.href = `/product?filter=${filter}&pageNumber=${(pageNumber)}&currPageSize=${currPageSize}`;
+            });
         </script>
     </div>
 </body>
