@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.google.common.hash.Hashing;
@@ -25,6 +27,10 @@ public class CustomerService {
         return customerRepository.findByDeleted(false).get();
     }
 
+    public Page<Map<String, Object>> getAll(Pageable pageable) throws Exception {
+        return customerRepository.findAllNative(pageable);
+    }
+
     public Customer create(Customer data) throws Exception {
         String password = data.getPassword();
         String hashPassword = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
@@ -42,6 +48,10 @@ public class CustomerService {
 
     public List<Map<String, Object>> getListByFilter(String filter) throws Exception {
         return customerRepository.findNativeByFilter(filter).get();
+    }
+
+    public Page<Map<String, Object>> getListByFilter(String filter, Pageable pageable) throws Exception {
+        return customerRepository.findNativeByFilter(filter, pageable);
     }
 
     public Customer update(Customer data) throws Exception {

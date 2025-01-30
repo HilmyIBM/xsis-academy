@@ -5,6 +5,10 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,12 +43,34 @@ public class VariantController {
         }
     }
 
+    @GetMapping("/paginated/{page}/{size}")
+    public ResponseEntity<?> getAll(@PathVariable int page, @PathVariable int size,
+            @RequestParam(defaultValue = " v.name") String sort, @RequestParam(defaultValue = "ASC") String sd) {
+        try {
+            final Page<Map<String, Object>> data = variantService
+                    .getAllNative(PageRequest.of(page, size, Sort.by(Direction.fromString(sd), sort)));
+            return new ResponseEntity<Page<Map<String, Object>>>(data, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/filter/{filter}")
     public ResponseEntity<?> getByFilter(@PathVariable String filter) {
         try {
-            List<Map<String, Object>> data = variantService.getByNameOrDescription(filter);
+            List<Map<String, Object>> data = variantService.getByFilter(filter);
             return new ResponseEntity<List<Map<String, Object>>>(data,
                     (data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT));
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/paginated/filter/{filter}/{page}/{size}")
+    public ResponseEntity<?> getByFilter(@PathVariable String filter, @PathVariable int page, @PathVariable int size) {
+        try {
+            Page<Map<String, Object>> data = variantService.getByFilter(filter, PageRequest.of(page, size));
+            return new ResponseEntity<Page<Map<String, Object>>>(data, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

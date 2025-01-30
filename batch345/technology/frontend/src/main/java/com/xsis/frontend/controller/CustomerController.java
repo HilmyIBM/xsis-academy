@@ -16,6 +16,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.frontend.model.CustomerView;
+import com.xsis.frontend.model.PagingView;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/customer")
@@ -26,20 +29,28 @@ public class CustomerController {
     @Value("${application.api.url}")
     private String apiUrl;
 
-    @GetMapping("")
-    public ModelAndView index(String filter) {
-        ModelAndView view = new ModelAndView("customer/index");
-        ResponseEntity<CustomerView[]> response = null;
+    @Value("${application.page.size}")
+    private Integer pageSize;
 
+    @GetMapping("")
+    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, HttpSession session) {
+        ModelAndView view = new ModelAndView("customer/index");
+        ResponseEntity<PagingView> response = null;
+
+        currPageSize = (currPageSize != null) ? currPageSize : pageSize;
+        pageNumber = (pageNumber != null) ? pageNumber : 0;
         try {
             if (filter == null || filter.isBlank()) {
-                response = restTemplate.getForEntity(apiUrl + "/customers", CustomerView[].class);
+                response = restTemplate.getForEntity(apiUrl + "/customers/paginated/" + pageNumber + "/" + currPageSize,
+                        PagingView.class);
             } else {
-                response = restTemplate.getForEntity(apiUrl + "/customers/filter/" + filter, CustomerView[].class);
+                response = restTemplate.getForEntity(
+                        apiUrl + "/customers/paginated/filter/" + filter + "/" + pageNumber + "/" + currPageSize,
+                        PagingView.class);
             }
 
             if (response.getStatusCode() == HttpStatus.OK) {
-                CustomerView[] data = response.getBody();
+                PagingView data = response.getBody();
                 view.addObject("customer", data);
             } else {
                 throw new Exception(response.getStatusCode().toString() + ": " + response.getBody());
@@ -49,6 +60,7 @@ public class CustomerController {
             view.addObject("errorMsg", e.getMessage());
         }
         view.addObject("filter", filter);
+        view.addObject("currPageSize", currPageSize);
         return view;
     }
 

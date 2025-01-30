@@ -24,6 +24,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.frontend.model.ProductView;
 import com.xsis.frontend.model.VariantView;
+import com.xsis.frontend.model.PagingView;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/product")
@@ -36,20 +39,33 @@ public class ProductController {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
+    @Value("${application.page.size}")
+    private Integer pageSize;
+
     @GetMapping("")
-    public ModelAndView index(String filter) {
+    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, HttpSession session) {
         ModelAndView view = new ModelAndView("product/index");
-        ResponseEntity<ProductView[]> response = null;
+        ResponseEntity<PagingView> response = null;
+
+        currPageSize = (currPageSize != null) ? currPageSize : pageSize;
+        pageNumber = (pageNumber != null) ? pageNumber : 0;
 
         try {
             if (filter == null || filter.isBlank()) {
-                response = restTemplate.getForEntity(apiUrl + "/products", ProductView[].class);
+                // response = restTemplate.getForEntity(apiUrl + "/products",
+                // ProductView[].class);
+                response = restTemplate.getForEntity(apiUrl + "/products/paginated/" + pageNumber + "/" + currPageSize,
+                        PagingView.class);
             } else {
-                response = restTemplate.getForEntity(apiUrl + "/products/filter/" + filter, ProductView[].class);
+                // response = restTemplate.getForEntity(apiUrl + "/products/filter/" + filter,
+                // ProductView[].class);
+                response = restTemplate.getForEntity(
+                        apiUrl + "/products/paginated/filter/" + filter + "/" + pageNumber + "/" + currPageSize,
+                        PagingView.class);
             }
 
             if (response.getStatusCode() == HttpStatus.OK) {
-                ProductView[] data = response.getBody();
+                PagingView data = response.getBody();
                 view.addObject("product", data);
             } else {
                 throw new Exception(response.getStatusCode().toString() + ": " + response.getBody());
@@ -58,6 +74,7 @@ public class ProductController {
             view.addObject("errorMsg", e.getMessage());
         }
         view.addObject("filter", filter);
+        view.addObject("currPageSize", currPageSize);
         return view;
     }
 

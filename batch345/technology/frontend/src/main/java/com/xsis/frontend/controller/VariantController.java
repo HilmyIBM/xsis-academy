@@ -15,7 +15,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.frontend.model.CategoryView;
+import com.xsis.frontend.model.PagingView;
 import com.xsis.frontend.model.VariantView;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/variant")
@@ -25,29 +28,39 @@ public class VariantController {
     @Value("${application.api.url}")
     private String apiUrl;
 
+    @Value("${application.page.size}")
+    private Integer pageSize;
+
     // private final String apiUrl = "http://localhost:8080/api";
 
     @GetMapping("")
-    public ModelAndView index(String filter) {
+    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, HttpSession session) {
         ModelAndView view = new ModelAndView("variant/index");
-        ResponseEntity<VariantView[]> resVariant = null;
+        ResponseEntity<PagingView> response = null;
+
+        currPageSize = (currPageSize != null) ? currPageSize : pageSize;
+        pageNumber = (pageNumber != null) ? pageNumber : 0;
         try {
             if (filter == null || filter.isBlank()) {
-                resVariant = restTemplate.getForEntity(apiUrl + "/variants", VariantView[].class);
+                response = restTemplate.getForEntity(apiUrl + "/variants/paginated/" + pageNumber + "/" + currPageSize,
+                        PagingView.class);
             } else {
-                resVariant = restTemplate.getForEntity(apiUrl + "/variants/filter/" + filter, VariantView[].class);
+                response = restTemplate.getForEntity(
+                        apiUrl + "/variants/paginated/filter/" + filter + "/" + pageNumber + "/" + currPageSize,
+                        PagingView.class);
             }
 
-            if (resVariant.getStatusCode() == HttpStatus.OK) {
-                VariantView[] data = resVariant.getBody();
+            if (response.getStatusCode() == HttpStatus.OK) {
+                PagingView data = response.getBody();
                 view.addObject("variant", data);
             } else {
-                throw new Exception(resVariant.getStatusCode().toString() + ": " + resVariant.getBody());
+                throw new Exception(response.getStatusCode().toString() + ": " + response.getBody());
             }
         } catch (Exception e) {
             view.addObject("errorMsg", e.getMessage());
         }
         view.addObject("filter", filter);
+        view.addObject("currPageSize", currPageSize);
         return view;
     }
 

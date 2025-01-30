@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.xsis.backend.models.Variant;
@@ -27,6 +29,10 @@ public class VariantService {
         return variantRepository.findAllNative().get();
     }
 
+    public Page<Map<String, Object>> getAllNative(Pageable pageable) throws Exception {
+        return variantRepository.findAllNative(pageable);
+    }
+
     public Variant create(Variant data) throws Exception {
         return variantRepository.save(data);
     }
@@ -35,8 +41,12 @@ public class VariantService {
         return variantRepository.findByIdAndDeleted(id, false);
     }
 
-    public List<Map<String, Object>> getByNameOrDescription(String filter) throws Exception {
-        return variantRepository.getByFilter(filter).get();
+    public List<Map<String, Object>> getByFilter(String filter) throws Exception {
+        return variantRepository.findByFilter(filter).get();
+    }
+
+    public Page<Map<String, Object>> getByFilter(String filter, Pageable pageable) throws Exception {
+        return variantRepository.findByFilter(filter, pageable);
     }
 
     public Variant update(Variant data) throws Exception {

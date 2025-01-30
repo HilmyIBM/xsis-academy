@@ -15,6 +15,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.frontend.model.CategoryView;
+import com.xsis.frontend.model.PagingView;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/category")
@@ -25,28 +28,38 @@ public class CategoryController {
     @Value("${application.api.url}")
     private String apiUrl;
 
+    @Value("${application.page.size}")
+    private Integer pageSize;
+
     @GetMapping("")
-    public ModelAndView index(String filter) {
+    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, HttpSession session) {
         ModelAndView view = new ModelAndView("category/index");
-        ResponseEntity<CategoryView[]> apiResponse = null;
+        ResponseEntity<PagingView> response = null;
+
+        currPageSize = (currPageSize != null) ? currPageSize : pageSize;
+        pageNumber = (pageNumber != null) ? pageNumber : 0;
 
         try {
             if (filter == null || filter.isBlank()) {
-                apiResponse = restTemplate.getForEntity(apiUrl + "/categories", CategoryView[].class);
+                response = restTemplate.getForEntity(
+                        apiUrl + "/categories/paginated/" + pageNumber + "/" + currPageSize, PagingView.class);
             } else {
-                apiResponse = restTemplate.getForEntity(apiUrl + "/categories/filter/" + filter, CategoryView[].class);
+                response = restTemplate.getForEntity(
+                        apiUrl + "/categories/paginated/filter/" + filter + "/" + pageNumber + "/" + currPageSize,
+                        PagingView.class);
             }
 
-            if (apiResponse.getStatusCode() == HttpStatus.OK) {
-                CategoryView[] data = apiResponse.getBody();
+            if (response.getStatusCode() == HttpStatus.OK) {
+                PagingView data = response.getBody();
                 view.addObject("category", data);
             } else {
-                throw new Exception(apiResponse.getStatusCode().toString() + ": " + apiResponse.getBody());
+                throw new Exception(response.getStatusCode().toString() + ": " + response.getBody());
             }
         } catch (Exception e) {
             view.addObject("errorMsg", e.getMessage());
         }
         view.addObject("filter", filter);
+        view.addObject("currPageSize", currPageSize);
         return view;
     }
 

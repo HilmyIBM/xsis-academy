@@ -18,122 +18,145 @@
           type="button"
           class="btn btn-success"
           data-bs-toggle="modal"
-          data-bs-target="#staticModal"
         >
           Add
         </button>
       </div>
-      <div class="container bg-light mt-3 p-2">
+      <div class="container mt-3 p-2">
         <div class="d-flex justify-content-between">
-          <div class="input-group mb-3 align-items-center w-25">
-            <label for="show" class="me-3">Show</label>
-            <input
-              type="number"
-              class="form-control"
-              th:if="${category != null}"
-              th:value="${#lists.size(category)}"
-            />
-            <input
-              type="number"
-              class="form-control"
-              th:unless="${category != null}"
-              value="0"
-            />
-            <button class="btn btn-secondary">Entries</button>
+          <div class="w-25">
+            <form action="" class="input-group mb-3 align-items-center">
+              <label for="show" class="me-3">Show</label>
+              <select
+                id="selectEntries"
+                name="currPageSize"
+                class="form-select"
+              >
+                <option value="5" th:selected="${category.size == 5}">5</option>
+                <option value="10" th:selected="${category.size == 10}">
+                  10
+                </option>
+                <option value="25" th:selected="${category.size == 25}">
+                  25
+                </option>
+                <option value="50" th:selected="${category.size == 50}">
+                  50
+                </option>
+              </select>
+            </form>
           </div>
-          <div
-            class="input-group mb-3 justify-content-end align-items-center w-50"
-          >
-            <form id="formFilter">
-              <div class="input-group align-items-center">
-                <label for="search" class="me-3">Search</label>
-                <input
-                  th:if="${filter!=null}"
-                  name="filter"
-                  type="text"
-                  id="txtFilter"
-                  class="form-control"
-                  placeholder="Cari..."
-                  th:value="${filter}"
-                />
-                <input
-                  th:unless="${filter!=null}"
-                  name="filter"
-                  type="text"
-                  id="txtFilter"
-                  class="form-control"
-                  placeholder="Cari..."
-                />
-                <button type="submit" class="btn btn-primary">
-                  <i class="fas fa-search"></i>
-                </button>
-              </div>
+          <div class="w-50">
+            <form
+              action=""
+              class="input-group justify-content-end align-items-center"
+            >
+              <label for="search" class="me-3">Search</label>
+              <input
+                th:if="${filter!=null}"
+                name="filter"
+                type="text"
+                id="txtFilter"
+                class="form-control"
+                placeholder="Cari..."
+                th:value="${filter}"
+              />
+              <input
+                th:unless="${filter!=null}"
+                name="filter"
+                type="text"
+                id="txtFilter"
+                class="form-control"
+                placeholder="Cari..."
+              />
+              <button class="btn btn-primary">
+                <i class="fas fa-search"></i>
+              </button>
             </form>
           </div>
         </div>
-        <table class="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Nama Category</th>
-              <th scope="col">Description</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody th:if="${category!=null}">
-            <tr th:each="item:${category}">
-              <th scope="row" th:text="${item.id}">1</th>
-              <td th:text="${item.categoryName}">Appetizer</td>
-              <td th:text="${item.description}">Category of appetizer</td>
-              <td class="d-flex gap-3">
-                <button
-                  th:data-id="${item.id}"
-                  type="button"
-                  class="btn btn-success btn-edit"
-                  title="Edit..."
-                >
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button
-                  th:data-id="${item.id}"
-                  type="button"
-                  class="btn btn-warning btn-detail"
-                  title="Details..."
-                >
-                  <i class="fas fa-list"></i>
-                </button>
-                <button
-                  th:data-id="${item.id}"
-                  type="button"
-                  class="btn btn-danger btn-delete"
-                  title="Delete..."
-                >
-                  <i class="fas fa-trash-alt"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div
-          th:unless="${category!=null}"
-          class="text-center text-danger"
-          th:text="${errorMsg}"
-        >
-          Error
+        <div class="container bg-light border border-1 rounded">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nama Category</th>
+                <th scope="col">Description</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody th:if="${!category.empty}">
+              <tr th:each="item:${category.content}">
+                <th scope="row" th:text="${item.id}">1</th>
+                <td th:text="${item.categoryName}">Appetizer</td>
+                <td th:text="${item.description}">Category of appetizer</td>
+                <td class="d-flex gap-3">
+                  <button
+                    th:data-id="${item.id}"
+                    type="button"
+                    class="btn btn-success btn-edit"
+                    title="Edit..."
+                  >
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button
+                    th:data-id="${item.id}"
+                    type="button"
+                    class="btn btn-warning btn-detail"
+                    title="Details..."
+                  >
+                    <i class="fas fa-list"></i>
+                  </button>
+                  <button
+                    th:data-id="${item.id}"
+                    type="button"
+                    class="btn btn-danger btn-delete"
+                    title="Delete..."
+                  >
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div
+            th:unless="${!category.empty}"
+            class="text-center text-danger"
+            th:text="${errorMsg}"
+          >
+            Error
+          </div>
         </div>
         <div class="d-flex justify-content-between align-items-center">
-          <p>Page <span>1</span>of <span>2</span></p>
+          <p>
+            Page <span th:text="${category.number+1}">1</span>of
+            <span th:text="${category.totalPages}">2</span>
+          </p>
           <ul class="pagination">
-            <li class="page-item disabled">
-              <span class="page-link">Previous</span>
+            <li id="btnPrev" class="page-item">
+              <button class="page-link">Previous</button>
             </li>
-            <li class="page-item">
-              <a class="page-link" href="#">Next</a>
+            <li id="btnNext" class="page-item">
+              <button class="page-link">Next</button>
             </li>
           </ul>
         </div>
       </div>
-      <script>
+      <script th:inline="javascript">
+        $(document).ready((e) => {
+          $("#selectEntries").on("change", function () {
+            let currPageSize = $(this).val();
+            let filter = $("#txtFilter").val();
+            location.href = `/category?filter=${filter}&currPageSize=${currPageSize}`;
+          });
+
+          let isFirstPage = /*[[${category.first}]]*/ true;
+          let isLastPage = /*[[${category.last}]]*/ false;
+
+          $("#btnPrev").addClass(isFirstPage ? "disabled" : "");
+          $("#btnNext").addClass(isLastPage ? "disabled" : "");
+          $("#btnPrev > button").prop("disabled", isFirstPage);
+          $("#btnNext > button").prop("disabled", isLastPage);
+        });
         $("#btnAdd").click(function (e) {
           $("#staticModalBody").load("/category/add");
         });
@@ -152,6 +175,24 @@
           let catId = $(this).data("id");
           $("#staticModalBody").load("/category/delete/" + catId);
           $("#staticModal").modal("show");
+        });
+        $("#btnPrev > button").click(function (e) {
+          let filter = $("#txtFilter").val();
+          let currPageSize = /*[[${currPageSize}]]*/ 0;
+          let pageNumber = /*[[${category.number}]]*/ 0;
+
+          location.href = `/category?filter=${filter}&pageNumber=${
+            pageNumber - 1
+          }&currPageSize=${currPageSize}`;
+        });
+        $("#btnNext > button").click(function (e) {
+          let filter = $("#txtFilter").val();
+          let currPageSize = /*[[${currPageSize}]]*/ 0;
+          let pageNumber = /*[[${category.number}]]*/ 0;
+
+          location.href = `/category?filter=${filter}&pageNumber=${
+            pageNumber + 1
+          }&currPageSize=${currPageSize}`;
         });
       </script>
     </div>

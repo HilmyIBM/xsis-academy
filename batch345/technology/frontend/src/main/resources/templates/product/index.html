@@ -23,49 +23,57 @@
         </button>
       </div>
       <div class="container mt-3">
-        <form action="" class="d-flex justify-content-between">
-          <div class="input-group mb-3 align-items-center w-25">
-            <label for="show" class="me-3">Show</label>
-            <input
-              type="number"
-              class="form-control"
-              th:if="${product != null}"
-              th:value="${#lists.size(product)}"
-            />
-            <input
-              type="number"
-              class="form-control"
-              th:unless="${product != null}"
-              value="0"
-            />
-            <button class="btn btn-outline-secondary">Entries</button>
+        <div class="d-flex justify-content-between">
+          <div class="w-25">
+            <form action="" class="input-group mb-3 align-items-center">
+              <label for="show" class="me-3">Show</label>
+              <select
+                id="selectEntries"
+                name="currPageSize"
+                class="form-select"
+              >
+                <option value="5" th:selected="${product.size == 5}">5</option>
+                <option value="10" th:selected="${product.size == 10}">
+                  10
+                </option>
+                <option value="25" th:selected="${product.size == 25}">
+                  25
+                </option>
+                <option value="50" th:selected="${product.size == 50}">
+                  50
+                </option>
+              </select>
+            </form>
           </div>
-          <div
-            class="input-group mb-3 justify-content-end align-items-center w-50"
-          >
-            <label for="search" class="me-3">Search</label>
-            <input
-              th:if="${filter!=null}"
-              name="filter"
-              type="text"
-              id="txtFilter"
-              class="form-control"
-              placeholder="Cari..."
-              th:value="${filter}"
-            />
-            <input
-              th:unless="${filter!=null}"
-              name="filter"
-              type="text"
-              id="txtFilter"
-              class="form-control"
-              placeholder="Cari..."
-            />
-            <button class="btn btn-primary">
-              <i class="fas fa-search"></i>
-            </button>
+          <div class="w-50">
+            <form
+              action=""
+              class="input-group justify-content-end align-items-center"
+            >
+              <label for="search" class="me-3">Search</label>
+              <input
+                th:if="${filter!=null}"
+                name="filter"
+                type="text"
+                id="txtFilter"
+                class="form-control"
+                placeholder="Cari..."
+                th:value="${filter}"
+              />
+              <input
+                th:unless="${filter!=null}"
+                name="filter"
+                type="text"
+                id="txtFilter"
+                class="form-control"
+                placeholder="Cari..."
+              />
+              <button class="btn btn-primary">
+                <i class="fas fa-search"></i>
+              </button>
+            </form>
           </div>
-        </form>
+        </div>
         <div class="container bg-light border border-1 rounded">
           <table class="table table-striped table-hover">
             <thead>
@@ -80,8 +88,8 @@
                 <th scope="col">Action</th>
               </tr>
             </thead>
-            <tbody th:if="${product!=null}">
-              <tr th:each="item : ${product}">
+            <tbody th:if="${!product.empty}">
+              <tr th:each="item : ${product.content}">
                 <td class="align-middle">
                   <div
                     th:if="${item.image!=null}"
@@ -136,7 +144,7 @@
             </tbody>
           </table>
           <div
-            th:unless="${product!=null}"
+            th:unless="${!product.empty}"
             class="text-center text-danger"
             style="min-height: 250px"
             th:text="${errorMsg}"
@@ -145,18 +153,36 @@
           </div>
         </div>
         <div class="d-flex justify-content-between align-items-center mt-3">
-          <p>Page <span>1</span>of <span>3</span></p>
+          <p th:text="|Page ${product.number+1} of ${product.totalPages}|">
+            Page <span>0</span>of <span>0</span>
+          </p>
           <ul class="pagination">
-            <li class="page-item disabled">
-              <span class="page-link">Previous</span>
+            <li id="btnPrev" class="page-item">
+              <button class="page-link">Previous</button>
             </li>
-            <li class="page-item">
-              <a class="page-link" href="#">Next</a>
+            <li id="btnNext" class="page-item">
+              <button class="page-link">Next</button>
             </li>
           </ul>
         </div>
       </div>
-      <script>
+      <script th:inline="javascript">
+        let prodId;
+        $(document).ready((e) => {
+          $("#selectEntries").on("change", function () {
+            let currPageSize = $(this).val();
+            let filter = $("#txtFilter").val();
+            location.href = `/product?filter=${filter}&currPageSize=${currPageSize}`;
+          });
+
+          let isFirstPage = /*[[${product.first}]]*/ true;
+          let isLastPage = /*[[${product.last}]]*/ false;
+
+          $("#btnPrev").addClass(isFirstPage ? "disabled" : "");
+          $("#btnNext").addClass(isLastPage ? "disabled" : "");
+          $("#btnPrev > button").prop("disabled", isFirstPage);
+          $("#btnNext > button").prop("disabled", isLastPage);
+        });
         $("#btnAdd").click(function (e) {
           $("#staticModalLgBody").load("/product/add");
           $("#staticModalLg").modal("show");
@@ -176,6 +202,24 @@
           let catId = $(this).data("id");
           $("#staticModalLgBody").load("/product/delete/" + catId);
           $("#staticModalLg").modal("show");
+        });
+        $("#btnPrev > button").click(function (e) {
+          let filter = $("#txtFilter").val();
+          let currPageSize = /*[[${currPageSize}]]*/ 0;
+          let pageNumber = /*[[${product.number}]]*/ 0;
+
+          location.href = `/product?filter=${filter}&pageNumber=${
+            pageNumber - 1
+          }&currPageSize=${currPageSize}`;
+        });
+        $("#btnNext > button").click(function (e) {
+          let filter = $("#txtFilter").val();
+          let currPageSize = /*[[${currPageSize}]]*/ 0;
+          let pageNumber = /*[[${product.number}]]*/ 0;
+
+          location.href = `/product?filter=${filter}&pageNumber=${
+            pageNumber + 1
+          }&currPageSize=${currPageSize}`;
         });
       </script>
     </div>
