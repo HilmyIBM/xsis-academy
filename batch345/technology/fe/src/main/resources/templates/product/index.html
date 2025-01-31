@@ -34,18 +34,11 @@
           th:if="${product != null}"
         >
         <div class="w-50">
-          <div class="input-group">
-            <span class="input-group-text">Show</span>
-            <input
-              type="number"
-              th:value="${product.size}"
-              class="form-control bg-white"
-              name="size"
-              id="txtSize"
-              min="1"
-              max="100" 
-            />
-            <span class="input-group-text">Entries</span>
+          <div class="w-auto input-group">
+            <label class="input-group-text">Page Size</label>
+            <select class="form-select" name="currPageSize" id="pageSize">
+              <option th:each="i : ${#numbers.sequence(5,20,5)}" th:value="${i}" th:text="${i}" th:selected="${i == currPageSize}"></option>
+            </select>
           </div>
         </div>
         
@@ -84,12 +77,12 @@
           <thead>
             <tr>
               <th>Image</th>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Variant</th>
-              <th>Price</th>
-              <th>Stock</th>
+              <th><a th:data-orderby="${orderId}">ID</a></th>
+              <th><a th:data-orderby="${orderName}">Name</a></th>
+              <th><a th:data-orderby="${orderCategory}">Category</a></th>
+              <th><a th:data-orderby="${orderVariant}">Variant</a></th>
+              <th><a th:data-orderby="${orderPrice}">Price</a></th>
+              <th><a th:data-orderby="${orderStock}">Stock</a></th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -103,14 +96,14 @@
                   style="max-width: 100px; max-height: 100px; border:none"
                 />
               </td>
-              <td th:text="${item.id}">id</td>
-              <td th:text="${item.name}">name</td>
+              <td th:text="${item.id}">ID</td>
+              <td th:text="${item.name}">Name</td>
               <td th:text="${item.categoryName}">category</td>
-              <td th:text="${item.variant}">variant</td>
+              <td th:text="${item.variant}">Variant</td>
               <td>
-                <span>Rp. </span> <span th:text="${item.price}">price</span>
+                <span>Rp. </span> <span th:text="${item.price}">Price</span>
               </td>
-              <td th:text="${item.stock}">stock</td>
+              <td th:text="${item.stock}">Stock</td>
               <td>
                 <div class="btn-group">
                   <button th:data-id="${item.id}" class="btn btn-success">
@@ -199,6 +192,24 @@
           $("#staticModalBody").load("product/delete/" + catId);
           $("#staticModal").modal("show");
         });
+
+        $("#pageSize").change(function(e) {
+					let filter = $("#txtFilter").val();
+					let currPageSize = $(this).val();
+					let pageNumber = /*[[${product.number}]]*/0;
+
+					location.href = `/product?filter=${filter}&pageNumber=${(pageNumber)}&currPageSize=${currPageSize}`;
+				});
+
+        $("th > a").click(function(e){
+          let filter = $("#txtFilter").val();
+					let currPageSize = $(this).val();
+					let pageNumber = /*[[${product.number}]]*/0;
+
+          let orderBy = $(this).data("orderby");
+
+          location.href=`/product?filter=${filter}&pageNumber=${(pageNumber)}&currPageSize=${currPageSize}&orderBy=${orderBy}`
+        })
       </script>
     </div>
   </body>

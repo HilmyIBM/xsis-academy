@@ -45,20 +45,44 @@ public class ProductController {
     private Integer pageSize;
 
     @GetMapping("")
-    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, HttpSession sess) {
+    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, String orderBy, HttpSession sess) {
         ModelAndView view = new ModelAndView("/product/index");
+        String sort , sortDirection;
 
         ResponseEntity<PagingView> apiResponse = null;
 
+        //paging page and size
         currPageSize = (currPageSize != null) ? currPageSize : pageSize;
         pageNumber = (pageNumber!= null) ? pageNumber : 0;
+        orderBy = (orderBy != null) ? orderBy : "";
+
+        //process sort
+        switch (orderBy) {
+            case "name_desc":
+                sort = "name";
+                sortDirection = "desc";
+                break;
+            case "name":
+                sort = "name";
+                sortDirection = "asc";
+                break;
+            case "id_desc":
+                sort = "id";
+                sortDirection = "desc";
+                break;
+        
+            default:
+                sort = "id";
+                sortDirection = "asc";
+                break;
+        }
 
         try {
             if (filter == null || filter.isBlank()) {
 
-                apiResponse = restTemplate.getForEntity(apiUrl + "/paginated/" + pageNumber + "/" + currPageSize, PagingView.class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/paginated/" + pageNumber + "/" + currPageSize + "?sort=" + sort + "?sortDirection=" + sortDirection, PagingView.class);
             } else {
-                apiResponse = restTemplate.getForEntity(apiUrl + "/paginated/filter/" + filter + "/" + pageNumber + "/" + currPageSize, PagingView.class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/paginated/filter/" + filter + "/" + pageNumber + "/" + currPageSize + "?sort=" + sort + "&?sortDirection=" + sortDirection, PagingView.class);
 
             }
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
@@ -74,9 +98,19 @@ public class ProductController {
             view.addObject("errorMsg", e.getMessage());
         }
 
+
+        view.addObject("orderId", (orderBy.equals(""))?"id_desc":"");
+        view.addObject("orderName", (orderBy.equals("name"))?"name_desc":"name");
+        view.addObject("orderPrice", (orderBy.equals("price"))?"price_desc":"price");
+        view.addObject("orderStock", (orderBy.equals("stock"))?"stock_desc":"stock");
+        view.addObject("orderVariant", (orderBy.equals("variant"))?"variant_desc":"variant");
+        view.addObject("orderCategory", (orderBy.equals("category"))?"category_desc":"category");
+
+
         view.addObject("filter", filter);
         // view.addObject("imgFolder", filter);
         view.addObject("currPageSize", currPageSize);
+        view.addObject("orderBy", orderBy);
 
 
         return view;

@@ -9,8 +9,9 @@ public class ProductView {
     private double price;
     private int stock;
     private int variantId;
+    private int categoryId;
     private String image;
-
+    
     private boolean deleted;
     private int createBy;
     private Timestamp createDate;
@@ -27,7 +28,6 @@ public class ProductView {
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
-    private int categoryId;
 
     public int getId() {
         return this.id;
