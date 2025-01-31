@@ -1,0 +1,24 @@
+<div class="card">
+    <div class="card-body">
+        <input id="txtTitle" type="hidden" th:value="${title}">
+
+        <table>
+            <tfoot>
+                <tr>
+                    <th>Total</th>
+                    <td th:text="${totProduct}"></td>
+                    <td th:text="${estPrice}"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="card-footer">
+        <button class="btn btn-primary" onclick="console.log(listCart)">Save</button>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    $(document).ready(function(e) {
+        $("#staticModalLabelLg").text($("#txtTitle").val());
+    });
+</script>

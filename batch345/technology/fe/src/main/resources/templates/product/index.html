@@ -25,12 +25,30 @@
 					<thead>
 						<tr>
 							<th class="d-none d-sm-table-cell col-lg-1">Image</th>
-							<th class="col-sm-1 col-lg-1">ID</th>
-							<th class="col-sm-7 col-lg-2">Name</th>
-							<th class="col-sm-2 col-lg-2">Price</th>
-							<th class="d-none d-sm-table-cell col-lg-1">Stock</th>
-							<th class="d-none d-sm-table-cell col-lg-2">Variant</th>
-							<th class="d-none d-sm-table-cell col-lg-2">Category</th>
+							<th class="col-sm-1 col-lg-1"><a th:data-orderby="${orderId}">ID 
+								<i th:if="${orderBy == ''}" class="fas fa-sort-up"></i>
+								<i th:if="${orderBy == 'id_desc'}" class="fas fa-sort-down"></i>
+							</a></th>
+							<th class="col-sm-7 col-lg-2"><a th:data-orderby="${orderName}">Name
+								<i th:if="${orderBy == 'name'}" class="fas fa-sort-up"></i>
+								<i th:if="${orderBy == 'name_desc'}" class="fas fa-sort-down"></i>
+							</a></th>
+							<th class="col-sm-2 col-lg-2"><a th:data-orderby="${orderPrice}">Price
+								<i th:if="${orderBy == 'price'}" class="fas fa-sort-up"></i>
+								<i th:if="${orderBy == 'price_desc'}" class="fas fa-sort-down"></i>
+							</a></th>
+							<th class="d-none d-sm-table-cell col-lg-1"><a th:data-orderby="${orderStock}">Stock
+								<i th:if="${orderBy == 'stock'}" class="fas fa-sort-up"></i>
+								<i th:if="${orderBy == 'stock_desc'}" class="fas fa-sort-down"></i>
+							</a></th>
+							<th class="d-none d-sm-table-cell col-lg-2"><a th:data-orderby="${orderVariant}">Variant
+								<i th:if="${orderBy == 'variant'}" class="fas fa-sort-up"></i>
+								<i th:if="${orderBy == 'variant_desc'}" class="fas fa-sort-down"></i>
+							</a></th>
+							<th class="d-none d-sm-table-cell col-lg-2"><a th:data-orderby="${orderCategory}">Category
+								<i th:if="${orderBy == 'category'}" class="fas fa-sort-up"></i>
+								<i th:if="${orderBy == 'category_desc'}" class="fas fa-sort-down"></i>
+							</a></th>
 							<th class="col-sm-2 col-lg-2 text-center">Action</th>
 						</tr>
 					</thead>
@@ -139,6 +157,17 @@
 					let pageNumber = /*[[${product.number}]]*/0;
 
 					location.href = `/product?filter=${filter}&pageNumber=${(pageNumber)}&currPageSize=${currPageSize}`;
+				});
+
+				$("th > a").click(function(e) {
+					let orderBy = ($(this).data("orderby") === undefined) ? "" : $(this).data("orderby");
+					let filter = $("#txtFilter").val();
+					let currPageSize = $(this).val();
+					let pageNumber = /*[[${product.number}]]*/0;
+
+					// orderBy = (orderBy === undefined) ? "" : orderBy;
+
+					location.href=`/product?filter=${filter}&pageNumber=${pageNumber}&currPageSize=${currPageSize}&orderBy=${orderBy}`;
 				});
 			</script>
 		</div>

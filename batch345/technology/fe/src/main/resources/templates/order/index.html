@@ -1,0 +1,213 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/layoutOrder}">
+	<head>
+		<title>Order::Catalog</title>
+	</head>
+	<body>
+		<div layout:fragment="content">
+
+            <div class="card">
+                <div class="card-header h3" th:text="${title}"></div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="card bg-primary">
+                                <div class="card-body text-center text-white">
+                                    <div class="h1" id="totProduct">0</div>
+                                    <div class="h5">Total Product</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card bg-warning">
+                                <div class="card-body text-center">
+                                    <div class="h1" id="estPrice">0</div>
+                                    <div class="h5">Estimated Price</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card bg-success">
+                                <div class="card-body text-center text-white d-flex-column align-item-center">
+                                    <div class="h1"><i class="fas fa-cart-plus"></i></div>
+                                    <button id="addToCart" class="btn stretched-link p-0 text-white h5" disabled>Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-2">
+                        <div th:if="${products != null}" th:each="product : ${products}" class="col-lg-3 col-sm-12">
+                            <div class="card">
+                                <img th:if="${product.image != null}" th:src="|/${IMG_FOLDER}/${product.image}|" class="card-img-top img-thumbnail" style="height: 150px; object-fit: contain;" />
+                                <img th:unless="${product.image != null}" th:src="|/${IMG_FOLDER}/image-empty.png|" class="card-img-top img-thumbnail" style="height: 150px; object-fit: contain;" />
+                                <div class="card-header h5 text-truncate" th:id="|name-${product.id}|" th:text="${product.name}">Product 1</div>
+                                <div class="card-body">
+                                    <div class="card-text d-flex justify-content-between">
+                                        <span>Price :</span>
+                                        <span th:id="|price-${product.id}|" th:text="${product.price}" th:data-price="${product.price}">99.999,-</span>
+                                    </div>
+                                    <div class="card-text d-flex justify-content-between">
+                                        <span>Stock :</span>
+                                        <span th:id="|stock-${product.id}|" th:text="${product.stock}" th:data-stock="${product.stock}">99</span>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="btn-group">
+                                            <button class="btn btn-danger btnRemove" th:id="|btnRemove-${product.id}|" th:data-id="${product.id}" disabled="true"><i class="fas fa-minus"></i></button>
+                                            <input type="text" class="form-control text-center" th:id="|qty-${product.id}|" value="0" />
+                                            <button class="btn btn-success btnAdd" th:id="|btnAdd-${product.id}|" th:data-id="${product.id}"><i class="fas fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:unless="${products != null}" th:text="${errorMsg}" class="text-center text-danger fst-italic"></div>
+                    </div>
+                </div>
+            </div>
+
+			<script th:inline="javascript">
+                let listCart = [];
+
+                $(document).ready(function(e) {
+                    let totProduct = parseInt($("#totProduct").text());
+                    let estPrice = parseFloat($("#estPrice").text());
+
+                    $(".btnRemove").click(function(e) {
+                        let productId = $(this).data("id");
+                        let productName = $("#name-" + productId).text();
+                        let productQty = parseInt($("#qty-" + productId).val());
+                        let productPrice = parseFloat($("#price-" + productId).data("price"));
+                        let productStock = parseFloat($("#stock-" + productId).data("stock"));
+
+                        if (productQty > 0) {
+                            productStock++;
+                            totProduct--;
+                            productQty--;
+                            estPrice -= productPrice;
+
+                            let productCartIdx = listCart.map(p => p.id).indexOf(productId);
+                            if (productCartIdx >= 0) {
+                                listCart[productCartIdx].qty = productQty;
+                            }
+
+                            if (listCart[productCartIdx].qty < 1) {
+                                listCart.splice(productCartIdx, 1);
+                            }
+
+                            //Update UI
+                            $("#totProduct").text(totProduct);
+                            $("#estPrice").text(estPrice);
+                            $("#qty-" + productId).val(productQty);
+                            $("#stock-" + productId).data("stock", productStock);
+                            $("#stock-" + productId).text(productStock);
+                        }
+
+                        if (productQty < 1) {
+                            $(this).prop("disabled", true);
+                        }
+
+                        if (productStock > 0) {
+                            $("#btnAdd-" + productId).prop("disabled", false);
+                        }
+
+                        // Deactivate Add to Cart Button when ListCart is empty
+                        if (listCart.length < 1) {
+                            $("#addToCart").prop("disabled", true);
+                        }
+
+                        console.log(listCart);
+                    });
+
+                    $(".btnAdd").click(function(e) {
+                        let productId = $(this).data("id");
+                        let productName = $("#name-" + productId).text();
+                        let productQty = parseInt($("#qty-" + productId).val());
+                        let productPrice = parseFloat($("#price-" + productId).data("price"));
+                        let productStock = parseFloat($("#stock-" + productId).data("stock"));
+
+                        // Prepare empty Product
+                        let product = {};
+
+                        if (productStock > 0) {
+                            productStock--;
+                            totProduct++;
+                            productQty++;
+                            estPrice += productPrice;
+
+                            //Input values as product new properties
+                            product.id = productId;
+                            product.productName = productName;
+                            product.price = productPrice;
+                            product.qty = productQty;
+
+                            //Check if Product already exist in cart by its id
+                            let productCartIdx = listCart.map(p => p.id).indexOf(productId);
+
+                            //Update List Cart
+                            if (productCartIdx < 0) {
+                                listCart.push(product);
+                            }
+                            else {
+                                listCart[productCartIdx].qty = productQty;
+                            }
+
+                            //Update UI
+                            $("#totProduct").text(totProduct);
+                            $("#estPrice").text(estPrice);
+                            $("#qty-" + productId).val(productQty);
+                            $("#stock-" + productId).data("stock", productStock);
+                            $("#stock-" + productId).text(productStock);
+                        }
+                        
+                        // Deactivate Add Product Button if Stock is empty
+                        if(productStock < 1) {
+                            $(this).prop("disabled", true);
+                        }
+
+                        // Activate Remove Product Button
+                        if (productQty > 0) {
+                            $("#btnRemove-" + productId).prop("disabled", false);
+                        }
+
+                        // Activate Add to Cart Button when ListCart is not empty
+                        if (listCart.length > 0) {
+                            $("#addToCart").prop("disabled", false);
+                        }
+
+                        console.log(listCart.length);
+                        console.log(listCart);
+                    });
+
+                    $("#addToCart").click(function(e) {
+                        let data = {
+                            "listCart": listCart,
+                            "totProduct": totProduct,
+                            "estPrice": estPrice
+                        };
+                        
+                        $.ajax({
+                            url: "/order/cart",
+                            type: "post",
+                            data: data,
+                            dataType: "json",
+                            success: function(response) {
+                                $("#staticModalBodyLg").html(response);
+                            },
+                            error: function(errResponse) {
+                                // alert("Ada yg salah");
+                                // console.error(errResponse);
+                                // debugger
+                                $("#staticModalBodyLg").html(errResponse.responseText);
+                            }
+                        });
+
+                        $("#staticModalLg").modal("show");
+                    });
+                });
+			</script>
+		</div>
+    </body>
+</html>

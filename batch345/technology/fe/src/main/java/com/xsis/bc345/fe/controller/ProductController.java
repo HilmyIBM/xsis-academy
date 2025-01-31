@@ -47,18 +47,40 @@ public class ProductController {
     private Integer pageSize;
 
     @GetMapping("")
-    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, HttpSession sess) {
+    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, String orderBy, HttpSession sess) {
         ModelAndView view = new ModelAndView("/product/index");
         ResponseEntity<PagingView> apiResponse = null;
+        String sort, sd;
 
         //Paging page and size
         currPageSize = (currPageSize != null) ? currPageSize : pageSize;
         pageNumber = (pageNumber != null) ? pageNumber : 0;
+        orderBy = (orderBy != null) ? orderBy : "";
+
+        //Process Sort
+        switch (orderBy) {
+            case "name_desc":
+                sort = "name";
+                sd = "desc";
+                break;
+            case "name":
+                sort = "name";
+                sd = "asc";
+                break;
+            case "id_desc":
+                sort = "id";
+                sd = "desc";
+                break;
+            default:
+                sort = "id";
+                sd = "asc";
+                break;
+        }
 
         try {
             if (filter == null || filter.isBlank()){
                 // apiResponse = restTemplate.getForEntity(apiUrl + "/product", ProductView[].class);
-                apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginated/" + pageNumber + "/" + currPageSize, PagingView.class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginated/" + pageNumber + "/" + currPageSize + "?sort=" + sort + "&sd=" + sd, PagingView.class);
             }
             else {
                 // apiResponse = restTemplate.getForEntity(apiUrl + "/product/filter/" + filter, ProductView[].class);
@@ -76,9 +98,18 @@ public class ProductController {
             view.addObject("errorMsg", e.getMessage());
         }
 
+        //Process Next Order
+        view.addObject("orderId", (orderBy.length() < 1) ? "id_desc" : "");
+        view.addObject("orderName", (orderBy.equals("name")) ? "name_desc" : "name");
+        view.addObject("orderPrice", (orderBy == "price") ? "price_desc" : "price");
+        view.addObject("orderStock", (orderBy == "stock") ? "stock_desc" : "stock");
+        view.addObject("orderVariant", (orderBy == "variant") ? "variant_desc" : "variant");
+        view.addObject("orderCategory", (orderBy == "category") ? "name_desc" : "category");
+
         view.addObject("filter", filter);
         view.addObject("imgFolder", IMG_FOLDER);
         view.addObject("currPageSize", currPageSize);
+        view.addObject("orderBy", orderBy);
         
         return view;
     }
