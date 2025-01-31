@@ -1,54 +1,217 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{fragments/layout}">
+    layout:decorate="~{fragments/layoutOrder}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catalog</title>
+    <title>Order::Catalog</title>
 </head>
 
 <body>
     <div layout:fragment="content">
         <h1>Catalog</h1>
-        <div class="container d-flex flex-column bg-secondary p-1" style="--bs-bg-opacity:.25">
-            <div class="menu d-flex flex-row justify-content-between gap-1">
-                <div
-                    class="totalProduct d-flex justify-content-center align-items-center bg-primary container-fluid flex-column">
-                    <p class="mb-0 text-white">4</p>
-                    <p class="text-white">Total Product</p>
-                </div>
-                <div
-                    class="estimatedPrice d-flex justify-content-center align-items-center bg-success container-fluid flex-column">
-                    <p class="mb-0 text-white">54000</p>
-                    <p class="text-white">Estimate Price</p>
-                </div>
-                <div
-                    class="addToCard d-flex justify-content-center align-items-center bg-warning container-fluid flex-column">
-                    <p class="mb-0 text-white"><i class="fas fa-shopping-basket"></i></p>
-                    <p class="text-white">Total Product</p>
-                </div>
+        <div class="card">
+            <div class="card-header" text="${title}"></div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col">
+                        <div class="card bg-primary">
+                            <div class="card-body text-center text-white">
+                                <div class="h1" id="totProduct">0</div>
+                                <div class="h5">Total Product</div>
+                            </div>
+                        </div>
 
-            </div>
-            <div class="listMenu d-flex flex-row gap-1 mt-2">
-                <div class="item d-flex flex-column container-fluid">
-                    <img src="https://www.justonecookbook.com/wp-content/uploads/2022/11/Japanese-Custard-Pudding-1211-I-2.jpg"
-                        alt="pudding" class="img-fluid">
+                    </div>
+                    <div class="col">
+                        <div class="card bg-warning">
+                            <div class="card-body text-center">
+                                <div class="h1" id="estPrice">0</div>
+                                <div class="h5">Estimated Price</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card bg-success">
+                            <div class="card-body text-center text-white d-flex flex-column align-item-center">
+                                <div class="h1"><i class="fas fa-cart-plus"></i></div>
+                                <a id="addToCart" class="btn streched-link p-0 text-white h6">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="item d-flex flex-column container-fluid">
-                    <img src="https://www.justonecookbook.com/wp-content/uploads/2022/11/Japanese-Custard-Pudding-1211-I-2.jpg"
-                        alt="pudding" class="img-fluid">
-                </div>
-                <div class="item d-flex flex-column container-fluid">
-                    <img src="https://www.justonecookbook.com/wp-content/uploads/2022/11/Japanese-Custard-Pudding-1211-I-2.jpg"
-                        alt="pudding" class="img-fluid">
-                </div>
-                <div class="item d-flex flex-column container-fluid">
-                    <img src="https://www.justonecookbook.com/wp-content/uploads/2022/11/Japanese-Custard-Pudding-1211-I-2.jpg"
-                        alt="pudding" class="img-fluid">
+                <div class="row g-2">
+                    <div class="col-lg-3 col-sm-12" th:if="${products != null}" th:each="product:${products}">
+                        <div class="card">
+                            <img th:if="${product.image != null}" th:src="|${IMG_FOLDER}/${product.image}|" alt=""
+                                class="card-img-top img-thumbnail img-fluid img-card"
+                                style="height: 150px; object-fit: contain;" />
+                            <div class="card-header h5 text-truncate" th:id="|name-${product.id}|"
+                                th:text="${product.name}">Product 1</div>
+                            <div class="card-body">
+                                <div class="card-text d-flex justify-content-between">
+                                    <span>Price : </span>
+                                    <span th:id="|price-${product.id}|" th:text="${product.price}"
+                                        th:data-price="${product.price}">99.9999</span>
+                                </div>
+                                <div class="card-text d-flex justify-content-between">
+                                    <span>Stock : </span>
+                                    <span th:id="|stock-${product.id}|" th:text="${product.stock}"
+                                        th:data-stock="${product.stock}">99</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <div class="btn-group">
+                                        <button class="btn btn-danger btnRemove" th:id="|btnRemove-${product.id}|"
+                                            th:data-id="${product.id}" disabled="true">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="text" class="form-control text-center" th:id="|qty-${product.id}|"
+                                            value="0">
+                                        <button class="btn btn-success btnAdd" th:id="|btnAdd-${product.id}|"
+                                            th:data-id="${product.id}">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center text-danger fst-italic" th:unless="${products != null}"
+                        th:text="${errorMsg}"></div>
                 </div>
             </div>
         </div>
+        <script th:inline="javascript">
+            let listCart = []
+            $(document).ready(function (e) {
+                let totProduct = parseInt($("#totProduct").text())
+                let estPrice = parseFloat($("#estPrice").text())
+
+                $(document).on("click", ".btnRemove", function (e) {
+                    let productId = $(this).data("id")
+                    let productName = $("#name-" + productId).text();
+                    let productQty = parseInt($("#qty-" + productId).val())
+                    let productPrice = parseFloat($("#price-" + productId).data("price"))
+                    let productStock = parseInt($("#stock-" + productId).data("stock"))
+
+                    if (productQty > 0) {
+                        productStock++;
+                        totProduct--;
+                        productQty--;
+                        estPrice -= productPrice;
+
+                        // Mencari data di index ke berapa
+                        let productCartIdx = listCart.map(v => v.id).indexOf(productId)
+                        // Jika ada
+                        if (productCartIdx > 0) {
+                            listCart[productCartIdx].qty = productQty;
+                        }
+
+                        if (listCart[productCartIdx].qty < 1) {
+                            listCart.splice(productCartIdx, 1)
+                        }
+
+                        // Update UI
+                        $("#totProduct").text(totProduct)
+                        $("#estPrice").text(estPrice)
+                        $("#qty-" + productId).val(productQty)
+                        $("#stock-" + productId).data("stock", productStock)
+                        $("#stock-" + productId).text(productStock)
+                    }
+
+                    if (productQty < 1) {
+                        $(this).prop("disabled", true)
+                    }
+
+                    if (productStock > 0) {
+                        $("#btnAdd-" + productId).prop("disabled", false)
+                    }
+
+                    if (listCart.length < 1) {
+                        $("#addToCart").prop("disabled", true)
+                    }
+                })
+
+                $(document).on("click", ".btnAdd", function (e) {
+                    let productId = $(this).data("id")
+                    let productName = $("#name-" + productId).text();
+                    let productQty = parseInt($("#qty-" + productId).val())
+                    let productPrice = parseFloat($("#price-" + productId).data("price"))
+                    let productStock = parseInt($("#stock-" + productId).data("stock"))
+
+                    let product = {};
+
+                    if (productStock > 0) {
+                        productStock--;
+                        totProduct++;
+                        productQty++;
+                        estPrice += productPrice;
+
+                        // Input values as product new properties
+                        product.id = productId
+                        product.name = productName
+                        product.price = productPrice
+                        product.qty = productQty
+
+                        // Check if product already exists in chart by it's id
+                        let productCartIdx = listCart.map(p => p.id).indexOf(productId)
+
+                        // Update List Cart
+                        if (productCartIdx < 0) {
+                            listCart.push(product)
+                        } else {
+                            listCart[productCartIdx].qty = productQty;
+                        }
+
+                        // Update UI
+                        $("#totProduct").text(totProduct)
+                        $("#estPrice").text(estPrice)
+                        $("#qty-" + productId).val(productQty)
+                        $("#stock-" + productId).data("stock", productStock)
+                        $("#stock-" + productId).text(productStock)
+                    }
+
+                    // Deactivate add product button if stock is empty
+                    if (productStock < 1) {
+                        $(this).prop("disabled", true)
+                    }
+
+                    // Activate the remove button
+                    if (productQty > 0) {
+                        $("#btnRemove-" + productId).prop("disabled", false)
+                    }
+
+                    // Deactivate add to cart button when listCart is empty
+                    if (listCart.length > 0) {
+                        $("#addToCart").prop("disabled", false);
+                    }
+                })
+
+                $("#addToCart").click(function (e) {
+                    ("#staticModalLg").load(
+                        "/order/cart",
+                        {
+                            "listCart": listCart,
+                            "totProduct": totProduct,
+                            "estPrice": estPrice
+                        },
+                        function (result, status) {
+                            if (status == "success") {
+                                $("#staticModalLg").modal("show")
+                            } else {
+                                alert("Ada yang salah")
+                                console.error("Status", status)
+                                console.error("result", result)
+                            }
+                        }
+                    )
+                })
+
+            })
+        </script>
     </div>
 </body>
 

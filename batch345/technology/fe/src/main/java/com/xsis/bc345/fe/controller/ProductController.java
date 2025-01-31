@@ -24,7 +24,6 @@ import com.xsis.bc345.fe.models.PagingView;
 import com.xsis.bc345.fe.models.ProductView;
 import com.xsis.bc345.fe.models.VariantView;
 
-import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -40,25 +39,49 @@ public class ProductController {
     private Integer pageSize;
 
     @GetMapping("")
-    public ModelAndView categoryProduct(String search, Integer pageNumber, Integer currPageSize, HttpSession sess) {
+    public ModelAndView categoryProduct(
+            @RequestParam(name = "search", required = false) String search,
+            @RequestParam(name = "pageNumber", required = false) Integer pageNumber, // must using required=false
+            Integer currPageSize, // auto to be requestParam
+            @RequestParam(defaultValue = "v.name") String sort, // not using required, then using default value
+            @RequestParam(defaultValue = "ASC") String sortDirection) {
         ModelAndView view = new ModelAndView("product/index");
         ResponseEntity<PagingView> apiResponse = null;
 
         currPageSize = (currPageSize != null) ? currPageSize : pageSize;
         pageNumber = (pageNumber != null) ? pageNumber : 0;
         try {
+
+            String apiUrlWithParams = "";
+
             if (search == null || search.isBlank()) {
+                /* normal get */
                 // apiResponse = restTemplate.getForEntity(apiUrl + "product",
                 // ProductView[].class);
-                apiResponse = restTemplate.getForEntity(
-                        apiUrl + "product/pagination/" + pageNumber + "/" + currPageSize, PagingView.class);
+
+                /* normal get with pagination */
+                // apiResponse = restTemplate.getForEntity(
+                // apiUrl + "product/pagination/" + pageNumber + "/" + currPageSize,
+                // PagingView.class);
+
+                apiUrlWithParams = apiUrl + "product/pagination/" + pageNumber + "/" + currPageSize
+                        + "?sort=" + sort + "&sortDirection=" + sortDirection;
             } else {
                 // apiResponse = restTemplate.getForEntity(apiUrl + "product/filter/" + search,
                 // ProductView[].class);
-                apiResponse = restTemplate.getForEntity(
-                        apiUrl + "product/paginationFilter/" + search + "/" + pageNumber + "/" + currPageSize,
-                        PagingView.class);
+
+                /* Normal get with pagination and search */
+                // apiResponse = restTemplate.getForEntity(
+                // apiUrl + "product/paginationFilter/" + search + "/" + pageNumber + "/" +
+                // currPageSize,
+                // PagingView.class);
+
+                apiUrlWithParams = apiUrl + "product/paginationFilter/" + search + "/" + pageNumber + "/" + currPageSize
+                        + "?sort=" + sort + "&sortDirection=" + sortDirection;
+
             }
+
+            apiResponse = restTemplate.getForEntity(apiUrlWithParams, PagingView.class);
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 view.addObject("products", apiResponse.getBody());

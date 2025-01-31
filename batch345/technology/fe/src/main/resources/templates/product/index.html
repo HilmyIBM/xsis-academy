@@ -6,7 +6,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>product</title>
+
+    <style>
+        th>a {
+            text-decoration: none;
+            color: black;
+        }
+
+        th>a:hover {
+            cursor: pointer;
+            color: brown;
+        }
+
+        .sorted {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
 </head>
+
 
 <body>
     <div layout:fragment="content">
@@ -16,8 +34,7 @@
             <form>
                 <div class="input-group container-fluid">
                     <input type="text" class="form-control" placeholder="Total Entries" aria-label="Total Entries"
-                        aria-describedby="button-addon2">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Enter</button>
+                        aria-describedby="button-addon2" th:value="${#lists.size(products.content)}" disabled>
                 </div>
             </form>
             <form id="frmFilter" class="ms-auto d-flex flex-row">
@@ -35,12 +52,19 @@
                 <thead>
                     <tr>
                         <th scope="col">Image</th>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nama Product</th>
-                        <th scope="col">Category Name</th>
-                        <th scope="col">Variant Name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Stock</th>
+                        <!-- Primary table not using aliases. Only joined table using aliases -->
+                        <th scope="col"><a class="sort-link" data-sort="id">ID</a>
+                        </th>
+                        <th scope="col"><a class="sort-link" data-sort="name">Nama Product</a>
+                        </th>
+                        <th scope="col"><a class="sort-link" data-sort="c.category_name">Category Name</a>
+                        </th>
+                        <th scope="col"><a class="sort-link" data-sort="v.name">Variant Name</a>
+                        </th>
+                        <th scope="col"><a class="sort-link" data-sort="price">Price</a>
+                        </th>
+                        <th scope="col"><a class="sort-link" data-sort="stock">Stock</a>
+                        </th>
                         <th scope="col">Is Delete</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -103,9 +127,6 @@
                                             </ul>
                                         </nav>
                                     </div>
-                                    <div class="col-auto"> <!-- Auto-width column for the text -->
-                                        <p>Lorem ipsum dolor sit amet</p>
-                                    </div>
                                 </div>
                             </div>
                         </td>
@@ -150,6 +171,24 @@
                     location.href = "/product?search=" + search + "&pageNumber=" + page + "&currPageSize=" + sizeData
                 })
 
+                // When click at the specific column at the frontend
+                let currentSort = new URLSearchParams(window.location.search).get("sort") || "v.name";
+                let currentDirection = new URLSearchParams(window.location.search).get("sortDirection") || "ASC";
+
+                // CLick to sort
+                $(".sort-link").on("click", function (e) {
+                    e.preventDefault();
+
+                    let search = $("#txtSearch").val();
+                    let page = /*[[${products.number}]]*/0;
+                    let sizeData = /*[[${currPageSize}]]*/0;
+                    let selectedSort = $(this).data("sort");
+                    let newDirection = (currentSort === selectedSort && currentDirection === "ASC") ? "DESC" : "ASC";
+
+                    // Back to the product controller with method name 'categoryProduct'
+                    location.href = `/product?search=${search}&pageNumber=${page}&currPageSize=${sizeData}&sort=${selectedSort}&sortDirection=${newDirection}`;
+                });
+
                 // When pressing the specific id of table and refering the .btn-success (edit)
                 $("#tblProduct").on("click", ".btn-success", function (e) {
                     let productId = $(this).data("id"); // Access data-id attribute
@@ -182,6 +221,8 @@
                         console.log("No product ID found")
                     }
                 })
+
+
             })
         </script>
 
