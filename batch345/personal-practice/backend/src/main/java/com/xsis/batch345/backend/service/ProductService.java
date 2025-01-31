@@ -26,4 +26,8 @@ public class ProductService {
     return productRepo.nativeFindById(id);
   }
 
+  public Optional<List<Product>> findByFilter( String filter ) {
+    return productRepo.nativeFindByFilter(filter);
+  }
+
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.xsis.batch345.backend.model.Category;
 import com.xsis.batch345.backend.model.Product;
 import com.xsis.batch345.backend.model.Variant;
 import com.xsis.batch345.backend.service.ProductService;
@@ -43,6 +44,20 @@ public class ProductController {
       Optional<Product> data = productService.findById(id);
 
       return new ResponseEntity<Product>(
+        data.get(),
+        data.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT
+      );
+    } catch (Exception e) {
+      return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @GetMapping("/filter/{filter}")
+  public ResponseEntity<?> getByFilter(@PathVariable String filter) {
+    try {
+      Optional<List<Product>> data = productService.findByFilter(filter);
+
+      return new ResponseEntity<List<Product>>(
         data.get(),
         data.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT
       );
