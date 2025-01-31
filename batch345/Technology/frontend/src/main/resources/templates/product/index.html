@@ -16,20 +16,27 @@
       <div class="">
         <h1>Product List</h1>
         <button
-        class="btn btn-success"
-        type="button"
-        id="btnAdd"
-        data-bs-toggle="modal"
-        data-bs-target="#staticModal"
-      >
-        <i class="fas fa-plus"></i>&nbsp;&nbsp;Add
-      </button>
+          class="btn btn-success"
+          type="button"
+          id="btnAdd"
+          data-bs-toggle="modal"
+          data-bs-target="#staticModal"
+        >
+          <i class="fas fa-plus"></i>&nbsp;&nbsp;Add
+        </button>
         <hr style="opacity: 1" />
         <div class="d-flex justify-content-between">
           <div class="form-group">
             <div class="input-group">
-                <input type="text" th:value="${product.totalElements}" style="width: 50px;" class="form-control" disabled readonly>
-                <span class="input-group-text">Entries</span>
+              <input
+                type="text"
+                th:value="${product.totalElements}"
+                style="width: 50px"
+                class="form-control"
+                disabled
+                readonly
+              />
+              <span class="input-group-text">Entries</span>
             </div>
           </div>
           <form class="input-group w-25">
@@ -63,13 +70,76 @@
         >
           <thead>
             <tr>
-              <th class="col-1 text-center">Id</th>
+              <th class="col-1 text-center">
+                <a id="colID" th:data-orderby="${orderId}">
+                  Id
+                  <i
+                    class="fas fa-sort-numeric-down"
+                    th:if="${order=='asc'}"
+                  ></i>
+                  <i
+                    class="fas fa-sort-numeric-down-alt"
+                    th:if="${order=='desc'}"
+                  ></i
+                ></a>
+              </th>
               <th class="col-1 text-center">Image</th>
-              <th class="col-3 text-center">Nama Product</th>
-              <th class="col-2 text-center">Category</th>
-              <th class="col-2 text-center">Variant</th>
-              <th class="col-1 text-center">Price</th>
-              <th class="col-1 text-center">Stock</th>
+              <th class="col-3 text-center">
+                <a th:data-orderby="${orderName}">
+                  Nama Product
+                  <i class="fas fa-sort-alpha-down" th:if="${order=='asc'}"></i>
+                  <i
+                    class="fas fa-sort-alpha-down-alt"
+                    th:if="${order=='desc'}"
+                  ></i>
+                </a>
+              </th>
+              <th class="col-2 text-center">
+                <a th:data-orderby="${orderCtgry}">
+                  Category
+                  <i class="fas fa-sort-alpha-down" th:if="${order=='asc'}"></i>
+                  <i
+                    class="fas fa-sort-alpha-down-alt"
+                    th:if="${order=='desc'}"
+                  ></i>
+                </a>
+              </th>
+              <th class="col-2 text-center">
+                <a th:data-orderby="${orderVariant}">
+                  Variant
+                  <i class="fas fa-sort-alpha-down" th:if="${order=='asc'}"></i>
+                  <i
+                    class="fas fa-sort-alpha-down-alt"
+                    th:if="${order=='desc'}"
+                  ></i>
+                </a>
+              </th>
+              <th class="col-1 text-center">
+                <a th:data-orderby="${orderPrice}">
+                  Price
+                  <i
+                    class="fas fa-sort-numeric-down"
+                    th:if="${order=='asc'}"
+                  ></i>
+                  <i
+                    class="fas fa-sort-numeric-down-alt"
+                    th:if="${order=='desc'}"
+                  ></i>
+                </a>
+              </th>
+              <th class="col-1 text-center">
+                <a th:data-orderby="${orderStock}">
+                  Stock
+                  <i
+                    class="fas fa-sort-numeric-down"
+                    th:if="${order=='asc'}"
+                  ></i>
+                  <i
+                    class="fas fa-sort-numeric-down-alt"
+                    th:if="${order=='desc'}"
+                  ></i>
+                </a>
+              </th>
               <th class="col-1 text-center">Action</th>
             </tr>
           </thead>
@@ -136,35 +206,41 @@
             <tr>
               <td colspan="8">
                 <div class="d-flex justify-content-between">
-                  <div class="input-group" style="width: 15%;">
+                  <div class="input-group" style="width: 15%">
                     <label class="input-group-text">Show</label>
                     <select name="pageSize" id="pageSize" class="form-control">
-                      <option th:each="i : ${#numbers.sequence(10, 20, 5)}" th:value="${i}" th:text="${i}" th:selected="${i == pageSize}"></option>
+                      <option
+                        th:each="i : ${#numbers.sequence(10, 20, 5)}"
+                        th:value="${i}"
+                        th:text="${i}"
+                        th:selected="${i == pageSize}"
+                      ></option>
                     </select>
                     <div class="input-group-append">
                       <span class="input-group-text">Entries</span>
                     </div>
                   </div>
                   <div>
-                        <button
-                        type="button"
-                        class="btn btn-primary"
-                        id="prevBTN"
-                        title="Previous">
-                        <i class="fas fa-arrow-left"></i>
-                      </button>
-                      <span
-                        th:text="|Page ${product.number+1} of ${product.totalPages}|"
-                        >Page 1</span
-                      >
-                      <button
-                        type="button"
-                        class="btn btn-primary"
-                        id="nextBTN"
-                        title="Next"
-                      >
-                        <i class="fas fa-arrow-right"></i>
-                  </button>
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      id="prevBTN"
+                      title="Previous"
+                    >
+                      <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <span
+                      th:text="|Page ${product.number+1} of ${product.totalPages}|"
+                      >Page 1</span
+                    >
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      id="nextBTN"
+                      title="Next"
+                    >
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
                   </div>
                 </div>
               </td>
@@ -173,11 +249,11 @@
         </table>
       </div>
       <script th:inline="javascript">
-        $(document).ready(function(){          
-          let isFirstpage=/*[[${product.first}]]*/true;
-          let isLastPage=/*[[${product.last}]]*/false;
-          $("#prevBTN").prop("disabled",isFirstpage);
-          $("#nextBTN").prop("disabled",isLastPage);
+        $(document).ready(function () {
+          let isFirstpage = /*[[${product.first}]]*/ true;
+          let isLastPage = /*[[${product.last}]]*/ false;
+          $("#prevBTN").prop("disabled", isFirstpage);
+          $("#nextBTN").prop("disabled", isLastPage);
         });
 
         $("#btnAdd").click(function (e) {
@@ -203,29 +279,81 @@
           $("#staticModal").modal("show");
         });
 
-        $("#prevBTN").click(function(e){
-          let filter=$("#txtFilter").val();
-          let currPageSize=/*[[${pageSize}]]*/0;
-          let page=/*[[${product.number}]]*/0;
-          
-          location.href="/product?filter="+filter+"&number="+(page-1)+"&page="+currPageSize;
-        })
+        $("#prevBTN").click(function (e) {
+          let filter = $("#txtFilter").val();
+          let currPageSize = /*[[${pageSize}]]*/ 0;
+          let page = /*[[${product.number}]]*/ 0;
 
-        $("#nextBTN").click(function(e){
-          let filter=$("#txtFilter").val();
-          let currPageSize=/*[[${pageSize}]]*/0;
-          let page=/*[[${product.number}]]*/0;
-          
-          location.href="/product?filter="+filter+"&number="+(page+1)+"&page="+currPageSize;
-        })
+          location.href =
+            "/product?filter=" +
+            filter +
+            "&number=" +
+            (page - 1) +
+            "&page=" +
+            currPageSize;
+        });
 
-        $("#pageSize").change(function(e){
-              let filter=$("#txtFilter").val();
-              let currPageSize=$("#pageSize").val();
-              let page=/*[[${product.number}]]*/0;
-              
-              location.href="/product?filter="+filter+"&number="+page+"&page="+currPageSize;
-        })
+        $("#nextBTN").click(function (e) {
+          let filter = $("#txtFilter").val();
+          let currPageSize = /*[[${pageSize}]]*/ 0;
+          let page = /*[[${product.number}]]*/ 0;
+
+          location.href =
+            "/product?filter=" +
+            filter +
+            "&number=" +
+            (page + 1) +
+            "&page=" +
+            currPageSize;
+        });
+
+        $("#pageSize").change(function (e) {
+          let filter = $("#txtFilter").val();
+          let currPageSize = $("#pageSize").val();
+          let page = /*[[${product.number}]]*/ 0;
+
+          location.href =
+            "/product?filter=" +
+            filter +
+            "&number=" +
+            page +
+            "&page=" +
+            currPageSize;
+        });
+
+        // $("#tblProduct").on("click","#colID",function(e){
+        //   let filter=$("#txtFilter").val();
+        //   let currPageSize=/*[[${pageSize}]]*/0;
+        //   let page=/*[[${product.number}]]*/0;
+        //   let sort="id";
+        //   let order=/*[[${order}]]*/"asc";
+        //   if (order === "asc") {
+        //         order = "desc";
+        //     } else {
+        //         order = "asc";
+        //   }
+        //   location.href="/product?filter="+filter+"&number="+page+"&page="+currPageSize+"&sort="+sort+"&order="+order;
+        // })
+
+        $("th > a").click(function (e) {
+          let orderBy = $(this).data("orderby");
+          let filter = $("#txtFilter").val();
+          let currPageSize = $("#pageSize").val();
+          let page = /*[[${product.number}]]*/ 0;
+          let order = /*[[${order}]]*/ "asc";
+          let selectorder = order === "asc" ? "desc" : "asc";
+          location.href =
+            "/product?filter=" +
+            filter +
+            "&number=" +
+            page +
+            "&page=" +
+            currPageSize +
+            "&sort=" +
+            orderBy +
+            "&order=" +
+            selectorder;
+        });
       </script>
     </div>
   </body>

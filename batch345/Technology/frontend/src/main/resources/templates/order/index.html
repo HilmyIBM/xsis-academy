@@ -1,57 +1,139 @@
 <!DOCTYPE html>
 <html lang="en" 
-layout:decorate="~{fragments/layout}">
+layout:decorate="~{fragments/layoutorder}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order</title>
+    <title>Order::Catalog</title>
 </head>
 <body>
     <div layout:fragment="content">
         <style>
-            nav{
-                background-color: #6C757D;
-                color: white;
+            .img-card {
+                width: 100%;
+                height: 200px; 
+                object-fit: cover;
             }
         </style>
-        <h1>Order Preview</h1>
-        <hr style="opacity: 1;">
-        <div>
-            <table class="table table-hover" id="tblOrder">
-                <thead>
-                    <tr>
-                        <th>
-                            Nama Product
-                        </th>
-                        <th>
-                            Price
-                        </th>
-                        <th>Qty</th>
-                        <th>
-                            Sum Price
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Puding Caramel</td>
-                        <td>12.000.00</td>
-                        <td>2</td>
-                        <td>24.000.00</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr class="bg-success">
-                        <td colspan="2">Total</td>
-                        <td>2</td>
-                        <td>24.000.00</td>
-                    </tr>
-                </tfoot>
-            </table>
-            <div class="d-flex justify-content-end">
-                <button class="btn btn-success justify-content-end">Order</button>
+        <div class="card">
+            <div class="card-header h3" th:text="${title}"></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="card bg-primary text-center">
+                            <h1 id="totalProduct">0</h1>
+                            <p>Total Product</p>
+                        </div>
+                    </div>
+                    <div class="col text-center">
+                        <div class="card bg-success">
+                            <h1 id="estPrice">0</h1>
+                            <p>Estimate Price</p>
+                        </div>
+                    </div>
+                    <div class="col text-center">
+                        <div class="card bg-warning">
+                            <h1><i class="fas fa-shopping-bag"></i></h1>
+                            <p><strong>Add to Cart</strong></p>
+                        </div>   
+            </div>
+            <div class="row">
+                <div class="col-12 d-flex flex-wrap" style="margin-left: 5%;">
+                    <div class="card me-5 mt-3 " th:if="${item!=null}" th:each="item : ${product}" style="width: 18rem;">
+                        <img th:if="${item.image}!=null" th:src="@{'lib/images/'+${item.image}}" class="card-img-top img-thumbnail img-fluid img-card" alt="...">
+                        <img th:unless="${item.image}!=null" th:src="@{'lib/no-image.png'}" class="card-img-top img-thumbnail img-fluid img-card" alt="...">
+                        <div class="card-header h5 text-truncate" th:text="${item.name}" th:id="|name-${item.id}|"></div>
+                        <div class="card-body">
+                            <div class="card-text d-flex justify-content-between">
+                                <span>Price :</span>
+                                <span th:text="${item.price}" th:id="|price-${item.id}|" th:data-price="${item.price}">100.000.00</span>
+                            </div>
+                            <div class="card-text d-flex justify-content-between">
+                                <span>Stock :</span>
+                                <span th:text="${item.stock}" th:id="|stock-${item.id}|" th:data-stock="${item.stock}"></span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-danger" th:id="|btnRemove-${item.id}|" th:data-id="${item.id}"><i class="fas fa-minus"></i></button>
+                                    <input type="text" value="0" class="form-control text-center bg-white text-black" th:id="|qty-${item.id}|" readonly disabled>
+                                    <button type="button" class="btn btn-success" th:id="|btnAdd-${item.id}|" th:data-id="${item.id}"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:unless="${item!=null}" th:text="${errorMSG}" class="text-center text-danger fst-italic"></div>
+                </div>
             </div>
         </div>
+        <script th:inline="javascript">
+            let list_product = [];
+            $(document).ready(function(e){
+                let totalProduct = parseInt($('#totalProduct').text());
+                let estPrice = parseFloat($('#estPrice').text());
+
+                $('.btn-danger').click(function(e){
+                    let product_id = $(this).data('id');
+                    let product_name = $('#name-'+product_id).text();
+                    let qty = parseInt($("#qty-"+product_id).val());   
+                    let price =parseFloat($("#price-"+product_id).data('price')); 
+                    let stock = parseInt($("#stock-"+product_id).data('stock'));
+
+                    if(qty > 0){
+                        stock++;
+                        totalProduct--;
+                        qty--;
+                        estPrice -= price;
+                        
+                        let list_product_Idx=list_product.map(p=>p.id).indexOf(product_id);
+                        if(list_product_Idx>=0){
+                            list_product[list_product_Idx].qty=qty;
+                        }
+                        if(list_product[list_product_Idx].qty<1){
+                            list_product.splice(list_product_Idx,1);
+                        }
+                        $("#totalProduct").text(totalProduct);
+                        $("#estPrice").text(estPrice);
+                        $("#qty-"+product_id).val(qty);
+                        $("#stock-"+product_id).data("stock",stock);
+                        $("#stock-"+product_id).text(stock);
+                    }
+                });
+                $('.btn-success').click(function(e){
+                    let product_id = $(this).data('id');
+                    let product_name = $('#name-'+product_id).text();
+                    let qty = parseInt($("#qty-"+product_id).val());   
+                    let price =parseFloat($("#price-"+product_id).data('price')); 
+                    let stock = parseInt($("#stock-"+product_id).data('stock'));
+                    let product = {};
+                    
+                    if(stock > 0){
+                        stock--;
+                        totalProduct++;
+                        qty++;
+                        estPrice += price;
+                        product.id=product_id;
+                        product.name=product_name;
+                        product.qty=qty;
+                        product.price=price;
+                        let list_product_Idx=list_product.map(p=>p.id).indexOf(product_id);
+                        if(list_product_Idx<0){
+                            list_product.push(product);
+                        }
+                        else{
+                            list_product[list_product_Idx].qty=qty;
+                        }
+                        $("#totalProduct").text(totalProduct);
+                        $("#estPrice").text(estPrice);
+                        $("#qty-"+product_id).val(qty);
+                        $("#stock-"+product_id).data("stock",stock);
+                        $("#stock-"+product_id).text(stock);
+                    }
+                    
+                })
+            })
+        </script>
     </div>
 </body>
 </html>

@@ -1,6 +1,8 @@
 package com.xsis.b345.frontend.controller;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +19,11 @@ public class order {
 
     @GetMapping("/order")
     public ModelAndView index() {
-        ModelAndView view = new ModelAndView("/order/catalog");
+        ModelAndView view = new ModelAndView("/order/index");
         ResponseEntity<productView[]> apiResponse = null;
         try {
             apiResponse = restTemplate.getForEntity(apiUrl + "/product", productView[].class);
-            if (apiResponse.getStatusCode().is2xxSuccessful()) {
+            if (apiResponse.getStatusCode()==HttpStatus.OK) {
                 view.addObject("product", apiResponse.getBody());
             } else {
                 throw new Exception(apiResponse.getStatusCode().toString() + " : " + apiResponse.getBody());
@@ -29,6 +31,7 @@ public class order {
         } catch (Exception e) {
             view.addObject("errorMSG", e.getMessage());
         }
+        view.addObject("title", "Product Catalog");
         return view;
     }
 }

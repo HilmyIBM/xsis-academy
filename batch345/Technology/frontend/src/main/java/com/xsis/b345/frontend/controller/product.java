@@ -36,7 +36,7 @@ public class product {
     private int pageSize;
 
     @GetMapping("/product")
-    public ModelAndView product(String filter,HttpSession session,Integer page, Integer number) {
+    public ModelAndView product(String filter,HttpSession session,Integer page, Integer number,@RequestParam(defaultValue = "id") String sort,@RequestParam(defaultValue = "asc") String order) {
         if (session.getAttribute("role")!=null && session.getAttribute("role").equals(1) ){
             ModelAndView view = new ModelAndView("/product/index");
             //isi halaman
@@ -44,10 +44,33 @@ public class product {
             //nomor halaman
             number = (number != null) ? number : 0 ;
             ResponseEntity<pagingView> apiResponse = null;
+            sort = (sort != null) ? sort : "id";
+
+            //sort
+            switch(sort){
+                case "variant":
+                    sort = "v.name";
+                    break;
+                case "category":
+                    sort = "c.category_name";
+                    break;
+                case "stock":
+                    sort = "stock";
+                    break;
+                case "price":
+                    sort = "price";
+                    break;
+                case "name":
+                    sort = "name";
+                    break;
+                case "id":
+                    sort = "id";
+                    break;
+            }
 
             try {
                 if (filter == null || filter.isEmpty()) {
-                    apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginated/"+number+"/"+page, pagingView.class);
+                    apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginated/"+number+"/"+page+"?sort="+sort+"&order="+order, pagingView.class);
                 } else {
                     apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginated/filter/" + filter+"/"+number+"/"+page, pagingView.class);
                 }
@@ -59,8 +82,16 @@ public class product {
             } catch (Exception e) {
                 view.addObject("errorMSG", e.getMessage());
             }
+            view.addObject("orderId","id");
+            view.addObject("orderName","name");
+            view.addObject("orderPrice","price");
+            view.addObject("orderStock","stock");
+            view.addObject("orderCtgry","category");
+            view.addObject("orderVariant","variant");
+
             view.addObject("filter", filter);
             view.addObject("pageSize", page);
+            view.addObject("order", order);
             return view;
         }
         else{
