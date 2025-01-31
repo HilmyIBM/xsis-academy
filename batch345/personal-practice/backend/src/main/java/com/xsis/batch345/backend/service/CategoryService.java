@@ -1,5 +1,6 @@
 package com.xsis.batch345.backend.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +11,7 @@ import com.xsis.batch345.backend.repository.CategoryRepository;
 
 @Service
 public class CategoryService {
-  private final CategoryRepository categoryRepo;
+  private CategoryRepository categoryRepo;
   private Optional<Category> existingCategory;
 
   public CategoryService( CategoryRepository categoryRepo ) {
@@ -30,5 +31,36 @@ public class CategoryService {
   public Optional<List<Category>> findByFilter( String filter ) {
     return categoryRepo.findByCategoryNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndDeleted(filter, filter, false);
   }
+  
+  public Category create(Category data) throws Exception {
+    return categoryRepo.save(data);
+  }
 
+  public Category update(Category data) throws Exception {
+    Optional<Category> existingCategory = categoryRepo.findById(data.getId());
+    if(existingCategory.isPresent()) {
+      data.setCreateBy(existingCategory.get().getCreateBy());
+      data.setCreateDate(existingCategory.get().getCreateDate());
+      data.setUpdateDate(LocalDateTime.now());
+
+      return categoryRepo.save(data);
+    } else {
+      throw new Exception("Category tidak ada");
+    }
+  }
+
+  public Category delete(int id, int userId) throws Exception {
+    existingCategory = categoryRepo.findById(id);
+
+    if(existingCategory.isPresent()){
+      existingCategory.get().setDeleted(true);
+      existingCategory.get().setUpdateBy(userId);
+      existingCategory.get().setUpdateDate(LocalDateTime.now());
+
+      return categoryRepo.save(existingCategory.get());
+    }
+    else {
+      throw new Exception("Category tidak ditemukan");
+    }
+  }
 }

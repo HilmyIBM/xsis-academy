@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"
+layout:decorate="~{fragments/layout-order}">
+<head>
+  <title>Order::Catalog</title>
+</head>
+<body>
+  <div layout:fragment="content">
+    <div class="card">
+      <div class="card-header h3" th:text="${title}"></div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <div class="card bg-info">
+              <div class="card-body text-center text-white">
+                <div class="h1" id="totalProduct">0</div>
+                <div class="h5">Total Product</div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card bg-warning">
+              <div class="card-body text-center">
+                <div class="h1" id="estPrice">0</div>
+                <div class="h5">Estimated Price</div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card bg-success">
+              <div class="card-body text-center text-white">
+                <div class="h1"><i class="fas fa-cart-plus"></i></div>
+                <button class="btn stretched-link p-0 text-white h5" id="addToCart">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-3 col-sm-12">
+            <div class="card">
+              <img src="" alt="" class="card-img-top img-thumbnail img-fluid img-card"/>
+              <div class="card-header h5 text-truncate"></div>
+              <div class="card-body">
+                <div class="card-text d-flex justify-content-between">
+                  <span>Price :</span>
+                  <span th:id="price" text="" data-price="">99.999,-</span>
+                </div>
+                <div class="card-text d-flex justify-content-between">
+                  <span>Stock :</span>
+                  <span th:id="stock" text="" data-stock="">99</span>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="d-flex justify-content-between">
+                  <div class="btn-group">
+                    <button class="btn btn-danger" th:id="btnRemove" data-id="">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <input type="text" class="form-control text-center" th:id="qty-" value="0"/>
+                    <button class="btn btn-success" th:id="btnAdd-" data-id="">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

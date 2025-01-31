@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+xmlns:th="http://thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+  <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">XsisPos</title>
+  <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="font-awesome/css/all.css">
+  
+  <script src="bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="jquery/jquery-3.7.1.min.js"></script>
+  <link href="https://cdn.datatables.net/v/dt/dt-2.2.1/datatables.min.css" rel="stylesheet">
+  <script src="https://cdn.datatables.net/v/dt/dt-2.2.1/datatables.min.js"></script>
+  <script src="jquery/jquery.validate.min.js"></script>
+
+  <style>
+    nav.menu-home-nw {
+      border-radius: 0px 10px 10px 0px;
+      position: fixed;
+      left: 0px;
+      top: 20px;
+      padding: 0.5rem;
+      background: rgba(128, 128, 128, 0.5);
+      z-index: 999;
+    }
+  </style>
+
+</head>
+<body>
+  <nav class="menu-home-nw">
+    <div class="btn-group-vertical">
+      <a href="/" id="btnHome" class="btn btn-secondary" title="Home"><i class="fas fa-home"></i></a>
+      <a href="/order" id="btnOrder" class="btn btn-secondary" title="Order"><i class="fas fa-list-alt"></i></a>
+      <a href="/order/history" id="btnHistory" class="btn btn-secondary" title="Order History"><i class="fas fa-history"></i></a>
+    </div>
+  </nav>
+  <div th:replace="~{fragments/modal}"></div>
+  <div layout:fragment="content" class="container" id="content"></div>
+  
+</body>
+</html>
