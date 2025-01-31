@@ -28,7 +28,7 @@
             <form action="" class="input-group mb-3 align-items-center">
               <label for="show" class="me-3">Show</label>
               <select
-                id="selectEntries"
+                id="selectPageSize"
                 name="currPageSize"
                 class="form-select"
               >
@@ -78,9 +78,39 @@
           <table class="table table-striped table-hover">
             <thead>
               <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nama Category</th>
-                <th scope="col">Description</th>
+                <th scope="col" style="cursor: pointer">
+                  <a th:data-orderby="${orderId}"
+                    >ID
+                    <i th:if="${orderBy=='id'}" class="fas fa-sort-up"></i>
+                    <i
+                      th:if="${orderBy=='id_desc'}"
+                      class="fas fa-sort-down"
+                    ></i>
+                  </a>
+                </th>
+                <th scope="col" style="cursor: pointer">
+                  <a th:data-orderby="${orderCatName}"
+                    >Nama Category
+                    <i th:if="${orderBy=='catName'}" class="fas fa-sort-up"></i>
+                    <i
+                      th:if="${orderBy=='catName_desc'}"
+                      class="fas fa-sort-down"
+                    ></i
+                  ></a>
+                </th>
+                <th scope="col" style="cursor: pointer">
+                  <a th:data-orderby="${orderDescription}"
+                    >Description
+                    <i
+                      th:if="${orderBy=='description'}"
+                      class="fas fa-sort-up"
+                    ></i>
+                    <i
+                      th:if="${orderBy=='description_desc'}"
+                      class="fas fa-sort-down"
+                    ></i
+                  ></a>
+                </th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -143,14 +173,14 @@
       </div>
       <script th:inline="javascript">
         $(document).ready((e) => {
-          $("#selectEntries").on("change", function () {
+          let isFirstPage = /*[[${category.first}]]*/ true;
+          let isLastPage = /*[[${category.last}]]*/ false;
+
+          $("#selectPageSize").on("change", function () {
             let currPageSize = $(this).val();
             let filter = $("#txtFilter").val();
             location.href = `/category?filter=${filter}&currPageSize=${currPageSize}`;
           });
-
-          let isFirstPage = /*[[${category.first}]]*/ true;
-          let isLastPage = /*[[${category.last}]]*/ false;
 
           $("#btnPrev").addClass(isFirstPage ? "disabled" : "");
           $("#btnNext").addClass(isLastPage ? "disabled" : "");
@@ -193,6 +223,15 @@
           location.href = `/category?filter=${filter}&pageNumber=${
             pageNumber + 1
           }&currPageSize=${currPageSize}`;
+        });
+
+        $("th > a").click(function (e) {
+          let orderBy = $(this).data("orderby");
+          let filter = $("#txtFilter").val();
+          let currPageSize = $(this).val();
+          let pageNumber = /*[[${category.number}]]*/ 0;
+
+          location.href = `/category?filter=${filter}&pageNumber=${pageNumber}&currPageSize=${currPageSize}&orderBy=${orderBy}`;
         });
       </script>
     </div>
