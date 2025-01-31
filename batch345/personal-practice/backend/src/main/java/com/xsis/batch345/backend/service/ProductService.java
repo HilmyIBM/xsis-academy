@@ -12,6 +12,7 @@ import com.xsis.batch345.backend.repository.ProductRepository;
 public class ProductService {
   
   private ProductRepository productRepo;
+  private Optional<Product> existingProduct;
 
   public ProductService( ProductRepository productRepo ) {
     this.productRepo = productRepo;
@@ -19,6 +20,10 @@ public class ProductService {
 
   public Optional<List<Product>> findAll() {
     return productRepo.nativeFindAll();
+  }
+
+  public Optional<Product> findById( Integer id ) {
+    return productRepo.nativeFindById(id);
   }
 
 }

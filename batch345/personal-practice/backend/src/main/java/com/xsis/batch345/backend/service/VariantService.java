@@ -23,4 +23,8 @@ public class VariantService {
     return variantRepo.nativeFindAll();
   }
 
+  public Optional<Variant> findById( Integer id ) {
+    return variantRepo.nativeFindById(id);
+  }
+
 }

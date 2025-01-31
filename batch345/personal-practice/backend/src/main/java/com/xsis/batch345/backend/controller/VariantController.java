@@ -14,6 +14,7 @@ import com.xsis.batch345.backend.model.Category;
 import com.xsis.batch345.backend.model.Variant;
 import com.xsis.batch345.backend.service.VariantService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -31,6 +32,20 @@ public class VariantController {
     try {
       Optional<List<Variant>> data = variantService.findAll();
       return new ResponseEntity<List<Variant>>(
+        data.get(),
+        data.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT
+      );
+    } catch (Exception e) {
+      return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @GetMapping("/id/{id}")
+  public ResponseEntity<?> getById(@PathVariable int id) {
+    try {
+      Optional<Variant> data = variantService.findById(id);
+
+      return new ResponseEntity<Variant>(
         data.get(),
         data.isPresent() ? HttpStatus.OK : HttpStatus.NO_CONTENT
       );
