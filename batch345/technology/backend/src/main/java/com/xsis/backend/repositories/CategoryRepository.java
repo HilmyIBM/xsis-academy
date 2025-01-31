@@ -39,7 +39,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
                         + "LOWER(c.description) LIKE LOWER(CONCAT('%', :filter, '%')))", nativeQuery = true)
         Optional<List<Category>> getNativeByDeletedFalseAndCategoryNameOrDescription(@Param("filter") String filter);   
         
-        @Query(value = "SELECT c.id, c.category_name, c.description, c.is_deleted, "
+        @Query(value = "SELECT c.id, c.category_name AS categoryName, c.description, c.is_deleted, "
                         + "c.create_by, c.create_date, c.update_by, "
                         + "c.update_date FROM tbl_m_categories c WHERE c.is_deleted = FALSE AND "
                         + "(LOWER(c.category_name) LIKE LOWER(CONCAT('%', :filter, '%')) OR "

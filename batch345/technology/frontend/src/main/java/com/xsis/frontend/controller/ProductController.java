@@ -1,5 +1,6 @@
 package com.xsis.frontend.controller;
 
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -30,16 +31,81 @@ public class ProductController {
     private Integer pageSize;
 
     @GetMapping("")
-    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber) {
+    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, String orderBy) {
         ModelAndView view = new ModelAndView("product/index");
         ResponseEntity<ResponseView> response = null;
+        String sort,sd;
 
         currPageSize = (currPageSize != null) ? currPageSize : pageSize;
         pageNumber = (pageNumber != null) ? pageNumber : 0;
+        orderBy = (orderBy != null) ? orderBy : "";
+        //Process Sort
+
+        switch (orderBy) {
+            case "id_desc":
+                sort = "id";
+                sd = "desc";
+            break;
+            
+            case "name" :
+                sort = "name";
+                sd = "desc";
+                break;
+        
+            case "name_desc" :
+                sort = "name";
+                sd = "asc";
+                break;
+            
+            case "price" :
+                sort = "price";
+                sd = "desc";
+                break;
+        
+            case "price_desc" :
+                sort = "price";
+                sd = "asc";
+                break;
+                
+            case "stock" :
+                sort = "stock";
+                sd = "desc";
+                break;
+        
+            case "stock_desc" :
+                sort = "stock";
+                sd = "asc";
+                break;
+            
+            case "variant" :
+                sort = "variant";
+                sd = "desc";
+                break;
+        
+            case "variant_desc" :
+                sort = "variant";
+                sd = "asc";
+                break;
+            
+            case "category" :
+                sort = "category";
+                sd = "desc";
+                break;
+        
+            case "category_desc" :
+                sort = "category";
+                sd = "asc";
+                break;
+        
+            default:
+                sort = "id";
+                sd = "asc";
+                break;
+        }
 
         try {
             if (filter == null || filter.isBlank()) {
-                response = restTemplate.getForEntity(apiUrl + "/products/paginated/" +pageNumber+"/" +currPageSize, ResponseView.class);
+                response = restTemplate.getForEntity(apiUrl + "/products/paginated/" +pageNumber+"/" +currPageSize + "?sort=" + sort + "&sd=" + sd, ResponseView.class);
             } else {
                 response = restTemplate.getForEntity(apiUrl + "/products/paginationfilter/" + filter + "/" +pageNumber+ "/" + currPageSize, ResponseView.class);
             }
@@ -52,6 +118,15 @@ public class ProductController {
         } catch (Exception e) {
             view.addObject("errorMsg", e.getMessage());
         }
+
+        view.addObject("orderId",(orderBy.equals("id")) ?"id_desc" : "id" );
+        view.addObject("orderName",(orderBy.equals("id")) ?"name_desc" : "name" );
+        view.addObject("orderPrice",(orderBy.equals("id")) ?"price_desc" : "price" );
+        view.addObject("orderStock",(orderBy.equals("id")) ?"stock_desc" : "stock" );
+        view.addObject("orderVariant",(orderBy.equals("id")) ?"variant_desc" : "variant" );
+        view.addObject("orderCategory",(orderBy.equals("id")) ?"category_desc" : "category" );
+
+
         view.addObject("filter", filter);
         view.addObject("currPageSize", currPageSize);
 

@@ -83,7 +83,7 @@
           <tbody th:if="${!category.empty}">
             <tr th:each="item:${category.content}">
               <th scope="row" th:text="${item.id}"></th>
-              <td th:text="${item.categoryName}"></td>
+              <td th:text="${item.category_name}"></td>
               <td th:text="${item.description}"></td>
               <td class="d-flex gap-1">
                 <button
@@ -115,7 +115,7 @@
 							<td colspan="8" class="text-center">
 								<div class="btn-group">
 									<button id="btnPrev" title="Previous Page..." class="btn btn-secondary"><i class="fas fa-backward"></i></button>
-									<span class="input-group-text text-end" id="pagePosition" th:text="|Page ${product.number+1} of ${product.totalPages}|"></span>
+									<span class="input-group-text text-end" id="pagePosition" th:text="|Page ${category.number+1} of ${category.totalPages}|"></span>
 									<button id="btnNext" title="Next Page..." class="btn btn-secondary"><i class="fas fa-forward"></i></button>
 								</div>
 							</td>
@@ -161,13 +161,13 @@
         $("#btnPrev").click(function(e){
 					let filter = $("#txtFilter").val();
 					let currPageSize = /*[[${currPageSize}]]*/0;
-					let pageNumber = /*[[${product.number}]]*/0;
+					let pageNumber = /*[[${category.number}]]*/0;
 					location.href = `/category?filter=${filter}&pageNumber=${(pageNumber-1)}&currPageSize=${currPageSize}`;
 				});
 				$("#btnNext").click(function(e){
 					let filter = $("#txtFilter").val();
 					let currPageSize = /*[[${currPageSize}]]*/0;
-					let pageNumber = /*[[${product.number}]]*/0;
+					let pageNumber = /*[[${category.number}]]*/0;
 					
 					location.href = `/category?filter=${filter}&pageNumber=${(pageNumber+1)}&currPageSize=${currPageSize}`;
 				});
