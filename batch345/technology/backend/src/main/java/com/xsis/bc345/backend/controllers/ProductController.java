@@ -132,11 +132,6 @@ public class ProductController {
       return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-
-  @GetMapping("/aksdhasdh")
-  public String getMethodName(@RequestParam String param) {
-      return new String();
-  }
   
 
 }
