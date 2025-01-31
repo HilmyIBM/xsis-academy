@@ -48,17 +48,39 @@ public class ProductController {
     private Integer pageSize;
 
     @GetMapping("")
-    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, HttpSession sess) {
+    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, String orderBy, HttpSession sess) {
         ModelAndView view = new ModelAndView("/product/index");
         ResponseEntity<PagingView> apiResponse = null;
+        String sort, sd;
 
         currPageSize = (currPageSize != null) ? currPageSize : pageSize;
         pageNumber = (pageNumber != null) ? pageNumber : 0;
+        orderBy = (orderBy != null) ? orderBy : "";
+
+        //Process Sort
+        switch (orderBy) {
+            case "name_desc":
+                sort = "name";
+                sd = "DESC";
+                break;
+            case "name":
+                sort = "name";
+                sd = "ASC";
+                break;
+            case "id_desc":
+                sort = "id";
+                sd = "DESC";
+                break;
+            default:
+                sort = "id";
+                sd = "ASC";
+                break;
+        }
 
         try {
             if (filter == null || filter.isBlank()){
                 // apiResponse = restTemplate.getForEntity(apiUrl + "/product", ProductView[].class);
-                apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginated/" + pageNumber + "/" + currPageSize, PagingView.class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginated/" + pageNumber + "/" + currPageSize + "?sort="+ sort +"&sd=" + sd, PagingView.class);
             }
             else {
                 // apiResponse = restTemplate.getForEntity(apiUrl + "/product/filter/" + filter, ProductView[].class);
@@ -75,9 +97,18 @@ public class ProductController {
             view.addObject("errorMsg", e.getMessage());
         }
 
+        // Process Nexr Order
+        view.addObject("orderById", (orderBy.equals("")) ? "id_desc" : "");
+        view.addObject("orderByName", (orderBy.equals("name")) ? "name_desc" : "name");
+        view.addObject("orderByPrice", (orderBy.equals("price")) ? "price_desc" : "price");
+        view.addObject("orderByStock", (orderBy.equals("stock")) ? "stock_desc" : "stock");
+        view.addObject("orderByVariant", (orderBy.equals("variant")) ? "variant_desc" : "variant");
+        view.addObject("orderByCategory", (orderBy.equals("category")) ? "category_desc" : "category");
+
         view.addObject("filter", filter);
         // view.addObject("imgFolder", IMG_FOLDER);
         view.addObject("currPageSize", currPageSize);
+        view.addObject("orderBy", orderBy);
         
         return view;
     }

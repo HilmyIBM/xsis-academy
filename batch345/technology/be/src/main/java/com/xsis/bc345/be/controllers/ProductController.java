@@ -43,7 +43,7 @@ public class ProductController {
     }
 
     @GetMapping("/paginated/{page}/{size}")
-    public ResponseEntity<?> getAll(@PathVariable int page, @PathVariable int size, @RequestParam(defaultValue = "name") String sort, @RequestParam(defaultValue = "ASC") String sd){
+    public ResponseEntity<?> getAll(@PathVariable int page, @PathVariable int size, @RequestParam(defaultValue = "id") String sort, @RequestParam(defaultValue = "ASC") String sd){
         try {
             Page<Map<String, Object>> data = productSvc.getAll(PageRequest.of(page, size, Sort.by(Direction.fromString(sd), sort)));
             return new ResponseEntity<Page<Map<String, Object>>>(data, HttpStatus.OK);

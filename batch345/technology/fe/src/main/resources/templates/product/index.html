@@ -45,12 +45,12 @@
             <thead>
                 <tr>
                     <th scope="col">Image</th>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nama Product</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Variant</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Stock</th>
+                    <th scope="col"><a th:data-orderby="${orderById}">ID</a></th>
+                    <th scope="col"><a th:data-orderby="${orderByName}">Nama Product</a></th>
+                    <th scope="col"><a th:data-orderby="${orderByCategory}">Category</a></th>
+                    <th scope="col"><a th:data-orderby="${orderByVariant}">Variant</a></th>
+                    <th scope="col"><a th:data-orderby="${orderByPrice}">Price</a></th>
+                    <th scope="col"><a th:data-orderby="${orderByStock}">Stock</a></th>
                     <th scope="col">Is Delete</th>
                     <th scope="col">Action</th>
                 </tr>
@@ -72,9 +72,9 @@
                     <td th:text="${item.deleted}">False</td>
                     <td>
                         <div class="btn-group gap-2">
-                            <button th:data-id="${item.id}" type="button" class="btn btn-info btn-sm rounded-2"><i class="fas fa-eye"></i></button>
-                            <button th:data-id="${item.id}" type="button" class="btn btn-warning btn-sm rounded-2"><i class="fas fa-edit"></i></button>
-                            <button th:data-id="${item.id}" type="button" class="btn btn-danger btn-sm rounded-2"><i class="fas fa-trash"></i></button>
+                            <button th:data-id="${item.id}" type="button" class="btn btn-info btn-sm rounded-2 btnInfo"><i class="fas fa-eye"></i></button>
+                            <button th:data-id="${item.id}" type="button" class="btn btn-warning btn-sm rounded-2 btnEdit"><i class="fas fa-edit"></i></button>
+                            <button th:data-id="${item.id}" type="button" class="btn btn-danger btn-sm rounded-2 btnDelete"><i class="fas fa-trash"></i></button>
                         </div>
                     </td>
                 </tr>
@@ -112,21 +112,21 @@
                 $("#staticModalBody").load("/product/add");
             });
 
-            $(".btn-info").click(function(e){
+            $(".btnInfo").click(function(e){
                 let catId = $(this).data("id");
 
                 $("#staticModalBody").load("/product/" + catId);
                 $("#staticModal").modal("show");
             })
 
-            $(".btn-warning").click(function(e){
+            $(".btnEdit").click(function(e){
                 let catId = $(this).data("id");
 
                 $("#staticModalBodyLg").load("/product/edit/" + catId);
                 $("#staticModalLg").modal("show");
             })
 
-            $(".btn-danger").click(function() {
+            $(".btnDelete").click(function() {
                 let catId = $(this).data("id");
 
                 $("#staticModalBody").load("/product/delete/" + catId);
@@ -156,6 +156,18 @@
 
                 location.href = `/product?filter=${filter}&pageNumber=${(pageNumber)}&currPageSize=${currPageSize}`;
             });
+
+            $("th > a").click(function(e){
+                // e.preventDefault();
+                let orderBy = $(this).data("orderby");
+                let filter = $("#txtFilter").val();
+                let currPageSize = $("#currPageSize").val();
+                let pageNumber = /*[[${product.number}]]*/0;
+
+                orderBy = (orderBy === undefined) ? "" : orderBy;
+
+                location.href = `/product?filter=${filter}&pageNumber=${pageNumber}&currPageSize=${currPageSize}&orderBy=${orderBy}`;
+            })
         </script>
     </div>
 </body>
