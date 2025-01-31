@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xsis.bc345.be.models.Auth;
 import com.xsis.bc345.be.models.Customer;
 import com.xsis.bc345.be.services.CustomerService;
-import com.xsis.bc345.be.models.ApiResponse;
 
 @RestController
 @CrossOrigin("*")

@@ -65,10 +65,15 @@ public class ProductController {
     }
 
     @GetMapping("paginationFilter/{filter}/{page}/{size}")
-    public ResponseEntity<?> getPaginationFilter(@PathVariable String filter, @PathVariable int page,
-            @PathVariable int size) {
+    public ResponseEntity<?> getPaginationFilter(
+            @PathVariable String filter,
+            @PathVariable int page,
+            @PathVariable int size,
+            @RequestParam(defaultValue = "v.name") String sort,
+            @RequestParam(defaultValue = "ASC") String sortDirection) {
         try {
-            Page<Map<String, Object>> data = productSvc.getAllPaginationFilter(filter, PageRequest.of(page, size));
+            Page<Map<String, Object>> data = productSvc.getAllPaginationFilter(filter,
+                    PageRequest.of(page, size, Sort.by(Direction.fromString(sortDirection), sort)));
             return new ResponseEntity<Page<Map<String, Object>>>(data, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
