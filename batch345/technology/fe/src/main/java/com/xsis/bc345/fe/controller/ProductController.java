@@ -42,14 +42,73 @@ public class ProductController {
     @Value("${application.page.size}")
     private Integer pageSize;
     @GetMapping("")
-    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber) {
+    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, String orderBy) {
         ModelAndView view = new ModelAndView("product/index");
         ResponseEntity<PagingView> apiResponse = null;
+        String sort, sd;
         currPageSize = (currPageSize != null) ? currPageSize : pageSize;
         pageNumber = (pageNumber != null) ? pageNumber : 0;
+        orderBy = (orderBy != null) ? orderBy : "id";
+        //process sorting
+        switch (orderBy) {
+            case "name":
+                sort = "name";
+                sd = "ASC";
+                break;
+            case "name_desc":
+                sort = "name";
+                sd = "DESC";
+                break;
+
+            case "stock":
+                sort = "stock";
+                sd = "ASC";
+                break;
+            case "stock_desc":
+                sort = "stock";
+                sd = "DESC";
+                break;
+
+            case "price":
+                sort = "price";
+                sd = "ASC";
+                break;
+            case "price_desc":
+                sort = "price";
+                sd = "DESC";
+                break;
+
+            case "variant":
+                sort = "v.name";
+                sd = "ASC";
+                break;
+            case "variant_desc":
+                sort = "v.name";
+                sd = "DESC";
+                break;
+
+            case "category":
+                sort = "c.category_name";
+                sd = "ASC";
+                break;
+            case "category_desc":
+                sort = "c.category_name";
+                sd = "DESC";
+                break;
+
+            case "id_desc":
+                sort = "id";
+                sd = "DESC";
+                break;
+            default:
+                sort = "id";
+                sd = "ASC";
+                break;
+        }
+
         try {
             if(filter == null || filter.isBlank()){
-                apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginate/" + pageNumber + "/" +currPageSize, PagingView.class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginate/" + pageNumber + "/" +currPageSize + "?sort=" + sort + "&sd=" + sd, PagingView.class);
             }else{
                 apiResponse = restTemplate.getForEntity(apiUrl + "/product/paginate/filter/" + filter + "/" + pageNumber + "/" +currPageSize, PagingView.class);
             }
@@ -61,8 +120,17 @@ public class ProductController {
         } catch (Exception e) {
             view.addObject("errorMsg", e.getMessage());
         }
+        //next order
+        view.addObject("orderId", (orderBy.equals("id")) ? "id_desc" : "id");
+        view.addObject("orderName", (orderBy.equals("name")) ? "name_desc" : "name");
+        view.addObject("orderPrice", (orderBy.equals("price")) ? "price_desc" : "price");
+        view.addObject("orderStock", (orderBy.equals("stock")) ? "stock_desc" : "stock");
+        view.addObject("orderVariant", (orderBy.equals("variant")) ? "variant_desc" : "variant");
+        view.addObject("orderCategory", (orderBy.equals("category")) ? "category_desc" : "category");
+
         view.addObject("filter", filter);
         view.addObject("currPageSize", currPageSize);
+        view.addObject("orderBy", orderBy);
         return view;
     }
     @GetMapping("/add")
