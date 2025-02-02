@@ -77,12 +77,30 @@
           <thead>
             <tr>
               <th>Image</th>
-              <th><a th:data-orderby="${orderId}">ID</a></th>
-              <th><a th:data-orderby="${orderName}">Name</a></th>
-              <th><a th:data-orderby="${orderCategory}">Category</a></th>
-              <th><a th:data-orderby="${orderVariant}">Variant</a></th>
-              <th><a th:data-orderby="${orderPrice}">Price</a></th>
-              <th><a th:data-orderby="${orderStock}">Stock</a></th>
+              <th class="col-sm-1 col-lg-1"><a href="#" th:data-orderby="${orderId}" class="text-decoration-none">ID 
+								<i th:if="${orderBy == ''}" class="fas fa-sort-up"></i>
+								<i th:if="${orderBy == 'id_desc'}" class="fas fa-sort-down"></i>
+							</a></th>
+              <th class="col-sm-7 col-lg-2"><a href="#" th:data-orderby="${orderName}" class="text-decoration-none">Name
+								<i th:if="${orderBy == 'name'}" class="fas fa-sort-up"></i>
+								<i th:if="${orderBy == 'name_desc'}" class="fas fa-sort-down"></i>
+							</a></th>
+              <th class="d-none d-sm-table-cell col-lg-2"><a href="#" th:data-orderby="${orderCategory}" class="text-decoration-none">Category
+								<i th:if="${orderBy == 'category'}" class="fas fa-sort-up"></i>
+								<i th:if="${orderBy == 'category_desc'}" class="fas fa-sort-down"></i>
+							</a></th>
+              <th class="d-none d-sm-table-cell col-lg-2"><a href="#" th:data-orderby="${orderVariant}" class="text-decoration-none">Variant
+								<i th:if="${orderBy == 'variant'}" class="fas fa-sort-up"></i>
+								<i th:if="${orderBy == 'variant_desc'}" class="fas fa-sort-down"></i>
+							</a></th>
+              <th class="col-sm-2 col-lg-2"><a href="#" th:data-orderby="${orderPrice}" class="text-decoration-none">Price
+								<i th:if="${orderBy == 'price'}" class="fas fa-sort-up"></i>
+								<i th:if="${orderBy == 'price_desc'}" class="fas fa-sort-down"></i>
+							</a></th>
+              <th class="d-none d-sm-table-cell col-lg-1"><a href="#" th:data-orderby="${orderStock}" class="text-decoration-none">Stock
+								<i th:if="${orderBy == 'stock'}" class="fas fa-sort-up"></i>
+								<i th:if="${orderBy == 'stock_desc'}" class="fas fa-sort-down"></i>
+							</a></th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -140,6 +158,7 @@
         ></div>
         <div class="mb-5"></div>
       </div>
+
       <script th:inline="javascript">
         let prodId;
 
@@ -201,15 +220,14 @@
 					location.href = `/product?filter=${filter}&pageNumber=${(pageNumber)}&currPageSize=${currPageSize}`;
 				});
 
-        $("th > a").click(function(e){
-          let filter = $("#txtFilter").val();
-					let currPageSize = $(this).val();
+       $("th > a").click(function(e) {
+					let orderBy = ($(this).data("orderby") === undefined) ? "" : $(this).data("orderby");
+					let filter = $("#txtFilter").val();
+					let currPageSize = /*[[${currPageSize}]]*/5;
 					let pageNumber = /*[[${product.number}]]*/0;
 
-          let orderBy = $(this).data("orderby");
-
-          location.href=`/product?filter=${filter}&pageNumber=${(pageNumber)}&currPageSize=${currPageSize}&orderBy=${orderBy}`
-        })
+					location.href=`/product?filter=${filter}&pageNumber=${pageNumber}&currPageSize=${currPageSize}&orderBy=${orderBy}`;
+				});
       </script>
     </div>
   </body>

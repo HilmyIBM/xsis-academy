@@ -71,7 +71,7 @@ public class ProductController {
     }
 
     @GetMapping("/paginated/{page}/{size}")
-    public ResponseEntity<?> getAllNative(@PathVariable int page, @PathVariable int size){
+    public ResponseEntity<?> getAllNative(@PathVariable int page, @PathVariable int size, @RequestParam(defaultValue = "id") String sort, @RequestParam(defaultValue = "ASC") String sortDirection){
         try {
             final Page<Map<String, Object>> data = productSvc.getAllNative(PageRequest.of(page, size));
 
@@ -103,7 +103,7 @@ public class ProductController {
     }
 
     @GetMapping("/paginated/filter/{filter}/{page}/{size}")
-    public ResponseEntity<?> getByFilterNative(@PathVariable String filter, @PathVariable int page, @PathVariable int size, @RequestParam(defaultValue = "id") String sort, @RequestParam(defaultValue = "ASC") String sortDirection) {
+    public ResponseEntity<?> getByFilterNative(@PathVariable String filter, @PathVariable int page, @PathVariable int size, @RequestParam(defaultValue = "name") String sort, @RequestParam(defaultValue = "ASC") String sortDirection) {
         try {
            Page<Map<String, Object>> data = productSvc.getFilterNative(PageRequest.of(page, size, Sort.by(Direction.fromString(sortDirection), sort)) ,filter);
 
