@@ -56,7 +56,7 @@
                                     <div class="d-flex justify-content-between">
                                         <div class="btn-group">
                                             <button class="btn btn-danger btnRemove" th:id="|btnRemove-${product.id}|" th:data-id="${product.id}" disabled="true"><i class="fas fa-minus"></i></button>
-                                            <input type="text" class="form-control text-center" th:id="|qty-${product.id}|" value="0" />
+                                            <input type="text" class="form-control text-center rounded-0" th:id="|qty-${product.id}|" value="0" />
                                             <button class="btn btn-success btnAdd" th:id="|btnAdd-${product.id}|" th:data-id="${product.id}"><i class="fas fa-plus"></i></button>
                                         </div>
                                     </div>
@@ -176,36 +176,23 @@
                         if (listCart.length > 0) {
                             $("#addToCart").prop("disabled", false);
                         }
-
-                        // console.log(listCart.length);
-                        // console.log(listCart);
                     });
 
                     $("#addToCart").click(function(e) {
-                        let data = {
+                        let order = {
                             "listCart": listCart,
                             "totProduct": totProduct,
                             "estPrice": estPrice
                         };
 
-                        // data: JSON.stringify(listCart),
-                        // contentType: 'application/json',
                         $.ajax({
                             url: "/order/cart",
-                            data: {
-                                "listCart": listCart,
-                                "totProduct": totProduct,
-                                "estPrice": estPrice
-                            },
+                            data: order,
                             dataType: "json",
                             success: function(response) {
-                                debugger;
                                 $("#staticModalBodyLg").html(response);
                             },
                             error: function(errResponse) {
-                                // alert("Ada yg salah");
-                                // console.error(errResponse);
-                                // debugger
                                 $("#staticModalBodyLg").html(errResponse.responseText);
                             }
                         });
