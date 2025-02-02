@@ -177,8 +177,8 @@
                             $("#addToCart").prop("disabled", false);
                         }
 
-                        console.log(listCart.length);
-                        console.log(listCart);
+                        // console.log(listCart.length);
+                        // console.log(listCart);
                     });
 
                     $("#addToCart").click(function(e) {
@@ -187,13 +187,19 @@
                             "totProduct": totProduct,
                             "estPrice": estPrice
                         };
-                        
+
+                        // data: JSON.stringify(listCart),
+                        // contentType: 'application/json',
                         $.ajax({
                             url: "/order/cart",
-                            type: "post",
-                            data: data,
+                            data: {
+                                "listCart": listCart,
+                                "totProduct": totProduct,
+                                "estPrice": estPrice
+                            },
                             dataType: "json",
                             success: function(response) {
+                                debugger;
                                 $("#staticModalBodyLg").html(response);
                             },
                             error: function(errResponse) {

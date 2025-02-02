@@ -15,22 +15,6 @@ public class OrderDetailView {
 	private Integer updateBy;
 	private Timestamp updateDate;
 
-
-    public OrderDetailView(Long id, Long orderHeaderId, Long productId, String productName, Integer qty, Double price, Boolean deleted, Integer createBy, Timestamp createDate, Integer updateBy, Timestamp updateDate) {
-        this.id = id;
-        this.orderHeaderId = orderHeaderId;
-        this.productId = productId;
-        this.productName = productName;
-        this.qty = qty;
-        this.price = price;
-        this.deleted = deleted;
-        this.createBy = createBy;
-        this.createDate = createDate;
-        this.updateBy = updateBy;
-        this.updateDate = updateDate;
-    }
-
-
     public Long getId() {
         return this.id;
     }

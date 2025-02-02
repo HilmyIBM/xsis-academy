@@ -12,10 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.xsis.bc345.fe.models.CartView;
 import com.xsis.bc345.fe.models.OrderDetailView;
 import com.xsis.bc345.fe.models.ProductView;
-
-import ch.qos.logback.core.model.Model;
 
 @Controller
 @RequestMapping("/order")
@@ -55,14 +54,14 @@ public class OrderController {
         return view;
     }
 
-    @PostMapping("/cart")
-    public ModelAndView cart(OrderDetailView[] listCart, Integer totProduct, Double estPrice) {
+    @GetMapping("/cart")
+    public ModelAndView cart(CartView orders) {
         ModelAndView view = new ModelAndView("/order/cart");
 
         view.addObject("title", "Order Details");
-        view.addObject("totProduct", totProduct);
-        view.addObject("estPrice", estPrice);
-        view.addObject("listCart", listCart);
+        view.addObject("totProduct", orders.getTotProduct());
+        view.addObject("estPrice", orders.getEstPrice());
+        view.addObject("listCart", orders.getListCart());
 
         return view;
     }

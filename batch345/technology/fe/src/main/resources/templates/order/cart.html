@@ -2,23 +2,50 @@
     <div class="card-body">
         <input id="txtTitle" type="hidden" th:value="${title}">
 
-        <table>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center">No.</th>
+                    <th class="text-center">Product Name</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${listCart != null}" th:each="item, iStat : ${listCart}">
+                    <td class="text-end" th:text="${iStat.index}+1"></td>
+                    <td th:text="${item.productName}"></td>
+                    <td class="text-end" th:text="${#numbers.formatDecimal(item.price,1,'POINT',2,'COMMA')}"></td>
+                    <td class="text-center" th:text="${#numbers.formatInteger(item.qty, 1, 'POINT')}"></td>
+                    <td class="text-end" th:with="amount=${item.price} * ${item.qty}" th:text="${#numbers.formatDecimal(amount, 1, 'POINT', 2, 'COMMA')}">Amount</td>
+                </tr>
+            </tbody>
             <tfoot>
                 <tr>
-                    <th>Total</th>
-                    <td th:text="${totProduct}"></td>
-                    <td th:text="${estPrice}"></td>
+                    <th class="text-end" colspan="3">Total</th>
+                    <td class="text-center" th:text="${#numbers.formatInteger(totProduct, 1, 'POINT')}"></td>
+                    <td class="text-end" th:text="${#numbers.formatDecimal(estPrice, 1, 'POINT', 2, 'COMMA')}"></td>
                 </tr>
             </tfoot>
         </table>
     </div>
-    <div class="card-footer">
-        <button class="btn btn-primary" onclick="console.log(listCart)">Save</button>
+    <div class="card-footer text-end">
+        <button id="btnCartSave" class="btn btn-primary" onclick="console.log(listCart)"><i class="fas fa-save"></i> Save</button>
+        <button id="btnCartCheckout" class="btn btn-success" onclick="console.log(listCart)"><i class="fas fa-cart-arrow-down"></i> Submit</button>
     </div>
 </div>
 
 <script th:inline="javascript">
     $(document).ready(function(e) {
         $("#staticModalLabelLg").text($("#txtTitle").val());
+    });
+
+    $("#btnCartSave").click(function(e) {
+
+    });
+
+    $("#btnCartCheckout").click(function(e) {
+
     });
 </script>
