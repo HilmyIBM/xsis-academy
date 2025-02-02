@@ -71,9 +71,9 @@ public class ProductController {
     }
 
     @GetMapping("/paginated/{page}/{size}")
-    public ResponseEntity<?> getAllNative(@PathVariable int page, @PathVariable int size, @RequestParam(defaultValue = "id") String sort, @RequestParam(defaultValue = "ASC") String sortDirection){
+    public ResponseEntity<?> getAllNative(@PathVariable int page, @PathVariable int size, @RequestParam(defaultValue = "stock") String sort, @RequestParam(defaultValue = "desc") String sortDirection){
         try {
-            final Page<Map<String, Object>> data = productSvc.getAllNative(PageRequest.of(page, size));
+            final Page<Map<String, Object>> data = productSvc.getAllNative(PageRequest.of(page, size, Sort.by(Direction.fromString(sortDirection), sort)));
 
                 return new ResponseEntity <Page<Map<String, Object>>>(data, HttpStatus.OK);
                 

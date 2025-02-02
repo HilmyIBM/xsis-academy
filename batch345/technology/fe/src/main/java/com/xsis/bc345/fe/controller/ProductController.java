@@ -80,7 +80,7 @@ public class ProductController {
         try {
             if (filter == null || filter.isBlank()) {
 
-                apiResponse = restTemplate.getForEntity(apiUrl + "/paginated/" + pageNumber + "/" + currPageSize + "?sort=" + sort + "?sortDirection=" + sortDirection, PagingView.class);
+                apiResponse = restTemplate.getForEntity(apiUrl + "/paginated/" + pageNumber + "/" + currPageSize + "?sort=" + sort + "&?sortDirection=" + sortDirection, PagingView.class);
             } else {
                 apiResponse = restTemplate.getForEntity(apiUrl + "/paginated/filter/" + filter + "/" + pageNumber + "/" + currPageSize + "?sort=" + sort + "&?sortDirection=" + sortDirection, PagingView.class);
 
