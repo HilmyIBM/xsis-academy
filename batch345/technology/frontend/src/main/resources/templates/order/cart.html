@@ -1,0 +1,11 @@
+<div class="card">
+  <div class="card-body">
+    <input type="hidden" th:value="${title}" />
+  </div>
+</div>
+
+<script th:inline="javascript">
+  $(document).ready(function (e) {
+    $("#staticModalLgLabel").text($("#txtTitle").val());
+  });
+</script>

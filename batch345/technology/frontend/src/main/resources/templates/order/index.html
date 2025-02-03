@@ -24,7 +24,7 @@
               </div>
             </div>
             <div class="col-md-4">
-              <div class="card text-white bg-success">
+              <div class="card text-white bg-warning">
                 <div class="card-body d-flex flex-column align-items-center">
                   <h1 class="card-title" id="estPrice">0</h1>
                   <p class="card-text">Estimate Price</p>
@@ -32,10 +32,16 @@
               </div>
             </div>
             <div class="col-md-4">
-              <div class="card text-white bg-warning">
+              <div class="card text-white bg-success">
                 <div class="card-body d-flex flex-column align-items-center">
                   <h1 class="card-title"><i class="fas fa-cart-plus"></i></h1>
-                  <button class="btn streched-link p-0 text-white card-text">Add to cart</button>
+                  <button
+                    id="addToCart"
+                    class="btn stretched-link p-0 text-white card-text"
+                    disabled
+                  >
+                    Add to Cart
+                  </button>
                 </div>
               </div>
             </div>
@@ -95,6 +101,7 @@
                         class="btn btn-danger btn-remove"
                         th:id="|btnRemove-${product.id}|"
                         th:data-id="${product.id}"
+                        disabled
                       >
                         <i class="fas fa-minus"></i>
                       </button>
@@ -103,6 +110,8 @@
                         class="form-control text-center"
                         th:id="|qty-${product.id}|"
                         value="0"
+                        readonly
+                        disabled
                       />
                       <button
                         class="btn btn-success btn-add"
@@ -160,6 +169,18 @@
               $("#stock-" + productId).data("stock", productStock);
               $("#stock-" + productId).text(productStock);
             }
+            // Deactivate "Remove Product" Button
+            if (productQty < 1) {
+              $(this).prop("disabled", true);
+            }
+            // Activate "Add Product" Button
+            if (productStock > 0) {
+              $("#btnAdd-" + productId).prop("disabled", false);
+            }
+            if (listCart.length < 1) {
+              $("#addToCart").prop("disabled", true);
+            }
+            console.log(listCart);
           });
           $(".btn-add").click(function (e) {
             let productId = $(this).data("id");
@@ -191,8 +212,6 @@
                 listCart[productCartIdx].qty = productQty;
               }
 
-              console.log(listCart);
-
               // Update UI
               $("#totalProduct").text(totalProduct);
               $("#estPrice").text(estPrice);
@@ -200,6 +219,40 @@
               $("#stock-" + productId).data("stock", productStock);
               $("#stock-" + productId).text(productStock);
             }
+
+            // Deactivate "Add Product" button
+            if (productStock < 1) {
+              $(this).prop("disabled", true);
+            }
+            //Activate "Remove Product" button
+            if (productQty > 0) {
+              $("#btnRemove-" + productId).prop("disabled", false);
+            }
+            // Deactivate "Add to Cart" button
+            if (listCart.length > 0) {
+              $("#addToCart").prop("disabled", false);
+            }
+            console.log(listCart);
+          });
+          $("#addToCart").click(function (e) {
+            $("#staticModalLg").load(
+              "/order/cart",
+              {
+                listCart: listCart,
+                totalProduct: totalProduct,
+                estPrice: estPrice,
+              },
+              function (result, status) {
+                if (status == "success") {
+                  $("#staticModalLg").modal("show");
+                } else {
+                  alert("Ada yang salah");
+                  console.error("status", status);
+                  console.error("result", result);
+                }
+              }
+            );
+            $("#staticModalLg").modal("show");
           });
         });
       </script>

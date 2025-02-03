@@ -1,10 +1,13 @@
 package com.xsis.frontend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,6 +43,17 @@ public class OrderController {
         }
 
         view.addObject("title", "Product Catalog");
+        return view;
+    }
+
+    @PostMapping("/cart")
+    public ModelAndView cart(List<?> listCart, Integer totalProduct, Double estPrice) {
+        ModelAndView view = new ModelAndView("/order/cart");
+
+        view.addObject("title", "Order Details");
+        view.addObject("totalProduct", totalProduct);
+        view.addObject("estPrice", estPrice);
+        view.addObject("listCart", listCart);
         return view;
     }
 }
