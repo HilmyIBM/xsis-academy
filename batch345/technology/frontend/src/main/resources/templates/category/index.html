@@ -13,12 +13,7 @@
     <div layout:fragment="content">
       <div class="d-flex justify-content-between align-items-center">
         <h2>Category List</h2>
-        <button
-          id="btnAdd"
-          type="button"
-          class="btn btn-success"
-          data-bs-toggle="modal"
-        >
+        <button id="btnAdd" type="button" class="btn btn-success" data-bs-toggle="modal">
           Add
         </button>
       </div>
@@ -27,29 +22,16 @@
           <div class="w-25">
             <form action="" class="input-group mb-3 align-items-center">
               <label for="show" class="me-3">Show</label>
-              <select
-                id="selectPageSize"
-                name="currPageSize"
-                class="form-select"
-              >
+              <select id="selectPageSize" name="currPageSize" class="form-select">
                 <option value="5" th:selected="${category.size == 5}">5</option>
-                <option value="10" th:selected="${category.size == 10}">
-                  10
-                </option>
-                <option value="25" th:selected="${category.size == 25}">
-                  25
-                </option>
-                <option value="50" th:selected="${category.size == 50}">
-                  50
-                </option>
+                <option value="10" th:selected="${category.size == 10}">10</option>
+                <option value="25" th:selected="${category.size == 25}">25</option>
+                <option value="50" th:selected="${category.size == 50}">50</option>
               </select>
             </form>
           </div>
           <div class="w-50">
-            <form
-              action=""
-              class="input-group justify-content-end align-items-center"
-            >
+            <form action="" class="input-group justify-content-end align-items-center">
               <label for="search" class="me-3">Search</label>
               <input
                 th:if="${filter!=null}"
@@ -82,33 +64,21 @@
                   <a th:data-orderby="${orderId}"
                     >ID
                     <i th:if="${orderBy=='id'}" class="fas fa-sort-up"></i>
-                    <i
-                      th:if="${orderBy=='id_desc'}"
-                      class="fas fa-sort-down"
-                    ></i>
+                    <i th:if="${orderBy=='id_desc'}" class="fas fa-sort-down"></i>
                   </a>
                 </th>
                 <th scope="col" style="cursor: pointer">
                   <a th:data-orderby="${orderCatName}"
                     >Nama Category
                     <i th:if="${orderBy=='catName'}" class="fas fa-sort-up"></i>
-                    <i
-                      th:if="${orderBy=='catName_desc'}"
-                      class="fas fa-sort-down"
-                    ></i
+                    <i th:if="${orderBy=='catName_desc'}" class="fas fa-sort-down"></i
                   ></a>
                 </th>
                 <th scope="col" style="cursor: pointer">
                   <a th:data-orderby="${orderDescription}"
                     >Description
-                    <i
-                      th:if="${orderBy=='description'}"
-                      class="fas fa-sort-up"
-                    ></i>
-                    <i
-                      th:if="${orderBy=='description_desc'}"
-                      class="fas fa-sort-down"
-                    ></i
+                    <i th:if="${orderBy=='description'}" class="fas fa-sort-up"></i>
+                    <i th:if="${orderBy=='description_desc'}" class="fas fa-sort-down"></i
                   ></a>
                 </th>
                 <th scope="col">Action</th>
@@ -148,11 +118,7 @@
               </tr>
             </tbody>
           </table>
-          <div
-            th:unless="${!category.empty}"
-            class="text-center text-danger"
-            th:text="${errorMsg}"
-          >
+          <div th:unless="${!category.empty}" class="text-center text-danger" th:text="${errorMsg}">
             Error
           </div>
         </div>
@@ -189,6 +155,7 @@
         });
         $("#btnAdd").click(function (e) {
           $("#staticModalBody").load("/category/add");
+          $("#staticModal").modal("show");
         });
         $(".btn-edit").click(function (e) {
           let catId = $(this).data("id");
