@@ -34,15 +34,56 @@ public class VariantController {
     // private final String apiUrl = "http://localhost:8080/api";
 
     @GetMapping("")
-    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, HttpSession session) {
+    public ModelAndView index(String filter, Integer currPageSize, Integer pageNumber, String orderBy,
+            HttpSession session) {
         ModelAndView view = new ModelAndView("variant/index");
         ResponseEntity<PagingView> response = null;
+        String sort, sd;
 
         currPageSize = (currPageSize != null) ? currPageSize : pageSize;
         pageNumber = (pageNumber != null) ? pageNumber : 0;
+        orderBy = (orderBy != null) ? orderBy : "id";
+
+        switch (orderBy) {
+            case "description_desc":
+                sort = "description";
+                sd = "desc";
+                break;
+            case "description":
+                sort = "description";
+                sd = "asc";
+                break;
+            case "catName_desc":
+                sort = "c.category_name";
+                sd = "desc";
+                break;
+            case "catName":
+                sort = "c.category_name";
+                sd = "asc";
+                break;
+            case "name_desc":
+                sort = "name";
+                sd = "desc";
+                break;
+            case "name":
+                sort = "name";
+                sd = "asc";
+                break;
+            case "id_desc":
+                sort = "id";
+                sd = "desc";
+                break;
+            default:
+                sort = "id";
+                sd = "asc";
+                break;
+        }
+
         try {
             if (filter == null || filter.isBlank()) {
-                response = restTemplate.getForEntity(apiUrl + "/variants/paginated/" + pageNumber + "/" + currPageSize,
+                response = restTemplate.getForEntity(
+                        apiUrl + "/variants/paginated/" + pageNumber + "/" + currPageSize + "?sort=" + sort + "&sd="
+                                + sd,
                         PagingView.class);
             } else {
                 response = restTemplate.getForEntity(
@@ -59,8 +100,14 @@ public class VariantController {
         } catch (Exception e) {
             view.addObject("errorMsg", e.getMessage());
         }
+        view.addObject("orderId", (orderBy.equals("id")) ? "id_desc" : "id");
+        view.addObject("orderVarName", (orderBy.equals("name")) ? "name_desc" : "name");
+        view.addObject("orderCatName", (orderBy.equals("catName")) ? "catName_desc" : "catName");
+        view.addObject("orderDescription", (orderBy.equals("description")) ? "description_desc" : "description");
+
         view.addObject("filter", filter);
         view.addObject("currPageSize", currPageSize);
+        view.addObject("orderBy", orderBy);
         return view;
     }
 
