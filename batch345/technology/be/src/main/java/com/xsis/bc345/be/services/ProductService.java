@@ -58,7 +58,7 @@ public class ProductService {
             return productRepo.save(data);
         }
         else {
-            throw new Exception("Product doesn't exist!");
+            throw new Exception("Product with ID = " + data.getId() + " doesn't exist!");
         }
     }
 
