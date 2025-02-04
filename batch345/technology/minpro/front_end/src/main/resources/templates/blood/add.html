@@ -1,0 +1,62 @@
+<span id="txTitle" th:text="${title}" class="d-none"></span>
+
+<form id="frmNewBlood"> 
+    <div class="card">
+        <div class="card-body">
+            <input type="hidden" name="createdBy" id="createdBy" th:value="1">
+            <div>
+                <div class="form-group mb-2">
+                    <label for="txtCode" class="form-label">Code</label>
+                    <input type="text" class="form-control" name="code" id="txtCode">
+                </div>
+                <div class="form-group mb-2">
+                    <label for="txtDescription" class="form-label">Description</label>
+                    <input type="description" class="form-control" name="description" id="txtDescription">
+                </div>
+            </div>
+         </div>
+    </div>
+    <div class="d-flex justify-content-end mt-3">
+        <button type="submit" class="btn btn-dark"><i class="fas fa-save"></i> Save</button>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function(){
+        $('#staticModalLabel').text($("#txTitle").text());
+
+        $('#frmNewBlood').validate({
+            'rules': {
+                'code': {
+                    'required': true,
+                },
+            },
+            'errorClass': 'text-danger'
+        });
+
+        $('#frmNewBlood').submit(function(e){
+            e.preventDefault();
+
+            if($('#frmNewBlood').valid()){
+                $.ajax({
+                    url: '/blood/create',
+                    type: 'post',
+                    data: $('#frmNewBlood').serialize(),
+                    dataType: 'json',
+                    beforeSend: () => {
+                        // alert("mengirim data ke API");
+                    },
+                    success: function(response){
+                        alert("Blood " + response.code + " succesfully created!");
+                        location.reload();
+                    },
+                    error: function(errResponse){
+                        console.error("create new blood type failed" + errResponse.responseText)
+                    },
+                });
+            }
+        });
+
+
+    })
+</script>

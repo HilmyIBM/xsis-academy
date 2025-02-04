@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- Boostrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <!-- JQuery JS -->
+    <script src="js/jquery-3.7.1.min.js"></script>
+    
+    <!-- JQuery Validation -->
+    <script src="js/jquery.validate.min.js"></script>
+
+    <!-- Boostrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- MODAL -->
+    <div th:replace="~{fragments/modal}"></div>
+
+    <button type="button" class="btn" id="btnAdd" data-bs-toggle="modal" data-bs-target="#staticModal">ADD DATA</button>
+    <!-- TABLE -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Code</th>
+                <th scope="col">Description</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="blood:${bloods}">
+                <th scope="row" th:text="${blood.id}">1</th>
+                <td th:text="${blood.code}">Ice Cream</td>
+                <td th:text="${blood.description}">Dessert</td>                    
+                <td>
+                    <div class="btn-group gap-2">
+                        <!-- <button th:data-id="${blood.id}" type="button" class="btn btn-info btn-sm rounded-2"><i class="fas fa-eye"></i>Detail</button> -->
+                        <button th:data-id="${blood.id}" type="button" class="btn btn-warning btn-sm rounded-2 btnEdit"><i class="fas fa-edit">Edit</i></button>
+                        <button th:data-id="${blood.id}" th:data-code="${blood.code}" type="button" class="btn btn-danger btn-sm rounded-2 btnDelete"><i class="fas fa-trash">Delete</i></button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- TABLE END -->
+     <script>
+        $("#btnAdd").click(function(e){
+            $("#staticModalBody").load("/blood/add");
+        });
+
+        $(".btnEdit").click(function(e){
+            let catId = $(this).data("id");
+
+            $("#staticModalBody").load("/blood/edit/" + catId);
+            $("#staticModal").modal("show");
+        })
+
+        $(".btnDelete").click(function(e){
+            let catId = $(this).data("id");
+            let catCode = $(this).data("code");
+
+            $("#staticModalBody").load("/blood/delete/" + catId + "/" + catCode);
+            $("#staticModal").modal("show");
+        })
+     </script>
+</body>
+</html>
+
