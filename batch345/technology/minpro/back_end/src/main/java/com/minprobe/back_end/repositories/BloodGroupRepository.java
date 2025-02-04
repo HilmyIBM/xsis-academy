@@ -12,4 +12,5 @@ import com.minprobe.back_end.models.BloodGroup;
 public interface BloodGroupRepository extends JpaRepository<BloodGroup, Integer> {
     Optional<List<BloodGroup>> findByDelete(boolean deleted);
     Optional<BloodGroup> findByIdAndDelete(int id, boolean deleted);
+    Optional<List<BloodGroup>> findByCodeContainsIgnoreCaseAndDelete(String code, boolean deleted);
 }

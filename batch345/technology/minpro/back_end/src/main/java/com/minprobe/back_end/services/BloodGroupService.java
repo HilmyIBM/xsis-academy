@@ -28,6 +28,10 @@ public class BloodGroupService {
         return bloodGroupRepo.findByIdAndDelete(id, false);
     }
 
+    public Optional<List<BloodGroup>> getByCode(String filter){
+        return bloodGroupRepo.findByCodeContainsIgnoreCaseAndDelete(filter, false);
+    }
+
     public BloodGroup update(BloodGroup data) throws Exception {
         existingBloodGroup = bloodGroupRepo.findById(data.getId());
         if(existingBloodGroup.isPresent()){

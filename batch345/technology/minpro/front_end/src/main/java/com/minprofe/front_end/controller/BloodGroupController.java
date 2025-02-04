@@ -28,12 +28,16 @@ public class BloodGroupController {
     private String apiUrl;
 
     @GetMapping("")
-    public ModelAndView index(){
+    public ModelAndView index(String filter){
         ModelAndView view = new ModelAndView("/blood/index");
         ResponseEntity<BloodGroupView[]> apiResponse = null; 
 
         try {
-            apiResponse = restTemplate.getForEntity(apiUrl + "blood", BloodGroupView[].class);
+            if (filter == null || filter.isBlank()) {
+                apiResponse = restTemplate.getForEntity(apiUrl + "blood", BloodGroupView[].class);
+            }else {
+                apiResponse = restTemplate.getForEntity(apiUrl + "blood/filter/" + filter, BloodGroupView[].class);
+            }
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
                 BloodGroupView[] data = apiResponse.getBody();
@@ -44,6 +48,7 @@ public class BloodGroupController {
         } catch (Exception e) {
             view.addObject("errorMsg", e.getMessage());
         }
+        view.addObject("filter", filter);
 
         return view;
     }

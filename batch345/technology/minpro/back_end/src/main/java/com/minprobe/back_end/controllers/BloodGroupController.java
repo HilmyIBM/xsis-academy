@@ -2,6 +2,7 @@ package com.minprobe.back_end.controllers;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale.Category;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,16 @@ public class BloodGroupController {
         try {
             data.setCreatedOn(LocalDateTime.now());
             return new ResponseEntity<BloodGroup>(bloodGroupService.create(data), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/filter/{filter}")
+    public ResponseEntity<?> getByFilter(@PathVariable String filter) {
+        try {
+            List<BloodGroup> data = bloodGroupService.getByCode(filter).get();
+            return new ResponseEntity<List<BloodGroup>>(data, data.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
