@@ -1,77 +1,77 @@
-<div class="d-none" id="txtTitle" th:text="${title}"></div>
-<form id="frmLogin">
-    <div class="card">
-        <div class="card-body">
-            <div class="row mb-3">
-                <div class="input-group">
-                    <label for="txtName" class="input-group-text col-lg-3 col-12">E-Mail</label>
-                    <input id="txtName" name="email" type="text" class="form-control col-lg-9 col-12" />
+    <div class="d-none" id="txtTitle" th:text="${title}"></div>
+    <form id="frmLogin">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="input-group">
+                        <label for="txtName" class="input-group-text col-lg-3 col-12">E-Mail</label>
+                        <input id="txtName" name="email" type="text" class="form-control col-lg-9 col-12" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <label for="txtPassword" class="input-group-text col-lg-3 col-12">Password</label>
+                        <input id="txtPassword" name="password" type="password" class="form-control col-lg-9 col-12" />
+                    </div>
+                </div>
+                
+                <div id="errMsg" class="alert-warning mt-3 d-flex">
+                    <ul class="list-group list-unstyled"></ul>
                 </div>
             </div>
-            <div class="row">
-                <div class="input-group">
-                    <label for="txtPassword" class="input-group-text col-lg-3 col-12">Password</label>
-                    <input id="txtPassword" name="password" type="password" class="form-control col-lg-9 col-12" />
-                </div>
-            </div>
-            
-            <div id="errMsg" class="alert-warning mt-3 d-flex">
-                <ul class="list-group list-unstyled"></ul>
+            <div class="card-footer d-flex justify-content-end">
+                <button class="btn btn-primary" type="submit">Log In</button>
             </div>
         </div>
-        <div class="card-footer d-flex justify-content-end">
-            <button class="btn btn-primary" type="submit">Log In</button>
-        </div>
-    </div>
-</form>
+    </form>
 
-<script>
-    $(document).ready(function(e) {
-        $("#staticModalLabel").text($("#txtTitle").text());
+    <script>
+        $(document).ready(function(e) {
+            $("#staticModalLabel").text($("#txtTitle").text());
 
-        $("#frmLogin").validate({
-            rules: {
-                email: {
-                    "email": true,
-                    "required": true
-                },
-                password: {
-                    "required": true,
-                    "minlength": 6
-                }
-            },
-            // errorClass: "alert-warning text-danger px-1",
-            // errorLabelContainer: "#errMsg ul",
-            // wrapper: "li",
-            
-            errorClass: "text-danger alert-warning px-1",
-            errorContainer: "#errMsg",
-            errorLabelContainer: "#errMsg ul",
-            wrapper: "li"
-        });
-
-        $("#frmLogin").submit(function(e) {
-            e.preventDefault();
-
-            if($(this).valid()) {
-                // alert("Submitting...");
-                $.ajax({
-                    url: "/auth/login",
-                    type: "post",
-                    data: $("#frmLogin").serialize(),
-                    dataType: "json",
-                    success: function(response) {
-                        if (response.name) {
-                            alert(`Welcome ${response.name}!`);
-                            location.reload();
-                        }
+            $("#frmLogin").validate({
+                rules: {
+                    email: {
+                        "email": true,
+                        "required": true
                     },
-                    error: function(errResponse) {
-                        alert("Login Failed");
-                        console.error(errResponse);
+                    password: {
+                        "required": true,
+                        "minlength": 6
                     }
-                });
-            }
+                },
+                // errorClass: "alert-warning text-danger px-1",
+                // errorLabelContainer: "#errMsg ul",
+                // wrapper: "li",
+                
+                errorClass: "text-danger alert-warning px-1",
+                errorContainer: "#errMsg",
+                errorLabelContainer: "#errMsg ul",
+                wrapper: "li"
+            });
+
+            $("#frmLogin").submit(function(e) {
+                e.preventDefault();
+
+                if($(this).valid()) {
+                    // alert("Submitting...");
+                    $.ajax({
+                        url: "/auth/login",
+                        type: "post",
+                        data: $("#frmLogin").serialize(),
+                        dataType: "json",
+                        success: function(response) {
+                            if (response.name) {
+                                alert(`Welcome ${response.name}!`);
+                                location.reload();
+                            }
+                        },
+                        error: function(errResponse) {
+                            alert("Login Failed");
+                            console.error(errResponse);
+                        }
+                    });
+                }
+            });
         });
-    });
-</script>
+    </script>

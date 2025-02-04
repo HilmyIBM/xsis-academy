@@ -1,4 +1,4 @@
-package com.xsis.bc345.fe.controller;
+package com.kel1.healthcare.healthcare_fe.controller;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.xsis.bc345.fe.models.CustomerView;
+import com.kel1.healthcare.healthcare_fe.models.UserView;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -55,20 +55,20 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@ModelAttribute CustomerView data, HttpSession sess) {
+    public ResponseEntity<?> login(@ModelAttribute UserView data, HttpSession sess) {
         try {
-            ResponseEntity<CustomerView> apiResponse = restTemplate
-                    .getForEntity(apiUrl + "/customer/email/" + data.getEmail(), CustomerView.class);
+            ResponseEntity<UserView> apiResponse = restTemplate
+                    .getForEntity(apiUrl + "/customer/email/" + data.getEmail(), UserView.class);
 
             if (apiResponse.getStatusCode() == HttpStatus.OK) {
-                CustomerView customer = apiResponse.getBody();
+                UserView customer = apiResponse.getBody();
 
                 if (stringToHex(data.getPassword()).equals(customer.getPassword())) {
                     sess.setAttribute("userId", customer.getId());
                     sess.setAttribute("email", customer.getEmail());
                     sess.setAttribute("roleId", customer.getRoleId());
 
-                    return new ResponseEntity<CustomerView>(customer, HttpStatus.OK);
+                    return new ResponseEntity<UserView>(customer, HttpStatus.OK);
                 } else {
                     sess.invalidate();
                     sess.setAttribute("errorMsg", "Invalid Password");
@@ -86,33 +86,4 @@ public class AuthController {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @GetMapping("/logout")
-    public ModelAndView logout(HttpSession sess) {
-        sess.invalidate();
-
-        return new ModelAndView("redirect:/");
-    }
-
-    @PostMapping("/signup")
-    public ResponseEntity<?> signup(@ModelAttribute CustomerView data) {
-        try {
-            // Hash the password
-            String hashedPassword = stringToHex(data.getPassword());
-            data.setPassword(hashedPassword);
-
-            // Call API to create the customer
-            ResponseEntity<String> apiResponse = restTemplate.postForEntity(apiUrl + "/customer", data, String.class);
-
-            if (apiResponse.getStatusCode() == HttpStatus.CREATED) {
-                return ResponseEntity.ok("User registered successfully!");
-            } else {
-                return ResponseEntity.status(apiResponse.getStatusCode()).body(apiResponse.getBody());
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Registration failed: " + e.getMessage());
-        }
-    }
-
 }
