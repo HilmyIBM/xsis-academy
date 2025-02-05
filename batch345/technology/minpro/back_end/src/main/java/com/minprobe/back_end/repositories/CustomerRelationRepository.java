@@ -11,4 +11,6 @@ import com.minprobe.back_end.models.CustomerRelation;
 @Repository
 public interface CustomerRelationRepository extends JpaRepository<CustomerRelation, Integer> {
     Optional<List<CustomerRelation>> findByDelete(boolean deleted);
+    Optional<CustomerRelation> findByIdAndDelete(int id, boolean deleted);
+    Optional<List<CustomerRelation>> findByNameContainsIgnoreCaseAndDelete(String name, boolean deleted);
 }

@@ -1,25 +1,23 @@
 <span id="txTitle" th:text="${title}" class="d-none"></span>
 
-<form id="frmNewBlood"> 
-    <div class="card">
-        <div class="card-body">
-            <input type="hidden" name="createdBy" id="createdBy" th:value="1">
-            <div>
-                <div class="form-group mb-2">
-                    <label for="txtCode" class="form-label">Code</label>
-                    <input type="text" class="form-control" name="code" id="txtCode">
-                </div>
-                <div class="form-group mb-2">
-                    <label for="txtDescription" class="form-label">Description</label>
-                    <input type="description" class="form-control" name="description" id="txtDescription">
-                </div>
+<div class="container">
+    <form id="frmNewBlood"> 
+        <input type="hidden" name="createdBy" id="createdBy" th:value="1">
+        <div>
+            <div class="form-group mb-2">
+                <label for="txtCode" class="form-label">Code<span class="text-danger"><b>*</b></span></label>
+                <input type="text" class="form-control" name="code" id="txtCode">
             </div>
-         </div>
-    </div>
-    <div class="d-flex justify-content-end mt-3">
-        <button type="submit" class="btn btn-dark"><i class="fas fa-save"></i> Save</button>
-    </div>
-</form>
+            <div class="form-group mt-1">
+                <label for="txtDescription" class="form-label">Description</label>
+                <input type="description" class="form-control" name="description" id="txtDescription">
+            </div>
+        </div>
+        <div class="d-flex justify-content-end mt-3 mb-2">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+        </div>
+    </form>
+</div>
 
 <script>
     $(document).ready(function(){

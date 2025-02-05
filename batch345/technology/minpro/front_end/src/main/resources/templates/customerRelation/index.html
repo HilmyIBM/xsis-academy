@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/master}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Relation</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="page-heading">
+            <div class="d-flex justify-content-between">
+                <div class="h3">Customer Relation</div>
+                <button type="button" class="btn btn-primary btn-sm" id="btnAdd" data-bs-toggle="modal" data-bs-target="#staticModal">ADD DATA</button>
+            </div>
+        </div>
+        <div class="page-content">
+            <form id="frmFilter">
+                <div class="input-group input-group-sm mb-3">
+                    <input th:if="${filter!=null}" th:value="${filter}" name="filter" id="txtFilter" type="text" class="form-control" placeholder="Search..."  aria-describedby="button-addon2">
+                    <input th:unless="${filter!=null}" name="filter" id="txtFilter" type="text" class="form-control" placeholder="Search..."  aria-describedby="button-addon2">
+                    <button class="btn btn-outline-dark" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+            <!-- TABLE -->
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <!-- <th scope="col">ID</th> -->
+                        <th scope="col">Name of Relation</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="r:${relations}">
+                        <!-- <th scope="row" th:text="${r.id}">1</th> -->
+                        <td th:text="${r.name}"></td>                   
+                        <td>
+                            <div class="btn-group gap-2">
+                                <!-- <button th:data-id="${r.id}" type="button" class="btn btn-info btn-sm rounded-2"><i class="fas fa-eye"></i>Detail</button> -->
+                                <button th:data-id="${r.id}" type="button" class="btn btn-warning btn-sm rounded-2 btnEdit"><i class="fas fa-edit"></i> Edit</button>
+                                <button th:data-id="${r.id}" th:data-name="${r.name}" type="button" class="btn btn-danger btn-sm rounded-2 btnDelete"><i class="fas fa-trash"></i> Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- TABLE END -->
+        </div>
+        <script>
+            $("#btnAdd").click(function(e){
+                $("#staticModalBody").load("/customer-relation/add");
+            });
+
+            $(".btnEdit").click(function(e){
+                let catId = $(this).data("id");
+
+                $("#staticModalBody").load("/customer-relation/edit/" + catId);
+                $("#staticModal").modal("show");
+            })
+
+            $(".btnDelete").click(function(e){
+                let catId = $(this).data("id");
+                let catName = $(this).data("name");
+
+                $("#staticModalBody").load("/customer-relation/delete/" + catId + "/" + catName);
+                $("#staticModal").modal("show");
+            })
+        </script>
+    </div>
+</body>
+</html>
+
